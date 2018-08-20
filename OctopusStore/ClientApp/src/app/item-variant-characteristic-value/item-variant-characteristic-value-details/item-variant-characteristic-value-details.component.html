@@ -1,0 +1,10 @@
+<div class="row">
+  <table class="table col-12 col-md-12">
+    <tbody>
+      <tr *ngFor="let itemVariantCharacteristicValue of characteristicValuesDisplayed">
+        <td>{{itemVariantCharacteristicValue.characteristic.title}}</td>
+        <td>{{itemVariantCharacteristicValue.characteristicValue.title}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

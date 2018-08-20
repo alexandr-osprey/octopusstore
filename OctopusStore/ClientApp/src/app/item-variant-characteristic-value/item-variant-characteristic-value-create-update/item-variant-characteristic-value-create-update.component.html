@@ -1,0 +1,39 @@
+<div *ngIf="itemVariant.id" class="row">
+  <div class="col-12 col-md-12">
+    <div *ngIf="characteristicValuesDisplayed">
+      <div class="row item-variant-characteristic" *ngFor="let characteristicValueDisplayed of characteristicValuesDisplayed; index as i" [attr.data.index]="i">
+        <div class="col-12 col-md-5">
+          <select class="form-control" id="characteristic_{{i}}" required
+                  name="characteristic_{{i}}" [(ngModel)]="characteristicValueDisplayed.characteristicId">
+            <option *ngFor="let characteristic of characteristicValueDisplayed.getCharacteristics()" [value]="characteristic.id">
+              {{ characteristic.title }}
+            </option>
+          </select>
+        </div>
+        <div class="col-12 col-md-5">
+          <select class="form-control" id="characteristicValue_{{i}}" required
+                  name="characteristicValue_{{i}}" [(ngModel)]="characteristicValueDisplayed.characteristicValueId">
+            <option *ngFor="let characteristicValue of characteristicValueDisplayed.getCharacteristicValues()" [value]="characteristicValue.id">
+              {{ characteristicValue.title }}
+            </option>
+          </select>
+        </div>
+        <div class="col-12 col-md-2">
+          <button class="btn btn-light" (click)="removeItemVariantCharacteristicValue(characteristicValueDisplayed)">
+            Remove
+          </button>
+        </div>
+      </div>
+    </div>
+    <div>
+      <button class="btn btn-light add-item-variant-characteristic__button" (click)="addItemVariantCharacteristicValue()">
+        Add item variant characteristic
+      </button>
+    </div>
+    <div>
+      <button class="btn btn-primary" (click)="saveItemVariantCharacteristicValues()">
+        Save item variant characteristic values
+      </button>
+    </div>
+  </div>
+</div>

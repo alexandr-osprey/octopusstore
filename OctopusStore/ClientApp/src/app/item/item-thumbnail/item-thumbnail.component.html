@@ -1,0 +1,11 @@
+<div class="row item-thumbnail">
+  <div class="col-auto col-md-auto">
+    <div *ngIf="itemThumbnail.images[0]" class="item-thumbnail__image">
+      <app-item-image-display  [(itemImage)]="itemThumbnail.images[0]"></app-item-image-display>
+    </div>
+    <a [routerLink]="getDetailsUrl(itemThumbnail.id)" class="item-thumbnail__title">
+      <span>{{ itemThumbnail.title }}</span>
+    </a>
+    <div *ngIf="itemThumbnail.minPrice">{{ itemThumbnail.minPrice }} <span *ngIf="itemThumbnail.minPrice != itemThumbnail.maxPrice"> - {{ itemThumbnail.maxPrice }}</span></div>
+  </div>
+</div>

@@ -1,0 +1,13 @@
+<div *ngIf="currentCategory" class="row">
+  <div class="col-12 col-md-12 categories">
+    <div class="category parent-category" *ngFor="let parentCategory of currentCategory.parentCategories">
+      <a [routerLink] [queryParams]="getUpdatedParams(categoryIdParamName, parentCategory.id)" (click)="categoryClick(parentCategory)" class="link">{{parentCategory.title}}</a>
+    </div>
+    <div class="category current-category">
+      <a [routerLink] [queryParams]="getUpdatedParams(categoryIdParamName, currentCategory.id)" (click)="categoryClick(currentCategory)" class="link">{{currentCategory.title}}</a>
+    </div>
+    <div class="category subcategory" *ngFor="let subcategory of currentCategory.subcategories">
+      <a [routerLink] [queryParams]="getUpdatedParams(categoryIdParamName, subcategory.id)" (click)="categoryClick(subcategory)" class="link">> {{subcategory.title}}</a>
+    </div>
+  </div>
+</div>

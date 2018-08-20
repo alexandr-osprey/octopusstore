@@ -1,0 +1,17 @@
+.page-button {
+  margin-left: 8px;
+  margin-right: 8px;
+}
+.current-page-button {
+  color: orange;
+}
+.hidden {
+  visibility: hidden;
+}
+.page-size {
+  margin-top: 16px;
+}
+.page-size a {
+  margin-left: 8px;
+  margin-right: 8px;
+}

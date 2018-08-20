@@ -1,0 +1,59 @@
+<div *ngIf="item.id" class="row">
+  <div class="col-12 col-md-12">
+    <div class="row">
+      <div class="col-12 col-md-12">
+        <h4>Variants</h4>
+        <div>
+          <span>
+            <button *ngFor="let variant of itemVariants; index as i" [attr.data.index]="i"
+                    [ngClass]="{'item-variant__button': true, 'btn' : true, 'btn-light': true,'current-variant__button': currentVariant == variant}"
+                    (click)="selectItemVariant(variant)">
+              {{variant.title}}
+            </button>
+          </span>
+          <span>
+            <button class="btn btn-light item-variant__button" (click)="addItemVariant()">
+              Add
+            </button>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="currentVariant" class="row">
+      <div class="col-md-12 col-md-12">
+        <form #itemVariantForm="ngForm">
+          <div class="form-group">
+            <label for="title">Title</label>
+            <input type="text" class="form-control" id="title" required
+                   [(ngModel)]="currentVariant.title" name="title" #title="ngModel" />
+            <div [hidden]="title.valid || title.price"
+                 class="alert alert-danger">
+              Title is required
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="price">Price</label>
+            <input type="number" class="form-control" id="price" required
+                   [(ngModel)]="currentVariant.price" name="price" #price="ngModel" />
+            <div [hidden]="price.valid || price.price"
+                 class="alert alert-danger">
+              Price is required
+            </div>
+          </div>
+          <div class="form-group">
+            <button class="btn btn-primary" (click)="saveItemVariant()">
+              Save item variant
+            </button>
+            <button class="btn btn-danger button-delete" (click)="deleteItemVariant()">
+              Delete item variant
+            </button>
+          </div>
+          <div class="form-group">
+            <app-item-variant-characteristic-value-create-update [(itemVariant)]="currentVariant" [item]="item">
+            </app-item-variant-characteristic-value-create-update>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

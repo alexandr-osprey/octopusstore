@@ -1,0 +1,62 @@
+<div *ngIf="item" class="row">
+  <div class="col-12 col-md-4">
+    <form #itemForm="ngForm">
+      <div class="form-group">
+        <label for="title">Title</label>
+        <input type="text" class="form-control" id="title" required
+               [(ngModel)]="item.title" name="title" #title="ngModel" />
+        <div [hidden]="title.valid || title.pristine"
+             class="alert alert-danger">
+          Title is required
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="description">Description</label>
+        <input type="text" class="form-control" id="description" required
+               [(ngModel)]="item.description" name="description" #description="ngModel" />
+      </div>
+      <div class="form-group">
+        <label for="brandId">Brand</label>
+        <select class="form-control" id="brandId" required
+                [(ngModel)]="item.brandId" name="brandId" #brandId="ngModel">
+          <option *ngFor="let brand of brands" [value]="brand.id">{{ brand.title }}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="measurementUnitId">Measurement unit</label>
+        <select class="form-control" id="measurementUnitId" required
+                [(ngModel)]="item.measurementUnitId" name="measurementUnitId" #measurementUnitId="ngModel">
+          <option *ngFor="let measurementUnit of measurementUnits" [value]="measurementUnit.id">{{ measurementUnit.title }}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="parentCategoryId">Parent category</label>
+        <select class="form-control" id="parentCategoryId" required
+                name="parentCategoryId" [(ngModel)]="parentCategoryId">
+          <option *ngFor="let parentCategory of parentCategories" [value]="parentCategory.id">{{ parentCategory.title }}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="subcategoryId">Subcategory</label>
+        <select class="form-control" id="subcategoryId" required
+                name="subcategoryId" [(ngModel)]="item.categoryId">
+          <option *ngFor="let subcategory of subcategories" [value]="subcategory.id">{{ subcategory.title }}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="storeId">Store</label>
+        <select class="form-control" id="storeId" required
+                [(ngModel)]="item.storeId" name="storeId" #storeId="ngModel">
+          <option *ngFor="let store of stores" [value]="store.id">{{ store.title }}</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary" [disabled]="!itemForm.form.valid" (click)="createOrUpdate()">Save</button>
+    </form>
+  </div>
+  <div class="col-12 col-md-8">
+    <app-item-variant-create-update [item]="item"></app-item-variant-create-update>
+  </div>
+  <div class="col-12 col-md-12">
+    <app-item-image-create-update [item]="item"></app-item-image-create-update>
+  </div>
+</div>

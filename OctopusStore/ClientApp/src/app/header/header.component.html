@@ -1,0 +1,36 @@
+<div class="row">
+  <div class="col-12 col-md-12">
+    <div class="site-header row">
+      <div class="site-title col-12 col-md-2">
+        <p id="header_title">Octopus Store</p>
+      </div>
+      <div class="site-search col-12 col-md-10">
+        <form class="form-inline">
+          <input id="header_search" type="text" class="form-control" />
+          <button id="header_search-button" type="submit" class="btn btn-primary">Search</button>
+        </form>
+      </div>
+      <div class="col-12 col-md-12">
+        <div class="btn-group" role="group">
+          <button id="items" type="button" class="btn btn-link link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Items
+          </button>
+          <div class="dropdown-menu" aria-labelledby="itemsGroup">
+            <a class="dropdown-item" [routerLink]="['/items']">Items</a>
+            <a class="dropdown-item" [routerLink]="['/items/create']">Create item</a>
+          </div>
+        </div>
+        <div class="btn-group" role="group">
+          <button id="stores" type="button" class="btn btn-link link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Stores
+          </button>
+          <div class="dropdown-menu" aria-labelledby="storesGroup">
+            <a class="dropdown-item" [routerLink]="['/stores']">Stores</a>
+            <a class="dropdown-item" [routerLink]="['/stores/create']">Create store</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

@@ -1,0 +1,23 @@
+<div *ngIf="itemDetails.itemVariants[0]" class="row">
+  <div class="col-12 col-md-12 item-variants">
+    <div class="row">
+      <div class="col-12 col-md-12">
+        <h4>Variants</h4>
+        <button *ngFor="let variant of itemDetails.itemVariants"
+                [ngClass]="{'item-variant__button': true, 'btn' : true, 'btn-light': true,'current-item-variant__button': variant==currentVariant}"
+                (click)="selectItemVariant(variant)">
+          {{variant.title}}
+        </button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12 col-md-12">
+        <div *ngIf="currentVariant" class="current-variant">
+          <div class="current-item-variant__title">{{ currentVariant.title }}</div>
+          <app-item-variant-characteristic-value-details [(itemDetails)]="itemDetails" [(currentVariant)]="currentVariant">
+          </app-item-variant-characteristic-value-details>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,20 @@
+.item-thumbnail {
+  width: 100%;
+  height: 100%;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+  .item-thumbnail div {
+    width: 100%;
+    height: 100%;
+  }
+.item-thumbnail__image {
+  max-height: 80%;
+  min-height: 80%;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+}
+.item-thumbnail_title {
+  height: 16px;
+  display: block;
+}

@@ -1,0 +1,10 @@
+<div *ngIf="images" class="row images">
+  <div class="thumbnails-bar col-3 col-md-3">
+    <div *ngFor="let thumbnailImage of images" class="thumbnail">
+      <app-item-image-display [itemImage]="thumbnailImage" (mouseenter)="thumbnailHover(thumbnailImage)" (mouseleave)="thumbnailLeave()" (click)="thumbnailClick(thumbnailImage)"> </app-item-image-display>
+    </div>
+  </div>
+  <div class="displayed-image col-9 col-md-9">
+    <app-item-image-display [itemImage]="displayedImage" ></app-item-image-display>
+  </div>
+</div>

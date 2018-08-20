@@ -1,0 +1,26 @@
+.item-details__images {
+  margin-left: 16px;
+  margin-top: 16px;
+  height: 400px;
+  min-width: 200px;
+}
+.item-details__title {
+  border-bottom: 0.5px solid LightGrey;
+  font-size: 1.5em;
+}
+.item-details__current-price {
+  height: 1em;
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+.item-details__main-properties {
+  margin-top: 16px;
+  min-width: 200px;
+}
+
+.item-details__description {
+  min-width: 200px;
+}
+.item-details__brand {
+  height: 1em;
+}

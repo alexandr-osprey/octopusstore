@@ -1,0 +1,25 @@
+.item-details__variants {
+  margin-top: 16px;
+  min-width: 200px;
+}
+
+.current-variant__button {
+  box-shadow: 0px 0px 1px 1px DarkOrange;
+  margin-top: 8px;
+}
+
+.current-variant__title {
+  margin-top: 8px;
+}
+
+.item-variant__button {
+  margin-right: 8px;
+  margin-top: 8px;
+}
+.current-variant__property-value {
+  margin-top: 8px;
+}
+
+.button-delete {
+  margin-left: 8px;
+}

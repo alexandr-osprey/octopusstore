@@ -1,0 +1,23 @@
+.item-image__image {
+  height: 70%;
+  width: 90%;
+  padding-bottom: 8px;
+}
+.item-image__form {
+  padding-top: 8px;
+  height: 300px;
+  width: 200px;
+}
+.item-image__buttons {
+  padding-top: 8px;
+}
+.item-image__title {
+  width: 100%;
+}
+  .item-image__buttons button:last-child {
+    float: right;
+  }
+
+.upload-image-form {
+  padding-top: 100px;
+}

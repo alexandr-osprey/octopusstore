@@ -1,0 +1,24 @@
+.site-header {
+  background-color: DarkSlateGray;
+}
+
+.site-title p {
+  color: aliceblue;
+  margin-top: 16px;
+}
+
+.site-search {
+  margin-top: 8px;
+  margin-bottom: 8px;
+  min-width: 200px;
+}
+
+  .site-search button {
+    background-color: darkorange;
+  }
+
+  .site-search input {
+    width: 65%;
+    min-width: 15px;
+    margin-right: 16px;
+  }

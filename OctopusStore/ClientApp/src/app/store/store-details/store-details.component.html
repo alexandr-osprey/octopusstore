@@ -1,0 +1,28 @@
+<div *ngIf="storeDetails" class="row">
+  <div class="d-lg-none col-12 col-md-12">
+    <button class="btn btn-link link" (click)="goBack()">Back</button>
+  </div>
+  <div class="col-12 col-md-12">
+    <div class="store-details__title">
+      <p>{{ storeDetails.title }}</p>
+    </div>
+    <div>
+      <p>{{ storeDetails.sellerId }}</p>
+    </div>
+    <div>
+      <label for="registration-date">Registration date</label>
+      <p name="registration-date">{{ storeDetails.registrationDate }}</p>
+    </div>
+    <div>
+      <label for="address">Address</label>
+      <p name="address">{{ storeDetails.address }}</p>
+    </div>
+    <div>
+      <label for="description">Description</label>
+      <p name="description">{{ storeDetails.description }}</p>
+    </div>
+  </div>
+  <div class="col-12 col-md-12">
+    <app-item-thumbnails></app-item-thumbnails>
+  </div>
+</div>
