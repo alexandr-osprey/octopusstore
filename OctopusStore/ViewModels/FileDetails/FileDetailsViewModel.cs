@@ -7,7 +7,7 @@ namespace OctopusStore.ViewModels
 {
     public abstract class FileDetailsViewModel<TFileDetails, TEntity> 
         : ViewModel<TFileDetails> 
-        where TFileDetails : FileDetails<TEntity>, new() 
+        where TFileDetails : FileInfo<TEntity>, new() 
         where TEntity : Entity, new()
     {
         public string Title { get; set; }

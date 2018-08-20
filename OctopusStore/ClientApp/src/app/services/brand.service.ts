@@ -3,13 +3,13 @@ import { HttpClient } from '@angular/common/http';
 import { DataReadService } from './data-read-service';
 import { BrandIndex } from '../view-models/brand/brand-index';
 import { MessageService } from './message.service';
-import { BrandDetail } from '../view-models/brand/brand-detail';
+import { BrandDetails } from '../view-models/brand/brand-details';
 import { Brand } from '../view-models/brand/brand';
 
 @Injectable({
   providedIn: 'root'
 })
-export class BrandService extends DataReadService<Brand, BrandIndex, BrandDetail> {
+export class BrandService extends DataReadService<Brand, BrandIndex, BrandDetails> {
 
   constructor(
     protected http: HttpClient,

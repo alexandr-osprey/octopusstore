@@ -3,14 +3,14 @@ import { Entity } from '../view-models/entity';
 import { DataReadWriteService } from './data-read-write-service';
 import { MessageService } from './message.service';
 import { HttpClient } from '@angular/common/http';
-import { FileDetailsIndex } from '../view-models/file-details/file-details-index';
-import { FileDetailsDetails } from '../view-models/file-details/file-details-details';
+import { FileInfoIndex } from '../view-models/file-info/file-info-index';
+import { FileInfoDetails } from '../view-models/file-info/file-info-details';
 import { ParameterNames } from './parameter-names';
 
-export abstract class FileDetailsService<
+export abstract class FileInfoService<
   TEntity extends Entity,
-  TIndex extends FileDetailsIndex<TEntity>,
-  TDetails extends FileDetailsDetails<TEntity>> extends DataReadWriteService<
+  TIndex extends FileInfoIndex<TEntity>,
+  TDetails extends FileInfoDetails<TEntity>> extends DataReadWriteService<
   TEntity,
   TIndex,
   TDetails> {

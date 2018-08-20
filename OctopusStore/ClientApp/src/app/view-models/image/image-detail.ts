@@ -1,10 +1,10 @@
 import { Entity } from "../entity";
 import { EntityDetail } from "../entity-detail";
-import { FileDetailsDetails } from "../file-details/file-details-details";
+import { FileInfoDetails } from "../file-info/file-info-details";
 
-export abstract class ImageDetail<T extends Entity> extends FileDetailsDetails<T> {
+export abstract class ImageDetails<T extends Entity> extends FileInfoDetails<T> {
 
-  public constructor(init?: Partial<ImageDetail<T>>) {
+  public constructor(init?: Partial<ImageDetails<T>>) {
     super(init);
     Object.assign(this, init);
   }

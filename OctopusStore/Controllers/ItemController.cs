@@ -11,8 +11,8 @@ using OctopusStore.ViewModels;
 namespace OctopusStore.Controllers
 {
     [Produces("application/json")]
-    [Route("api/Items")]
-    public class ItemController
+    [Route("api/[controller]")]
+    public class ItemsController
         : ReadWriteController<
             IItemService,
             Item,
@@ -22,7 +22,7 @@ namespace OctopusStore.Controllers
     {
         protected readonly ICategoryService _categoryService;
 
-        public ItemController(IItemService itemService, ICategoryService categoryService, IAppLogger<IEntityController<Item>> logger)
+        public ItemsController(IItemService itemService, ICategoryService categoryService, IAppLogger<IEntityController<Item>> logger)
             : base(itemService, logger)
         {
             _categoryService = categoryService;

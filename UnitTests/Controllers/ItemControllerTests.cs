@@ -14,7 +14,7 @@ using Xunit.Abstractions;
 
 namespace UnitTests.Controllers
 {
-    public class ItemControllerTests : ControllerTestBase<Item, ItemController, IItemService>
+    public class ItemControllerTests : ControllerTestBase<Item, ItemsController, IItemService>
     {
         private readonly ICategoryService _categoryService;
 

@@ -13,7 +13,7 @@ using Xunit.Abstractions;
 
 namespace UnitTests.Controllers
 {
-    public class CharacteristicValueControllerTests : ControllerTestBase<CharacteristicValue, CharacteristicValueController, ICharacteristicValueService>
+    public class CharacteristicValueControllerTests : ControllerTestBase<CharacteristicValue, CharacteristicValuesController, ICharacteristicValueService>
     {
         private readonly ICategoryService _categoryService;
         private readonly ICharacteristicService _characteristicService;

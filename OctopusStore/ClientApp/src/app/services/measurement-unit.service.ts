@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { DataReadService } from './data-read-service';
 import { MessageService } from './message.service';
-import { MeasurementUnitDetail } from '../view-models/measurement-unit/measurement-unit-detail';
+import { MeasurementUnitDetails } from '../view-models/measurement-unit/measurement-unit-details';
 import { MeasurementUnitIndex } from '../view-models/measurement-unit/measurement-unit-index';
 import { MeasurementUnit } from '../view-models/measurement-unit/measurement-unit';
 
@@ -12,7 +12,7 @@ import { MeasurementUnit } from '../view-models/measurement-unit/measurement-uni
 export class MeasurementUnitService extends DataReadService<
   MeasurementUnit,
   MeasurementUnitIndex,
-  MeasurementUnitDetail> {
+  MeasurementUnitDetails> {
 
   constructor(
     protected http: HttpClient,

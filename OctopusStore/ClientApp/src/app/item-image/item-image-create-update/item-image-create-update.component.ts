@@ -13,7 +13,7 @@ import { Item } from '../../view-models/item/item';
 export class ItemImageCreateUpdateComponent implements OnInit {
 
   itemImageFormData: FormData;
-  itemImages: ItemImage[]
+  itemImages: ItemImage[];
   @Input() item: Item;
 
   constructor(
@@ -35,7 +35,8 @@ export class ItemImageCreateUpdateComponent implements OnInit {
   }
   saveItemImage() {
     this.itemImageService.postFormData(this.itemImageFormData, this.itemImageService.filePostUrl).subscribe((data: ItemImage) => {
-      this.itemImages.push(data);
+      if (data)
+        this.itemImages.push(data);
     });
   }
   updateItemImage(itemImage: ItemImage) {
@@ -43,7 +44,7 @@ export class ItemImageCreateUpdateComponent implements OnInit {
     this.itemImageService.update(itemImage).subscribe((data: ItemImage) => {
       if (data)
         this.itemImages[i] = data;
-    })
+    });
   }
   getImageUrl(itemImage: ItemImage): string {
     return this.itemImageService.getImageUrl(itemImage.id)

@@ -3,7 +3,7 @@ import { Image } from '../view-models/image/image';
 import { Entity } from '../view-models/entity';
 import { DataReadWriteService } from './data-read-write-service';
 import { ImageIndex } from '../view-models/image/image-index';
-import { ImageDetail } from '../view-models/image/image-detail';
+import { ImageDetails } from '../view-models/image/image-detail';
 import { MessageService } from './message.service';
 import { HttpClient } from '@angular/common/http';
 import { ImageService } from './image.service';

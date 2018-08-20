@@ -67,16 +67,16 @@ namespace UnitTests
             services.AddScoped<ICharacteristicService, CharacteristicService>();
             services.AddScoped<ICharacteristicValueService, CharacteristicValueService>();
 
-            services.AddScoped<BrandController>();
-            services.AddScoped<ItemController>();
-            services.AddScoped<ItemImageController>();
-            services.AddScoped<ItemVariantController>();
-            services.AddScoped<ItemVariantCharacteristicValueController>();
-            services.AddScoped<StoreController>();
-            services.AddScoped<MeasurementUnitController>();
-            services.AddScoped<CategoryController>();
-            services.AddScoped<CharacteristicController>();
-            services.AddScoped<CharacteristicValueController>();
+            services.AddScoped<BrandsController>();
+            services.AddScoped<ItemsController>();
+            services.AddScoped<ItemImagesController>();
+            services.AddScoped<ItemVariantsController>();
+            services.AddScoped<ItemVariantCharacteristicValuesController>();
+            services.AddScoped<StoresController>();
+            services.AddScoped<MeasurementUnitsController>();
+            services.AddScoped<CategoriesController>();
+            services.AddScoped<CharacteristicsController>();
+            services.AddScoped<CharacteristicValuesController>();
         }
         protected T Resolve<T>()
         {

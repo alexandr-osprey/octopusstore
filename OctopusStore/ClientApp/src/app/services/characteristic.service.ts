@@ -3,13 +3,13 @@ import { HttpClient } from '@angular/common/http';
 import { DataReadService } from './data-read-service';
 import { MessageService } from './message.service';
 import { CharacteristicIndex } from '../view-models/characteristic/characteristic-index';
-import { CharacteristicDetail } from '../view-models/characteristic/characteristic-detail';
+import { CharacteristicDetails } from '../view-models/characteristic/characteristic-details';
 import { Characteristic } from '../view-models/characteristic/characteristic';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CharacteristicService extends DataReadService<Characteristic, CharacteristicIndex, CharacteristicDetail> {
+export class CharacteristicService extends DataReadService<Characteristic, CharacteristicIndex, CharacteristicDetails> {
 
   constructor(
     protected http: HttpClient,

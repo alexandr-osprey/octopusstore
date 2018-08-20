@@ -16,7 +16,7 @@ using Xunit.Abstractions;
 
 namespace UnitTests.Controllers
 {
-    public class BrandControllerTests : ControllerTestBase<Brand, BrandController, IBrandService>
+    public class BrandControllerTests : ControllerTestBase<Brand, BrandsController, IBrandService>
     {
         public BrandControllerTests(ITestOutputHelper output) : base(output)
         { }

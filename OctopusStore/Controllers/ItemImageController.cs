@@ -14,8 +14,8 @@ using System.Threading.Tasks;
 
 namespace OctopusStore.Controllers
 {
-    [Route("api/ItemImages")]
-    public class ItemImageController 
+    [Route("api/[controller]")]
+    public class ItemImagesController 
         : ReadWriteController<
             IItemImageService, 
             ItemImage, 
@@ -26,7 +26,7 @@ namespace OctopusStore.Controllers
         private readonly IItemService _itemService;
         private static readonly IEnumerable<string> allowedContentTypes = new List<string>() { @"image/jpeg", @"image/png" };
 
-        public ItemImageController(IItemImageService itemImageService, IItemService itemService, IAppLogger<IEntityController<ItemImage>> logger)
+        public ItemImagesController(IItemImageService itemImageService, IItemService itemService, IAppLogger<IEntityController<ItemImage>> logger)
             : base(itemImageService, logger)
         {
             _itemService = itemService;

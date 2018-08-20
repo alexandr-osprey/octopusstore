@@ -6,18 +6,18 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Services
 {
-    public abstract class FileDetailsService<TFileDetails, TEntity> 
+    public abstract class Filedetailservice<TFileDetails, TEntity> 
         : Service<TFileDetails>, 
-        IFileDetailsService<TFileDetails, TEntity> 
-        where TFileDetails : FileDetails<TEntity> 
+        IFiledetailservice<TFileDetails, TEntity> 
+        where TFileDetails : FileInfo<TEntity> 
         where TEntity : Entity
     {
-        public FileDetailsService(
+        public Filedetailservice(
             IAsyncRepository<TFileDetails> repository,
             IAppLogger<Service<TFileDetails>> logger)
             : base(repository, logger)
         {
-            Name = typeof(TFileDetails).Name + "FileDetailsService";
+            Name = typeof(TFileDetails).Name + "Filedetailservice";
         }
 
         override public async Task<TFileDetails> AddAsync(TFileDetails entity)

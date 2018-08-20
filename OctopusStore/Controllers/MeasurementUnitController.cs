@@ -10,8 +10,8 @@ using OctopusStore.ViewModels;
 namespace OctopusStore.Controllers
 {
     [Produces("application/json")]
-    [Route("api/measurementUnits")]
-    public class MeasurementUnitController
+    [Route("api/[controller]")]
+    public class MeasurementUnitsController
         : ReadController<
             IMeasurementUnitService,
             MeasurementUnit, 
@@ -19,7 +19,7 @@ namespace OctopusStore.Controllers
             MeasurementUnitDetailViewModel, 
             MeasurementUnitIndexViewModel>
     {
-        public MeasurementUnitController(IMeasurementUnitService measurementUnitService, IAppLogger<IEntityController<MeasurementUnit>> logger)
+        public MeasurementUnitsController(IMeasurementUnitService measurementUnitService, IAppLogger<IEntityController<MeasurementUnit>> logger)
             : base(measurementUnitService, logger)
         {  }
 

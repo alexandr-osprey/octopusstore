@@ -2,7 +2,7 @@
 
 namespace ApplicationCore.Entities
 {
-    public abstract class Image<T> : FileDetails<T> where T : Entity
+    public abstract class Image<T> : FileInfo<T> where T : Entity
     {
         public Image()
             : base()

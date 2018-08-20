@@ -10,8 +10,8 @@ using OctopusStore.ViewModels;
 namespace OctopusStore.Controllers
 {
     [Produces("application/json")]
-    [Route("api/Categories")]
-    public class CategoryController
+    [Route("api/[controller]")]
+    public class CategoriesController
         : ReadController<
             ICategoryService,
             Category,
@@ -19,7 +19,7 @@ namespace OctopusStore.Controllers
             CategoryDetailViewModel,
             CategoryIndexViewModel>
     {
-        public CategoryController(ICategoryService categoryService, IAppLogger<IEntityController<Category>> logger)
+        public CategoriesController(ICategoryService categoryService, IAppLogger<IEntityController<Category>> logger)
             : base(categoryService, logger)
         { }
 

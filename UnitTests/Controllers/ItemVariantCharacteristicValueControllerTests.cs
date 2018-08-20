@@ -14,7 +14,7 @@ using Xunit.Abstractions;
 namespace UnitTests.Controllers
 {
     public class ItemVariantCharacteristicValueControllerTests
-        : ControllerTestBase<ItemVariantCharacteristicValue, ItemVariantCharacteristicValueController, IItemVariantCharacteristicValueService>
+        : ControllerTestBase<ItemVariantCharacteristicValue, ItemVariantCharacteristicValuesController, IItemVariantCharacteristicValueService>
     {
         public ItemVariantCharacteristicValueControllerTests(ITestOutputHelper output) : base(output)
         { }

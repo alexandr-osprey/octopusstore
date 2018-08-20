@@ -1,6 +1,6 @@
 import { Entity } from "../entity";
 
-export abstract class FileDetails<T extends Entity> extends Entity {
+export abstract class FileInfo<T extends Entity> extends Entity {
   title: string;
   contentType: string;
   relatedId: number;
@@ -8,7 +8,7 @@ export abstract class FileDetails<T extends Entity> extends Entity {
 
   formFile: FormData;
 
-  public constructor(init?: Partial<FileDetails<T>>) {
+  public constructor(init?: Partial<FileInfo<T>>) {
     super(init);
     Object.assign(this, init);
   }

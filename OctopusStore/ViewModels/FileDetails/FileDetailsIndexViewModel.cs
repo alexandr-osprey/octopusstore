@@ -6,7 +6,7 @@ namespace OctopusStore.ViewModels
 {
     public abstract class FileDetailsIndexViewModel<TFileDetails, TEntity, TViewModel> 
         : IndexViewModel<TViewModel, TFileDetails> 
-        where TFileDetails : FileDetails<TEntity>
+        where TFileDetails : FileInfo<TEntity>
         where TEntity : Entity
         where TViewModel: ViewModel<TFileDetails>
     {

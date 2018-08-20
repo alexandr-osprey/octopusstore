@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { MessageService } from './message.service';
-import { ItemVariantCharacteristicValueDetail } from '../view-models/item-variant-characteristic-value/item-variant-characteristic-value-detail';
 import { ItemVariantCharacteristicValueIndex } from '../view-models/item-variant-characteristic-value/item-variant-characteristic-value-index';
 import { ItemVariantCharacteristicValue } from '../view-models/item-variant-characteristic-value/item-variant-characteristic-value';
 import { DataReadWriteService } from './data-read-write-service';
+import { ItemVariantCharacteristicValueDetails } from '../view-models/item-variant-characteristic-value/item-variant-characteristic-value-details';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +12,7 @@ import { DataReadWriteService } from './data-read-write-service';
 export class ItemVariantCharacteristicValueService extends DataReadWriteService<
   ItemVariantCharacteristicValue,
   ItemVariantCharacteristicValueIndex,
-  ItemVariantCharacteristicValueDetail> {
+  ItemVariantCharacteristicValueDetails> {
 
   constructor(
     protected http: HttpClient,

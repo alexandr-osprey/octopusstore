@@ -1,4 +1,4 @@
-import { MeasurementUnitDetail } from "./measurement-unit-detail";
+import { MeasurementUnitDetails } from "./measurement-unit-details";
 import { MeasurementUnit } from "./measurement-unit";
 import { EntityIndex } from "../entity-index";
 

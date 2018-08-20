@@ -7,6 +7,7 @@ import { HomepageComponent } from './homepage/homepage/homepage.component';
 import { StoreCreateUpdateComponent } from './store/store-create-update/store-create-update.component';
 import { StoreDetailsComponent } from './store/store-details/store-details.component';
 import { StoreIndexComponent } from './store/store-index/store-index.component';
+import { CredentialsCreateUpdateComponent } from './credentials/credentials-create-update/credentials-create-update.component';
 
 
 const routes: Routes = [
@@ -61,6 +62,16 @@ const routes: Routes = [
         component: StoreIndexComponent,
       }
     ],
+  },
+  {
+    path: 'credentials',
+    children: [
+      {
+        path: 'create',
+        component: CredentialsCreateUpdateComponent,
+        pathMatch: 'full'
+      }
+    ]
   },
 ]
 @NgModule({

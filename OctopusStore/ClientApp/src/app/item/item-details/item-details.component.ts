@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
-import { ItemDetail } from '../../view-models/item/item-detail';
+import { ItemDetails } from '../../view-models/item/item-details';
 import { ItemService } from '../../services/item.service';
 import { ItemVariant } from '../../view-models/item-variant/item-variant';
 import { ItemImage } from '../../view-models/item-image/item-image';
@@ -14,7 +14,7 @@ import { Item } from '../../view-models/item/item';
   providers: [ItemService]
 })
 export class ItemDetailsComponent implements OnInit {
-  public itemDetails: ItemDetail;
+  public itemDetails: ItemDetails;
   public displayedImages: ItemImage[];
   public currentPrice: number;
 
@@ -31,7 +31,7 @@ export class ItemDetailsComponent implements OnInit {
   initializeComponent() {
     let itemId = +this.route.snapshot.paramMap.get('id');
     if (itemId) {
-      this.itemService.getDetail(itemId).subscribe((data: ItemDetail) => {
+      this.itemService.getDetail(itemId).subscribe((data: ItemDetails) => {
         //this.itemDetails = Object.assign(new ItemDetail(), data);
         this.itemDetails = data;
         this.displayedImages = this.itemDetails.images;

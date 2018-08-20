@@ -12,8 +12,8 @@ using OctopusStore.ViewModels;
 namespace OctopusStore.Controllers
 {
     [Produces("application/json")]
-    [Route("api/characteristics")]
-    public class CharacteristicController
+    [Route("api/[controller]")]
+    public class CharacteristicsController
         : ReadController<
             ICharacteristicService, 
             Characteristic,
@@ -23,7 +23,7 @@ namespace OctopusStore.Controllers
     {
         private readonly ICategoryService _categoryService;
 
-        public CharacteristicController(
+        public CharacteristicsController(
             ICharacteristicService service, 
             ICategoryService categoryService,
             ICharacteristicService characteristicService,

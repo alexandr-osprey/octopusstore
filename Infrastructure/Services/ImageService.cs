@@ -4,7 +4,7 @@ using ApplicationCore.Interfaces;
 namespace Infrastructure.Services
 {
     public abstract class ImageService<TFileDetails, TEntity> 
-        : FileDetailsService<TFileDetails, TEntity>, 
+        : Filedetailservice<TFileDetails, TEntity>, 
         IImageService<TFileDetails, TEntity>
         where TFileDetails : Image<TEntity> 
         where TEntity : Entity

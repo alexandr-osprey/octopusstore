@@ -11,8 +11,8 @@ using OctopusStore.ViewModels;
 namespace OctopusStore.Controllers
 {
     [Produces("application/json")]
-    [Route("api/itemVariantCharacteristicValues")]
-    public class ItemVariantCharacteristicValueController 
+    [Route("api/[controller]")]
+    public class ItemVariantCharacteristicValuesController 
         : ReadWriteController<
             IItemVariantCharacteristicValueService, 
             ItemVariantCharacteristicValue, 
@@ -20,7 +20,7 @@ namespace OctopusStore.Controllers
             ItemVariantCharacteristicValueDetailViewModel, 
             ItemVariantCharacteristicValueIndexViewModel>
     {
-        public ItemVariantCharacteristicValueController(
+        public ItemVariantCharacteristicValuesController(
             IItemVariantCharacteristicValueService service,
             IAppLogger<IEntityController<ItemVariantCharacteristicValue>> logger)
             : base(service, logger)

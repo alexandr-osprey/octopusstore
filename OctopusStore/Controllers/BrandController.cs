@@ -11,8 +11,8 @@ using OctopusStore.ViewModels;
 namespace OctopusStore.Controllers
 {
     [Produces("application/json")]
-    [Route("api/Brands")]
-    public class BrandController 
+    [Route("api/[controller]")]
+    public class BrandsController 
         : ReadController<
             IBrandService, 
             Brand, 
@@ -20,7 +20,7 @@ namespace OctopusStore.Controllers
             BrandDetailViewModel,
             BrandIndexViewModel>
     {
-        public BrandController(IBrandService brandService, IAppLogger<IEntityController<Brand>> logger)
+        public BrandsController(IBrandService brandService, IAppLogger<IEntityController<Brand>> logger)
             : base(brandService, logger)
         {   }
 

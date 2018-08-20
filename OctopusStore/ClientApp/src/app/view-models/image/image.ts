@@ -1,7 +1,7 @@
 import { Entity } from "../entity";
-import { FileDetails } from "../file-details/file-details";
+import { FileInfo } from "../file-info/file-info";
 
-export abstract class Image<T extends Entity> extends FileDetails<T> {
+export abstract class Image<T extends Entity> extends FileInfo<T> {
 
   public constructor(init?: Partial<Image<T>>) {
     super(init);

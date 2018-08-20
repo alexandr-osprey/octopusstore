@@ -12,7 +12,7 @@ using Xunit.Abstractions;
 
 namespace UnitTests.Controllers
 {
-    public class StoreControllerTest : ControllerTestBase<Store, StoreController, IStoreService>
+    public class StoreControllerTest : ControllerTestBase<Store, StoresController, IStoreService>
     {
         public StoreControllerTest(ITestOutputHelper output)
             : base(output)

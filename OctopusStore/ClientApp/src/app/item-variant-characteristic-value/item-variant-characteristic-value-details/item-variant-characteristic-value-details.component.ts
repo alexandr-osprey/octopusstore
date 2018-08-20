@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { ItemVariantCharacteristicValueService } from '../../services/item-variant-characteristic-value-service';
-import { ItemDetail } from '../../view-models/item/item-detail';
+import { ItemDetails } from '../../view-models/item/item-details';
 import { ItemVariantCharacteristicValueIndex } from '../../view-models/item-variant-characteristic-value/item-variant-characteristic-value-index';
 import { ItemVariantCharacteristicValue } from '../../view-models/item-variant-characteristic-value/item-variant-characteristic-value';
 import { Observable } from "rxjs/Observable";
@@ -18,7 +18,7 @@ import { CharacteristicValueDisplayed } from '../item-variant-characteristic-val
 })
 export class ItemVariantCharacteristicValueDetailsComponent implements OnInit, OnChanges {
 
-  @Input() itemDetails: ItemDetail;
+  @Input() itemDetails: ItemDetails;
   @Input() currentVariant: ItemVariant;
   public characteristicValuesDisplayed: CharacteristicValueDisplayed[];
   public itemCharacteristicValues: CharacteristicValueDisplayed[];

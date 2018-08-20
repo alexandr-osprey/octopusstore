@@ -4,7 +4,7 @@ using System.IO;
 
 namespace ApplicationCore.Entities
 {
-    public abstract class FileDetails<T> : Entity
+    public abstract class FileInfo<T> : Entity
     {
         public static readonly string rootDirectory = DefaultSettings.RootFileDirectory;
 
@@ -19,9 +19,9 @@ namespace ApplicationCore.Entities
         public Stream InputStream { get; set; }
         public T RelatedEntity { get; set; }
 
-        public FileDetails()
+        public FileInfo()
         {  }
-        public FileDetails(string ownerUsername, string contentType, int relatedId, Stream inputStream)
+        public FileInfo(string ownerUsername, string contentType, int relatedId, Stream inputStream)
         {
             ContentType = contentType;
             RelatedId = relatedId;

@@ -4,12 +4,12 @@ import { CharacteristicValue } from "../characteristic-value/characteristic-valu
 import { ItemVariantCharacteristicValue } from "./item-variant-characteristic-value";
 import { EntityDetail } from "../entity-detail";
 
-export class ItemVariantCharacteristicValueDetail extends EntityDetail<ItemVariantCharacteristicValue> {
+export class ItemVariantCharacteristicValueDetails extends EntityDetail<ItemVariantCharacteristicValue> {
   itemVariantId: number;
   characteristic: Characteristic;
   characteristicValue: CharacteristicValue;
 
-  public constructor(init?: Partial<ItemVariantCharacteristicValueDetail>) {
+  public constructor(init?: Partial<ItemVariantCharacteristicValueDetails>) {
     super(init);
     Object.assign(this, init);
   }
