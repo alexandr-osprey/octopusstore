@@ -24,7 +24,7 @@ namespace OctopusStore.ViewModels
             Title = fileDetail.Title;
             ContentType = fileDetail.ContentType;
             RelatedId = fileDetail.RelatedId;
-            OwnerUsername = fileDetail.OwnerUsername;
+            OwnerUsername = fileDetail.OwnerId;
         }
 
         public override void UpdateModel(TFileDetails modelToUpdate)

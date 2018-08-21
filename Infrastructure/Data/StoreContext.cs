@@ -109,7 +109,7 @@ namespace Infrastructure.Data
         private void ConfigureItemImage(EntityTypeBuilder<ItemImage> builder)
         {
             builder.Property(t => t.Title).IsRequired(true);
-            builder.Property(t => t.OwnerUsername).IsRequired(true);
+            builder.Property(t => t.OwnerId).IsRequired(true);
             builder.ToTable(nameof(ItemImage));
         }
         private void ConfigureItemVariant(EntityTypeBuilder<ItemVariant> builder)

@@ -7,11 +7,11 @@ namespace ApplicationCore.Entities
         public Image()
             : base()
         { }
-        public Image(string ownerUsername,string contentType, int relatedId, Stream inputStream)
-            : base(ownerUsername, contentType, relatedId, inputStream)
+        public Image(string ownerId,string contentType, int relatedId, Stream inputStream)
+            : base(ownerId, contentType, relatedId, inputStream)
         { }
-        public Image(string ownerUsername, string contentType, int relatedId)
-            : this(ownerUsername,  contentType, relatedId, null)
+        public Image(string ownerId, string contentType, int relatedId)
+            : this(ownerId,  contentType, relatedId, null)
         { }
     }
 }

@@ -13,7 +13,7 @@ namespace ApplicationCore.Entities
         public int RelatedId { get; set; }
         public string FullPath { get; set; }
         public string DirectoryPath { get; set; }
-        public string OwnerUsername { get; set; }
+        public string OwnerId { get; set; }
 
         [NotMapped]
         public Stream InputStream { get; set; }
@@ -21,14 +21,14 @@ namespace ApplicationCore.Entities
 
         public FileInfo()
         {  }
-        public FileInfo(string ownerUsername, string contentType, int relatedId, Stream inputStream)
+        public FileInfo(string ownerId, string contentType, int relatedId, Stream inputStream)
         {
             ContentType = contentType;
             RelatedId = relatedId;
-            OwnerUsername = ownerUsername;
+            OwnerId = ownerId;
             InputStream = inputStream;
             DirectoryPath =
-                Path.Combine(rootDirectory, GetSafeFileName(ownerUsername));
+                Path.Combine(rootDirectory, GetSafeFileName(ownerId));
             FullPath = 
                 Path.Combine(DirectoryPath, 
                     Guid.NewGuid().ToString() + GetExtension(contentType));

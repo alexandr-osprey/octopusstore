@@ -27,11 +27,11 @@ namespace OctopusStore
                 var logger = services.GetRequiredService<IAppLogger<StoreContext>>();
                 try
                 {
-                    var storeContext = services.GetRequiredService<StoreContext>();
-                    StoreContextSeed.SeedStoreAsync(storeContext, logger).Wait();
-
                     var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
                     AppIdentityDbContextSeed.SeedAsync(userManager).Wait();
+
+                    var storeContext = services.GetRequiredService<StoreContext>();
+                    StoreContextSeed.SeedStoreAsync(storeContext, userManager, logger).Wait();
                 }
                 catch (Exception ex)
                 {

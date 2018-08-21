@@ -17,18 +17,18 @@ namespace OctopusStore.Controllers
 {
     [Produces("application/json")]
     [Route("api/[controller]")]
-    public class AccountsController : Controller
+    public class CredentialsController : Controller
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IConfiguration _configuration;
         private readonly ILogger _logger;
 
-        public AccountsController(
+        public CredentialsController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IConfiguration configuration, 
-            ILogger<AccountsController> logger
+            ILogger<CredentialsController> logger
             )
         {
             _userManager = userManager;
@@ -37,6 +37,7 @@ namespace OctopusStore.Controllers
             _configuration = configuration;
         }
 
+        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> PostAsync([FromBody]Credentials accountCreateViewModel)
         {
@@ -52,12 +53,13 @@ namespace OctopusStore.Controllers
                 await _signInManager.SignInAsync(user, false);
                 return Ok(new { token = GenerateJwtToken(accountCreateViewModel.Email, user) });
             }
-            return BadRequest(result.Errors.ToString());
+            else
+            {
+                return BadRequest(result.Errors.ToString());
+            }
         }
 
-        [AllowAnonymous]
-        [HttpPost]
-        [Route("register")]
+
         private string GenerateJwtToken(string email, ApplicationUser user)
         {
             var claims = new List<Claim>

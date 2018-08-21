@@ -1,8 +1,11 @@
 ﻿using ApplicationCore.Entities;
 using ApplicationCore.Interfaces;
+using Infrastructure.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -10,7 +13,7 @@ namespace Infrastructure.Data
 {
     public class StoreContextSeed
     {
-        public static async Task SeedStoreAsync(StoreContext storeContext, IAppLogger<StoreContext> logger)
+        public static async Task SeedStoreAsync(StoreContext storeContext, UserManager<ApplicationUser> userManager, IAppLogger<StoreContext> logger)
         {
             var instance = new StoreContextSeed();
             instance._logger = logger;
@@ -46,7 +49,7 @@ namespace Infrastructure.Data
             }
             if (!storeContext.ItemImages.Any())
             {
-                instance.itemsImages = instance.GetPreconfiguredItemImageDetails();
+                instance.itemsImages = instance.GetPreconfiguredItemImageDetails(userManager);
                 storeContext.ItemImages.AddRange(instance.itemsImages);
                 await storeContext.SaveChangesAsync();
             }
@@ -187,20 +190,22 @@ namespace Infrastructure.Data
                     MeasurementUnitId = measurementUnits[2].Id, StoreId = stores[1].Id  },
             };
         }
-        private List<ItemImage> GetPreconfiguredItemImageDetails()
+        private List<ItemImage> GetPreconfiguredItemImageDetails(UserManager<ApplicationUser> userManager)
         {
             string contentType = @"image/jpeg";
+            string johnId = GetIdByEmail(userManager, "john@mail.com");
+            string jenniferId = GetIdByEmail(userManager, "jennifer@mail.com");
             var imagesDetails = new List<ItemImage>
             {
-                new ItemImage ("john@mail.com", contentType, items[0].Id, null) { FullPath=@"C:\files\john@mail.com\iPhone 6 - 1.jpg" },
-                new ItemImage ("john@mail.com", contentType, items[0].Id, null) { FullPath=@"C:\files\john@mail.com\iPhone 6 - 2.jpg" },
-                new ItemImage ("john@mail.com", contentType, items[0].Id, null) { FullPath=@"C:\files\john@mail.com\iPhone 6 - 3.jpg" },
-                new ItemImage ("john@mail.com", contentType, items[1].Id, null) { FullPath=@"C:\files\john@mail.com\Samsung 7.jpg" },
-                new ItemImage ("john@mail.com", contentType, items[2].Id, null) {  FullPath=@"C:\files\john@mail.com\Samsung 8.jpg" },
-                new ItemImage ("john@mail.com", contentType, items[3].Id, null) {  FullPath=@"C:\files\john@mail.com\Pebble.jpg" },
+                new ItemImage (johnId, contentType, items[0].Id, null) { FullPath= Path.Combine(@"C:\files\", johnId, "iPhone 6 - 1.jpg") },
+                new ItemImage (johnId, contentType, items[0].Id, null) { FullPath= Path.Combine(@"C:\files\", johnId, "iPhone 6 - 2.jpg") },
+                new ItemImage (johnId, contentType, items[0].Id, null) { FullPath= Path.Combine(@"C:\files\", johnId, "iPhone 6 - 3.jpg") },
+                new ItemImage (johnId, contentType, items[1].Id, null) { FullPath= Path.Combine(@"C:\files\", johnId, "Samsung 7.jpg") },
+                new ItemImage (johnId, contentType, items[2].Id, null) {  FullPath= Path.Combine(@"C:\files\", johnId, "Samsung 8.jpg") },
+                new ItemImage (johnId, contentType, items[3].Id, null) {  FullPath= Path.Combine(@"C:\files\", johnId, "Pebble.jpg") },
 
-                new ItemImage ("jennifer@mail.com", contentType, items[4].Id, null) { FullPath=@"C:\files\jennifer@mail.com\Shoes.jpg" },
-                new ItemImage ("jennifer@mail.com",  contentType, items[5].Id, null) { FullPath=@"C:\files\jennifer@mail.com\Jacket.jpg" }
+                new ItemImage (jenniferId, contentType, items[4].Id, null) { FullPath= Path.Combine(@"C:\files\", jenniferId, "Shoes.jpg") },
+                new ItemImage (jenniferId,  contentType, items[5].Id, null) { FullPath= Path.Combine(@"C:\files\", jenniferId, "Jacket.jpg") }
             };
             return imagesDetails;
         }
@@ -318,6 +323,10 @@ namespace Infrastructure.Data
                 ),
             };
             return itemPropertyValues;
+        }
+        private string GetIdByEmail(UserManager<ApplicationUser> userManager, string email)
+        {
+            return userManager.FindByEmailAsync("john@mail.com").Result.Id;
         }
     }
 }

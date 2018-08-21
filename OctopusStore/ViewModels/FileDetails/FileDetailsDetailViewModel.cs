@@ -17,7 +17,7 @@ namespace OctopusStore.ViewModels
         {
             Title = Title;
             ContentType = fileDetail.ContentType;
-            OwnerUsername = fileDetail.OwnerUsername;
+            OwnerUsername = fileDetail.OwnerId;
             RelatedId = fileDetail.RelatedId;
         }
 
