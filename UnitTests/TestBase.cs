@@ -25,9 +25,12 @@ namespace UnitTests
             ReferenceLoopHandling = ReferenceLoopHandling.Ignore
         };
         protected static ServiceCollection services = new ServiceCollection();
-        protected static DbContextOptions<StoreContext> contextOptions =
+        protected static DbContextOptions<StoreContext> storeContextOptions =
             new DbContextOptionsBuilder<StoreContext>()
                 .UseInMemoryDatabase(Guid.NewGuid().ToString()).Options;
+        protected static DbContextOptions<AppIdentityDbContext> identityContextOptions =
+            new DbContextOptionsBuilder<AppIdentityDbContext>()
+                .UseInMemoryDatabase("Identity").Options;
         static TestBase() {
             ConfigureDI();
         }
@@ -36,23 +39,27 @@ namespace UnitTests
         protected ITestOutputHelper _output;
         protected int _maxTake = 200;
         protected StoreContext context;
+        protected AppIdentityDbContext identityContext;
 
         public TestBase(ITestOutputHelper output)
         {
             var logger = Resolve<IAppLogger<StoreContext>>();
-            using (var context = Resolve<StoreContext>())
-            {
-                StoreContextSeed.SeedStoreAsync(context, logger).Wait();
-            }
+            context = Resolve<StoreContext>();
+            _userManager = Resolve<UserManager<ApplicationUser>>();
+            identityContext = Resolve<AppIdentityDbContext>();
+            AppIdentityDbContextSeed.SeedAsync(_userManager).Wait();
+            StoreContextSeed.SeedStoreAsync(context, _userManager, logger).Wait();
             NLog.LogManager.Configuration = new NLog.Config.XmlLoggingConfiguration("NLog.config", false);
             _output = output;
-            context = Resolve<StoreContext>();
+            
             
         }
         protected static void ConfigureDI()
         {
-            services.AddSingleton(_ => contextOptions);
+            services.AddSingleton(_ => storeContextOptions);
             services.AddDbContext<StoreContext>();
+            services.AddSingleton(identityContextOptions);
+            services.AddDbContext<AppIdentityDbContext>();
             services.AddScoped(typeof(IAppLogger<>), typeof(LoggerAdapter<>));
             services.AddScoped(typeof(IAsyncRepository<>), implementationType: typeof(EfRepository<>));
             services.AddScoped(typeof(IAppLogger<>), typeof(LoggerAdapter<>));
@@ -67,7 +74,12 @@ namespace UnitTests
             services.AddScoped<ICharacteristicService, CharacteristicService>();
             services.AddScoped<ICharacteristicValueService, CharacteristicValueService>();
 
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<AppIdentityDbContext>()
+                .AddDefaultTokenProviders();
+
             services.AddScoped<BrandsController>();
+            services.AddScoped<CredentialsController>();
             services.AddScoped<ItemsController>();
             services.AddScoped<ItemImagesController>();
             services.AddScoped<ItemVariantsController>();
