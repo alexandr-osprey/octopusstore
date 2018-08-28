@@ -19,7 +19,7 @@ export class CredentialsCreateUpdateComponent implements OnInit {
   }
 
   save() {
-    this.credentialsService.createOrUpdate(this.credentials).subscribe((data: any) => {
+    this.credentialsService.createOrUpdate(this.credentials).subscribe((token: string) => {
       //console.log(data.token);
     });
   }

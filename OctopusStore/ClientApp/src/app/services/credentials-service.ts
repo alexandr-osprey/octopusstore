@@ -6,6 +6,7 @@ import { Credentials } from "../view-models/credentials/credentials";
 import { tap, catchError } from "rxjs/operators";
 import { UserToken } from "../view-models/credentials/user-token";
 import { Injectable } from "@angular/core";
+import * as jwt_decode from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root'
@@ -36,6 +37,19 @@ export class CredentialsService {
       tap(_ => this.log(`${this.serviceName} deleted user ${email}`)),
       catchError(this.handleError<any>(`delete error user ${email}`)));
     return result;
+  }
+
+  private setSession(token: string) {
+    localStorage.setItem('token', token);
+
+  }
+
+  private getTokenExpirationDate(token: string): Date {
+    const decoded = jwt_decode(token);
+    if (decoded.exp == null) return new Date(0);
+    const date = new Date(0);
+    date.setUTCSeconds(decoded.exp);
+    return date;
   }
 
   public getUrlWithEmail(email: string, url: string = this.remoteUrl) {

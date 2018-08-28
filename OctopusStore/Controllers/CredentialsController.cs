@@ -51,7 +51,7 @@ namespace OctopusStore.Controllers
             if (result.Succeeded)
             {
                 await _signInManager.SignInAsync(user, false);
-                return Ok(new { token = GenerateJwtToken(accountCreateViewModel.Email, user) });
+                return Ok(GenerateJwtToken(accountCreateViewModel.Email, user));
             }
             else
             {
