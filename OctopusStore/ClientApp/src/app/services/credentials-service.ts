@@ -4,7 +4,12 @@ import { Observable } from "rxjs/internal/Observable";
 import { of } from "rxjs";
 import { Credentials } from "../view-models/credentials/credentials";
 import { tap, catchError } from "rxjs/operators";
+import { UserToken } from "../view-models/credentials/user-token";
+import { Injectable } from "@angular/core";
 
+@Injectable({
+  providedIn: 'root'
+})
 export class CredentialsService {
   protected remoteUrl: string = 'api/credentials';
   protected serviceName: string = "Credentials service";
@@ -17,38 +22,24 @@ export class CredentialsService {
     protected messageService: MessageService) {
   }
 
-  public createOrUpdate(credentials: Credentials): Observable<Credentials> {
-    if (credentials.guid)
-      return this.create(credentials);
-    else
-      return this.update(credentials);
-  }
-  public create(credentials: Credentials): Observable<Credentials> {
-    let created = this.http.post<Credentials>(this.remoteUrl, credentials, this.httpOptions)
+  public createOrUpdate(credentials: Credentials): Observable<UserToken> {
+    let token = this.http.post<UserToken>(this.remoteUrl, credentials, this.httpOptions)
       .pipe(
-      tap(c => this.log(`${this.serviceName} created guid= ${c.email}`)),
-        catchError(this.handleError<any>(`create error ` + credentials)));
-    return created;
+      tap(c => { this.log(`${this.serviceName} created or updated user ${credentials.email}`) }),
+        catchError(this.handleError<any>(`create or update error user ${credentials.email}`)));
+    return token;
   }
 
-  public update(credentials: Credentials): Observable<Credentials> {
-    let updated = this.http.put<Credentials>(this.getUrlWithGuid(credentials.guid, this.remoteUrl), credentials, this.httpOptions)
+  public delete(email: string): Observable<any> {
+    let result = this.http.delete<any>(this.getUrlWithEmail(email), this.httpOptions)
       .pipe(
-      tap(c => { this.log(`${this.serviceName} updated guid=${c.guid}`) }),
-      catchError(this.handleError<any>(`update error guid=${credentials.guid}`)));
-    return updated;
-  }
-
-  public delete(guid: string): Observable<any> {
-    let result = this.http.delete<any>(this.getUrlWithGuid(guid), this.httpOptions)
-      .pipe(
-      tap(_ => this.log(`${this.serviceName} deleted guid=${guid}`)),
-      catchError(this.handleError<any>(`delete error guid=${guid}`)));
+      tap(_ => this.log(`${this.serviceName} deleted user ${email}`)),
+      catchError(this.handleError<any>(`delete error user ${email}`)));
     return result;
   }
 
-  public getUrlWithGuid(guid: string, url: string = this.remoteUrl) {
-    return `${url}/${guid}`;
+  public getUrlWithEmail(email: string, url: string = this.remoteUrl) {
+    return `${url}/${email}`;
   }
 
   protected handleError<T>(operation = 'operation', result?: T) {

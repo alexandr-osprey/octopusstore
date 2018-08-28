@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using ApplicationCore.Entities;
 using ApplicationCore.Interfaces;
 using ApplicationCore.Specifications;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OctopusStore.Specifications;
 using OctopusStore.ViewModels;
@@ -41,6 +42,8 @@ namespace OctopusStore.Controllers
             var spec = await GetIndexSpecAsync<ItemThumbnailIndexSpecification>(page, pageSize, title, categoryId, storeId, brandId);
             return await base.IndexAsync<ItemThumbnailIndexViewModel, ItemThumbnailViewModel>(spec);
         }
+
+        [AllowAnonymous]
         [HttpGet]
         public async Task<ItemIndexViewModel> Index(
             [FromQuery(Name = "page")] int? page,

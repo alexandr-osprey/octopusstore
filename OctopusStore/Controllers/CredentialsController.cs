@@ -55,7 +55,10 @@ namespace OctopusStore.Controllers
             }
             else
             {
-                return BadRequest(result.Errors.ToString());
+                string errorMessages = "";
+                foreach (var error in result.Errors)
+                    errorMessages += error.Code + " " + error.Description + "\n";
+                return BadRequest(errorMessages);
             }
         }
 
@@ -69,7 +72,7 @@ namespace OctopusStore.Controllers
                 new Claim(ClaimTypes.NameIdentifier, user.Id)
             };
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["SigingKey"]));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("SigningKey").Value));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
             var expires = DateTime.Now.AddDays(Convert.ToDouble(_configuration["ExpireDays"]));
 

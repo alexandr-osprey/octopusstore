@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Credentials } from '../../view-models/credentials/credentials';
+import { CredentialsService } from '../../services/credentials-service';
+import { UserToken } from '../../view-models/credentials/user-token';
 
 @Component({
   selector: 'app-credentials-create-update',
@@ -10,13 +12,15 @@ export class CredentialsCreateUpdateComponent implements OnInit {
 
   credentials: Credentials;
 
-  constructor() { }
+  constructor(private credentialsService: CredentialsService) { }
 
   ngOnInit() {
     this.credentials = new Credentials(); 
   }
 
   save() {
-
+    this.credentialsService.createOrUpdate(this.credentials).subscribe((data: any) => {
+      //console.log(data.token);
+    });
   }
 }

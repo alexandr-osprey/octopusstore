@@ -6,7 +6,9 @@ using Infrastructure.Logging;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Moq;
 using Newtonsoft.Json;
 using OctopusStore.Controllers;
 using System;
@@ -60,6 +62,8 @@ namespace UnitTests
             services.AddDbContext<StoreContext>();
             services.AddSingleton(identityContextOptions);
             services.AddDbContext<AppIdentityDbContext>();
+            var conf = new Mock<IConfiguration>();
+            services.AddSingleton<IConfiguration>(conf.Object);
             services.AddScoped(typeof(IAppLogger<>), typeof(LoggerAdapter<>));
             services.AddScoped(typeof(IAsyncRepository<>), implementationType: typeof(EfRepository<>));
             services.AddScoped(typeof(IAppLogger<>), typeof(LoggerAdapter<>));

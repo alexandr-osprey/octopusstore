@@ -326,7 +326,7 @@ namespace Infrastructure.Data
         }
         private string GetIdByEmail(UserManager<ApplicationUser> userManager, string email)
         {
-            return userManager.FindByEmailAsync("john@mail.com").Result.Id;
+            return userManager.FindByEmailAsync(email).Result.Id;
         }
     }
 }
