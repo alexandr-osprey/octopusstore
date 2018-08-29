@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Credentials } from '../../view-models/credentials/credentials';
 import { CredentialsService } from '../../services/credentials-service';
-import { UserToken } from '../../view-models/credentials/user-token';
+import { pipe } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import Popper from 'popper.js';
+import 'rxjs/add/operator/catch';
+
 
 @Component({
   selector: 'app-credentials-create-update',
@@ -11,6 +15,7 @@ import { UserToken } from '../../view-models/credentials/user-token';
 export class CredentialsCreateUpdateComponent implements OnInit {
 
   credentials: Credentials;
+  errorMessage: string;
 
   constructor(private credentialsService: CredentialsService) { }
 
@@ -19,8 +24,14 @@ export class CredentialsCreateUpdateComponent implements OnInit {
   }
 
   save() {
-    this.credentialsService.createOrUpdate(this.credentials).subscribe((token: string) => {
-      //console.log(data.token);
-    });
+    this.credentialsService.createOrUpdate(this.credentials).subscribe(
+      (token: string) => {
+        var errorMessagePopper = new Popper(credentialsForm, onLeftPopper);
+        this.errorMessage = this.credentialsService.lastError;
+      },
+      (errorResponse) => {
+
+      }
+    })
   }
 }

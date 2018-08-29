@@ -33,33 +33,29 @@ export abstract class DataReadWriteService<
       return this.update(model, url);
   }
   public create(model: TEntity, url: string = this.remoteUrl): Observable<TEntity> {
-    let created = this.http.post<TEntity>(url, model, httpOptions)
+    return this.http.post<TEntity>(url, model, httpOptions)
       .pipe(
         tap(entity => this.log(`${this.serviceName} created id= ${entity.id}`)),
       catchError(this.handleError<any>(`create error ` + model)));
-    return created;
   }
   public postFormData(formFile: FormData, url: string): Observable<TEntity> {
-    let created = this.http.post<TEntity>(url, formFile)
+    return this.http.post<TEntity>(url, formFile)
       .pipe(
         tap(entity => this.log(`${this.serviceName} created id= ${entity.id}`)),
         catchError(this.handleError<any>(`create error `)));
-    return created;
   }
 
   public update(model: TEntity, url: string = this.remoteUrl): Observable<TEntity> {
-    let updated = this.http.put<TEntity>(this.getUrlWithId(model.id, url), model, this.httpOptions)
+    return this.http.put<TEntity>(this.getUrlWithId(model.id, url), model, this.httpOptions)
       .pipe(
       tap(entity => { this.log(`${this.serviceName} updated id=${entity.id}`) }),
         catchError(this.handleError<any>(`update error id=${model.id}`)));
-    return updated;
   }
 
   public delete(id: number): Observable<any> {
-    let result = this.http.delete<any>(this.getUrlWithId(id), this.httpOptions)
+    return this.http.delete<any>(this.getUrlWithId(id), this.httpOptions)
       .pipe(
         tap(_ => this.log(`${this.serviceName} deleted id=${id}`)),
         catchError(this.handleError<any>(`delete error id=${id}`)));
-    return result;
   }
 }

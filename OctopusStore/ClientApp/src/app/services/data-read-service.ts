@@ -23,31 +23,28 @@ export abstract class DataReadService
   }
 
   public get(id: number, params: any = {}): Observable<TEntity> {
-    let entity = this.http.get<TEntity>(this.getUrlWithId(id), { params: params })
+    return this.http.get<TEntity>(this.getUrlWithId(id), { params: params })
       .pipe(
         retry(3),
         tap(_ => this.log(`${this.serviceName} fetched id=${id}`)),
       catchError(this.handleError<TEntity>(`entity id=${id}`)));
-    return entity;
   }
   public getDetail(id: number, params: any = {}): Observable<TDetail> {
-    let detail = this.http.get<TDetail>(this.getUrlWithIdWithSuffix(id, "details"), { params: params })
+    return this.http.get<TDetail>(this.getUrlWithIdWithSuffix(id, "details"), { params: params })
       .pipe(
         retry(3),
         tap(_ => this.log(`${this.serviceName} fetched details id=${id}`)),
         catchError(this.handleError<TDetail>(`details id=${id}`)));
-    return detail;
   }
   public index(params: any = {}): Observable<TIndex> {
     return this.indexCustom<TIndex>(this.remoteUrl, params);
   }
   public indexCustom<T>(url: string, params: any = {}): Observable<T> {
-    let index = this.http.get<T>(url, { params: params })
+    return this.http.get<T>(url, { params: params })
       .pipe(
         retry(3),
         tap(entities => this.log(this.serviceName + ' fetched index')),
         catchError(this.handleError<T>('index')));
-    return index;
   }
   public getUrlWithId(id: number, url: string = this.remoteUrl) {
     return this.getUrlWithParameter(`${id}`, url);
