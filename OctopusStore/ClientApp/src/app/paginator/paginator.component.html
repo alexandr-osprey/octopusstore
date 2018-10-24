@@ -1,13 +1,13 @@
-<div class="row paginator" *ngIf="index">
+<div class="row paginator" *ngIf="index && index.entities.length">
   <div class="col-auto col-md-auto">
     <div>
-      <button (click)="pageClick(index.page - 1)" [ngClass]="{'btn': true, 'hidden': index.page == 1}">Previous</button>
-      <button *ngFor="let page of pageNumbers" (click)="pageClick(page)" [ngClass]="{'page-button': true, 'btn' : true, 'btn-light': true,'current-page-button': page==index.page}">{{ page }}</button>
-      <button (click)="pageClick(index.page + 1)" [ngClass]="{'btn': true, 'hidden': index.page == index.totalPages}">Next</button>
+      <a [routerLink] [queryParams]="getPageParams(index.page - 1)" [ngClass]="{'btn': true, 'hidden': index.page == 1}">Previous</a>
+      <a *ngFor="let page of pageNumbers" [routerLink] [queryParams]="getPageParams(page)" [ngClass]="{'page-button': true, 'btn' : true, 'btn-light': true,'current-page-button': page==index.page}">{{ page }}</a>
+      <a [routerLink] [queryParams]="getPageParams(index.page + 1)" [ngClass]="{'btn': true, 'hidden': index.page == index.totalPages}">Next</a>
     </div>
     <div class="page-size" >
       <span>Page size</span>
-      <a *ngFor="let pageSize of pageSizes" [routerLink] [queryParams]="getUpdatedParams(pageSizeParamName, pageSize)" (click)="pageSizeClick(pageSize)" class="link">{{ pageSize }}</a>
+      <a *ngFor="let pageSize of pageSizes" [routerLink] [queryParams]="getPageSizeParams(pageSize)" class="link">{{ pageSize }}</a>
     </div>
   </div>
 </div>

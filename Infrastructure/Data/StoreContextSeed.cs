@@ -2,8 +2,6 @@
 using ApplicationCore.Interfaces;
 using Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -13,7 +11,13 @@ namespace Infrastructure.Data
 {
     public class StoreContextSeed
     {
-        public static async Task SeedStoreAsync(StoreContext storeContext, UserManager<ApplicationUser> userManager, IAppLogger<StoreContext> logger)
+        /// <summary>
+        /// Filling test data in context
+        /// </summary>
+        /// <param name="storeContext"></param>
+        /// <param name="logger"></param>
+        /// <returns></returns>
+        public static async Task SeedStoreAsync(StoreContext storeContext, IAppLogger<StoreContext> logger)
         {
             var instance = new StoreContextSeed();
             instance._logger = logger;
@@ -49,7 +53,7 @@ namespace Infrastructure.Data
             }
             if (!storeContext.ItemImages.Any())
             {
-                instance.itemsImages = instance.GetPreconfiguredItemImageDetails(userManager);
+                instance.itemsImages = instance.GetPreconfiguredItemImageDetails();
                 storeContext.ItemImages.AddRange(instance.itemsImages);
                 await storeContext.SaveChangesAsync();
             }
@@ -91,6 +95,9 @@ namespace Infrastructure.Data
         private List<ItemVariantCharacteristicValue> itemVariantCharacteristicValues;
         private IAppLogger<StoreContext> _logger;
 
+        string johnId = "john@mail.com";
+        string jenniferId = "jennifer@mail.com";
+
         private List<MeasurementUnit> GetPreconfiguredMeasurementUnits()
         {
             return new List<MeasurementUnit>()
@@ -116,15 +123,15 @@ namespace Infrastructure.Data
         {
             return new List<Category>
             {
-                new Category { Title = "Categories", CanHaveItems = false },
+                new Category { Title = "Categories", CanHaveItems = true },
 
-                new Category { Title = "Electronics", CanHaveItems = false, ParentCategoryId = 1 }, //1
-                new Category { Title = "Smartphones", CanHaveItems = true, ParentCategoryId = 2, }, //2
-                new Category { Title = "Smartwatches", CanHaveItems = true, ParentCategoryId = 2, }, //3
+                new Category { Title = "Electronics",  ParentCategoryId = 1, CanHaveItems = false }, //1
+                new Category { Title = "Smartphones",  ParentCategoryId = 2, CanHaveItems = true}, //2
+                new Category { Title = "Smartwatches", ParentCategoryId = 2, CanHaveItems = true}, //3
 
-                new Category { Title = "Clothes", CanHaveItems = false, ParentCategoryId = 1, }, //4
-                new Category { Title = "Shoes", CanHaveItems = true, ParentCategoryId = 5, }, //5
-                new Category { Title = "Jackets", CanHaveItems = true, ParentCategoryId = 5, }, //6
+                new Category { Title = "Clothes",  ParentCategoryId = 1, CanHaveItems = false}, //4
+                new Category { Title = "Shoes", ParentCategoryId = 5, CanHaveItems = true}, //5
+                new Category { Title = "Jackets", ParentCategoryId = 5, CanHaveItems = true}, //6
             };
         }
         private List<Characteristic> GetPreconfiguredCharacteristics()
@@ -167,8 +174,8 @@ namespace Infrastructure.Data
         {
             return new List<Store>
             {
-                new Store { Title = "John's store", Address = "NY", Description = "Electronics best deals", SellerId = "john@mail.com" },
-                new Store { Title = "Jennifer's store", Address = "Sydney", Description = "Fashion", SellerId = "jennifer@mail.com" }
+                new Store { Title = "John's store", Address = "NY", Description = "Electronics best deals", OwnerId = johnId },
+                new Store { Title = "Jennifer's store", Address = "Sydney", Description = "Fashion", OwnerId = jenniferId }
             };
         }
         private List<Item> GetPreconfiguredItems()
@@ -176,36 +183,34 @@ namespace Infrastructure.Data
             return new List<Item>()
             {
                 new Item { Title = "iPhone 6", BrandId = brands[0].Id, CategoryId = categories[2].Id,
-                    MeasurementUnitId = measurementUnits[2].Id, StoreId = stores[0].Id },
+                    MeasurementUnitId = measurementUnits[2].Id, StoreId = stores[0].Id, OwnerId = stores[0].OwnerId },
                 new Item { Title = "Samsung 7", BrandId = brands[1].Id, CategoryId = categories[2].Id,
-                    MeasurementUnitId = measurementUnits[2].Id,StoreId = stores[0].Id },
+                    MeasurementUnitId = measurementUnits[2].Id,StoreId = stores[0].Id, OwnerId = stores[0].OwnerId },
                 new Item { Title = "Samsung 8", BrandId = brands[1].Id, CategoryId = categories[2].Id,
-                    MeasurementUnitId = measurementUnits[2].Id, StoreId = stores[0].Id },
+                    MeasurementUnitId = measurementUnits[2].Id, StoreId = stores[0].Id, OwnerId = stores[0].OwnerId },
                 new Item { Title = "Pebble Watch", BrandId = brands[2].Id, CategoryId = categories[3].Id,
-                    MeasurementUnitId = measurementUnits[2].Id, StoreId = stores[0].Id },
+                    MeasurementUnitId = measurementUnits[2].Id, StoreId = stores[0].Id, OwnerId = stores[0].OwnerId },
 
                 new Item { Title = "Shoes", BrandId = brands[3].Id, CategoryId = categories[5].Id,
-                    MeasurementUnitId = measurementUnits[2].Id, StoreId = stores[1].Id  },
+                    MeasurementUnitId = measurementUnits[2].Id, StoreId = stores[1].Id, OwnerId = stores[1].OwnerId },
                 new Item { Title = "Jacket", BrandId = brands[4].Id, CategoryId = categories[6].Id,
-                    MeasurementUnitId = measurementUnits[2].Id, StoreId = stores[1].Id  },
+                    MeasurementUnitId = measurementUnits[2].Id, StoreId = stores[1].Id, OwnerId = stores[1].OwnerId },
             };
         }
-        private List<ItemImage> GetPreconfiguredItemImageDetails(UserManager<ApplicationUser> userManager)
+        private List<ItemImage> GetPreconfiguredItemImageDetails()
         {
             string contentType = @"image/jpeg";
-            string johnId = GetIdByEmail(userManager, "john@mail.com");
-            string jenniferId = GetIdByEmail(userManager, "jennifer@mail.com");
             var imagesDetails = new List<ItemImage>
             {
-                new ItemImage (johnId, contentType, items[0].Id, null) { FullPath= Path.Combine(@"C:\files\", johnId, "iPhone 6 - 1.jpg") },
-                new ItemImage (johnId, contentType, items[0].Id, null) { FullPath= Path.Combine(@"C:\files\", johnId, "iPhone 6 - 2.jpg") },
-                new ItemImage (johnId, contentType, items[0].Id, null) { FullPath= Path.Combine(@"C:\files\", johnId, "iPhone 6 - 3.jpg") },
-                new ItemImage (johnId, contentType, items[1].Id, null) { FullPath= Path.Combine(@"C:\files\", johnId, "Samsung 7.jpg") },
-                new ItemImage (johnId, contentType, items[2].Id, null) {  FullPath= Path.Combine(@"C:\files\", johnId, "Samsung 8.jpg") },
-                new ItemImage (johnId, contentType, items[3].Id, null) {  FullPath= Path.Combine(@"C:\files\", johnId, "Pebble.jpg") },
+                new ItemImage ("iPhone 6 - 1", johnId, contentType, items[0].Id, null) { FullPath= Path.Combine(@"C:\files\", johnId, "iPhone 6 - 1.jpg") },
+                new ItemImage ("iPhone 6 - 2.jpg", johnId, contentType, items[0].Id, null) { FullPath= Path.Combine(@"C:\files\", johnId, "iPhone 6 - 2.jpg") },
+                new ItemImage ("iPhone 6 - 3.jpg", johnId, contentType, items[0].Id, null) { FullPath= Path.Combine(@"C:\files\", johnId, "iPhone 6 - 3.jpg") },
+                new ItemImage ("Samsung 7.jpg", johnId, contentType, items[1].Id, null) { FullPath= Path.Combine(@"C:\files\", johnId, "Samsung 7.jpg") },
+                new ItemImage ("Samsung 8.jpg", johnId, contentType, items[2].Id, null) {  FullPath= Path.Combine(@"C:\files\", johnId, "Samsung 8.jpg") },
+                new ItemImage ("Pebble.jpg", johnId, contentType, items[3].Id, null) {  FullPath= Path.Combine(@"C:\files\", johnId, "Pebble.jpg") },
 
-                new ItemImage (jenniferId, contentType, items[4].Id, null) { FullPath= Path.Combine(@"C:\files\", jenniferId, "Shoes.jpg") },
-                new ItemImage (jenniferId,  contentType, items[5].Id, null) { FullPath= Path.Combine(@"C:\files\", jenniferId, "Jacket.jpg") }
+                new ItemImage ("Shoes.jpg", jenniferId, contentType, items[4].Id, null) { FullPath= Path.Combine(@"C:\files\", jenniferId, "Shoes.jpg") },
+                new ItemImage ("Jacket.jpg", jenniferId,  contentType, items[5].Id, null) { FullPath= Path.Combine(@"C:\files\", jenniferId, "Jacket.jpg") }
             };
             return imagesDetails;
         }
@@ -213,18 +218,18 @@ namespace Infrastructure.Data
         {
             var itemVariants = new List<ItemVariant>
             {
-                new ItemVariant { Title = "iPhone 6 32GB", Price = 700, ItemId = items[0].Id }, //0
-                new ItemVariant { Title = "iPhone 6 64GB", Price = 800, ItemId = items[0].Id }, //1
-                new ItemVariant { Title = "Samsung 7 32GB HD", Price = 500, ItemId = items[1].Id }, //2
-                new ItemVariant { Title = "Samsung 7 32GB Full HD", Price = 550, ItemId = items[1].Id }, //3
-                new ItemVariant { Title = "Samsung 8 32GB HD", Price = 700, ItemId = items[2].Id },  //4
-                new ItemVariant { Title = "Samsung 8 32GB Full HD", Price = 750, ItemId = items[2].Id }, //5
-                new ItemVariant { Title = "Pebble 1000mAh", Price = 400, ItemId = items[3].Id  },
+                new ItemVariant { Title = "iPhone 6 32GB", Price = 700, ItemId = items[0].Id, OwnerId = johnId }, //0
+                new ItemVariant { Title = "iPhone 6 64GB", Price = 800, ItemId = items[0].Id, OwnerId = johnId }, //1
+                new ItemVariant { Title = "Samsung 7 32GB HD", Price = 500, ItemId = items[1].Id, OwnerId = johnId }, //2
+                new ItemVariant { Title = "Samsung 7 32GB Full HD", Price = 550, ItemId = items[1].Id, OwnerId = johnId }, //3
+                new ItemVariant { Title = "Samsung 8 32GB HD", Price = 700, ItemId = items[2].Id, OwnerId = johnId },  //4
+                new ItemVariant { Title = "Samsung 8 32GB Full HD", Price = 750, ItemId = items[2].Id, OwnerId = johnId }, //5
+                new ItemVariant { Title = "Pebble 1000mAh", Price = 400, ItemId = items[3].Id, OwnerId = johnId  },
 
-                new ItemVariant { Title = "Shoes X Much fashion", Price = 700, ItemId = items[4].Id  }, //6
-                new ItemVariant { Title = "Shoes XXL Much fashion", Price = 700, ItemId = items[4].Id  }, //7
-                new ItemVariant { Title = "Jacket black", Price = 450, ItemId = items[5].Id  }, //8
-                new ItemVariant { Title = "Jacket white", Price = 500, ItemId = items[5].Id  },  //9
+                new ItemVariant { Title = "Shoes X Much fashion", Price = 700, ItemId = items[4].Id, OwnerId = jenniferId  }, //6
+                new ItemVariant { Title = "Shoes XXL Much fashion", Price = 700, ItemId = items[4].Id, OwnerId = jenniferId  }, //7
+                new ItemVariant { Title = "Jacket black", Price = 450, ItemId = items[5].Id, OwnerId = jenniferId  }, //8
+                new ItemVariant { Title = "Jacket white", Price = 500, ItemId = items[5].Id, OwnerId = jenniferId  },  //9
 
             };
             return itemVariants;
@@ -237,90 +242,90 @@ namespace Infrastructure.Data
                 new ItemVariantCharacteristicValue (
                     itemVariants[0].Id,
                     characteristicValues[1].Id
-                ),
+                ) { OwnerId = johnId },
                 new ItemVariantCharacteristicValue (
                     itemVariants[0].Id,
                     characteristicValues[3].Id
-                ),
+                ) { OwnerId = johnId },
                 // iphone 64
                 new ItemVariantCharacteristicValue (
                     itemVariants[1].Id,
                     characteristicValues[2].Id
-                ),
+                ) { OwnerId = johnId },
                 new ItemVariantCharacteristicValue (
                     itemVariants[1].Id,
                     characteristicValues[4].Id
-                ),
+                ) { OwnerId = johnId },
                 //samsung 7 32 hd
                 new ItemVariantCharacteristicValue (
                     itemVariants[2].Id,
                     characteristicValues[1].Id
-                ),
+                ) { OwnerId = johnId },
                 new ItemVariantCharacteristicValue (
                     itemVariants[2].Id,
                     characteristicValues[3].Id
-                ),
+                ) { OwnerId = johnId },
                 //samsung 7 32 full hd
                 new ItemVariantCharacteristicValue (
                     itemVariants[3].Id,
                     characteristicValues[1].Id
-                ),
+                ) { OwnerId = johnId },
                 new ItemVariantCharacteristicValue (
                     itemVariants[3].Id,
                     characteristicValues[4].Id
-                ),
+                ) { OwnerId = johnId },
                 //samsung 8 64 hd
                 new ItemVariantCharacteristicValue (
                     itemVariants[4].Id,
                     characteristicValues[2].Id
-                ),
+                ) { OwnerId = johnId },
                 new ItemVariantCharacteristicValue (
                     itemVariants[4].Id,
                     characteristicValues[3].Id
-                ),
+                ) { OwnerId = johnId },
                 //samsung 8 64 full hd
                 new ItemVariantCharacteristicValue (
                     itemVariants[5].Id,
                     characteristicValues[2].Id
-                ),
+                ) { OwnerId = johnId },
                 new ItemVariantCharacteristicValue (
                     itemVariants[5].Id,
                     characteristicValues[4].Id
-                ),
+                ) { OwnerId = johnId },
                 //pebble 100mAh
                 new ItemVariantCharacteristicValue (
                     itemVariants[6].Id,
                     characteristicValues[5].Id
-                ),
+                ) { OwnerId = johnId },
 
                 //shoes X much fashion
                 new ItemVariantCharacteristicValue (
                     itemVariants[7].Id,
                     characteristicValues[7].Id
-                ),
+                ) { OwnerId = jenniferId },
                 new ItemVariantCharacteristicValue (
                     itemVariants[7].Id,
                     characteristicValues[10].Id
-                ),
+                ) { OwnerId = jenniferId },
                 //shoes XXL much fashion
                 new ItemVariantCharacteristicValue (
                     itemVariants[8].Id,
                     characteristicValues[9].Id
-                ),
+                ) { OwnerId = jenniferId },
                 new ItemVariantCharacteristicValue (
                     itemVariants[8].Id,
                     characteristicValues[10].Id
-                ),
+                ) { OwnerId = jenniferId },
                 //jacket black
                 new ItemVariantCharacteristicValue (
                     itemVariants[9].Id,
                     characteristicValues[12].Id
-                ),
+                ) { OwnerId = jenniferId },
                 //jacket white
                 new ItemVariantCharacteristicValue (
                     itemVariants[9].Id,
                     characteristicValues[13].Id
-                ),
+                ) { OwnerId = jenniferId },
             };
             return itemPropertyValues;
         }

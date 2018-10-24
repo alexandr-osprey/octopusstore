@@ -1,6 +1,8 @@
 ﻿using ApplicationCore.Entities;
+using ApplicationCore.Exceptions;
 using ApplicationCore.Interfaces;
 using ApplicationCore.Specifications;
+using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System;
@@ -16,14 +18,15 @@ namespace UnitTests.Services
     {
         public ItemImageServiceTests(ITestOutputHelper output)
             : base(output)
-        { }
+        {
+        }
 
         [Fact]
-        public async Task AddAsync()
+        public async Task CreateAsync()
         {
             var firstItemDetails = await GetQueryable(context).FirstOrDefaultAsync();
-            var addedDetails = new ItemImage("testuser", @"image/jpg", 1, service.GetStream(firstItemDetails));
-            await service.AddAsync(addedDetails);
+            var addedDetails = new ItemImage("testImage1", "testuser", @"image/jpg", 1, service.GetStream(firstItemDetails));
+            await service.CreateAsync(addedDetails);
             Assert.True(context.ItemImages.Contains(addedDetails));
             var fileDest = File.Open(addedDetails.FullPath, FileMode.Open);
             var fileInit = File.Open(firstItemDetails.FullPath, FileMode.Open);
@@ -32,10 +35,10 @@ namespace UnitTests.Services
             Directory.Delete(addedDetails.DirectoryPath, true);
         }
         [Fact]
-        public async Task GetSingleAsync()
+        public async Task ReadSingleAsync()
         {
             var expected = await GetQueryable(context).FirstOrDefaultAsync();
-            var actual = await service.GetSingleAsync(new Specification<ItemImage>(expected.Id));
+            var actual = await service.ReadSingleAsync(new EntitySpecification<ItemImage>(expected.Id));
             Assert.Equal(
                 JsonConvert.SerializeObject(expected),
                 JsonConvert.SerializeObject(actual));
@@ -55,20 +58,28 @@ namespace UnitTests.Services
         public async Task DeleteAsync()
         {
             var fileDetails = await GetQueryable(context)
-                .Where(i => i.Title.Contains("Samsung"))
-                .FirstOrDefaultAsync();
+           .Where(i => i.Title.Contains("Samsung"))
+           .FirstOrDefaultAsync();
 
             // make copy of file and pass test with it
             string fileCopy = fileDetails.FullPath + "_copy";
             File.Copy(fileDetails.FullPath, fileCopy);
             fileDetails.FullPath = fileCopy;
-            context.ItemImages.Update(fileDetails);
-            await context.SaveChangesAsync();
+            try
+            {
+                context.ItemImages.Update(fileDetails);
+                await context.SaveChangesAsync();
 
-            var о = await service.GetSingleAsync(new Specification<ItemImage>(99));
-            await service.DeleteAsync(new Specification<ItemImage>(fileDetails.Id));
-            Assert.False(GetQueryable(context).Contains(fileDetails));
-            Assert.False(File.Exists(fileDetails.FullPath));
+                await Assert.ThrowsAsync<EntityNotFoundException>(async () => await service.ReadSingleAsync(new EntitySpecification<ItemImage>(99)));
+                await service.DeleteAsync(new EntitySpecification<ItemImage>(fileDetails.Id));
+                Assert.False(GetQueryable(context).Contains(fileDetails));
+                Assert.False(File.Exists(fileDetails.FullPath));
+            }
+            finally
+            {
+                if (File.Exists(fileCopy))
+                    File.Delete(fileCopy);
+            }
         }
     }
 }

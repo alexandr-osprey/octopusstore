@@ -4,7 +4,7 @@ using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using OctopusStore.Controllers;
-using OctopusStore.ViewModels;
+using ApplicationCore.ViewModels;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
@@ -21,10 +21,9 @@ namespace UnitTests.Controllers
         [Fact]
         public async Task Index()
         {
-
             int page = 2;
             int pageSize = 1;
-            var actual = await controller.Index(2, 1, null);
+            var actual = await controller.Index(2, 1, null, null);
             var stores = await GetQueryable(context)
                 .Skip(pageSize * (page - 1))
                 .Take(pageSize)
@@ -96,10 +95,10 @@ namespace UnitTests.Controllers
             await controller.Delete(store.Id);
             Assert.False(context.Stores.Where(i => i.Id == store.Id).Any());
         }
-        protected override IQueryable<Store> GetQueryable(StoreContext context)
+        protected override IQueryable<Store> GetQueryable(DbContext context)
         {
             return context
-                .Stores
+                .Set<Store>()
                 .AsNoTracking()
                 .Include(s => s.Items);
         }

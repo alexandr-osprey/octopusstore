@@ -1,36 +1,55 @@
 ﻿using ApplicationCore.Entities;
+using ApplicationCore.Identity;
 using ApplicationCore.Interfaces;
 using ApplicationCore.Specifications;
+using Infrastructure.Data;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Infrastructure.Services
 {
-    public class StoreService 
-        : Service<Store>, 
-        IStoreService
+    public class StoreService : Service<Store>, IStoreService
     {
-        private readonly IItemService _itemService;
+        protected IItemService _itemService;
 
         public StoreService(
-            IAsyncRepository<Store> repository, 
+           StoreContext context,
+            IIdentityService identityService,
+            IScopedParameters scopedParameters,
             IItemService itemService,
+            IAuthoriationParameters<Store> authoriationParameters,
             IAppLogger<Service<Store>> logger)
-            : base(repository, logger)
+            : base(context, identityService, scopedParameters, authoriationParameters, logger)
         {
             _itemService = itemService;
         }
 
-        override public async Task DeleteAsync(ISpecification<Store> spec)
+        public override async Task<Store> CreateAsync(Store entity)
+        {
+            var store = await base.CreateAsync(entity);
+            await IdentityService.AddClaim(entity.OwnerId, new Claim(entity.OwnerId, entity.Id.ToString()));
+            return store;
+        }
+
+        override public async Task<int> DeleteAsync(Specification<Store> spec)
         {
             spec.AddInclude((s => s.Items));
             spec.Description += ", includes Items";
-            await base.DeleteAsync(spec);
+            return await base.DeleteAsync(spec);
+        }
+
+        protected override async Task DeleteSingleAsync(Store entity)
+        {
+            await base.DeleteSingleAsync(entity);
+            await IdentityService.RemoveFromUsersAsync(new Claim(entity.OwnerId, entity.Id.ToString()));
         }
         public override async Task DeleteRelatedEntitiesAsync(Store store)
         {
-            var spec = new Specification<Item>(i => store.Items.Contains(i));
-            spec.Description = $"Item with store id={store.Id}";
+            var spec = new Specification<Item>(i => store.Items.Contains(i))
+            {
+                Description = $"Item with StoreId={store.Id}"
+            };
             await _itemService.DeleteAsync(spec);
             await base.DeleteRelatedEntitiesAsync(store);
         }

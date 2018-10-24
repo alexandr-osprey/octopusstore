@@ -8,6 +8,7 @@ namespace UnitTests.Services
     {
         public BrandServiceTests(ITestOutputHelper output)
             : base(output)
-        {  }
+        {
+        }
     }
 }

@@ -7,7 +7,7 @@
       <p>{{ storeDetails.title }}</p>
     </div>
     <div>
-      <p>{{ storeDetails.sellerId }}</p>
+      <p>{{ storeDetails.OwnerId }}</p>
     </div>
     <div>
       <label for="registration-date">Registration date</label>
@@ -21,6 +21,7 @@
       <label for="description">Description</label>
       <p name="description">{{ storeDetails.description }}</p>
     </div>
+    <a *ngIf="authorizedToUpdate" [routerLink]="[getUpdateLink(storeDetails.id)]" class="link">Update</a>
   </div>
   <div class="col-12 col-md-12">
     <app-item-thumbnails></app-item-thumbnails>

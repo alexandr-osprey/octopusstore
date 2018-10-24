@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { StoreIndex } from '../../view-models/store/store-index';
 import { Brand } from '../../view-models/brand/brand';
 import { Store } from '../../view-models/store/store';
 import { Category } from '../../view-models/category/category';
@@ -9,14 +8,13 @@ import { StoreService } from '../../services/store.service';
 import { MeasurementUnitService } from '../../services/measurement-unit.service';
 import { CategoryService } from '../../services/category.service';
 import { ItemService } from '../../services/item.service';
-import { BrandIndex } from '../../view-models/brand/brand-index';
-import { MeasurementUnitIndex } from '../../view-models/measurement-unit/measurement-unit-index';
-import { CategoryIndex } from '../../view-models/category/category-index';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Item } from '../../view-models/item/item';
 import { ItemVariant } from '../../view-models/item-variant/item-variant';
 import 'rxjs/add/observable/zip';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
+import { MessageService } from '../../services/message.service';
+import { ParameterNames } from '../../services/parameter-names';
 
 @Component({
   selector: 'app-item-create-update',
@@ -25,13 +23,13 @@ import { Observable } from 'rxjs';
   providers: [ItemService]
 })
 export class ItemCreateUpdateComponent implements OnInit {
-
   public brands: Brand[];
   public stores: Store[];
   public allCategories: Category[];
   public measurementUnits: MeasurementUnit[];
   public parentCategories: Category[];
   public subcategories: Category[];
+  public isUpdating = false;
   public set parentCategoryId(parentCategoryId: number) {
     this._parentCategoryId = parentCategoryId;
     this.filterSubcategories(parentCategoryId)
@@ -39,7 +37,6 @@ export class ItemCreateUpdateComponent implements OnInit {
   public get parentCategoryId(): number {
     return this._parentCategoryId;
   }
-  public parent
   public itemVariants: ItemVariant[];
   public item: Item;
 
@@ -52,45 +49,81 @@ export class ItemCreateUpdateComponent implements OnInit {
     private categoryService: CategoryService,
     private itemService: ItemService,
     private router: Router,
-    private route: ActivatedRoute
-  ) { }
+    private route: ActivatedRoute,
+    private messageService: MessageService
+  ) {
+  }
 
   ngOnInit() {
     this.initializeComponent();
   }
 
   initializeComponent() {
-    let id = +this.route.snapshot.paramMap.get('id');
-    Observable.zip(
+    this.brands = [];
+    this.stores = [];
+    this.measurementUnits = [];
+    this.allCategories = [];
+    this.parentCategories = [];
+    //this.messageService.sendError("Init: ");
+    let id = +this.route.snapshot.paramMap.get('id') || 0;
+    if (id)
+      this.isUpdating = true;
+    let observables: Observable<any>;
+    observables = Observable.zip(
       this.brandService.index(),
-      this.storeService.index(),
-      this.measurementUnitService.index(),
-      this.categoryService.index()).subscribe((data) => {
-      this.brands = data[0].entities;
-      this.stores = data[1].entities;
-      this.measurementUnits = data[2].entities;
-      this.allCategories = data[3].entities;
+      this.storeService.index({ updateAuthorizationFilter: true}),
+        this.measurementUnitService.index(),
+        this.categoryService.index()
+      );
+    observables.subscribe((data) => {
+      //this.messageService.sendError("subscribe 1: ");
+      data[0].entities.forEach(b => this.brands.push(new Brand(b)));
+      data[1].entities.forEach(s => this.stores.push(new Store(s)));
+      data[2].entities.forEach(m => this.measurementUnits.push(new MeasurementUnit(m)));
+      data[3].entities.forEach(c => this.allCategories.push(new Category(c)));
       this.parentCategories = this.allCategories.filter(c => c.parentCategoryId == CategoryService.rootCategoryId);
       if (id) {
         this.itemService.get(id).subscribe((item: Item) => {
-          this.item = item;
-          this.parentCategoryId = this.allCategories.find(c => c.id == this.item.categoryId).parentCategoryId;
-        })
+          if (item) {
+            //this.messageService.sendError("subscribe 2: ");
+            this.item = new Item(item);
+            this.parentCategoryId = this.allCategories.find(c => c.id == this.item.categoryId).parentCategoryId;
+          } 
+        });
       } else {
         this.item = new Item();
       };
     });
-    }
+    //this.brandService.index();
+    //this.storeService.index();
+    //this.measurementUnitService.index();
+    //this.categoryService.index();
+  }
 
   filterSubcategories(parentCategoryId: number) {
     this.subcategories = this.allCategories.filter(c => c.parentCategoryId == parentCategoryId);
   }
 
   createOrUpdate() {
-    this.itemService.createOrUpdate(this.item).subscribe(
+    this.itemService.postOrPut(this.item).subscribe(
       (data: Item) => {
-        this.item = data;
-        this.router.navigate([`/items/${data.id}/update`]);
+        if (data) {
+          //this.messageService.sendError("subscribe 3: ");
+          this.item = new Item(data);
+          this.router.navigate([`/items/${data.id}/update`]);
+          this.messageService.sendSuccess("Item updated");
+        }
       });
+  }
+  delete() {
+    if (this.item.id) {
+      this.itemService.delete(this.item.id)
+        .subscribe(data => {
+          if (data) {
+            this.messageService.sendSuccess("Item deleted");
+            this.router.navigate([`/items/`]);
+          }
+        });
+    }
   }
 }

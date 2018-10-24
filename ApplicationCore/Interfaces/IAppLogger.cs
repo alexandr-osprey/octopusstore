@@ -2,6 +2,10 @@
 
 namespace ApplicationCore.Interfaces
 {
+    /// <summary>
+    /// Generic logging interface
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public interface IAppLogger<T>
     {
         string Name { get; set; }

@@ -1,12 +1,9 @@
 using ApplicationCore.Interfaces;
 using Infrastructure.Data;
-using Infrastructure.Identity;
 using Infrastructure.Logging;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -14,10 +11,11 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using Microsoft.Extensions.Logging;
 using OctopusStore.Middleware;
-using System.Security.Cryptography;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using System.Text;
+using Microsoft.AspNetCore.Mvc.Authorization;
+//using Infrastructure.Identity;
+using Infrastructure;
+using ApplicationCore.Identity;
+using Infrastructure.Identity;
 
 namespace OctopusStore
 {
@@ -38,31 +36,30 @@ namespace OctopusStore
 
         public void ConfigureTestingServices(IServiceCollection services)
         {
-            services.AddDbContext<StoreContext>(c =>
-                c.UseInMemoryDatabase("Store"));
-
-            services.AddDbContext<AppIdentityDbContext>(options =>
-                options.UseInMemoryDatabase("Identity"));
-
+            DbContextOptions<StoreContext> storeContextOptions =
+                new DbContextOptionsBuilder<StoreContext>().UseInMemoryDatabase("Store").Options;
+            services.AddSingleton(storeContextOptions);
+            IdentityConfiguration.ConfigureTesting(services, Configuration);
             ConfigureServices(services);
         }
 
         public void ConfigureProductionServices(IServiceCollection services)
         {
-            services.AddDbContext<StoreContext>(c =>
+            try
             {
-                try
-                {
-                    c.UseSqlServer(Configuration.GetConnectionString("StoreConnection"));
-                }
-                catch (Exception ex)
-                {
-                    var message = ex.Message;
-                }
-            });
+                DbContextOptions<StoreContext> storeContextOptions =
+                    new DbContextOptionsBuilder<StoreContext>()
+                        .UseSqlServer(Configuration.GetConnectionString("StoreConnection")).Options;
+                services.AddSingleton(storeContextOptions);
+                IdentityConfiguration.ConfigureProduction(services, Configuration);
+            }
+            catch (Exception ex)
+            {
+                var message = ex.Message;
+            }
 
-            services.AddDbContext<AppIdentityDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("IdentityConnection")));
+            //services.AddDbContext<AppIdentityDbContext>(options =>
+            //    options.UseSqlServer(Configuration.GetConnectionString("IdentityConnection")));
 
             ConfigureServices(services);
         }
@@ -70,14 +67,35 @@ namespace OctopusStore
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<AppIdentityDbContext>()
-                .AddDefaultTokenProviders();
 
+            ConfigureDI(services);
+            IdentityConfiguration.ConfigureServices(services, Configuration);
+
+            services.AddMemoryCache();
+            services.AddMvc(
+                config =>
+                {
+                    config.Filters.Add(new AuthorizeFilter(IdentityConfiguration.AuthorizationPolicy));
+                })
+                .AddJsonOptions(
+                    options => options.SerializerSettings.ReferenceLoopHandling
+                        = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+
+            // In production, the Angular files will be served from this directory
+            services.AddSpaStaticFiles(configuration =>
+            {
+                configuration.RootPath = "ClientApp/dist";
+            });
+            _services = services;
+        }
+
+        public static void ConfigureDI(IServiceCollection services)
+        {
             services.AddDbContext<StoreContext>();
-            services.AddScoped(typeof(IAppLogger<>), typeof(LoggerAdapter<>));
-            services.AddScoped(typeof(IAsyncRepository<>), implementationType: typeof(EfRepository<>));
-            services.AddScoped(typeof(IAppLogger<>), typeof(LoggerAdapter<>));
+            services.AddScoped(typeof(IAppLogger<>), typeof(AppLogger<>));
+        
+            services.AddScoped<IScopedParameters, ScopedParameters>();
+            services.AddScoped(typeof(IAuthoriationParameters<>), typeof(AuthoriationParameters<>));
             services.AddScoped<IBrandService, BrandService>();
             services.AddScoped<IMeasurementUnitService, MeasurementUnitService>();
             services.AddScoped<ICategoryService, CategoryService>();
@@ -88,36 +106,7 @@ namespace OctopusStore
             services.AddScoped<IItemImageService, ItemImageService>();
             services.AddScoped<ICharacteristicService, CharacteristicService>();
             services.AddScoped<ICharacteristicValueService, CharacteristicValueService>();
-
-            services.AddMemoryCache();
-
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(jwtBearerOptions =>
-                {
-                    jwtBearerOptions.TokenValidationParameters = new TokenValidationParameters()
-                    {
-                        ValidateActor = true,
-                        ValidateAudience = true,
-                        ValidateLifetime = true,
-                        ValidateIssuerSigningKey = true,
-                        ValidIssuer = Configuration["Issuer"],
-                        ValidAudience = Configuration["Audience"],
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["SigningKey"]))
-                    };
-                });
-
-            services.AddMvc()
-                .AddJsonOptions(
-                    options => options.SerializerSettings.ReferenceLoopHandling 
-                        = Newtonsoft.Json.ReferenceLoopHandling.Ignore)
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-
-            // In production, the Angular files will be served from this directory
-            services.AddSpaStaticFiles(configuration =>
-            {
-                configuration.RootPath = "ClientApp/dist";
-            });
-            _services = services;
+            services.AddScoped<ICartItemService, CartItemService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

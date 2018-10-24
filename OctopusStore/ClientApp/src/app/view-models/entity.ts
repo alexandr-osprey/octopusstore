@@ -5,4 +5,8 @@ export abstract class Entity {
     this.id = 0;
     Object.assign(this, init);
   }
+
+  public toString() {
+    return `${this.constructor.name}: ${this.id}`;
+  }
 }

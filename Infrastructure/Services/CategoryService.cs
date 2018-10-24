@@ -1,7 +1,10 @@
 ﻿using ApplicationCore.Entities;
+using ApplicationCore.Identity;
 using ApplicationCore.Interfaces;
 using ApplicationCore.Specifications;
+using Infrastructure.Data;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Infrastructure.Services
@@ -9,56 +12,72 @@ namespace Infrastructure.Services
     public class CategoryService : Service<Category>, ICategoryService
     {
         public int RootCategoryId { get; set; } = 1;
-        private readonly IAsyncRepository<Characteristic> _propertyRepository;
-        private readonly IAsyncRepository<CharacteristicValue> _propertyValueRepository;
-        private readonly IAsyncRepository<Item> _itemRepository;
 
         public CategoryService(
-            IAsyncRepository<Category> repository,
-            IAsyncRepository<Characteristic> propertyRepository,
-            IAsyncRepository<CharacteristicValue> propertyValueRepository,
-            IAsyncRepository<Item> itemRepository,
+            StoreContext context,
+            IIdentityService identityService,
+            IScopedParameters scopedParameters,
+            IAuthoriationParameters<Category> authoriationParameters,
             IAppLogger<Service<Category>> logger)
-            : base(repository, logger)
+            : base(context, identityService, scopedParameters, authoriationParameters, logger)
         {
-            _propertyRepository = propertyRepository;
-            _propertyValueRepository = propertyValueRepository;
-            _itemRepository = itemRepository;
         }
 
-        public async Task<IEnumerable<Category>> ListHierarchyAsync(ISpecification<Category> spec)
+        public async Task<IEnumerable<Category>> EnumerateHierarchyAsync(Specification<Item> spec)
         {
-            List<Category> flatCategories = new List<Category>();
-            await GetCategoryHierarchyAsync(spec, flatCategories);
+            var categories = await _context.EnumerateRelatedAsync(_logger, spec, (i => i.Category));
+            return await EnumerateHierarchyAsync(new EntitySpecification<Category>(c => categories.Contains(c)));
+        }
+        public async Task<IEnumerable<Category>> EnumerateHierarchyAsync(Specification<Category> spec)
+        {
+            var hierarchy = new HashSet<Category>();
+            hierarchy.UnionWith(await EnumerateParentCategoriesAsync(spec));
+            hierarchy.UnionWith(await EnumerateSubcategoriesAsync(spec));
+            return hierarchy;
+        }
+        public async Task<IEnumerable<Category>> EnumerateParentCategoriesAsync(Specification<Category> spec)
+        {
+            var flatCategories = new HashSet<Category>();
+            await GetParentCategoriesAsync(spec, flatCategories);
             return flatCategories;
         }
-        public async Task<IEnumerable<Category>> ListSubcategoriesAsync(ISpecification<Category> spec)
+        public async Task<IEnumerable<Category>> EnumerateSubcategoriesAsync(Specification<Category> spec)
         {
-            List<Category> flatCategoreies = new List<Category>();
-            var categories = await _repository.ListAsync(spec);
+            var flatCategories = new HashSet<Category>();
+            var categories = await _context.EnumerateAsync(_logger, spec);
             foreach (var category in categories)
             {
-                var categorySpec = new Specification<Category>((s => s.Id == category.Id), (s => s.Subcategories));
-                categorySpec.Description = $"Category id={category.Id} includes Subcategories";
-                await GetCategorySubcategoriesAsync(categorySpec, flatCategoreies);
+                var categorySpec = new Specification<Category>((s => s.Id == category.Id), (s => s.Subcategories))
+                {
+                    Description = $"Category id={category.Id} includes Subcategories"
+                };
+                await GetSubcategoriesAsync(categorySpec, flatCategories);
             }
-            return flatCategoreies;
-        }
-        public async Task<IEnumerable<Category>> ListByItemAsync(ISpecification<Item> itemSpec)
-        {
-            var categories = await _itemRepository.ListRelatedAsync(itemSpec, (i => i.Category));
-            List<Category> flatCategories = new List<Category>();
-            foreach (var category in categories)
-                await GetCategoryHierarchyAsync(category, flatCategories);
             return flatCategories;
         }
-        public async Task GetCategoryHierarchyAsync(ISpecification<Category> spec, List<Category> hierarchy)
+        public async Task<IEnumerable<Category>> EnumerateParentCategoriesAsync(Specification<Item> itemSpec)
         {
-            var category = await _repository.GetSingleBySpecAsync(spec);
-            if (category != null)
-                await GetCategoryHierarchyAsync(category, hierarchy);
+            var categories = await _context.EnumerateRelatedAsync(_logger, itemSpec, (i => i.Category));
+            var flatCategories = new HashSet<Category>();
+            foreach (var category in categories)
+                await GetParentCategoriesAsync(category, flatCategories);
+            return flatCategories;
         }
-        public async Task GetCategoryHierarchyAsync(Category category, List<Category> hierarchy)
+        public async Task<IEnumerable<Category>> EnumerateSubcategoriesAsync(Specification<Item> itemSpec)
+        {
+            var categories = await _context.EnumerateRelatedAsync(_logger, itemSpec, (i => i.Category));
+            var flatCategories = new HashSet<Category>();
+            foreach (var category in categories)
+                await GetSubcategoriesAsync(category, flatCategories);
+            return flatCategories;
+        }
+        public async Task GetParentCategoriesAsync(Specification<Category> spec, HashSet<Category> hierarchy)
+        {
+            var categories = await _context.EnumerateAsync(_logger, spec);
+            foreach (var c in categories)
+                await GetParentCategoriesAsync(c, hierarchy);
+        }
+        public async Task GetParentCategoriesAsync(Category category, HashSet<Category> hierarchy)
         {
             if (category != null)
             {
@@ -67,27 +86,30 @@ namespace Infrastructure.Services
                     hierarchy.Add(category);
                     if (category.ParentCategoryId != 0)
                     {
-                        await GetCategoryHierarchyAsync(new Specification<Category>(category.ParentCategoryId), hierarchy);
+                        await GetParentCategoriesAsync(new Specification<Category>(c => c.Id == category.ParentCategoryId), hierarchy);
                     }
                 }
             }
         }
-        private async Task GetCategorySubcategoriesAsync(ISpecification<Category> spec, List<Category> subcategories)
+        protected async Task GetSubcategoriesAsync(Category category, HashSet<Category> subcategories)
         {
-            var category = await _repository.GetSingleBySpecAsync(spec);
             if (category != null)
             {
-                if (!subcategories.Contains(category))
+                subcategories.Add(category);
+                foreach (var c in category.Subcategories)
                 {
-                    subcategories.Add(category);
-                    foreach (var c in category.Subcategories)
+                    var subcategorySpec = new Specification<Category>(s => s.Id == c.Id, s => s.Subcategories)
                     {
-                        var subcategorySpec = new Specification<Category>((s => s.Id == c.Id), (s => s.Subcategories));
-                        subcategorySpec.Take = _maxTake;
-                        await GetCategorySubcategoriesAsync(subcategorySpec, subcategories);
-                    }
+                        Description = $"Category Id = {c.Id} includes Subcategories"
+                    };
+                    await GetSubcategoriesAsync(subcategorySpec, subcategories);
                 }
             }
+        }
+        protected async Task GetSubcategoriesAsync(Specification<Category> spec, HashSet<Category> subcategories)
+        {
+            var category = await _context.ReadSingleBySpecAsync(_logger, spec, false);
+            await GetSubcategoriesAsync(category, subcategories);
         }
     }
 }

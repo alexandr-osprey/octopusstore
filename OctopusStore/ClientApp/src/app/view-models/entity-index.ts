@@ -1,12 +1,9 @@
 import { Entity } from "./entity";
+import { Index } from ".";
 
-export abstract class EntityIndex<T extends Entity> {
-  page: number;
-  totalPages: number;
-  totalCount: number;
-  entities: T[];
+export class EntityIndex<T extends Entity> extends Index<T> {
 
   public constructor(init?: Partial<EntityIndex<T>>) {
-    Object.assign(this, init);
+    super(init);
   }
 }

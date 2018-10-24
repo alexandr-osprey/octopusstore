@@ -1,8 +1,11 @@
 ﻿using ApplicationCore.Exceptions;
+using ApplicationCore.Interfaces;
 using Microsoft.AspNetCore.Http;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using System;
 using System.Net;
+using System.Security.Authentication;
 using System.Threading.Tasks;
 
 namespace OctopusStore.Middleware
@@ -32,11 +35,17 @@ namespace OctopusStore.Middleware
         {
             var code = HttpStatusCode.InternalServerError;
 
-            if (exception is InternalServerException) code = HttpStatusCode.InternalServerError;
-            else if (exception is EntityNotFoundException) code = HttpStatusCode.BadRequest;
+            if (exception is EntityNotFoundException) code = HttpStatusCode.NotFound;
+            else if (exception is EntityAlreadyExistsException) code = HttpStatusCode.Conflict;
+            else if (exception is EntityValidationException) code = HttpStatusCode.Conflict;
             else if (exception is BadRequestException) code = HttpStatusCode.BadRequest;
+            else if (exception is AuthenticationException) code = HttpStatusCode.Unauthorized;
+            else if (exception is SecurityTokenExpiredException) code = HttpStatusCode.Unauthorized;
+            else if (exception is AuthorizationException) code = HttpStatusCode.Forbidden;
+            else if (exception is CustomDbException) code = HttpStatusCode.InternalServerError;
+            
 
-            var result = JsonConvert.SerializeObject(new { error = exception.Message });
+            var result = JsonConvert.SerializeObject(new { message = exception.Message });
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)code;
             return context.Response.WriteAsync(result);

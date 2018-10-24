@@ -1,24 +1,71 @@
-.site-header {
+.header {
   background-color: DarkSlateGray;
 }
 
-.site-title p {
+.title p {
   color: aliceblue;
   margin-top: 16px;
 }
 
-.site-search {
+.search {
   margin-top: 8px;
   margin-bottom: 8px;
   min-width: 200px;
 }
 
-  .site-search button {
+  .search button {
     background-color: darkorange;
   }
 
-  .site-search input {
+  .search input {
     width: 65%;
     min-width: 15px;
     margin-right: 16px;
   }
+
+.dropbtn {
+  background-color: DarkSlateGray;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+  /* Links inside the dropdown */
+  .dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+
+    /* Change color of dropdown links on hover */
+    .dropdown-content a:hover {
+      background-color: #ddd;
+    }
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}

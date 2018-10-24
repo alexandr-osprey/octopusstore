@@ -1,14 +1,20 @@
 ﻿using ApplicationCore.Entities;
+using ApplicationCore.Identity;
 using ApplicationCore.Interfaces;
+using Infrastructure.Data;
 
 namespace Infrastructure.Services
 {
     public class BrandService : Service<Brand>, IBrandService
     {
         public BrandService(
-            IAsyncRepository<Brand> repository,
+            StoreContext context,
+            IIdentityService identityService,
+            IScopedParameters scopedParameters,
+            IAuthoriationParameters<Brand> authoriationParameters,
             IAppLogger<Service<Brand>> logger)
-            : base(repository, logger)
-        {  }
+            : base(context, identityService, scopedParameters, authoriationParameters, logger)
+        {
+        }
     }
 }

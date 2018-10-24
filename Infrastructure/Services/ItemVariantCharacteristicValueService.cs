@@ -1,29 +1,58 @@
 ﻿using ApplicationCore.Entities;
+using ApplicationCore.Exceptions;
+using ApplicationCore.Identity;
 using ApplicationCore.Interfaces;
+using ApplicationCore.Specifications;
+using Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Infrastructure.Services
 {
     public class ItemVariantCharacteristicValueService 
-        : Service<ItemVariantCharacteristicValue>, 
+        : Service<ItemVariantCharacteristicValue>,
         IItemVariantCharacteristicValueService
     {
-        private readonly IAsyncRepository<ItemVariant> _itemVariantRepository;
+        protected IItemVariantService _itemVariantService;
+        protected ICharacteristicValueService _characteristicValueService;
+
         public ItemVariantCharacteristicValueService(
-            IAsyncRepository<ItemVariantCharacteristicValue> repository,
-            IAsyncRepository<ItemVariant> itemVariantRepository,
+            StoreContext context,
+            IIdentityService identityService,
+            ICharacteristicValueService characteristicValueService,
+            IScopedParameters scopedParameters,
+            IItemVariantService itemVariantService,
+            IAuthoriationParameters<ItemVariantCharacteristicValue> authoriationParameters,
             IAppLogger<Service<ItemVariantCharacteristicValue>> logger)
-            : base(repository, logger)
+            : base(context, identityService, scopedParameters, authoriationParameters, logger)
         {
-            _itemVariantRepository = itemVariantRepository;
+            _itemVariantService = itemVariantService;
+            _characteristicValueService = characteristicValueService;
         }
 
-        public async Task<IEnumerable<ItemVariantCharacteristicValue>> ListByItemVariantAsync(
-            ISpecification<ItemVariant> itemVariantSpec)
+        public async Task<IEnumerable<ItemVariantCharacteristicValue>> EnumerateByItemVariantAsync(Specification<ItemVariant> itemVariantSpec)
         {
-            var itemVariants = await _itemVariantRepository.ListRelatedEnumAsync(itemVariantSpec, (v => v.ItemVariantCharacteristicValues));
-            return itemVariants;
+            return await _itemVariantService.EnumerateRelatedEnumAsync(itemVariantSpec, (v => v.ItemVariantCharacteristicValues));
+        }
+        public override async Task ValidateCreateWithExceptionAsync(ItemVariantCharacteristicValue itemVariantCharactecteristicValue)
+        {
+            await base.ValidateCreateWithExceptionAsync(itemVariantCharactecteristicValue);
+            var itemVariant = await _context
+                .NoTrackingSet<ItemVariant>()
+                .Include(v => v.Item)
+                .FirstOrDefaultAsync(v => v.Id == itemVariantCharactecteristicValue.ItemVariantId);
+            if (itemVariant == null)
+                throw new EntityValidationException($"Item variant {itemVariantCharactecteristicValue.ItemVariantId} does not exist");
+            var possibleCharacteristicValues = await _characteristicValueService.EnumerateByCategoryAsync(new EntitySpecification<Category>(itemVariant.Item.CategoryId));
+            var characteristicValue = await _context
+                .NoTrackingSet<CharacteristicValue>()
+                .FirstOrDefaultAsync(v => v.Id == itemVariantCharactecteristicValue.CharacteristicValueId);
+            if (characteristicValue == null)
+                throw new EntityValidationException($"Characteristic value {itemVariantCharactecteristicValue.CharacteristicValueId} does not exist");
+            if (!possibleCharacteristicValues.Contains(characteristicValue))
+                throw new EntityValidationException($"Characteristic value {itemVariantCharactecteristicValue.CharacteristicValueId} has the wrong category");
         }
     }
 }

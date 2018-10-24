@@ -13,7 +13,7 @@
         <div class="col-12 col-md-5">
           <select class="form-control" id="characteristicValue_{{i}}" required
                   name="characteristicValue_{{i}}" [(ngModel)]="characteristicValueDisplayed.characteristicValueId">
-            <option *ngFor="let characteristicValue of characteristicValueDisplayed.getCharacteristicValues()" [value]="characteristicValue.id">
+            <option *ngFor="let characteristicValue of characteristicValueDisplayed.getCharacteristicValues()" [ngValue]="characteristicValue.id">
               {{ characteristicValue.title }}
             </option>
           </select>

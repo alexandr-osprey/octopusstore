@@ -1,10 +1,14 @@
 ﻿using System.Threading.Tasks;
 using ApplicationCore.Entities;
-using ApplicationCore.Interfaces;
 using ApplicationCore.Specifications;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using OctopusStore.Specifications;
-using OctopusStore.ViewModels;
+using ApplicationCore.ViewModels;
+using ApplicationCore.Interfaces;
+using ApplicationCore.Exceptions;
+using ApplicationCore.Identity;
+using System.Security.Claims;
+using System.Security.Authentication;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -13,35 +17,54 @@ namespace OctopusStore.Controllers
     [Produces("application/json")]
     [Route("api/[controller]")]
     public class StoresController 
-        : ReadWriteController<
+        : CRUDController<
             IStoreService, 
             Store, 
             StoreViewModel, 
             StoreDetailViewModel, 
             StoreIndexViewModel>
     {
-        public StoresController(IStoreService storeService, IAppLogger<IEntityController<Store>> logger)
-            : base(storeService, logger)
-        {  }
+        protected IAuthoriationParameters<Store> _authoriationParameters;
+
+        public StoresController(
+            IStoreService storeService,
+            IScopedParameters scopedParameters,
+            IAuthoriationParameters<Store> authoriationParameters,
+            IAppLogger<ICRUDController<Store>> logger)
+            : base(storeService, scopedParameters, logger)
+        {
+            _authoriationParameters = authoriationParameters;
+        }
 
         // GET: api/<controller>
+        [AllowAnonymous]
         [HttpGet]
         public async Task<StoreIndexViewModel> Index(
             [FromQuery(Name = "page")]int? page,
             [FromQuery(Name = "pageSize")]int? pageSize,
+            [FromQuery(Name = "updateAuthorizationFilter")]bool? updateAuthorizationFilter,
             [FromQuery(Name = "title")]string title)
         {
             pageSize = pageSize ?? _defaultTake;
             page = page ?? 1;
+            if (updateAuthorizationFilter.HasValue && updateAuthorizationFilter.Value)
+            {
+                if (User.Identity.Name == null)
+                    throw new AuthenticationException("Not authenticated");
+                _authoriationParameters.ReadAuthorizationRequired = true;
+                _authoriationParameters.ReadOperationRequirement = OperationAuthorizationRequirements.Update;
+            }
             return await base.IndexAsync(new StoreIndexSpecification(page.Value, pageSize.Value, title));
         }
 
         // GET api/<controller>/5
+        [AllowAnonymous]
         [HttpGet("{id:int}")]
         public async Task<StoreViewModel> Get(int id)
         {
-            return await base.GetAsync(new Specification<Store>(id));
+            return await base.GetAsync(new EntitySpecification<Store>(id));
         }
+        [AllowAnonymous]
         [HttpGet("{id:int}/details")]
         public async Task<StoreDetailViewModel> GetDetail(int id)
         {
@@ -52,20 +75,60 @@ namespace OctopusStore.Controllers
         public async Task<StoreViewModel> Post([FromBody]StoreViewModel storeViewModel)
         {
             storeViewModel.RegistrationDate = System.DateTime.Now;
-            return await base.PostAsync(storeViewModel);
+            return await base.CreateAsync(storeViewModel);
+        }
+        [HttpGet("{id:int}/checkUpdateAuthorization")]
+        public async Task<ActionResult> CheckUpdateAuthorization(int id)
+        {
+            return await base.CheckUpdateAuthorizationAsync(id);
         }
         // PUT api/<controller>/5
         [HttpPut("{id:int}")]
         public async Task<StoreViewModel> Put(int id, [FromBody]StoreViewModel storeViewModel)
         {
             storeViewModel.Id = id;
-            return await base.PutAsync(storeViewModel);
+            return await base.UpdateAsync(storeViewModel);
         }
         // DELETE api/<controller>/5
         [HttpDelete("{id:int}")]
         public async Task<ActionResult> Delete(int id)
         {
-            return await base.DeleteAsync(new StoreDetailSpecification(id));
+            return await base.DeleteSingleAsync(new StoreDetailSpecification(id));
+        }
+        [HttpPost("{storeId:int}/administrators")]
+        public async Task<ActionResult> PostStoreAdministrator(int storeId, [FromHeader]string email)
+        {
+            return await PostDeleteAdministrator(email, storeId, true);
+        }
+        [HttpDelete("{storeId:int}/administrators")]
+        public async Task<ActionResult> DeleteStoreAdministrator(int storeId, [FromHeader]string email)
+        {
+            return await PostDeleteAdministrator(email, storeId, false);
+        }
+        [HttpGet("{storeId:int}/administrators")]
+        public async Task<IndexViewModel<string>> GetStoreAdministrators(int storeId)
+        {
+            var store = await _service.ReadSingleAsync(new EntitySpecification<Store>(storeId));
+            // this info is confidential, therefore higher requirement needed
+            await _service.IdentityService.AuthorizeAsync(User, store, OperationAuthorizationRequirements.Update, true);
+            var emails = await _service.IdentityService.EnumerateEmailsWithClaimAsync(new Claim(CustomClaimTypes.StoreAdministrator, storeId.ToString()));
+            return IndexViewModel<string>.FromEnumerable(emails);
+        }
+        protected async Task<ActionResult> PostDeleteAdministrator(string email, int storeId, bool post)
+        {
+            if (email == null)
+                throw new BadRequestException("Administrator email not provided");
+            string id = await _service.IdentityService.GetUserId(email);
+            var store = await _service.ReadSingleAsync(new EntitySpecification<Store>(storeId));
+            await _service.IdentityService.AuthorizeAsync(User, store, OperationAuthorizationRequirements.Update, true);
+            var claim = new Claim(CustomClaimTypes.StoreAdministrator, storeId.ToString());
+            bool hasClaim = await _service.IdentityService.HasClaimAsync(id, claim);
+            if (post && !hasClaim)
+                await _service.IdentityService.AddClaim(id, claim);
+            else if (!post && hasClaim)
+                await _service.IdentityService.RemoveClaim(id, claim);
+            string answer = post ? $"{email} now is an administrator" : $"{email} is not an administrator anymore";
+            return Ok(new Response(answer));
         }
     }
 }

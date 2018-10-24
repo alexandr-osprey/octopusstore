@@ -4,8 +4,7 @@ using ApplicationCore.Specifications;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using OctopusStore.Controllers;
-using OctopusStore.Specifications;
-using OctopusStore.ViewModels;
+using ApplicationCore.ViewModels;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -26,11 +25,13 @@ namespace UnitTests.Controllers
         public async Task Index()
         {
             var category = await context.Categories.FirstOrDefaultAsync(c => c.Title == "Smartphones");
-            var categories = await _categoryService.ListHierarchyAsync(new Specification<Category>(category.Id));
+            var categories = await _categoryService.EnumerateParentCategoriesAsync(new EntitySpecification<Category>(category.Id));
             var categoryIds = from c in categories select c.Id;
-            var spec = new CharacteristicByCategoryIdsSpecification(categoryIds);
-            spec.Take = _maxTake;
-            var characteristics = await service.ListAsync(spec);
+            var spec = new CharacteristicByCategoryIdsSpecification(categoryIds)
+            {
+                Take = _maxTake
+            };
+            var characteristics = await service.EnumerateAsync(spec);
             var expected = new CharacteristicIndexViewModel(1, 1, characteristics.Count(), characteristics);
             var actual = await controller.Index(category.Id);
             Assert.Equal(
@@ -41,7 +42,7 @@ namespace UnitTests.Controllers
         public async Task IndexShoes()
         {
             var category = await context.Categories.FirstOrDefaultAsync(c => c.Title == "Shoes");
-            var categories = await _categoryService.ListHierarchyAsync(new Specification<Category>(category.Id));
+            var categories = await _categoryService.EnumerateParentCategoriesAsync(new EntitySpecification<Category>(category.Id));
             var categoryIds = from c in categories select c.Id;
             var characteristics = await GetQueryable(context).Where(c => categoryIds.Contains(c.CategoryId)).ToListAsync();
             var expected = new CharacteristicIndexViewModel(1, 1, characteristics.Count(), characteristics);

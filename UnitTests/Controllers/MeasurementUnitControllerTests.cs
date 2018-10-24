@@ -3,7 +3,7 @@ using ApplicationCore.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using OctopusStore.Controllers;
-using OctopusStore.ViewModels;
+using ApplicationCore.ViewModels;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;

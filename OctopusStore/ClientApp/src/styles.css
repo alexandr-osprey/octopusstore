@@ -13,3 +13,7 @@
 .link:hover {
   color: orange;
 }
+
+.not-updatable {
+  display: none;
+}

@@ -1,6 +1,5 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges } from '@angular/core';
 import { ItemVariant } from '../../view-models/item-variant/item-variant';
-import { Item } from '../../view-models/item/item';
 import { ItemDetails } from '../../view-models/item/item-details';
 
 @Component({
@@ -8,8 +7,7 @@ import { ItemDetails } from '../../view-models/item/item-details';
   templateUrl: './item-variant-details.component.html',
   styleUrls: ['./item-variant-details.component.css']
 })
-export class ItemVariantDetailsComponent implements OnInit {
-
+export class ItemVariantDetailsComponent implements OnInit, OnChanges {
   @Input() itemDetails: ItemDetails;
   public currentVariant: ItemVariant;
   @Output() itemVariantSelected = new EventEmitter<ItemVariant>();
@@ -17,8 +15,15 @@ export class ItemVariantDetailsComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    if (this.itemDetails.itemVariants[0] != null) {
-      this.selectItemVariant(this.itemDetails.itemVariants[0]);
+
+  }
+
+  ngOnChanges() {
+    if (this.itemDetails && this.itemDetails.itemVariants) {
+      this.itemDetails = this.itemDetails;
+      if (this.itemDetails.itemVariants[0]) {
+        this.selectItemVariant(this.itemDetails.itemVariants[0]);
+      }
     }
   }
 

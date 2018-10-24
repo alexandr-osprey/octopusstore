@@ -2,6 +2,9 @@
 
 namespace ApplicationCore.Entities
 {
+    /// <summary>
+    /// Variant of an Item containing it's Characteristic Values, price and title
+    /// </summary>
     public class ItemVariant : Entity
     {
         public string Title { get; set; }

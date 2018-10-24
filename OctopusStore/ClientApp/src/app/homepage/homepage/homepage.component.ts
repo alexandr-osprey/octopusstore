@@ -14,5 +14,4 @@ export class HomepageComponent implements OnInit {
   ngOnInit() {
     this.router.navigate(['/items']);
   }
-
 }

@@ -1,13 +1,13 @@
 ﻿using ApplicationCore.Entities;
 using ApplicationCore.Exceptions;
 using ApplicationCore.Interfaces;
-using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using OctopusStore.Controllers;
-using OctopusStore.Specifications;
-using OctopusStore.ViewModels;
+using ApplicationCore.Specifications;
+using ApplicationCore.ViewModels;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
@@ -86,9 +86,9 @@ namespace UnitTests.Controllers
         public async Task IndexWithAllFilters()
         {
             var samsung7 = await context.Items
-                .AsNoTracking()
-                .Where(i => i.Title.Contains("Samsung 7"))
-                .FirstOrDefaultAsync();
+            .AsNoTracking()
+            .Where(i => i.Title.Contains("Samsung 7"))
+            .FirstOrDefaultAsync();
 
             int page = 1;
             int pageSize = 5;
@@ -110,9 +110,9 @@ namespace UnitTests.Controllers
         public async Task IndexWithAllFiltersThumbnails()
         {
             var samsung7 = await context.Items
-                .AsNoTracking()
-                .Where(i => i.Title.Contains("Samsung 7"))
-                .FirstOrDefaultAsync();
+            .AsNoTracking()
+            .Where(i => i.Title.Contains("Samsung 7"))
+            .FirstOrDefaultAsync();
 
             int page = 1;
             int pageSize = 5;
@@ -134,12 +134,12 @@ namespace UnitTests.Controllers
         public async Task IndexByCategory()
         {
             var clothesCategory = await context.Categories
-                .AsNoTracking()
-                .Where(c => c.Title == "Clothes")
-                .Include(c => c.Subcategories)
-                .FirstOrDefaultAsync();
+            .AsNoTracking()
+            .Where(c => c.Title == "Clothes")
+            .Include(c => c.Subcategories)
+            .FirstOrDefaultAsync();
 
-            var categories = await _categoryService.ListSubcategoriesAsync(new CategoryDetailSpecification(clothesCategory.Id));
+            var categories = await _categoryService.EnumerateSubcategoriesAsync(new CategoryDetailSpecification(clothesCategory.Id));
 
             int page = 1;
             int pageSize = 5;
@@ -159,9 +159,9 @@ namespace UnitTests.Controllers
         public async Task Get()
         {
             var samsungItem = await context.Items
-                .AsNoTracking()
-                .Where(i => i.Title.Contains("Samsung 7"))
-                .FirstOrDefaultAsync();
+            .AsNoTracking()
+            .Where(i => i.Title.Contains("Samsung 7"))
+            .FirstOrDefaultAsync();
             var expectedItem = await GetQueryable(context)
                 .FirstOrDefaultAsync(i => i.Id == samsungItem.Id);
             var expected = new ItemViewModel(expectedItem);
@@ -198,6 +198,7 @@ namespace UnitTests.Controllers
                 .FirstOrDefaultAsync();
             samsungItem.Title += "_ADDED";
             samsungItem.Id = 0;
+
             var itemViewModel = new ItemViewModel(samsungItem);
             var actual = await controller.Post(itemViewModel);
             var expected = new ItemViewModel(
@@ -241,14 +242,12 @@ namespace UnitTests.Controllers
             Assert.False(context.Items.Where(i => i.Id == id).Any());
             Assert.False(context.ItemVariants.Where(v => v.ItemId == item.Id).Any());
             Assert.False(context.ItemImages.Where(i => i.RelatedId == item.Id).Any());
-
-
             await Assert.ThrowsAsync<EntityNotFoundException>(() => controller.Delete(9999));
         }
-        protected override IQueryable<Item> GetQueryable(StoreContext context)
+        protected override IQueryable<Item> GetQueryable(DbContext context)
         {
             return context
-                .Items
+                .Set<Item>()
                 .AsNoTracking()
                 .Include(i => i.Brand)
                 .Include(i => i.Store)

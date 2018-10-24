@@ -1,8 +1,7 @@
 ﻿using ApplicationCore.Entities;
 using ApplicationCore.Interfaces;
-using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
-using OctopusStore.Specifications;
+using ApplicationCore.Specifications;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,6 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
+using Infrastructure.Data;
 
 namespace UnitTests.Services
 {
@@ -17,7 +17,8 @@ namespace UnitTests.Services
     {
         public ItemServiceTests(ITestOutputHelper output)
             : base(output)
-        { }
+        {
+        }
 
         [Fact]
         public async Task DeleteAsync()
@@ -47,7 +48,7 @@ namespace UnitTests.Services
                 }
             }
         }
-        protected override IQueryable<Item> GetQueryable(StoreContext context)
+        protected override IQueryable<Item> GetQueryable(DbContext context)
         {
             return base.GetQueryable(context).Include(i => i.Images)
                     .Include(i => i.ItemVariants)

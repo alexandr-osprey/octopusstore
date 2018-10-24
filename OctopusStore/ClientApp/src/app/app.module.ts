@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms'
@@ -25,8 +25,12 @@ import { HomepageComponent } from './homepage/homepage/homepage.component';
 import { StoreCreateUpdateComponent } from './store/store-create-update/store-create-update.component';
 import { StoreDetailsComponent } from './store/store-details/store-details.component';
 import { StoreIndexComponent } from './store/store-index/store-index.component';
-import { CredentialsCreateUpdateComponent } from './credentials/credentials-create-update/credentials-create-update.component';
-
+import { IdentitySignInComponent } from './identity/identity-sign-in/identity-sign-in.component';
+import { DefaultErrorHandler } from './error-handlers/default-error-handler';
+import { IdentitySignOutComponent } from './identity/identity-sign-out/identity-sign-out.component';
+import { IdentitySignUpComponent } from './identity/identity-sing-up/identity-sign-up.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { StoreAdministratorsComponent } from './store/store-administrators/store-administrators.component';
 
 
 @NgModule({
@@ -53,7 +57,11 @@ import { CredentialsCreateUpdateComponent } from './credentials/credentials-crea
     StoreCreateUpdateComponent,
     StoreDetailsComponent,
     StoreIndexComponent,
-    CredentialsCreateUpdateComponent,
+    IdentitySignUpComponent,
+    IdentitySignInComponent,
+    IdentitySignOutComponent,
+    PageNotFoundComponent,
+    StoreAdministratorsComponent,
   ],
   imports: [
     BrowserModule,
@@ -62,7 +70,10 @@ import { CredentialsCreateUpdateComponent } from './credentials/credentials-crea
     HttpClientModule,
     FormsModule,
   ],
-  providers: [],
+  providers: [{
+    provide: ErrorHandler,
+    useClass: DefaultErrorHandler
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

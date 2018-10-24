@@ -5,7 +5,8 @@ import { MessageService } from './message.service';
 import { HttpClient } from '@angular/common/http';
 import { FileInfoIndex } from '../view-models/file-info/file-info-index';
 import { FileInfoDetails } from '../view-models/file-info/file-info-details';
-import { ParameterNames } from './parameter-names';
+import { IdentityService } from './identity-service';
+import { Router } from '@angular/router';
 
 export abstract class FileInfoService<
   TEntity extends Entity,
@@ -19,8 +20,10 @@ export abstract class FileInfoService<
 
   constructor(
     protected http: HttpClient,
+    protected router: Router,
+    protected identityService: IdentityService,
     protected messageService: MessageService) {
-    super(http, messageService);
+    super(http, router, identityService, messageService);
     this.serviceName = 'File details service';
   }
 }

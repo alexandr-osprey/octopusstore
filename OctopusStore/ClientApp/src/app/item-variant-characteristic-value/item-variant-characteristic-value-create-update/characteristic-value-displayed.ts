@@ -4,13 +4,13 @@ import { ItemVariantCharacteristicValue } from "../../view-models/item-variant-c
 import { ItemVariant } from "../../view-models/item-variant/item-variant";
 
 export class CharacteristicValueDisplayed extends ItemVariantCharacteristicValue {
-  public static characteristics: Characteristic[];
-  public static characteristicValues: CharacteristicValue[];
+  public characteristics: Characteristic[];
+  public characteristicValues: CharacteristicValue[];
   private _characteristicId: number;
 
   public set characteristicId(characteristicId: number) {
     this._characteristicId = characteristicId;
-    this.characteristic = CharacteristicValueDisplayed.characteristics.find(c => c.id == characteristicId);
+    this.characteristic = this.characteristics.find(c => c.id == characteristicId);
   }
   public get characteristicId(): number {
     return this._characteristicId;
@@ -19,21 +19,29 @@ export class CharacteristicValueDisplayed extends ItemVariantCharacteristicValue
   public characteristic: Characteristic;
   public itemVariant: ItemVariant;
 
-  constructor(init?: Partial<ItemVariantCharacteristicValue>) {
+  constructor(characteristics: Characteristic[], characteristicValues: CharacteristicValue[], init?: Partial<ItemVariantCharacteristicValue>) {
     super(init);
-    if (init.characteristicValueId) {
-      this.characteristicValue = CharacteristicValueDisplayed.characteristicValues.find(c => c.id == init.characteristicValueId);
-      this.characteristicId = this.characteristicValue.characteristicId;
+    this.characteristics = characteristics;
+    this.characteristicValues = characteristicValues;
+    if (init && init.characteristicValueId) {
+      this.updateValues(init);
     }
     else {
       this.characteristicId = 0;
       this.characteristicValue = new CharacteristicValue();
     }
   }
+  updateValues(value?: Partial<ItemVariantCharacteristicValue>) {
+    this.id = value.id;
+    this.characteristicValueId = value.characteristicValueId;
+    this.itemVariantId = value.itemVariantId;
+    this.characteristicValue = this.characteristicValues.find(c => c.id == value.characteristicValueId);
+    this.characteristicId = this.characteristicValue.characteristicId;
+  }
   getCharacteristics(): Characteristic[] {
-    return CharacteristicValueDisplayed.characteristics;
+    return this.characteristics;
   }
   getCharacteristicValues(): CharacteristicValue[] {
-    return CharacteristicValueDisplayed.characteristicValues.filter(c => c.characteristicId == this.characteristicId);
+    return this.characteristicValues.filter(c => c.characteristicId == this.characteristicId);
   }
 }

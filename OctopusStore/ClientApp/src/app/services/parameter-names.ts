@@ -15,4 +15,6 @@ export class ParameterNames {
   public static thumbnails: string = "thumbnails";
   public static file: string = "file";
   public static details: string = "details";
+
+  public static updateAuthorizationFilter = "updateAuthorizationFilter";
 }

@@ -1,10 +1,13 @@
-<div *ngIf="messageService.messages.length">
-
-  <h2>Messages</h2>
-  <button class="clear"
-          (click)="messageService.clear()">
-    clear
-  </button>
-  <div *ngFor='let message of messageService.messages'> {{ message }} </div>
-
+<div *ngIf="messages.length" class="messages">
+  <div *ngFor="let message of messages.reverse()"
+        [ngClass]="{ 'message-box' : true,
+                    'message-box-info':  message.style=='Info',
+                    'message-box-warn':  message.style=='Warn',
+                    'message-box-success':  message.style=='Success',
+                    'message-box-error':  message.style=='Error'}">
+    <a herf="#" class="message-dismiss" (click)="dismiss(message)"></a>
+    <div class="message-content">
+      {{message.content}}
+    </div>
+  </div>
 </div>

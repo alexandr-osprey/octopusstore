@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { StoreService } from '../../services/store.service';
-import { ParameterService } from '../../services/parameter-service';
 import { Store } from '../../view-models/store/store';
 import { StoreIndex } from '../../view-models/store/store-index';
 import { ParameterNames } from '../../services/parameter-names';
@@ -12,12 +11,12 @@ import { ParameterNames } from '../../services/parameter-names';
 })
 export class StoreIndexComponent implements OnInit {
   storeIndex: StoreIndex;
-  detailsLink: string = this.storeService.getUrlWithParameter(ParameterNames.details);
+  //detailsLink: string = this.storeService.getUrlWithParameter(ParameterNames.details);
 
   constructor(
-    private storeService: StoreService,
-    private parameterService: ParameterService
-  ) { }
+    private storeService: StoreService
+  ) {
+  }
 
   ngOnInit() {
     this.initializeComponent();
@@ -28,8 +27,8 @@ export class StoreIndexComponent implements OnInit {
   }
 
   initializeComponent() {
-    this.storeService.index().subscribe((data: StoreIndex) => {
-      this.storeIndex = data;
+    this.storeService.index().subscribe((storeIndex: StoreIndex) => {
+      this.storeIndex = new StoreIndex(storeIndex);
     })
   }
 }

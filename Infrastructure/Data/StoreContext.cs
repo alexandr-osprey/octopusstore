@@ -10,6 +10,7 @@ namespace Infrastructure.Data
         public StoreContext(DbContextOptions<StoreContext> options) : base(options)
         {
         }
+
         public DbSet<Brand> Brands { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<MeasurementUnit> MeasurementUnits { get; set; }
@@ -19,7 +20,9 @@ namespace Infrastructure.Data
         public DbSet<Item> Items { get; set; }
         public DbSet<ItemImage> ItemImages { get; set; }
         public DbSet<ItemVariant> ItemVariants { get; set; }
-        public DbSet<ItemVariantCharacteristicValue> ItemVariantCharacteristicValues { get; set; } 
+        public DbSet<ItemVariantCharacteristicValue> ItemVariantCharacteristicValues { get; set; }
+        public DbSet<CartItem> CartItems { get; set; }
+        //public DbSet<StoreAdministrator> StoreAdministrators { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -32,7 +35,8 @@ namespace Infrastructure.Data
             builder.Entity<Item>(ConfigureItem);
             builder.Entity<ItemImage>(ConfigureItemImage);
             builder.Entity<ItemVariant>(ConfigureItemVariant);
-            builder.Entity<ItemVariantCharacteristicValue>(ConfigureItemVariantPropertyValue);
+            builder.Entity<ItemVariantCharacteristicValue>(ConfigureItemVariantCharacteristicValue);
+            //builder.Entity<StoreAdministrator>(ConfigureStoreAdministrator);
         }
         private void ConfigureBrand(EntityTypeBuilder<Brand> builder)
         {
@@ -117,9 +121,15 @@ namespace Infrastructure.Data
             builder.Property(t => t.Title).IsRequired();
             builder.ToTable(nameof(ItemVariant));
         }
-        private void ConfigureItemVariantPropertyValue(EntityTypeBuilder<ItemVariantCharacteristicValue> builder)
+        private void ConfigureItemVariantCharacteristicValue(EntityTypeBuilder<ItemVariantCharacteristicValue> builder)
         {
             builder.ToTable(nameof(ItemVariantCharacteristicValue));
         }
+        //private void ConfigureStoreAdministrator(EntityTypeBuilder<StoreAdministrator> builder)
+        //{
+        //    //builder.HasKey(t => new { t.AdministratorId, t.StoreId });
+        //    builder.Property(t => t.AdministratorId).IsRequired();
+        //    builder.Property(t => t.StoreId).IsRequired();
+        //}
     }
 }

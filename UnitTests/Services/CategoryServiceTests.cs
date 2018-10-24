@@ -3,7 +3,6 @@ using ApplicationCore.Interfaces;
 using ApplicationCore.Specifications;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
-using OctopusStore.Specifications;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,11 +15,11 @@ namespace UnitTests.Services
     {
         public CategoryServiceTests(ITestOutputHelper output)
             : base(output)
-        { }
-
+        {
+        }
 
         [Fact]
-        public async Task ListByStore()
+        public async Task EnumerateByItemHierarchy()
         {
             int storeId = 1;
             var categories = await context.Items
@@ -30,41 +29,87 @@ namespace UnitTests.Services
                 .GroupBy(i => i.Id)
                 .Select(grp => grp.First())
                 .ToListAsync();
-            List<Category> expected = new List<Category>();
+            HashSet<Category> expected = new HashSet<Category>();
             foreach (var category in categories)
-                await GetCategoryHierarchyAsync(category, expected);
+                await GetCategoryHierarchyAsync(category.Id, expected);
+            /// enumerating by items by store
 
-            var actual = await service.ListByItemAsync(new Specification<Item>((i => i.StoreId == storeId)));
-            Assert.Equal(
-                JsonConvert.SerializeObject(expected, Formatting.None, jsonSettings),
-                JsonConvert.SerializeObject(actual, Formatting.None, jsonSettings));
+            var actual = await service.EnumerateHierarchyAsync(new Specification<Item>((i => i.StoreId == storeId)));
+            Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task EnumeratHierarchy()
+        {
+            var electronics = await GetQueryable(context)
+                .Where(c => c.Title == "Electronics").FirstOrDefaultAsync();
+
+            HashSet<Category> expected = new HashSet<Category>();
+           await GetCategoryHierarchyAsync(electronics.Id, expected);
+            /// enumerating by items by store
+
+            var actual = await service.EnumerateHierarchyAsync(new EntitySpecification<Category>(electronics.Id));
+            Equal(expected, actual);
         }
         [Fact]
-        public async Task GetFlatCategoriesAsync()
+        public async Task EnumerateSubcategoriesAsync()
         {
             var clothesCategory = await GetQueryable(context)
-                .Where(c => c.Title == "Clothes")
-                .Include(c => c.Subcategories)
-                .FirstOrDefaultAsync();
-            ICollection<Category> expected = new List<Category>();
-            expected.Add(clothesCategory);
-            foreach (var c in clothesCategory.Subcategories)
-            {
-                expected.Add(c);
-            }
-            var categorySpec = new CategoryDetailSpecification(clothesCategory.Id);
-            var actual = await service.ListHierarchyAsync(categorySpec);
-            Assert.Equal(expected, actual);
+            .Where(c => c.Title == "Clothes")
+            .FirstOrDefaultAsync();
+            HashSet<Category> expected = new HashSet<Category>();
+            await GetCategorySubcategoriesAsync(clothesCategory.Id, expected);
 
+            var actual = await service.EnumerateSubcategoriesAsync(new EntitySpecification<Category>(clothesCategory.Id));
+            Equal(expected, actual);
         }
-        private async Task GetParentCategoryIds(int id, List<int> parents)
+        [Fact]
+        public async Task EnumerateParentCategoriesAsync()
         {
-            var category = await GetQueryable(context).FirstOrDefaultAsync(c => c.Id == id);
-            if (category != null && category.ParentCategoryId != 0)
-            {
-                parents.Add(category.ParentCategoryId);
-                await GetParentCategoryIds(category.ParentCategoryId, parents);
-            }
+            var clothesCategory = await GetQueryable(context)
+            .Where(c => c.Title == "Shoes")
+            .FirstOrDefaultAsync();
+            HashSet<Category> expected = new HashSet<Category>();
+            await GetCategoryParentsAsync(clothesCategory.Id, expected);
+
+            var actual = await service.EnumerateParentCategoriesAsync(new EntitySpecification<Category>(clothesCategory.Id));
+            Equal(expected, actual);
+        }
+        [Fact]
+        public async Task EnumerateSubcategoriesByItemAsync()
+        {
+            var items = await context.Items
+                .Include(i => i.Category)
+                .Where(i => i.Title.Contains("Samsung") || i.Title.Contains("Shoes"))
+                .ToListAsync();
+            var categories = items
+                .Select(i => i.Category)
+                .GroupBy(i => i.Id)
+                .Select(grp => grp.First()).ToList();
+
+            HashSet<Category> expected = new HashSet<Category>();
+            categories.ForEach(async c => await GetCategorySubcategoriesAsync(c.Id, expected));
+
+            var actual = await service.EnumerateSubcategoriesAsync(new EntitySpecification<Item>(i => items.Contains(i)));
+            Equal(expected, actual);
+        }
+        [Fact]
+        public async Task EnumerateParentCategoriesByItemAsync()
+        {
+            var items = await context.Items
+                .Include(i => i.Category)
+                .Where(i => i.Title.Contains("Samsung") || i.Title.Contains("Shoes"))
+                .ToListAsync();
+            var categories = items
+                .Select(i => i.Category)
+                .GroupBy(i => i.Id)
+                .Select(grp => grp.First()).ToList();
+
+            HashSet<Category> expected = new HashSet<Category>();
+            categories.ForEach(async c => await GetCategoryParentsAsync(c.Id, expected));
+
+            var actual = await service.EnumerateParentCategoriesAsync(new EntitySpecification<Category>(c => categories.Contains(c)));
+            Equal(expected, actual);
         }
     }
 }

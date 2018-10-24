@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Moq;
 using Newtonsoft.Json;
 using OctopusStore.Controllers;
-using OctopusStore.ViewModels;
+using ApplicationCore.ViewModels;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -20,7 +20,8 @@ namespace UnitTests.Controllers
     {
         public ItemImageControllerTests(ITestOutputHelper output) :
             base(output)
-        { }
+        {
+        }
 
         [Fact]
         public async Task Create()
@@ -46,7 +47,7 @@ namespace UnitTests.Controllers
             imageMock.Setup(_ => _.ContentType).Returns(lastImage.ContentType);
             imageMock.Setup(_ => _.Name).Returns(lastImage.Title);
             var image = imageMock.Object;
-            var actual = await controller.PostForm(image);
+            var actual = await controller.PostForm(item.Id, image);
 
             var newImage = await GetQueryable(context).FirstOrDefaultAsync(i => i.Id == actual.Id);
             var streamActual = File.OpenRead(newImage.FullPath);

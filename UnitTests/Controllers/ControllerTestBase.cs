@@ -1,7 +1,8 @@
-﻿using ApplicationCore;
-using ApplicationCore.Entities;
+﻿using ApplicationCore.Entities;
 using ApplicationCore.Interfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using Xunit.Abstractions;
 
@@ -22,6 +23,7 @@ namespace UnitTests.Controllers
         {
             controller = Resolve<TController>();
             service = Resolve<TService>();
+            controller.ControllerContext.HttpContext = new DefaultHttpContext();
         }
 
         public int GetPageCount(int totalCount, int pageSize)

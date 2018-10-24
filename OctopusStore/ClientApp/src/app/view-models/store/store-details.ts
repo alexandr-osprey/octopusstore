@@ -4,7 +4,7 @@ import { EntityDetail } from "../entity-detail";
 
 export class StoreDetails extends EntityDetail<Store> {
   title: string;
-  sellerId: string;
+  OwnerId: string;
   description: string;
   address: string;
   registrationDate: string;

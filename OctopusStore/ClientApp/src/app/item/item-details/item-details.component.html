@@ -2,31 +2,28 @@
   <div class="d-lg-none col-12 col-md-12">
     <button class="btn btn-link link" (click)="goBack()">Back</button>
   </div>
-  <div *ngIf="displayedImages[0]" class="col-md-6">
-    <div  class="item-details__images">
+  <div *ngIf="displayedImages && displayedImages[0]" class="col-md-6">
+    <div class="item-details__images">
       <app-item-image-gallery [images]="displayedImages"></app-item-image-gallery>
     </div>
   </div>
   <div class="col-md-6 item-details__main-properties">
-        <div class="item-details__brand">
-          <p>{{ itemDetails.brand.title }}</p>
-        </div>
-        <div class="item-details__title">
-          <p>{{ itemDetails.title | uppercase }}</p>
-        </div>
-        <div [hidden]="!currentPrice" class="item-details__current-price">
-          <p>Price: {{ currentPrice }}</p>
-        </div>
-        <div class="item-details__store">{{ itemDetails.store.title }}</div>
-        <div class="item-details__description">
-          {{itemDetails.description}}
-        </div>
-
-    <div>
-      <a routerLink="/items/{{itemDetails.id}}/update" class="link">Update</a>
+    <div class="item-details__brand">
+      <p>{{ itemDetails.brand.title }}</p>
     </div>
-    <app-item-variant-details *ngIf="itemDetails"
-                             [itemDetails]="itemDetails"
-                             (itemVariantSelected)="itemVariantSelected($event)"></app-item-variant-details>
+    <div class="item-details__title">
+      <p>{{ itemDetails.title | uppercase }}</p>
+    </div>
+    <div [hidden]="!currentPrice" class="item-details__current-price">
+      <p>Price: {{ currentPrice }}</p>
+    </div>
+    <div class="item-details__store">{{ itemDetails.store.title }}</div>
+    <div class="item-details__description">
+      {{itemDetails.description}}
+    </div>
+    <div>
+      <a *ngIf="authorizedToUpdate" [routerLink]="[getUpdateLink(itemDetails.id)]" class="link">Update</a>
+    </div>
+    <app-item-variant-details [itemDetails]="itemDetails" (itemVariantSelected)="itemVariantSelected($event)"></app-item-variant-details>
   </div>
 </div>

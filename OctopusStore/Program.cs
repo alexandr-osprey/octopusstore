@@ -1,17 +1,11 @@
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using ApplicationCore.Interfaces;
 using Infrastructure.Data;
 using Infrastructure.Identity;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 
 namespace OctopusStore
 {
@@ -28,10 +22,10 @@ namespace OctopusStore
                 try
                 {
                     var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
-                    AppIdentityDbContextSeed.SeedAsync(userManager).Wait();
+                    AppIdentityDbContextSeed.SeedAsync(services, userManager).Wait();
 
                     var storeContext = services.GetRequiredService<StoreContext>();
-                    StoreContextSeed.SeedStoreAsync(storeContext, userManager, logger).Wait();
+                    StoreContextSeed.SeedStoreAsync(storeContext, logger).Wait();
                 }
                 catch (Exception ex)
                 {

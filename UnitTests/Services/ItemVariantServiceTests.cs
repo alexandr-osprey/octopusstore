@@ -17,22 +17,25 @@ namespace UnitTests.Services
     {
         public ItemVariantServiceTests(ITestOutputHelper output)
             : base(output)
-        { }
+        {
+        }
 
         [Fact]
-        public async Task AddAsync()
+        public async Task CreateAsync()
         {
             var variant = new ItemVariant() { Price = 100, ItemId = 1, Title = "added" };
-            variant.ItemVariantCharacteristicValues = new List<ItemVariantCharacteristicValue>();
-            variant.ItemVariantCharacteristicValues.Add(new ItemVariantCharacteristicValue() { CharacteristicValueId = 2 });
-            variant.ItemVariantCharacteristicValues.Add(new ItemVariantCharacteristicValue() { CharacteristicValueId = 4 });
-            await service.AddAsync(variant);
+            variant.ItemVariantCharacteristicValues = new List<ItemVariantCharacteristicValue>
+            {
+                new ItemVariantCharacteristicValue() { CharacteristicValueId = 2 },
+                new ItemVariantCharacteristicValue() { CharacteristicValueId = 4 }
+            };
+            await service.CreateAsync(variant);
             Assert.True(context.ItemVariants.Contains(variant));
             Assert.True(context.ItemVariantCharacteristicValues.Contains(variant.ItemVariantCharacteristicValues.ElementAt(1)));
 
             variant.Id = 0;
             variant.ItemVariantCharacteristicValues = null;
-            await service.AddAsync(variant);
+            await service.CreateAsync(variant);
             Assert.True(context.ItemVariants.Contains(variant));
             Assert.True(await context.ItemVariantCharacteristicValues.AnyAsync(i => i.ItemVariantId == variant.Id));
         }
@@ -60,11 +63,11 @@ namespace UnitTests.Services
         public async Task DeleteAsync()
         {
             var variant = await GetQueryable(context).LastOrDefaultAsync();
-            await service.DeleteAsync(new Specification<ItemVariant>(variant.Id));
+            await service.DeleteAsync(new EntitySpecification<ItemVariant>(variant.Id));
             Assert.False(context.ItemVariants.Contains(variant));
             Assert.False(await context.ItemVariantCharacteristicValues.AnyAsync(i => i.ItemVariantId == variant.Id));
         }
-        protected override IQueryable<ItemVariant> GetQueryable(StoreContext context)
+        protected override IQueryable<ItemVariant> GetQueryable(DbContext context)
         {
             return base.GetQueryable(context).Include(i => i.ItemVariantCharacteristicValues);
         }

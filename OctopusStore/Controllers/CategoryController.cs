@@ -1,52 +1,74 @@
 ﻿using System.Threading.Tasks;
 using ApplicationCore.Entities;
-using ApplicationCore.Interfaces;
 using ApplicationCore.Specifications;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using OctopusStore.ViewModels;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using ApplicationCore.ViewModels;
+using ApplicationCore.Interfaces;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace OctopusStore.Controllers
 {
     [Produces("application/json")]
     [Route("api/[controller]")]
     public class CategoriesController
-        : ReadController<
+        : CRUDController<
             ICategoryService,
             Category,
             CategoryViewModel,
             CategoryDetailViewModel,
             CategoryIndexViewModel>
     {
-        public CategoriesController(ICategoryService categoryService, IAppLogger<IEntityController<Category>> logger)
-            : base(categoryService, logger)
-        { }
+        public int RootCategoryId = 1;
+        public CategoriesController(
+            ICategoryService service,
+            IScopedParameters scopedParameters,
+            IAppLogger<ICRUDController<Category>> logger)
+            : base(service, scopedParameters, logger)
+        {
+        }
 
         // GET: api/<controller>
+        [AllowAnonymous]
         [HttpGet]
         public async Task<CategoryIndexViewModel> Index(
             [FromQuery(Name = "categoryId")]int? categoryId,
             [FromQuery(Name = "storeId")]int? storeId)
         {
+            categoryId = categoryId ?? _service.RootCategoryId;
+            var spec = new EntitySpecification<Category>((c => c.Id == categoryId.Value), (c => c.Subcategories))
+            {
+                Description = $"Categories with Id {categoryId.Value} includes Subcatetories"
+            };
+            var categories = await _service.EnumerateHierarchyAsync(spec);
             if (storeId.HasValue)
             {
-                return await IndexByStoreId(storeId.Value);
+                var storeCategories = await IndexByStoreId(storeId.Value);
+                categories = from c in categories where storeCategories.Contains(c) select c;
             }
-            else
-            {
-                categoryId = categoryId ?? _serivce.RootCategoryId;
-                var spec = new Specification<Category>((c => c.Id == categoryId.Value), (c => c.Subcategories));
-                spec.Description += " includes Subcatetories";
-                return await base.IndexByFunctionNotPagedAsync(spec, _serivce.ListSubcategoriesAsync);
-            }
+            return GetNotPagedIndexViewModel(categories);
         }
-        [HttpGet("/api/stores/{id:int}/categories")]
-        public async Task<CategoryIndexViewModel> IndexByStoreId(int id)
+        //[AllowAnonymous]
+        //[HttpGet("/api/stores/{id:int}/categories")]
+        //public async Task<CategoryIndexViewModel> IndexByStoreId(int id)
+        //{
+        //    var spec = new Specification<Item>((i => i.StoreId == id), (i => i.Category));
+        //    spec.Description = $"Items with StoreId={id} includes Category";
+        //    return await base.IndexByRelatedNotPagedAsync(_service.EnumerateByItemAsync, spec);
+        //}
+        [HttpGet("{id:int}/checkUpdateAuthorization")]
+        public async Task<ActionResult> CheckUpdateAuthorization(int id)
         {
-            var spec = new Specification<Item>((i => i.StoreId == id), (i => i.Category));
-            spec.Description = $"Items with StoreId={id} includes Category";
-            return await base.IndexByRelatedNotPagedAsync(_serivce.ListByItemAsync, spec);
+            return await base.CheckUpdateAuthorizationAsync(id);
+        }
+        protected async Task<IEnumerable<Category>> IndexByStoreId(int storeId)
+        {
+            var spec = new Specification<Item>((i => i.StoreId == storeId), (i => i.Category))
+            {
+                Description = $"Items with StoreId={storeId} includes Category"
+            };
+            return await _service.EnumerateParentCategoriesAsync(spec);
         }
     }
 }

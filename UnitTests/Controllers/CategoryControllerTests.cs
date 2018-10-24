@@ -1,4 +1,4 @@
-﻿using ApplicationCore;
+﻿using OctopusStore;
 using ApplicationCore.Entities;
 using ApplicationCore.Interfaces;
 using ApplicationCore.Specifications;
@@ -6,7 +6,7 @@ using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using OctopusStore.Controllers;
-using OctopusStore.ViewModels;
+using ApplicationCore.ViewModels;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,7 +18,8 @@ namespace UnitTests.Controllers
     public class CategoryControllerTests : ControllerTestBase<Category, CategoriesController, ICategoryService>
     {
         public CategoryControllerTests(ITestOutputHelper output) : base(output)
-        { }
+        {
+        }
 
         [Fact]
         public async Task IndexAll()
@@ -39,10 +40,10 @@ namespace UnitTests.Controllers
         public async Task IndexClothes()
         {
             var clothes = await GetQueryable(context)
-                .FirstOrDefaultAsync(c => c.Title == "Clothes");
+            .FirstOrDefaultAsync(c => c.Title == "Clothes");
             var actual = await controller.Index(clothes.Id, null);
-            var spec = new Specification<Category>(clothes.Id);
-            var flatCategories = await service.ListSubcategoriesAsync(spec);
+            var spec = new EntitySpecification<Category>(clothes.Id);
+            var flatCategories = await service.EnumerateSubcategoriesAsync(spec);
             var expected = new CategoryIndexViewModel(1,
                 GetPageCount(flatCategories.Count(), DefaultSettings.DefaultTake),
                 flatCategories.Count(),
@@ -63,11 +64,11 @@ namespace UnitTests.Controllers
                 .GroupBy(i => i.Id)
                 .Select(grp => grp.First())
                 .ToListAsync();
-            List<Category> expectedCategories = new List<Category>();
+            HashSet<Category> expectedCategories = new HashSet<Category>();
             foreach (var category in categories)
-                await GetCategoryHierarchyAsync(category, expectedCategories);
+                await GetCategoryHierarchyAsync(category.Id, expectedCategories);
             var expected = new CategoryIndexViewModel(1, 1, expectedCategories.Count, expectedCategories);
-            var actual = await controller.IndexByStoreId(storeId);
+            var actual = await controller.Index(categoryId: null, storeId: storeId);
             Assert.Equal(
                 JsonConvert.SerializeObject(expected, Formatting.None, jsonSettings),
                 JsonConvert.SerializeObject(actual, Formatting.None, jsonSettings));
@@ -81,7 +82,7 @@ namespace UnitTests.Controllers
                 JsonConvert.SerializeObject(expected, Formatting.None, jsonSettings),
                 JsonConvert.SerializeObject(actual, Formatting.None, jsonSettings));
         }
-        protected override IQueryable<Category> GetQueryable(StoreContext context)
+        protected override IQueryable<Category> GetQueryable(DbContext context)
         {
             return base.GetQueryable(context).Include(c => c.Subcategories).ThenInclude(c => c.Subcategories);
         }

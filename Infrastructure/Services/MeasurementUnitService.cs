@@ -1,16 +1,20 @@
 ﻿using ApplicationCore.Entities;
+using ApplicationCore.Identity;
 using ApplicationCore.Interfaces;
+using Infrastructure.Data;
 
 namespace Infrastructure.Services
 {
-    public class MeasurementUnitService 
-        : Service<MeasurementUnit>, 
-        IMeasurementUnitService
+    public class MeasurementUnitService : Service<MeasurementUnit>, IMeasurementUnitService
     {
         public MeasurementUnitService(
-            IAsyncRepository<MeasurementUnit> repository,
+            StoreContext context,
+            IIdentityService identityService,
+            IScopedParameters scopedParameters,
+            IAuthoriationParameters<MeasurementUnit> authoriationParameters,
             IAppLogger<Service<MeasurementUnit>> logger)
-            : base(repository, logger)
-        {  }
+            : base(context, identityService, scopedParameters, authoriationParameters, logger)
+        {
+        }
     }
 }

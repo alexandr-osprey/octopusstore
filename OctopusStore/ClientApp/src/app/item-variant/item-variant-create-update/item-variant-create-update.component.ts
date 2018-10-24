@@ -4,7 +4,7 @@ import { ItemVariant } from '../../view-models/item-variant/item-variant';
 import { ItemVariantService } from '../../services/item-variant.service';
 import { ItemVariantIndex } from '../../view-models/item-variant/item-variant-index';
 import { MessageService } from '../../services/message.service';
-import { ItemVariantCharacteristicValueCreateUpdateComponent } from '../../item-variant-characteristic-value/item-variant-characteristic-value-create-update/item-variant-characteristic-value-create-update.component';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -13,11 +13,12 @@ import { ItemVariantCharacteristicValueCreateUpdateComponent } from '../../item-
   styleUrls: ['./item-variant-create-update.component.css']
 })
 export class ItemVariantCreateUpdateComponent implements OnInit {
+  itemVariantIndexSubsription: Subscription;
+  itemVariantSubscription: Subscription;
   @Input() item: Item;
   public currentVariant: ItemVariant;
   public itemVariants: ItemVariant[];
-
-  public try: number = 3;
+  public isUpdating = false;
 
   constructor(
     private messageService: MessageService,
@@ -30,10 +31,11 @@ export class ItemVariantCreateUpdateComponent implements OnInit {
 
   initializeComponent() {
     if (this.item.id) {
+      this.isUpdating = true;
       this.itemVariants = [];
       this.currentVariant = this.itemVariants[0];
-      this.itemVariantService.index({ itemId: this.item.id }).subscribe((data: ItemVariantIndex) => {
-        this.itemVariants = data.entities;
+      this.itemVariantService.index({ itemId: this.item.id }).subscribe((itemVariantIndex: ItemVariantIndex) => {
+        itemVariantIndex.entities.forEach(v => this.itemVariants.push(new ItemVariant(v)));
         this.selectItemVariant(this.itemVariants[0]);
       });
     }
@@ -56,19 +58,27 @@ export class ItemVariantCreateUpdateComponent implements OnInit {
 
   saveItemVariant() {
     let i: number = this.itemVariants.indexOf(this.currentVariant);
-    this.itemVariantService.createOrUpdate(this.currentVariant).subscribe((data: ItemVariant) => {
-      this.itemVariants[i] = data;
-      this.currentVariant = data;
-    });
+    this.itemVariantService.postOrPut(this.currentVariant).subscribe((data: ItemVariant) => {
+      if (data) {
+        this.itemVariants[i] = new ItemVariant(data);
+        this.currentVariant = this.itemVariants[i];
+        this.messageService.sendSuccess("Item variant saved");
+      }
+      });
   }
   deleteItemVariant() {
-    this.itemVariantService.delete(this.currentVariant.id).subscribe((data: any) => {
-      this.itemVariants = this.itemVariants.filter(v => v != this.currentVariant);
-      if (this.itemVariants[0])
-        this.currentVariant = this.itemVariants[0];
-      else
-        this.currentVariant = this.addItemVariant();
-    });
+    if (this.currentVariant.id) {
+      this.itemVariantService.delete(this.currentVariant.id).subscribe((data: any) => {
+        if (data) {
+          this.itemVariants = this.itemVariants.filter(v => v != this.currentVariant);
+          this.messageService.sendSuccess("Item variant deleted");
+          if (this.itemVariants[0])
+            this.currentVariant = this.itemVariants[0];
+          else
+            this.currentVariant = this.addItemVariant();
+        }
+      });
+    }
   }
 
   getUpdatedParams(paramName: string, param: number): any {

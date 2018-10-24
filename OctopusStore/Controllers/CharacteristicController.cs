@@ -1,51 +1,47 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using ApplicationCore.Entities;
-using ApplicationCore.Interfaces;
 using ApplicationCore.Specifications;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using OctopusStore.Specifications;
-using OctopusStore.ViewModels;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using ApplicationCore.ViewModels;
+using ApplicationCore.Interfaces;
 
 namespace OctopusStore.Controllers
 {
     [Produces("application/json")]
     [Route("api/[controller]")]
     public class CharacteristicsController
-        : ReadController<
+        : CRUDController<
             ICharacteristicService, 
             Characteristic,
             CharacteristicViewModel,
             CharacteristicDetailViewModel,
             CharacteristicIndexViewModel>
     {
-        private readonly ICategoryService _categoryService;
-
         public CharacteristicsController(
             ICharacteristicService service, 
-            ICategoryService categoryService,
-            ICharacteristicService characteristicService,
-            IAppLogger<IEntityController<Characteristic>> logger)
-            : base(service, logger)
+            IScopedParameters scopedParameters,
+            IAppLogger<ICRUDController<Characteristic>> logger)
+            : base(service, scopedParameters, logger)
         {
-            _categoryService = categoryService;
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public async Task<CharacteristicIndexViewModel> Index([FromQuery(Name = "categoryId")]int categoryId)
         {
             return await CategoryCharacteristicsIndex(categoryId);
         }
+        [AllowAnonymous]
         [HttpGet("/api/categories/{categoryId:int}/characteristics")]
         public async Task<CharacteristicIndexViewModel> CategoryCharacteristicsIndex(int categoryId)
         {
-            var categories = await _categoryService.ListHierarchyAsync(new Specification<Category>(categoryId));
-            var categoryIds = from category 
-                              in categories
-                              select category.Id;
-            return await base.IndexNotPagedAsync(new CharacteristicByCategoryIdsSpecification(categoryIds));
+            return await base.IndexByFunctionNotPagedAsync(_service.EnumerateByCategoryAsync, new EntitySpecification<Category>(categoryId));
+        }
+        [HttpGet("{id:int}/checkUpdateAuthorization")]
+        public async Task<ActionResult> CheckUpdateAuthorization(int id)
+        {
+            return await base.CheckUpdateAuthorizationAsync(id);
         }
     }
 }

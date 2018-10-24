@@ -1,5 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChange, SimpleChanges } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
+import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { EntityIndex } from '../view-models/entity-index';
 import { Entity } from '../view-models/entity';
 import { ParameterService } from '../services/parameter-service';
@@ -19,7 +18,8 @@ export class PaginatorComponent<T extends Entity> implements OnInit, OnChanges {
 
   constructor(
     private parameterService: ParameterService)
-  { }
+  {
+  }
 
   initializeComponent() {
     if (this.index != null) {
@@ -42,16 +42,17 @@ export class PaginatorComponent<T extends Entity> implements OnInit, OnChanges {
     this.initializeComponent();
   }
 
-  getUpdatedParams(paramName: string, param: number): any {
-    return this.parameterService.getUpdatedParams(paramName, param)
+  getPageSizeParams(pageSize: number): any {
+    let params = this.parameterService.getUpdatedParams(
+      [ParameterNames.pageSize, pageSize],
+      [ParameterNames.page, 1]);
+    return params;
   }
 
-  pageSizeClick(pageSize: number) {
-    this.parameterService.setParam(ParameterNames.page, 1);
-    this.parameterService.setParam(ParameterNames.pageSize, pageSize);
-  }
-  pageClick(page: number) {
-    this.parameterService.setParam(ParameterNames.page, page);
+  getPageParams(page: number): any {
+    let params = this.parameterService.getUpdatedParams(
+      [ParameterNames.page, page]);
+    return params;
   }
 
   static range(start: number, end: number): number[] {

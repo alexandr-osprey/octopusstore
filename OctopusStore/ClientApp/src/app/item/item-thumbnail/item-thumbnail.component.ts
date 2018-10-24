@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ItemImageService } from '../../services/item-image-service';
 import { ItemThumbnail } from '../../view-models/item/item-thumbnail';
 import { ParameterNames } from '../../services/parameter-names';
+import { ItemService } from '../../services/item.service';
 
 @Component({
   selector: 'app-item-thumbnail',
@@ -10,7 +10,8 @@ import { ParameterNames } from '../../services/parameter-names';
 })
 export class ItemThumbnailComponent implements OnInit {
   @Input() itemThumbnail: ItemThumbnail;
-  constructor(private itemImageService: ItemImageService) { }
+  constructor(private itemService: ItemService) {
+  }
 
   ngOnInit() {
     if (this.itemThumbnail) {
@@ -19,7 +20,8 @@ export class ItemThumbnailComponent implements OnInit {
   }
 
   getDetailsUrl(itemId: number): string {
-    return `${itemId}/${ParameterNames.details}`;
+    let str = this.itemService.getUrlWithIdWithSuffix(itemId, ParameterNames.details);
+    return this.itemService.getUrlWithIdWithSuffix(itemId, ParameterNames.details, '/items/');
   }
   setMinMaxPrices(itemThumbnail: ItemThumbnail) {
     itemThumbnail.minPrice = Math.max(Math.min(...itemThumbnail.prices), 0);
