@@ -142,9 +142,8 @@ namespace OctopusStore.Controllers
             //where TCustomIndexViewModel : EntityIndexViewModel<TCustomViewModel, TEntity>
             where TCustomViewModel : EntityViewModel<TEntity>
         {
-            ActivatorsStorage ast = new ActivatorsStorage();
             var viewModels = from e in entities select GetViewModel<TCustomViewModel>(e);
-            return IndexViewModel<TCustomViewModel>.FromEnumerable(viewModels);
+            return IndexViewModel<TCustomViewModel>.FromEnumerable(page, totalPages, totalCount, viewModels.OrderBy(v => v.Id));
             //var types = new Type[] { typeof(int), typeof(int), typeof(int), typeof(IEnumerable<TEntity>) };
             //return (TCustomIndexViewModel)ast.GetActivator(typeof(TCustomIndexViewModel), types)(page, totalPages, totalCount, entities);
         }

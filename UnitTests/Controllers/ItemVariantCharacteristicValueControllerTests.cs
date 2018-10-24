@@ -130,13 +130,14 @@ namespace UnitTests.Controllers
                     CharacteristicValueId = 999,
                     ItemVariantId = variantWith32gb.ItemVariantId
                 }));
-            await Assert.ThrowsAsync<EntityValidationException>(() => controller.Put(
+            var updated = await controller.Put(
                 variantWith32gb.Id,
                 new ItemVariantCharacteristicValueViewModel()
                 {
                     CharacteristicValueId = variantWith32gb.CharacteristicValueId,
                     ItemVariantId = 999
-                }));
+                });
+            Assert.Equal(updated.ItemVariantId, variantWith32gb.ItemVariantId);
         }
         [Fact]
         public async Task PutNew()

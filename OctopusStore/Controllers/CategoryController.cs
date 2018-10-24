@@ -44,7 +44,7 @@ namespace OctopusStore.Controllers
             if (storeId.HasValue)
             {
                 var storeCategories = await IndexByStoreId(storeId.Value);
-                categories = from c in categories where storeCategories.Contains(c) select c;
+                categories = (from c in categories where storeCategories.Contains(c) select c).OrderBy(c => c.Id);
             }
             return GetNotPagedIndexViewModel(categories);
         }

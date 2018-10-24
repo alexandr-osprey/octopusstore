@@ -54,5 +54,9 @@ namespace Infrastructure.Services
             if (!possibleCharacteristicValues.Contains(characteristicValue))
                 throw new EntityValidationException($"Characteristic value {itemVariantCharactecteristicValue.CharacteristicValueId} has the wrong category");
         }
+        public override async Task ValidateUpdateWithExceptionAsync(ItemVariantCharacteristicValue itemVariantCharactecteristicValue)
+        {
+            await ValidateCreateWithExceptionAsync(itemVariantCharactecteristicValue);
+        }
     }
 }

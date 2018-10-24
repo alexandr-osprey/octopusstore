@@ -7,7 +7,7 @@ namespace ApplicationCore.ViewModels
     /// View model for multiple entities with paging information
     /// </summary>
     /// <typeparam name="TViewModel"></typeparam>
-    public class IndexViewModel<TViewModel> where TViewModel: class
+    public class IndexViewModel<TViewModel> where TViewModel : class
     {
         public int Page { get; set; }
         public int PageSize { get; set; }
@@ -25,10 +25,14 @@ namespace ApplicationCore.ViewModels
             Entities = viewModels;
         }
 
-        public static IndexViewModel<TViewModel> FromEnumerable(IEnumerable<TViewModel> viewModels)
+        public static IndexViewModel<TViewModel> FromEnumerableNotPaged(IEnumerable<TViewModel> viewModels)
         {
             bool isEmpty = !viewModels.Any();
-            return new IndexViewModel<TViewModel>(isEmpty ? 0 : 1, isEmpty ? 0 : 1, viewModels.Count(), viewModels);
+            return FromEnumerable(isEmpty ? 0 : 1, isEmpty ? 0 : 1, viewModels.Count(), viewModels);
+        }
+        public static IndexViewModel<TViewModel> FromEnumerable(int page, int totalPages, int totalCount, IEnumerable<TViewModel> viewModels)
+        {
+            return new IndexViewModel<TViewModel>(page, totalPages, totalCount, viewModels);
         }
     }
 }

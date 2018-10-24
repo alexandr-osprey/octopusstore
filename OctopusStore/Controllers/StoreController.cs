@@ -111,7 +111,7 @@ namespace OctopusStore.Controllers
             // this info is confidential, therefore higher requirement needed
             await _service.IdentityService.AuthorizeAsync(User, store, OperationAuthorizationRequirements.Update, true);
             var emails = await _service.IdentityService.EnumerateEmailsWithClaimAsync(new Claim(CustomClaimTypes.StoreAdministrator, storeId.ToString()));
-            return IndexViewModel<string>.FromEnumerable(emails);
+            return IndexViewModel<string>.FromEnumerableNotPaged(emails);
         }
         protected async Task<ActionResult> PostDeleteAdministrator(string email, int storeId, bool post)
         {
