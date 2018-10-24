@@ -21,8 +21,7 @@ namespace OctopusStore.Controllers
             IStoreService, 
             Store, 
             StoreViewModel, 
-            StoreDetailViewModel, 
-            StoreIndexViewModel>
+            StoreViewModel>
     {
         protected IAuthoriationParameters<Store> _authoriationParameters;
 
@@ -39,7 +38,7 @@ namespace OctopusStore.Controllers
         // GET: api/<controller>
         [AllowAnonymous]
         [HttpGet]
-        public async Task<StoreIndexViewModel> Index(
+        public async Task<IndexViewModel<StoreViewModel>> Index(
             [FromQuery(Name = "page")]int? page,
             [FromQuery(Name = "pageSize")]int? pageSize,
             [FromQuery(Name = "updateAuthorizationFilter")]bool? updateAuthorizationFilter,
@@ -66,9 +65,9 @@ namespace OctopusStore.Controllers
         }
         [AllowAnonymous]
         [HttpGet("{id:int}/details")]
-        public async Task<StoreDetailViewModel> GetDetail(int id)
+        public async Task<StoreViewModel> GetDetail(int id)
         {
-            return await base.GetDetailAsync(new StoreDetailSpecification(id));
+            return await base.GetDetailAsync(new EntitySpecification<Store>(id));
         }
         // POST api/<controller>
         [HttpPost]
@@ -93,7 +92,7 @@ namespace OctopusStore.Controllers
         [HttpDelete("{id:int}")]
         public async Task<ActionResult> Delete(int id)
         {
-            return await base.DeleteSingleAsync(new StoreDetailSpecification(id));
+            return await base.DeleteSingleAsync(new EntitySpecification<Store>(id));
         }
         [HttpPost("{storeId:int}/administrators")]
         public async Task<ActionResult> PostStoreAdministrator(int storeId, [FromHeader]string email)

@@ -15,8 +15,7 @@ namespace OctopusStore.Controllers
             IItemService,
             Item,
             ItemViewModel,
-            ItemDetailViewModel,
-            ItemIndexViewModel>
+            ItemDetailViewModel>
     {
         public ItemsController(
             IItemService service,
@@ -30,7 +29,7 @@ namespace OctopusStore.Controllers
         // GET: api/Items
         //[AllowAnonymous]
         [HttpGet("thumbnails/")]
-        public async Task<ItemThumbnailIndexViewModel> IndexThumbnails(
+        public async Task<IndexViewModel<ItemThumbnailViewModel>> IndexThumbnails(
             [FromQuery(Name = "page")] int? page,
             [FromQuery(Name = "pageSize")]int? pageSize,
             [FromQuery(Name = "title")]string title,
@@ -41,12 +40,12 @@ namespace OctopusStore.Controllers
             page = page ?? 1;
             pageSize = pageSize ?? _defaultTake;
             var spec = await _service.GetIndexSpecificationByParameters(page.Value, pageSize.Value, title, categoryId, storeId, brandId);
-            return await base.IndexAsync<ItemThumbnailIndexViewModel, ItemThumbnailViewModel>(new ItemThumbnailIndexSpecification(spec));
+            return await base.IndexAsync<ItemThumbnailViewModel>(new ItemThumbnailIndexSpecification(spec));
         }
 
        //[AllowAnonymous]
         [HttpGet]
-        public async Task<ItemIndexViewModel> Index(
+        public async Task<IndexViewModel<ItemViewModel>> Index(
             [FromQuery(Name = "page")] int? page,
             [FromQuery(Name = "pageSize")]int? pageSize,
             [FromQuery(Name = "title")]string title,

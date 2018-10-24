@@ -15,8 +15,7 @@ namespace OctopusStore.Controllers
             ICharacteristicService, 
             Characteristic,
             CharacteristicViewModel,
-            CharacteristicDetailViewModel,
-            CharacteristicIndexViewModel>
+            CharacteristicViewModel>
     {
         public CharacteristicsController(
             ICharacteristicService service, 
@@ -28,13 +27,13 @@ namespace OctopusStore.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        public async Task<CharacteristicIndexViewModel> Index([FromQuery(Name = "categoryId")]int categoryId)
+        public async Task<IndexViewModel<CharacteristicViewModel>> Index([FromQuery(Name = "categoryId")]int categoryId)
         {
             return await CategoryCharacteristicsIndex(categoryId);
         }
         [AllowAnonymous]
         [HttpGet("/api/categories/{categoryId:int}/characteristics")]
-        public async Task<CharacteristicIndexViewModel> CategoryCharacteristicsIndex(int categoryId)
+        public async Task<IndexViewModel<CharacteristicViewModel>> CategoryCharacteristicsIndex(int categoryId)
         {
             return await base.IndexByFunctionNotPagedAsync(_service.EnumerateByCategoryAsync, new EntitySpecification<Category>(categoryId));
         }

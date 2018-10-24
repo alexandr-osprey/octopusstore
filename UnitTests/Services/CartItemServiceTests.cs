@@ -18,7 +18,7 @@ namespace UnitTests.Services
         {
             itemVariants = context.Set<ItemVariant>().AsNoTracking();
         }
-        public async Task PopulateData()
+        protected async Task PopulateData()
         {
             var itemVariant = await itemVariants.FirstOrDefaultAsync();
             await context.AddAsync(new CartItem() { OwnerId = johnId, ItemVariantId = itemVariant.Id, Number = 5 });

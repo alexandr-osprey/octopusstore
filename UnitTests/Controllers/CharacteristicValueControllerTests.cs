@@ -40,7 +40,7 @@ namespace UnitTests.Controllers
                 Take = _maxTake
             };
             var characteristicValues = await service.EnumerateAsync(spec2);
-            var expected = new CharacteristicValueIndexViewModel(1, 1, characteristicValues.Count(), characteristicValues);
+            var expected = new IndexViewModel<CharacteristicValueViewModel>(1, 1, characteristicValues.Count(), from c in characteristicValues select new  CharacteristicValueViewModel(c));
             var actual = await controller.Index(category.Id);
             Assert.Equal(
                 JsonConvert.SerializeObject(expected, Formatting.None, jsonSettings),

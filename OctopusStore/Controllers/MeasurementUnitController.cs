@@ -17,8 +17,7 @@ namespace OctopusStore.Controllers
             IMeasurementUnitService,
             MeasurementUnit, 
             MeasurementUnitViewModel, 
-            MeasurementUnitDetailViewModel, 
-            MeasurementUnitIndexViewModel>
+            MeasurementUnitViewModel>
     {
         public MeasurementUnitsController(
             IMeasurementUnitService measurementUnitService,
@@ -32,7 +31,7 @@ namespace OctopusStore.Controllers
         // GET: api/<controller>
         [AllowAnonymous]
         [HttpGet]
-        public async Task<MeasurementUnitIndexViewModel> Index()
+        public async Task<IndexViewModel<MeasurementUnitViewModel>> Index()
         {
             return await base.IndexNotPagedAsync(new EntitySpecification<MeasurementUnit>());
         }

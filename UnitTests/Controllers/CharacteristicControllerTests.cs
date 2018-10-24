@@ -32,7 +32,7 @@ namespace UnitTests.Controllers
                 Take = _maxTake
             };
             var characteristics = await service.EnumerateAsync(spec);
-            var expected = new CharacteristicIndexViewModel(1, 1, characteristics.Count(), characteristics);
+            var expected = new IndexViewModel<CharacteristicViewModel>(1, 1, characteristics.Count(), from c in characteristics select new CharacteristicViewModel(c));
             var actual = await controller.Index(category.Id);
             Assert.Equal(
                 JsonConvert.SerializeObject(expected, Formatting.None, jsonSettings),
@@ -45,7 +45,7 @@ namespace UnitTests.Controllers
             var categories = await _categoryService.EnumerateParentCategoriesAsync(new EntitySpecification<Category>(category.Id));
             var categoryIds = from c in categories select c.Id;
             var characteristics = await GetQueryable(context).Where(c => categoryIds.Contains(c.CategoryId)).ToListAsync();
-            var expected = new CharacteristicIndexViewModel(1, 1, characteristics.Count(), characteristics);
+            var expected = new IndexViewModel<CharacteristicViewModel>(1, 1, characteristics.Count(), from c in characteristics select new CharacteristicViewModel(c));
             var actual = await controller.Index(category.Id);
             Assert.Equal(
                 JsonConvert.SerializeObject(expected, Formatting.None, jsonSettings),

@@ -18,8 +18,7 @@ namespace OctopusStore.Controllers
             IItemVariantService, 
             ItemVariant, 
             ItemVariantViewModel, 
-            ItemVariantDetailViewModel, 
-            ItemVariantIndexViewModel>
+            ItemVariantDetailViewModel>
     {
         public ItemVariantsController(
             IItemVariantService itemVariantService,
@@ -31,13 +30,13 @@ namespace OctopusStore.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        public async Task<ItemVariantIndexViewModel> Index([FromQuery(Name = "itemId")]int itemId)
+        public async Task<IndexViewModel<ItemVariantViewModel>> Index([FromQuery(Name = "itemId")]int itemId)
         {
             return await IndexByItem(itemId);
         }
         [AllowAnonymous]
         [HttpGet("/api/items/{itemId:int}/itemVariants")]
-        public async Task<ItemVariantIndexViewModel> IndexByItem(int itemId)
+        public async Task<IndexViewModel<ItemVariantViewModel>> IndexByItem(int itemId)
         {
             return await base.IndexNotPagedAsync(new ItemVariantByItemSpecification(itemId));
         }

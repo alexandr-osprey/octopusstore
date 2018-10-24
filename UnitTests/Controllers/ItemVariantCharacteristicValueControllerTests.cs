@@ -25,7 +25,7 @@ namespace UnitTests.Controllers
             var item = await context.Items.Include(i => i.ItemVariants).FirstOrDefaultAsync();
             int variantId = item.ItemVariants.ElementAt(0).Id;
             var values = await GetQueryable(context).Where(v => v.ItemVariantId == variantId).ToListAsync();
-            var expected = new ItemVariantCharacteristicValueIndexViewModel(1, 1, values.Count(), values);
+            var expected = new IndexViewModel<ItemVariantCharacteristicValueViewModel>(1, 1, values.Count(), from v in values select new ItemVariantCharacteristicValueViewModel(v));
             var actual = await controller.Index(variantId, null);
             Assert.Equal(
                 JsonConvert.SerializeObject(expected, Formatting.None, jsonSettings),
@@ -37,7 +37,7 @@ namespace UnitTests.Controllers
 
             var item = await context.Items.Include(i => i.ItemVariants).FirstOrDefaultAsync();
             var values = await GetQueryable(context).Where(v => item.ItemVariants.Contains(v.ItemVariant)).ToListAsync();
-            var expected = new ItemVariantCharacteristicValueIndexViewModel(1, 1, values.Count(), values);
+            var expected = new IndexViewModel<ItemVariantCharacteristicValueViewModel>(1, 1, values.Count(), from v in values select new ItemVariantCharacteristicValueViewModel(v));
             var actual = await controller.Index(null, item.Id);
             Assert.Equal(
                 JsonConvert.SerializeObject(expected, Formatting.None, jsonSettings),

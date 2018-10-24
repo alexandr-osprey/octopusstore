@@ -22,7 +22,7 @@ namespace UnitTests.Controllers
         {
                 int itemId = 1;
                 var variants = await GetQueryable(context).Where(v => v.ItemId == itemId).ToListAsync();
-                var expected = new ItemVariantIndexViewModel(1, 1, variants.Count, variants);
+                var expected = new IndexViewModel<ItemVariantViewModel>(1, 1, variants.Count, from v in variants select new ItemVariantViewModel(v));
                 var actual = await controller.Index(itemId);
                 Assert.Equal(
                         JsonConvert.SerializeObject(expected, Formatting.None, jsonSettings),

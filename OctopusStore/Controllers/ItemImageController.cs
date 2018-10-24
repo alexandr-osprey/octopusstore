@@ -17,8 +17,7 @@ namespace OctopusStore.Controllers
             IItemImageService, 
             ItemImage, 
             ItemImageViewModel, 
-            ItemImageDetailViewModel, 
-            ItemImageIndexViewModel>
+            ItemImageViewModel>
     {
         public ItemImagesController(
             IItemImageService service, 
@@ -60,7 +59,7 @@ namespace OctopusStore.Controllers
         }
         [AllowAnonymous]
         [HttpGet]
-        public async Task<ItemImageIndexViewModel> Index([FromQuery(Name = "itemId")]int itemId)
+        public async Task<IndexViewModel<ItemImageViewModel>> Index([FromQuery(Name = "itemId")]int itemId)
         {
             var spec = new Specification<ItemImage>((i => i.RelatedId == itemId))
             {
@@ -92,14 +91,14 @@ namespace OctopusStore.Controllers
         }
         [AllowAnonymous]
         [HttpGet("{id:int}/details")]
-        public async Task<ItemImageDetailViewModel> GetDetal(int id)
+        public async Task<ItemImageViewModel> GetDetal(int id)
         {
-            return await base.GetDetailAsync(new ItemImageDetailSpecification(id));
+            return await base.GetDetailAsync(new EntitySpecification<ItemImage>(id));
         }
         [HttpDelete("{id:int}")]
         public async Task<ActionResult> Delete(int id)
         {
-            return await base.DeleteSingleAsync(new ItemImageDetailSpecification(id));
+            return await base.DeleteSingleAsync(new EntitySpecification<ItemImage>(id));
         }
     }
 }

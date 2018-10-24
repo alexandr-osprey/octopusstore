@@ -23,7 +23,7 @@ namespace UnitTests.Controllers
             var measurementUnits = await GetQueryable(context)
                 .ToListAsync();
 
-            var expected = new MeasurementUnitIndexViewModel(1, 1, measurementUnits.Count(), measurementUnits);
+            var expected = new IndexViewModel<MeasurementUnitViewModel>(1, 1, measurementUnits.Count(), from m in measurementUnits select new MeasurementUnitViewModel(m));
             Assert.Equal(
                 JsonConvert.SerializeObject(expected, Formatting.None, jsonSettings),
                 JsonConvert.SerializeObject(actual, Formatting.None, jsonSettings));

@@ -15,12 +15,11 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace OctopusStore.Controllers
 {
-    public class CRUDController<TService, TEntity, TViewModel, TDetailViewModel, TIndexViewModel> : Controller
+    public class CRUDController<TService, TEntity, TViewModel, TDetailViewModel> : Controller
         where TService : IService<TEntity>
         where TEntity : Entity
         where TViewModel : EntityViewModel<TEntity>
         where TDetailViewModel : EntityViewModel<TEntity>
-        where TIndexViewModel : EntityIndexViewModel<TViewModel, TEntity>
     {
         protected TService _service;
         protected readonly IAppLogger<ICRUDController<TEntity>> _logger;
@@ -54,8 +53,8 @@ namespace OctopusStore.Controllers
             return GetViewModel<TViewModel>(entity);
         }
 
-        protected async Task<TCustomIndexViewModel> IndexAsync<TCustomIndexViewModel, TCustomViewModel>(Specification<TEntity> spec)
-            where TCustomIndexViewModel : EntityIndexViewModel<TCustomViewModel, TEntity>
+        protected async Task<IndexViewModel<TCustomViewModel>> IndexAsync<TCustomViewModel>(Specification<TEntity> spec)
+            //where TCustomIndexViewModel : EntityIndexViewModel<TCustomViewModel, TEntity>
             where TCustomViewModel : EntityViewModel<TEntity>
         {
             if (spec.Take > _maxTake || spec.Skip < 0)
@@ -66,7 +65,7 @@ namespace OctopusStore.Controllers
             var entities = await _service.EnumerateAsync(spec);
             int totalCount = await _service.CountTotalAsync(spec);
             int totalPages = await _service.PageCountAsync(spec);
-            return GetIndexViewModel<TCustomIndexViewModel, TCustomViewModel>(spec.Page, totalPages, totalCount, entities);
+            return GetIndexViewModel<TCustomViewModel>(spec.Page, totalPages, totalCount, entities);
         }
         protected async Task<ActionResult> CheckUpdateAuthorizationAsync(int id)
         {
@@ -98,23 +97,23 @@ namespace OctopusStore.Controllers
             return Ok(new Response($"Deleted {deleted} {_entityName}(s)"));
         }
 
-        protected async Task<TIndexViewModel> IndexAsync(Specification<TEntity> spec)
+        protected async Task<IndexViewModel<TViewModel>> IndexAsync(Specification<TEntity> spec)
         {
-            return await IndexAsync<TIndexViewModel, TViewModel>(spec);
+            return await IndexAsync<TViewModel>(spec);
         }
-        protected async Task<TIndexViewModel> IndexByFunctionNotPagedAsync<TCustom>(Func<Specification<TCustom>, Task<IEnumerable<TEntity>>> retrievingFunction, Specification<TCustom> spec)
+        protected async Task<IndexViewModel<TViewModel>> IndexByFunctionNotPagedAsync<TCustom>(Func<Specification<TCustom>, Task<IEnumerable<TEntity>>> retrievingFunction, Specification<TCustom> spec)
             where TCustom : class
         {
             return GetNotPagedIndexViewModel(await retrievingFunction(spec));
         }
-        protected async Task<TIndexViewModel> IndexByRelatedNotPagedAsync<TRelated>
+        protected async Task<IndexViewModel<TViewModel>> IndexByRelatedNotPagedAsync<TRelated>
             (Func<Specification<TRelated>, Task<IEnumerable<TEntity>>> retrievingFunction,
             Specification<TRelated> relatedSpec)
             where TRelated : Entity
         {
             return GetNotPagedIndexViewModel(await retrievingFunction(relatedSpec));
         }
-        protected async Task<TIndexViewModel> IndexNotPagedAsync(Specification<TEntity> spec)
+        protected async Task<IndexViewModel<TViewModel>> IndexNotPagedAsync(Specification<TEntity> spec)
         {
             spec.Take = _maxTake;
             var entities = await _service.EnumerateAsync(spec);
@@ -132,20 +131,22 @@ namespace OctopusStore.Controllers
             return GetViewModel<TViewModel>(entity);
         }
 
-        protected TIndexViewModel GetNotPagedIndexViewModel(IEnumerable<TEntity> entities)
+        protected IndexViewModel<TViewModel> GetNotPagedIndexViewModel(IEnumerable<TEntity> entities)
         {
             int totalCount = entities.Count();
             int page = totalCount == 0 ? 0 : 1;
             int totalPages = page;
-            return GetIndexViewModel<TIndexViewModel, TViewModel>(page, totalPages, totalCount, entities);
+            return GetIndexViewModel<TViewModel>(page, totalPages, totalCount, entities);
         }
-        protected TCustomIndexViewModel GetIndexViewModel<TCustomIndexViewModel, TCustomViewModel>(int page, int totalPages, int totalCount, IEnumerable<TEntity> entities)
-            where TCustomIndexViewModel : EntityIndexViewModel<TCustomViewModel, TEntity>
+        protected IndexViewModel<TCustomViewModel> GetIndexViewModel<TCustomViewModel>(int page, int totalPages, int totalCount, IEnumerable<TEntity> entities)
+            //where TCustomIndexViewModel : EntityIndexViewModel<TCustomViewModel, TEntity>
             where TCustomViewModel : EntityViewModel<TEntity>
         {
             ActivatorsStorage ast = new ActivatorsStorage();
-            var types = new Type[] { typeof(int), typeof(int), typeof(int), typeof(IEnumerable<TEntity>) };
-            return (TCustomIndexViewModel)ast.GetActivator(typeof(TCustomIndexViewModel), types)(page, totalPages, totalCount, entities);
+            var viewModels = from e in entities select GetViewModel<TCustomViewModel>(e);
+            return IndexViewModel<TCustomViewModel>.FromEnumerable(viewModels);
+            //var types = new Type[] { typeof(int), typeof(int), typeof(int), typeof(IEnumerable<TEntity>) };
+            //return (TCustomIndexViewModel)ast.GetActivator(typeof(TCustomIndexViewModel), types)(page, totalPages, totalCount, entities);
         }
         protected TCustomViewModel GetViewModel<TCustomViewModel>(TEntity entity) where TCustomViewModel : EntityViewModel<TEntity>
         {

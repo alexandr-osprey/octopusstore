@@ -19,8 +19,7 @@ namespace OctopusStore.Controllers
             IItemVariantCharacteristicValueService,
             ItemVariantCharacteristicValue, 
             ItemVariantCharacteristicValueViewModel, 
-            ItemVariantCharacteristicValueDetailViewModel, 
-            ItemVariantCharacteristicValueIndexViewModel>
+            ItemVariantCharacteristicValueViewModel>
     {
         public ItemVariantCharacteristicValuesController(
             IItemVariantCharacteristicValueService itemVariantCharacteristicValueService,
@@ -32,7 +31,7 @@ namespace OctopusStore.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        public async Task<ItemVariantCharacteristicValueIndexViewModel> Index(
+        public async Task<IndexViewModel<ItemVariantCharacteristicValueViewModel>> Index(
             [FromQuery(Name = "itemVariantId")]int? itemVariantId,
             [FromQuery(Name = "itemId")]int? itemId)
         {
@@ -45,13 +44,13 @@ namespace OctopusStore.Controllers
         }
         [AllowAnonymous]
         [HttpGet("/api/itemVariants/{itemVariantId:int}/characteristicValues")]
-        public async Task<ItemVariantCharacteristicValueIndexViewModel> IndexByItemVariant(int itemVariantId)
+        public async Task<IndexViewModel<ItemVariantCharacteristicValueViewModel>> IndexByItemVariant(int itemVariantId)
         {
             return await base.IndexNotPagedAsync(new ItemVariantCharacteristicValueSpecification(itemVariantId));
         }
         [AllowAnonymous]
         [HttpGet("/api/items/{itemId:int}/characteristicValues")]
-        public async Task<ItemVariantCharacteristicValueIndexViewModel> IndexByItem(int itemId)
+        public async Task<IndexViewModel<ItemVariantCharacteristicValueViewModel>> IndexByItem(int itemId)
         {
             return await base.IndexByRelatedNotPagedAsync(_service.EnumerateByItemVariantAsync, new ItemVariantByItemSpecification(itemId));
         }

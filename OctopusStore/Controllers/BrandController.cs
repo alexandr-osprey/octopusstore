@@ -17,8 +17,7 @@ namespace OctopusStore.Controllers
             IBrandService, 
             Brand, 
             BrandViewModel, 
-            BrandDetailViewModel,
-            BrandIndexViewModel>
+            BrandViewModel>
     {
         public BrandsController(
             IBrandService  brandService,
@@ -31,7 +30,7 @@ namespace OctopusStore.Controllers
         // GET: api/<controller>
         [AllowAnonymous]
         [HttpGet]
-        public async Task<BrandIndexViewModel> Index() => await base.IndexNotPagedAsync(new EntitySpecification<Brand>());
+        public async Task<IndexViewModel<BrandViewModel>> Index() => await base.IndexNotPagedAsync(new EntitySpecification<Brand>());
 
         // GET api/<controller>/5
         [AllowAnonymous]

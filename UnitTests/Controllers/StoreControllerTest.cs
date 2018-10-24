@@ -29,7 +29,7 @@ namespace UnitTests.Controllers
                 .Take(pageSize)
                 .ToListAsync();
             int totalCount = context.Stores.Count();
-            var expected = new StoreIndexViewModel(2, GetPageCount(totalCount, pageSize), totalCount, stores);
+            var expected = new IndexViewModel<StoreViewModel>(2, GetPageCount(totalCount, pageSize), totalCount, from s in stores select new StoreViewModel(s));
             Assert.Equal(
                 JsonConvert.SerializeObject(expected, Formatting.None, jsonSettings),
                 JsonConvert.SerializeObject(actual, Formatting.None, jsonSettings));
@@ -50,7 +50,7 @@ namespace UnitTests.Controllers
         public async Task GetDetail()
         {
             var store = await GetQueryable(context).FirstOrDefaultAsync();
-            var expected = new StoreDetailViewModel(store);
+            var expected = new StoreViewModel(store);
             var actual = await controller.GetDetail(store.Id);
             Assert.Equal(
                 JsonConvert.SerializeObject(expected, Formatting.None, jsonSettings),

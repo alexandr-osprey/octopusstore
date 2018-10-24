@@ -22,7 +22,7 @@ namespace UnitTests.Controllers
         {
             var actual = await controller.Index();
             var brands = await GetQueryable(context).Where(b => true).ToListAsync();
-            var expected = new BrandIndexViewModel(1, 1, brands.Count(), brands);
+            var expected = new IndexViewModel<BrandViewModel>(1, 1, brands.Count(), from b in brands select new BrandViewModel(b));
             Assert.Equal(
                 JsonConvert.SerializeObject(expected, Formatting.None, jsonSettings),
                 JsonConvert.SerializeObject(actual, Formatting.None, jsonSettings));

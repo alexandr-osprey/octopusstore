@@ -1,11 +1,10 @@
 ﻿using ApplicationCore.Entities;
-using ApplicationCore.ViewModels;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace ApplicationCore.ViewModels
 {
-    public class ItemDetailViewModel : EntityDetailViewModel<Item>
+    public class ItemDetailViewModel : EntityViewModel<Item>
     {
         public string Title { get; set; }
         public CategoryViewModel Category { get; set; }

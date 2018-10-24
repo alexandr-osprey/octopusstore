@@ -93,7 +93,7 @@ namespace UnitTests.Controllers
         public async Task Index()
         {
             var imagesExpected = await GetQueryable(context).Where(i => i.RelatedId == 1).ToListAsync();
-            var expected = new ItemImageIndexViewModel(1, 1, imagesExpected.Count, imagesExpected);
+            var expected = new IndexViewModel<ItemImageViewModel>(1, 1, imagesExpected.Count, from i in imagesExpected select new ItemImageViewModel(i));
             var actual = await controller.Index(1);
             Assert.Equal(
                 JsonConvert.SerializeObject(expected, Formatting.None, jsonSettings),

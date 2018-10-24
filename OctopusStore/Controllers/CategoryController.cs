@@ -17,8 +17,7 @@ namespace OctopusStore.Controllers
             ICategoryService,
             Category,
             CategoryViewModel,
-            CategoryDetailViewModel,
-            CategoryIndexViewModel>
+            CategoryViewModel>
     {
         public int RootCategoryId = 1;
         public CategoriesController(
@@ -32,7 +31,7 @@ namespace OctopusStore.Controllers
         // GET: api/<controller>
         [AllowAnonymous]
         [HttpGet]
-        public async Task<CategoryIndexViewModel> Index(
+        public async Task<IndexViewModel<CategoryViewModel>> Index(
             [FromQuery(Name = "categoryId")]int? categoryId,
             [FromQuery(Name = "storeId")]int? storeId)
         {

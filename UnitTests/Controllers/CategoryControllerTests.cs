@@ -27,11 +27,11 @@ namespace UnitTests.Controllers
             var actual = await controller.Index(null, null);
             var rootCategories = await GetQueryable(context)
                 .ToListAsync();
-            var expected = new CategoryIndexViewModel(1,
+            var expected = new IndexViewModel<CategoryViewModel>(1,
                 GetPageCount(rootCategories.Count(),
                 DefaultSettings.DefaultTake),
                 rootCategories.Count(),
-                rootCategories);
+                from c in rootCategories select new CategoryViewModel(c));
             Assert.Equal(
                 JsonConvert.SerializeObject(expected, Formatting.None, jsonSettings),
                 JsonConvert.SerializeObject(actual, Formatting.None, jsonSettings));
@@ -44,10 +44,10 @@ namespace UnitTests.Controllers
             var actual = await controller.Index(clothes.Id, null);
             var spec = new EntitySpecification<Category>(clothes.Id);
             var flatCategories = await service.EnumerateSubcategoriesAsync(spec);
-            var expected = new CategoryIndexViewModel(1,
+            var expected = new IndexViewModel<CategoryViewModel>(1,
                 GetPageCount(flatCategories.Count(), DefaultSettings.DefaultTake),
                 flatCategories.Count(),
-                flatCategories);
+                from c in flatCategories select new CategoryViewModel(c));
             Assert.Equal(
                 JsonConvert.SerializeObject(expected, Formatting.None, jsonSettings),
                 JsonConvert.SerializeObject(actual, Formatting.None, jsonSettings));
@@ -67,7 +67,7 @@ namespace UnitTests.Controllers
             HashSet<Category> expectedCategories = new HashSet<Category>();
             foreach (var category in categories)
                 await GetCategoryHierarchyAsync(category.Id, expectedCategories);
-            var expected = new CategoryIndexViewModel(1, 1, expectedCategories.Count, expectedCategories);
+            var expected = new IndexViewModel<CategoryViewModel>(1, 1, expectedCategories.Count, from e in expectedCategories select new CategoryViewModel(e));
             var actual = await controller.Index(categoryId: null, storeId: storeId);
             Assert.Equal(
                 JsonConvert.SerializeObject(expected, Formatting.None, jsonSettings),
@@ -77,7 +77,7 @@ namespace UnitTests.Controllers
         public async Task IndexWrongCategory()
         {
             var actual = await controller.Index(99696, null);
-            var expected = new CategoryIndexViewModel(0, 0, 0, new List<Category>());
+            var expected = new IndexViewModel<CategoryViewModel>(0, 0, 0, new List<CategoryViewModel>());
             Assert.Equal(
                 JsonConvert.SerializeObject(expected, Formatting.None, jsonSettings),
                 JsonConvert.SerializeObject(actual, Formatting.None, jsonSettings));

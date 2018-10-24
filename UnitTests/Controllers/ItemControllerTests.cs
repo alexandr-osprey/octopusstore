@@ -34,11 +34,11 @@ namespace UnitTests.Controllers
                 .Skip(pageSize * (page - 1))
                 .Take(pageSize).ToListAsync();
             int totalCount = await context.Items.CountAsync();
-            var expected = new ItemIndexViewModel(
+            var expected = new IndexViewModel<ItemViewModel>(
                 page,
                 GetPageCount(totalCount, pageSize),
                 totalCount,
-                items);
+                from i in items select new ItemViewModel(i));
             Assert.Equal(
                 JsonConvert.SerializeObject(expected, Formatting.None, jsonSettings),
                 JsonConvert.SerializeObject(actual, Formatting.None, jsonSettings));
@@ -54,11 +54,11 @@ namespace UnitTests.Controllers
                 .Skip(take * (page - 1))
                 .Take(take).ToListAsync();
             int totalCount = await context.Items.CountAsync();
-            var expected = new ItemIndexViewModel(
+            var expected = new IndexViewModel<ItemViewModel>(
                 page,
                 GetPageCount(totalCount, take),
                 totalCount,
-                items);
+                from i in items select new ItemViewModel(i));
             Assert.Equal(
                 JsonConvert.SerializeObject(expected, Formatting.None, jsonSettings),
                 JsonConvert.SerializeObject(actual, Formatting.None, jsonSettings));
@@ -73,11 +73,11 @@ namespace UnitTests.Controllers
             var actual = (await controller.Index(null, null, "sa", null, null, null));
             var items = await GetQueryable(context).Where(i => i.Title.Contains("Sa")).ToListAsync();
             int totalCount = items.Count;
-            var expected = new ItemIndexViewModel(
+            var expected = new IndexViewModel<ItemViewModel>(
                 page,
                 GetPageCount(totalCount, take),
                 totalCount,
-                items);
+                from i in items select new ItemViewModel(i));
             Assert.Equal(
                 JsonConvert.SerializeObject(expected, Formatting.None, jsonSettings),
                 JsonConvert.SerializeObject(actual, Formatting.None, jsonSettings));
@@ -100,7 +100,7 @@ namespace UnitTests.Controllers
             var items = await query
                 .Skip(pageSize * (page - 1))
                 .Take(pageSize).ToListAsync();
-            var expected = new ItemIndexViewModel(page, GetPageCount(totalCount, pageSize), totalCount, items);
+            var expected = new IndexViewModel<ItemViewModel>(page, GetPageCount(totalCount, pageSize), totalCount, from i in items select new ItemViewModel(i));
             var actual = (await controller.Index(page, pageSize, "Samsung", samsung7.CategoryId, samsung7.StoreId, samsung7.BrandId));
             Assert.Equal(
                 JsonConvert.SerializeObject(expected, Formatting.None, jsonSettings),
@@ -124,7 +124,7 @@ namespace UnitTests.Controllers
             var items = await query
                 .Skip(pageSize * (page - 1))
                 .Take(pageSize).ToListAsync();
-            var expected = new ItemThumbnailIndexViewModel(page, GetPageCount(totalCount, pageSize), totalCount, items);
+            var expected = new IndexViewModel<ItemThumbnailViewModel>(page, GetPageCount(totalCount, pageSize), totalCount, from i in items select new ItemThumbnailViewModel(i));
             var actual = (await controller.IndexThumbnails(page, pageSize, "Samsung", samsung7.CategoryId, samsung7.StoreId, samsung7.BrandId));
             Assert.Equal(
                 JsonConvert.SerializeObject(expected, Formatting.None, jsonSettings),
@@ -149,7 +149,7 @@ namespace UnitTests.Controllers
             var items = await query
                 .Skip(pageSize * (page - 1))
                 .Take(pageSize).ToListAsync();
-            var expected = new ItemIndexViewModel(page, GetPageCount(totalCount, pageSize), totalCount, items);
+            var expected = new IndexViewModel<ItemViewModel>(page, GetPageCount(totalCount, pageSize), totalCount, from i in items select new ItemViewModel(i));
             var actual = (await controller.Index(null, null, null, clothesCategory.Id, null, null));
             Assert.Equal(
                 JsonConvert.SerializeObject(expected, Formatting.None, jsonSettings),

@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace ApplicationCore.ViewModels
 {
-    public class ItemVariantDetailViewModel : EntityDetailViewModel<ItemVariant>
+    public class ItemVariantDetailViewModel : EntityViewModel<ItemVariant>
     {
         public string Title { get; set; }
         public int ItemId { get; set; }
