@@ -10,7 +10,7 @@ namespace ApplicationCore.Entities
     /// Info about any stored file
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public abstract class FileInfo<T> : Entity
+    public abstract class FileInfo<T>: Entity
     {
         public static readonly string rootDirectory = DefaultSettings.RootFileDirectory;
 

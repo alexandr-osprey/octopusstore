@@ -2,17 +2,17 @@
 
 namespace ApplicationCore.ViewModels
 {
-    public class ItemVariantCharacteristicValueViewModel : EntityViewModel<ItemVariantCharacteristicValue>
+    public class ItemVariantCharacteristicValueViewModel: EntityViewModel<ItemVariantCharacteristicValue>
     {
         public int ItemVariantId { get; set; }
         public int CharacteristicValueId { get; set; }
 
         public ItemVariantCharacteristicValueViewModel()
-            : base()
+           : base()
         {
         }
         public ItemVariantCharacteristicValueViewModel(ItemVariantCharacteristicValue itemVariantPropertyValue)
-            : base(itemVariantPropertyValue)
+           : base(itemVariantPropertyValue)
         {
             Id = itemVariantPropertyValue.Id;
             ItemVariantId = itemVariantPropertyValue.ItemVariantId;

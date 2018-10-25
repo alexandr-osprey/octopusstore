@@ -10,12 +10,12 @@ using System.Threading.Tasks;
 namespace Infrastructure.Identity
 {
     public abstract class StoreEntityAuthorizationHandler<T>
-        : DefaultAuthorizationHandler<T> where T : Entity
+       : DefaultAuthorizationHandler<T> where T: Entity
     {
         protected StoreContext _storeContext;
 
         public StoreEntityAuthorizationHandler(UserManager<ApplicationUser> userManager, StoreContext storeContext, IAppLogger<IAuthorziationHandler<T>> logger)
-            : base(userManager, logger)
+           : base(userManager, logger)
         {
             _storeContext = storeContext;
         }

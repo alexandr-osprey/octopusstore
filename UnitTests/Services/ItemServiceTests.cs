@@ -13,10 +13,10 @@ using Infrastructure.Data;
 
 namespace UnitTests.Services
 {
-    public class ItemServiceTests : ServiceTestBase<Item, IItemService>
+    public class ItemServiceTests: ServiceTestBase<Item, IItemService>
     {
         public ItemServiceTests(ITestOutputHelper output)
-            : base(output)
+           : base(output)
         {
         }
 

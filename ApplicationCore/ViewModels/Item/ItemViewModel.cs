@@ -3,7 +3,7 @@ using ApplicationCore.ViewModels;
 
 namespace ApplicationCore.ViewModels
 {
-    public class ItemViewModel : EntityViewModel<Item>
+    public class ItemViewModel: EntityViewModel<Item>
     {
         public string Title { get; set; }
         public int CategoryId { get; set; }

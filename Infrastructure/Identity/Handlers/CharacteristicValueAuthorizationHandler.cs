@@ -4,10 +4,10 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Infrastructure.Identity
 {
-    public class CharacteristicValueAuthorizationHandler : DefaultAuthorizationHandler<CharacteristicValue>
+    public class CharacteristicValueAuthorizationHandler: DefaultAuthorizationHandler<CharacteristicValue>
     {
         public CharacteristicValueAuthorizationHandler(UserManager<ApplicationUser> userManager, IAppLogger<IAuthorziationHandler<CharacteristicValue>> appLogger)
-            : base(userManager, appLogger)
+           : base(userManager, appLogger)
         {
         }
     }

@@ -1,8 +1,9 @@
 ﻿using ApplicationCore.Entities;
+using Newtonsoft.Json;
 
 namespace ApplicationCore.ViewModels
 {
-    public class CartItemViewModel : EntityViewModel<CartItem>
+    public class CartItemViewModel: EntityViewModel<CartItem>
     {
         public int ItemVariantId { get; set; }
         public int Number { get; set; }

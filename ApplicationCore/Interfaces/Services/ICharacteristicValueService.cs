@@ -8,7 +8,7 @@ namespace ApplicationCore.Interfaces
     /// <summary>
     /// Maintains full lifecycle of CharacteristicValue entities
     /// </summary>
-    public interface ICharacteristicValueService : IService<CharacteristicValue>
+    public interface ICharacteristicValueService: IService<CharacteristicValue>
     {
         /// <summary>
         /// Enumerates CharactersticValues of Item described by specification

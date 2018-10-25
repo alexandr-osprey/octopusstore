@@ -3,12 +3,12 @@ using ApplicationCore.ViewModels;
 
 namespace ApplicationCore.ViewModels
 {
-    public class BrandViewModel : EntityViewModel<Brand>
+    public class BrandViewModel: EntityViewModel<Brand>
     {
         public string Title { get; set; }
 
         public BrandViewModel(Brand brand)
-            : base(brand)
+           : base(brand)
         {
             Title = brand.Title;
         }

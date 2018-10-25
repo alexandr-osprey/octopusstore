@@ -5,7 +5,7 @@ namespace ApplicationCore.Entities
     /// <summary>
     /// Item for selling
     /// </summary>
-    public class Item : Entity
+    public class Item: Entity
     {
         public string Title { get; set; }
         public int CategoryId { get; set; }

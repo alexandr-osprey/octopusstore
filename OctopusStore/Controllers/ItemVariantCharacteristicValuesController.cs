@@ -14,18 +14,13 @@ namespace OctopusStore.Controllers
 {
     [Produces("application/json")]
     [Route("api/[controller]")]
-    public class ItemVariantCharacteristicValuesController 
-        : CRUDController<
-            IItemVariantCharacteristicValueService,
-            ItemVariantCharacteristicValue, 
-            ItemVariantCharacteristicValueViewModel, 
-            ItemVariantCharacteristicValueViewModel>
+    public class ItemVariantCharacteristicValuesController: CRUDController<IItemVariantCharacteristicValueService, ItemVariantCharacteristicValue, ItemVariantCharacteristicValueViewModel>
     {
         public ItemVariantCharacteristicValuesController(
             IItemVariantCharacteristicValueService itemVariantCharacteristicValueService,
             IScopedParameters scopedParameters,
             IAppLogger<ICRUDController<ItemVariantCharacteristicValue>> logger)
-            : base(itemVariantCharacteristicValueService, scopedParameters, logger)
+           : base(itemVariantCharacteristicValueService, scopedParameters, logger)
         {
         }
 
@@ -54,11 +49,6 @@ namespace OctopusStore.Controllers
         {
             return await base.IndexByRelatedNotPagedAsync(_service.EnumerateByItemVariantAsync, new ItemVariantByItemSpecification(itemId));
         }
-        [HttpGet("{id:int}/checkUpdateAuthorization")]
-        public async Task<ActionResult> CheckUpdateAuthorization(int id)
-        {
-            return await base.CheckUpdateAuthorizationAsync(id);
-        }
         // PUT api/<controller>/5
         [HttpPut("{id:int}")]
         public async Task<ItemVariantCharacteristicValueViewModel> Put(int id, [FromBody]ItemVariantCharacteristicValueViewModel itemVariantCharacteristicValueViewModel)
@@ -75,9 +65,11 @@ namespace OctopusStore.Controllers
         }
         // DELETE api/<controller>/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(int id)
+        public async Task<Response> Delete(int id)
         {
             return await base.DeleteSingleAsync(new ItemVariantCharacteristicValueDetailSpecification(id));
         }
+        [HttpGet("{id:int}/checkUpdateAuthorization")]
+        public async Task<ActionResult> CheckUpdateAuthorization(int id) => await base.CheckUpdateAuthorizationAsync(id);
     }
 }

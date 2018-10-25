@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace ApplicationCore.ViewModels
 {
-    public class ItemDetailViewModel : EntityViewModel<Item>
+    public class ItemDetailViewModel: EntityViewModel<Item>
     {
         public string Title { get; set; }
         public CategoryViewModel Category { get; set; }
@@ -16,7 +16,7 @@ namespace ApplicationCore.ViewModels
         public IEnumerable<ItemImageViewModel> Images { get; set; }
 
         public ItemDetailViewModel(Item item)
-            : base(item)
+           : base(item)
         {
             Title = item.Title;
             Description = item.Description;

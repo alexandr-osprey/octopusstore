@@ -9,7 +9,7 @@ using ApplicationCore.Identity;
 
 namespace Infrastructure.Services
 {
-    public class CharacteristicValueService : Service<CharacteristicValue>, ICharacteristicValueService
+    public class CharacteristicValueService: Service<CharacteristicValue>, ICharacteristicValueService
     {
         protected ICharacteristicService _сharacteristicService;
 
@@ -18,9 +18,9 @@ namespace Infrastructure.Services
             IIdentityService identityService,
             ICharacteristicService characteristicService,
             IScopedParameters scopedParameters,
-            IAuthoriationParameters<CharacteristicValue> authoriationParameters,
+            IAuthorizationParameters<CharacteristicValue> authoriationParameters,
             IAppLogger<Service<CharacteristicValue>> logger)
-            : base(context, identityService, scopedParameters, authoriationParameters, logger)
+           : base(context, identityService, scopedParameters, authoriationParameters, logger)
         {
             _сharacteristicService = characteristicService;
         }

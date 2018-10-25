@@ -5,7 +5,7 @@ namespace ApplicationCore.Entities
     /// <summary>
     /// Category for grouping Items. May be build into hierarchy.
     /// </summary>
-    public class Category : Entity
+    public class Category: Entity
     {
         public string Title { get; set; }
         public int ParentCategoryId { get; set; }

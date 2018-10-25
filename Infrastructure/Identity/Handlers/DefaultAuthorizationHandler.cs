@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace Infrastructure.Identity
 {
     public abstract class DefaultAuthorizationHandler<T> 
-        : AuthorizationHandler<OperationAuthorizationRequirement, T> where T : Entity
+       : AuthorizationHandler<OperationAuthorizationRequirement, T> where T: Entity
     {
         protected UserManager<ApplicationUser> _userManager;
         protected IAppLogger<IAuthorziationHandler<T>> _logger;

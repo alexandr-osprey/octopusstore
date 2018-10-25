@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authorization.Infrastructure;
 
 namespace Infrastructure.Identity
 {
-    public class AuthoriationParametersWithoutAuthorization<T> : IAuthoriationParameters<T> where T: class
+    public class AuthoriationParametersWithoutAuthorization<T>: IAuthorizationParameters<T> where T: class
     {
         public bool CreateAuthorizationRequired { get; set; } = false;
         public bool ReadAuthorizationRequired { get; set; } = false;

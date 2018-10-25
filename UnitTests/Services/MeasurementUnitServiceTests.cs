@@ -4,7 +4,7 @@ using Xunit.Abstractions;
 
 namespace UnitTests.Services
 {
-    public class MeasurementUnitServiceTests : ServiceTestBase<MeasurementUnit, IMeasurementUnitService>
+    public class MeasurementUnitServiceTests: ServiceTestBase<MeasurementUnit, IMeasurementUnitService>
     {
         public MeasurementUnitServiceTests(ITestOutputHelper output) :
             base(output)

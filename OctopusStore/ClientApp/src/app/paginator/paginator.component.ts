@@ -25,9 +25,9 @@ export class PaginatorComponent<T extends Entity> implements OnInit, OnChanges {
     if (this.index != null) {
       let pageRange = 5;
       let l = this.index.page - pageRange;
-      l = l < 0 ? l * -1 : 0;
+      l = l < 0 ? l * -1: 0;
       let r = this.index.page + pageRange + l;
-      r = r > this.index.totalPages ? r - this.index.totalPages : 0;
+      r = r > this.index.totalPages ? r - this.index.totalPages: 0;
       let leftmost = Math.max(1, this.index.page - pageRange - r);
       let rightmost = Math.min(this.index.page + pageRange + l + 1, this.index.totalPages + 1);
       this.pageNumbers = PaginatorComponent.range(leftmost, rightmost);

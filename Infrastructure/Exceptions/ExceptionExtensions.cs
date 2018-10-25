@@ -21,12 +21,12 @@ namespace Infrastructure.Exceptions
             string message = $"Error reading entity (entities). Context: {context}. ";
             return LogAndGetCustomDbException(readException, logger, message);
         }
-        public static CustomDbException LogAndGetDbUpdateException<TEntity, TService>(this DbUpdateException updateException, TEntity entity, IAppLogger<TService> logger, string context) where TEntity : class
+        public static CustomDbException LogAndGetDbUpdateException<TEntity, TService>(this DbUpdateException updateException, TEntity entity, IAppLogger<TService> logger, string context) where TEntity: class
         {
             string message = $"Error updating entity: {entity}. Context: {context}. ";
             return LogAndGetCustomDbException(updateException, logger, message);
         }
-        public static CustomDbException LogAndGetDbUpdateConcurrencyException<TEntity, TService>(this DbUpdateConcurrencyException concurrencyUpdateException, TEntity entity, IAppLogger<TService> logger, string context)  where TEntity : class
+        public static CustomDbException LogAndGetDbUpdateConcurrencyException<TEntity, TService>(this DbUpdateConcurrencyException concurrencyUpdateException, TEntity entity, IAppLogger<TService> logger, string context)  where TEntity: class
         {
             string message = $"Error concurrent updating entity: {entity}. Context: {context}. ";
             return LogAndGetCustomDbException(concurrencyUpdateException, logger, message);

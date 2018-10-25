@@ -8,15 +8,15 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Services
 {
-    public class ItemVariantService : Service<ItemVariant>, IItemVariantService
+    public class ItemVariantService: Service<ItemVariant>, IItemVariantService
     {
         public ItemVariantService(
             StoreContext context,
             IIdentityService identityService,
             IScopedParameters scopedParameters,
-            IAuthoriationParameters<ItemVariant> authoriationParameters,
+            IAuthorizationParameters<ItemVariant> authoriationParameters,
             IAppLogger<Service<ItemVariant>> logger)
-            : base(context, identityService, scopedParameters, authoriationParameters, logger)
+           : base(context, identityService, scopedParameters, authoriationParameters, logger)
         {
         }
 

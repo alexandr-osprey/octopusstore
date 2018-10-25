@@ -5,15 +5,15 @@ using System.Linq;
 
 namespace ApplicationCore.Specifications
 {
-    public class ItemIndexSpecification : EntitySpecification<Item>
+    public class ItemIndexSpecification: EntitySpecification<Item>
     {
         public ItemIndexSpecification(ItemIndexSpecification itemIndexSpecification)
-            : base(itemIndexSpecification)
+           : base(itemIndexSpecification)
         {
         }
 
         public ItemIndexSpecification(int pageIndex, int pageSize, string title, IEnumerable<Category> categories, int? storeId, int? brandId)
-            : base(i => (!HasValue(title) || i.Title.Contains(title, System.StringComparison.OrdinalIgnoreCase)) &&
+           : base(i => (!HasValue(title) || i.Title.Contains(title, System.StringComparison.OrdinalIgnoreCase)) &&
                         (!(categories != null && categories.Count() > 0) || categories.Where(c => c.Id == i.CategoryId).Any()) &&
                         (!storeId.HasValue || i.StoreId == storeId) &&
                         (!brandId.HasValue || i.BrandId == brandId))

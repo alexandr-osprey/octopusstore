@@ -2,14 +2,14 @@
 
 namespace ApplicationCore.ViewModels
 {
-    public class ItemImageViewModel : ImageViewModel<ItemImage, Item>
+    public class ItemImageViewModel: ImageViewModel<ItemImage, Item>
     {
         public ItemImageViewModel()
-            : base()
+           : base()
         {
         }
         public ItemImageViewModel(ItemImage itemImage)
-            : base(itemImage)
+           : base(itemImage)
         {
         }
 

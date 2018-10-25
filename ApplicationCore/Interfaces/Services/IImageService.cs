@@ -8,7 +8,7 @@ namespace ApplicationCore.Interfaces
     /// <typeparam name="TFileDetails"></typeparam>
     /// <typeparam name="TEntity"></typeparam>
     public interface IImageService<TFileDetails, TEntity> 
-        : IFiledetailservice<TFileDetails, TEntity> where TFileDetails : Image<TEntity> where TEntity : Entity
+       : IFiledetailservice<TFileDetails, TEntity> where TFileDetails: Image<TEntity> where TEntity: Entity
     {
     }
 }

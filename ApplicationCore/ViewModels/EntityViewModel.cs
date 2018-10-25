@@ -6,7 +6,7 @@ namespace ApplicationCore.ViewModels
     /// View model for a PrimalEntity
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public abstract class EntityViewModel<T> where T : Entity
+    public abstract class EntityViewModel<T> where T: Entity
     {
         /// <summary>
         /// Primal key of an entity

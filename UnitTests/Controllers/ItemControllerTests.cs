@@ -14,11 +14,11 @@ using Xunit.Abstractions;
 
 namespace UnitTests.Controllers
 {
-    public class ItemControllerTests : ControllerTestBase<Item, ItemsController, IItemService>
+    public class ItemControllerTests: ControllerTestBase<Item, ItemsController, IItemService>
     {
         private readonly ICategoryService _categoryService;
 
-        public ItemControllerTests(ITestOutputHelper output) : base(output)
+        public ItemControllerTests(ITestOutputHelper output): base(output)
         {
             _categoryService = Resolve<ICategoryService>();
         }

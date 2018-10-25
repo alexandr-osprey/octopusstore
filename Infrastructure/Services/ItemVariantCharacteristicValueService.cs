@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace Infrastructure.Services
 {
     public class ItemVariantCharacteristicValueService 
-        : Service<ItemVariantCharacteristicValue>,
+       : Service<ItemVariantCharacteristicValue>,
         IItemVariantCharacteristicValueService
     {
         protected IItemVariantService _itemVariantService;
@@ -24,9 +24,9 @@ namespace Infrastructure.Services
             ICharacteristicValueService characteristicValueService,
             IScopedParameters scopedParameters,
             IItemVariantService itemVariantService,
-            IAuthoriationParameters<ItemVariantCharacteristicValue> authoriationParameters,
+            IAuthorizationParameters<ItemVariantCharacteristicValue> authoriationParameters,
             IAppLogger<Service<ItemVariantCharacteristicValue>> logger)
-            : base(context, identityService, scopedParameters, authoriationParameters, logger)
+           : base(context, identityService, scopedParameters, authoriationParameters, logger)
         {
             _itemVariantService = itemVariantService;
             _characteristicValueService = characteristicValueService;

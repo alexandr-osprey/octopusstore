@@ -6,7 +6,7 @@
         <div>
           <span>
             <button *ngFor="let variant of itemVariants; index as i" [attr.data.index]="i"
-                    [ngClass]="{'item-variant__button': true, 'btn' : true, 'btn-light': true,'current-variant__button': currentVariant == variant}"
+                    [ngClass]="{'item-variant__button': true, 'btn': true, 'btn-light': true,'current-variant__button': currentVariant == variant}"
                     (click)="selectItemVariant(variant)">
               {{variant.title}}
             </button>

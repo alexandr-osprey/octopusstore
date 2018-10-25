@@ -5,15 +5,15 @@ using ApplicationCore.Identity;
 
 namespace Infrastructure.Services
 {
-    public class ItemImageService : ImageService<ItemImage, Item>, IItemImageService
+    public class ItemImageService: ImageService<ItemImage, Item>, IItemImageService
     {
         public ItemImageService(
             StoreContext context,
             IIdentityService identityService,
             IScopedParameters scopedParameters,
-            IAuthoriationParameters<ItemImage> authoriationParameters,
+            IAuthorizationParameters<ItemImage> authoriationParameters,
             IAppLogger<Service<ItemImage>> logger)
-            : base(context, identityService, scopedParameters, authoriationParameters, logger)
+           : base(context, identityService, scopedParameters, authoriationParameters, logger)
         {
         }
     }

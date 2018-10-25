@@ -3,16 +3,16 @@ using ApplicationCore.ViewModels;
 
 namespace ApplicationCore.ViewModels
 {
-    public class MeasurementUnitViewModel : EntityViewModel<MeasurementUnit>
+    public class MeasurementUnitViewModel: EntityViewModel<MeasurementUnit>
     {
         public string Title { get; set; }
 
         public MeasurementUnitViewModel() 
-            : base()
+           : base()
         {
         }
         public MeasurementUnitViewModel(MeasurementUnit measurementUnit)
-            : base(measurementUnit)
+           : base(measurementUnit)
         {
             Title = measurementUnit.Title;
         }

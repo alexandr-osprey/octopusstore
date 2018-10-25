@@ -1,6 +1,6 @@
 ﻿namespace Infrastructure.Identity
 {
-    public interface IAuthorziationHandler<T> where T : class
+    public interface IAuthorziationHandler<T> where T: class
     {
     }
 }

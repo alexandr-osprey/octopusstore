@@ -11,18 +11,18 @@ using System.Threading.Tasks;
 namespace Infrastructure.Services
 {
     public abstract class FileInfoService<TFileInfo, TEntity> 
-        : Service<TFileInfo>, 
+       : Service<TFileInfo>, 
         IFiledetailservice<TFileInfo, TEntity> 
-        where TFileInfo : FileInfo<TEntity> 
-        where TEntity : Entity
+        where TFileInfo: FileInfo<TEntity> 
+        where TEntity: Entity
     {
         public FileInfoService(
             StoreContext context,
             IIdentityService identityService,
             IScopedParameters scopedParameters,
-            IAuthoriationParameters<TFileInfo> authoriationParameters,
+            IAuthorizationParameters<TFileInfo> authoriationParameters,
             IAppLogger<Service<TFileInfo>> logger)
-            : base(context, identityService, scopedParameters, authoriationParameters, logger)
+           : base(context, identityService, scopedParameters, authoriationParameters, logger)
         {
             Name = typeof(TFileInfo).Name + "Filedetailservice";
         }

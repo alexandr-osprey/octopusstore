@@ -5,10 +5,10 @@ using System.Linq;
 
 namespace ApplicationCore.Specifications
 {
-    public class CharacteristicValueByCharacteristicIdsSpecification : Specification<CharacteristicValue>
+    public class CharacteristicValueByCharacteristicIdsSpecification: Specification<CharacteristicValue>
     {
         public CharacteristicValueByCharacteristicIdsSpecification(IEnumerable<int> characteristicIds)
-            : base((c => characteristicIds.Contains(c.CharacteristicId)))
+           : base((c => characteristicIds.Contains(c.CharacteristicId)))
         {
             Description = $"CharacteristicValues with CharacteristicIds={string.Join(",", characteristicIds)}";
         }

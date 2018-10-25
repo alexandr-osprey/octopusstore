@@ -12,18 +12,13 @@ namespace OctopusStore.Controllers
 {
     [Produces("application/json")]
     [Route("api/[controller]")]
-    public class BrandsController 
-        : CRUDController<
-            IBrandService, 
-            Brand, 
-            BrandViewModel, 
-            BrandViewModel>
+    public class BrandsController: CRUDController<IBrandService, Brand, BrandViewModel>
     {
         public BrandsController(
             IBrandService  brandService,
             IScopedParameters scopedParameters,
             IAppLogger<ICRUDController<Brand>> logger)
-            : base(brandService, scopedParameters, logger)
+           : base(brandService, scopedParameters, logger)
         {
         }
 
@@ -38,9 +33,6 @@ namespace OctopusStore.Controllers
         public async Task<BrandViewModel> Get(int id) => await base.GetAsync(new Specification<Brand>(b => b.Id == id));
 
         [HttpGet("{id:int}/checkUpdateAuthorization")]
-        public async Task<ActionResult> CheckUpdateAuthorization(int id)
-        {
-            return await base.CheckUpdateAuthorizationAsync(id);
-        }
+        public async Task<ActionResult> CheckUpdateAuthorization(int id) => await base.CheckUpdateAuthorizationAsync(id);
     }
 }

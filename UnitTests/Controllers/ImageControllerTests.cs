@@ -16,7 +16,7 @@ using Xunit.Abstractions;
 
 namespace UnitTests.Controllers
 {
-    public class ItemImageControllerTests : ControllerTestBase<ItemImage, ItemImagesController, IItemImageService>
+    public class ItemImageControllerTests: ControllerTestBase<ItemImage, ItemImagesController, IItemImageService>
     {
         public ItemImageControllerTests(ITestOutputHelper output) :
             base(output)

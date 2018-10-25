@@ -10,20 +10,23 @@ namespace OctopusStore.Controllers
 {
     [Produces("application/json")]
     [Route("api/[controller]")]
-    public class ItemsController
-        : CRUDController<
-            IItemService,
-            Item,
-            ItemViewModel,
-            ItemDetailViewModel>
+    public class ItemsController: CRUDController<IItemService, Item, ItemViewModel>
     {
         public ItemsController(
             IItemService service,
             IScopedParameters scopedParameters,
             IAuthorizationService authorizationService,
             IAppLogger<ICRUDController<Item>> logger)
-            : base(service, scopedParameters, logger)
+           : base(service, scopedParameters, logger)
         {
+        }
+
+        //
+        // POST: api/Items
+        [HttpPost]
+        public async Task<ItemViewModel> Post([FromBody]ItemViewModel itemViewModel)
+        {
+            return await base.CreateAsync(itemViewModel);
         }
 
         // GET: api/Items
@@ -67,20 +70,11 @@ namespace OctopusStore.Controllers
         [HttpGet("{id:int}/details")]
         public async Task<ItemDetailViewModel> GetDetail(int id)
         {
-            return await base.GetDetailAsync(new ItemDetailSpecification(id));
+            return await base.GetDetailAsync<ItemDetailViewModel>(new ItemDetailSpecification(id));
         }
-        //
-        // POST: api/Items
-        [HttpPost]
-        public async Task<ItemViewModel> Post([FromBody]ItemViewModel itemViewModel)
-        {
-            return await base.CreateAsync(itemViewModel);
-        }
+
         [HttpGet("{id:int}/checkUpdateAuthorization")]
-        public async Task<ActionResult> CheckUpdateAuthorization(int id)
-        {
-            return await base.CheckUpdateAuthorizationAsync(id);
-        }
+        public async Task<ActionResult> CheckUpdateAuthorization(int id) => await base.CheckUpdateAuthorizationAsync(id);
         // PUT: api/Items/5
         [HttpPut("{id:int}")]
         public async Task<ItemViewModel> Put(int id, [FromBody]ItemViewModel itemViewModel)
@@ -91,23 +85,9 @@ namespace OctopusStore.Controllers
         // DELETE: api/ApiWithActions/5
         [Authorize]
         [HttpDelete("{id:int}")]
-        public async Task<ActionResult> Delete(int id)
+        public async Task<Response> Delete(int id)
         {
             return await base.DeleteSingleAsync(new ItemDetailSpecification(id));
         }
-
-        //private async Task<TItemIndexSpecification> GetIndexSpecAsync<TItemIndexSpecification>(int? page, int? pageSize, string title, int? categoryId, int? storeId, int? brandId) where TItemIndexSpecification : Specification<Item>
-        //{
-        //    page = page ?? 1;
-        //    pageSize = pageSize ?? _defaultTake;
-
-        //    IEnumerable<Category> categories = new List<Category>();
-        //    if (categoryId.HasValue)
-        //    {
-        //        var categorySpec = new CategoryDetailSpecification(categoryId.Value);
-        //        categories = await CategoryService.EnumerateSubcategoriesAsync(categorySpec);
-        //    }
-        //    return (TItemIndexSpecification)Activator.CreateInstance(typeof(TItemIndexSpecification), page.Value, pageSize.Value, title, categories, storeId, brandId);
-        //}
     }
 }

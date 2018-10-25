@@ -10,18 +10,13 @@ namespace OctopusStore.Controllers
 {
     [Produces("application/json")]
     [Route("api/[controller]")]
-    public class CharacteristicsController
-        : CRUDController<
-            ICharacteristicService, 
-            Characteristic,
-            CharacteristicViewModel,
-            CharacteristicViewModel>
+    public class CharacteristicsController: CRUDController<ICharacteristicService, Characteristic, CharacteristicViewModel>
     {
         public CharacteristicsController(
             ICharacteristicService service, 
             IScopedParameters scopedParameters,
             IAppLogger<ICRUDController<Characteristic>> logger)
-            : base(service, scopedParameters, logger)
+           : base(service, scopedParameters, logger)
         {
         }
 
@@ -38,9 +33,6 @@ namespace OctopusStore.Controllers
             return await base.IndexByFunctionNotPagedAsync(_service.EnumerateByCategoryAsync, new EntitySpecification<Category>(categoryId));
         }
         [HttpGet("{id:int}/checkUpdateAuthorization")]
-        public async Task<ActionResult> CheckUpdateAuthorization(int id)
-        {
-            return await base.CheckUpdateAuthorizationAsync(id);
-        }
+        public async Task<ActionResult> CheckUpdateAuthorization(int id) => await base.CheckUpdateAuthorizationAsync(id);
     }
 }

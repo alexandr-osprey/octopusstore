@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Services
 {
-    public class CategoryService : Service<Category>, ICategoryService
+    public class CategoryService: Service<Category>, ICategoryService
     {
         public int RootCategoryId { get; set; } = 1;
 
@@ -17,9 +17,9 @@ namespace Infrastructure.Services
             StoreContext context,
             IIdentityService identityService,
             IScopedParameters scopedParameters,
-            IAuthoriationParameters<Category> authoriationParameters,
+            IAuthorizationParameters<Category> authoriationParameters,
             IAppLogger<Service<Category>> logger)
-            : base(context, identityService, scopedParameters, authoriationParameters, logger)
+           : base(context, identityService, scopedParameters, authoriationParameters, logger)
         {
         }
 

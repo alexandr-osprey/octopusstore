@@ -8,11 +8,12 @@ namespace ApplicationCore.Specifications
     /// Contains full information for executing a request on database
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class Specification<T>  where T : class
+    public class Specification<T>  where T: class
     {
         public Expression<Func<T, bool>> Criteria { get; }
         public List<Expression<Func<T, object>>> Includes { get; } = new List<Expression<Func<T, object>>>();
         public List<string> IncludeStrings { get; } = new List<string>();
+        public Func<T, int> OrderBy { get; set; } = o => o.GetHashCode();
 
         public int Take { get; set; }
         public int Skip { get; set; }
@@ -22,7 +23,7 @@ namespace ApplicationCore.Specifications
         /// Select all by default
         /// </summary>
         public Specification()
-            : this(e => true)
+           : this(e => true)
         {
         }
         /// <summary>
@@ -54,7 +55,7 @@ namespace ApplicationCore.Specifications
         public Specification(
             Expression<Func<T, bool>> criteria,
             params Expression<Func<T, object>>[] includeExpressions)
-            : this(criteria)
+           : this(criteria)
         {
             foreach (var i in includeExpressions)
                 AddInclude(i);
@@ -66,7 +67,7 @@ namespace ApplicationCore.Specifications
         /// <param name="take"></param>
         /// <param name="skip"></param>
         public Specification(Expression<Func<T, bool>> criteria, int take, int skip)
-            : this(criteria)
+           : this(criteria)
         {
             Take = take;
             Skip = skip;

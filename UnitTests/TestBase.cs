@@ -26,7 +26,7 @@ using Xunit.Abstractions;
 
 namespace UnitTests
 {
-    public abstract class TestBase<TEntity> where TEntity : Entity
+    public abstract class TestBase<TEntity> where TEntity: Entity
     {
         public static JsonSerializerSettings jsonSettings = new JsonSerializerSettings()
         {
@@ -117,7 +117,7 @@ namespace UnitTests
             services.AddSingleton(storeContextOptions);
 
             Startup.ConfigureDI(services);
-            services.AddScoped(typeof(IAuthoriationParameters<>), typeof(AuthoriationParametersWithoutAuthorization<>));
+            services.AddScoped(typeof(IAuthorizationParameters<>), typeof(AuthoriationParametersWithoutAuthorization<>));
 
             var conf = new Mock<IConfiguration>();
             services.AddSingleton(conf.Object);

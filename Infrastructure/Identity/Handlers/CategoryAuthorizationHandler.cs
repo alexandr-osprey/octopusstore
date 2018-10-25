@@ -4,10 +4,10 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Infrastructure.Identity
 {
-    public class CategoryAuthorizationHandler : DefaultAuthorizationHandler<Category>
+    public class CategoryAuthorizationHandler: DefaultAuthorizationHandler<Category>
     {
         public CategoryAuthorizationHandler(UserManager<ApplicationUser> userManager, IAppLogger<IAuthorziationHandler<Category>> appLogger)
-            : base(userManager, appLogger)
+           : base(userManager, appLogger)
         {
         }
     }

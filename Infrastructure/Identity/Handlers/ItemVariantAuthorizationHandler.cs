@@ -9,10 +9,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Identity
 {
-    public class ItemVariantAuthorizationHandler : StoreEntityAuthorizationHandler<ItemVariant>
+    public class ItemVariantAuthorizationHandler: StoreEntityAuthorizationHandler<ItemVariant>
     {
         public ItemVariantAuthorizationHandler(UserManager<ApplicationUser> userManager, StoreContext storeContext, IAppLogger<IAuthorziationHandler<ItemVariant>> appLogger)
-            : base(userManager, storeContext, appLogger)
+           : base(userManager, storeContext, appLogger)
         {
         }
 

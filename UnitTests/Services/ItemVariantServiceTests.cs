@@ -13,10 +13,10 @@ using Xunit.Abstractions;
 
 namespace UnitTests.Services
 {
-    public class ItemVariantServiceTests : ServiceTestBase<ItemVariant, IItemVariantService>
+    public class ItemVariantServiceTests: ServiceTestBase<ItemVariant, IItemVariantService>
     {
         public ItemVariantServiceTests(ITestOutputHelper output)
-            : base(output)
+           : base(output)
         {
         }
 

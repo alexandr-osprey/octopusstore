@@ -16,21 +16,16 @@ namespace OctopusStore.Controllers
 {
     [Produces("application/json")]
     [Route("api/[controller]")]
-    public class StoresController 
-        : CRUDController<
-            IStoreService, 
-            Store, 
-            StoreViewModel, 
-            StoreViewModel>
+    public class StoresController: CRUDController<IStoreService, Store, StoreViewModel>
     {
-        protected IAuthoriationParameters<Store> _authoriationParameters;
+        protected IAuthorizationParameters<Store> _authoriationParameters;
 
         public StoresController(
             IStoreService storeService,
             IScopedParameters scopedParameters,
-            IAuthoriationParameters<Store> authoriationParameters,
+            IAuthorizationParameters<Store> authoriationParameters,
             IAppLogger<ICRUDController<Store>> logger)
-            : base(storeService, scopedParameters, logger)
+           : base(storeService, scopedParameters, logger)
         {
             _authoriationParameters = authoriationParameters;
         }
@@ -63,23 +58,12 @@ namespace OctopusStore.Controllers
         {
             return await base.GetAsync(new EntitySpecification<Store>(id));
         }
-        [AllowAnonymous]
-        [HttpGet("{id:int}/details")]
-        public async Task<StoreViewModel> GetDetail(int id)
-        {
-            return await base.GetDetailAsync(new EntitySpecification<Store>(id));
-        }
         // POST api/<controller>
         [HttpPost]
         public async Task<StoreViewModel> Post([FromBody]StoreViewModel storeViewModel)
         {
             storeViewModel.RegistrationDate = System.DateTime.Now;
             return await base.CreateAsync(storeViewModel);
-        }
-        [HttpGet("{id:int}/checkUpdateAuthorization")]
-        public async Task<ActionResult> CheckUpdateAuthorization(int id)
-        {
-            return await base.CheckUpdateAuthorizationAsync(id);
         }
         // PUT api/<controller>/5
         [HttpPut("{id:int}")]
@@ -90,17 +74,17 @@ namespace OctopusStore.Controllers
         }
         // DELETE api/<controller>/5
         [HttpDelete("{id:int}")]
-        public async Task<ActionResult> Delete(int id)
+        public async Task<Response> Delete(int id)
         {
             return await base.DeleteSingleAsync(new EntitySpecification<Store>(id));
         }
         [HttpPost("{storeId:int}/administrators")]
-        public async Task<ActionResult> PostStoreAdministrator(int storeId, [FromHeader]string email)
+        public async Task<Response> PostStoreAdministrator(int storeId, [FromHeader]string email)
         {
             return await PostDeleteAdministrator(email, storeId, true);
         }
         [HttpDelete("{storeId:int}/administrators")]
-        public async Task<ActionResult> DeleteStoreAdministrator(int storeId, [FromHeader]string email)
+        public async Task<Response> DeleteStoreAdministrator(int storeId, [FromHeader]string email)
         {
             return await PostDeleteAdministrator(email, storeId, false);
         }
@@ -113,7 +97,10 @@ namespace OctopusStore.Controllers
             var emails = await _service.IdentityService.EnumerateEmailsWithClaimAsync(new Claim(CustomClaimTypes.StoreAdministrator, storeId.ToString()));
             return IndexViewModel<string>.FromEnumerableNotPaged(emails);
         }
-        protected async Task<ActionResult> PostDeleteAdministrator(string email, int storeId, bool post)
+        [HttpGet("{id:int}/checkUpdateAuthorization")]
+        public async Task<ActionResult> CheckUpdateAuthorization(int id) => await base.CheckUpdateAuthorizationAsync(id);
+
+        protected async Task<Response> PostDeleteAdministrator(string email, int storeId, bool post)
         {
             if (email == null)
                 throw new BadRequestException("Administrator email not provided");
@@ -126,8 +113,8 @@ namespace OctopusStore.Controllers
                 await _service.IdentityService.AddClaim(id, claim);
             else if (!post && hasClaim)
                 await _service.IdentityService.RemoveClaim(id, claim);
-            string answer = post ? $"{email} now is an administrator" : $"{email} is not an administrator anymore";
-            return Ok(new Response(answer));
+            string answer = post ? $"{email} now is an administrator": $"{email} is not an administrator anymore";
+            return new Response(answer);
         }
     }
 }

@@ -14,12 +14,12 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Services
 {
-    public abstract class Service<TEntity> : IService<TEntity> where TEntity : Entity
+    public abstract class Service<TEntity>: IService<TEntity> where TEntity: Entity
     {
         protected DbContext _context;
         protected IAppLogger<Service<TEntity>> _logger;
         protected IScopedParameters _scopedParameters;
-        protected IAuthoriationParameters<TEntity> _authoriationParameters;
+        protected IAuthorizationParameters<TEntity> _authoriationParameters;
 
         public IIdentityService IdentityService { get; }
         public string Name { get; set; }
@@ -28,7 +28,7 @@ namespace Infrastructure.Services
             DbContext context,
             IIdentityService identityService,
             IScopedParameters scopedParameters,
-            IAuthoriationParameters<TEntity> authoriationParameters,
+            IAuthorizationParameters<TEntity> authoriationParameters,
             IAppLogger<Service<TEntity>> logger)
         {
             _context = context;
@@ -84,7 +84,7 @@ namespace Infrastructure.Services
             _logger.Trace("{Name} listed: {resultCount} entities by spec: {spec}", Name, entities.Count(), spec);
             return entities;
         }
-        public virtual async Task<IEnumerable<TRelated>> EnumerateRelatedAsync<TRelated>(Specification<TEntity> spec, Expression<Func<TEntity, TRelated>> relatedSelect) where TRelated : class
+        public virtual async Task<IEnumerable<TRelated>> EnumerateRelatedAsync<TRelated>(Specification<TEntity> spec, Expression<Func<TEntity, TRelated>> relatedSelect) where TRelated: class
         {
             var relatedEntities = await _context.EnumerateRelatedAsync(_logger, spec, relatedSelect);
             if (_authoriationParameters.ReadAuthorizationRequired)
@@ -94,7 +94,7 @@ namespace Infrastructure.Services
         }
         public async Task<IEnumerable<TRelated>> EnumerateRelatedEnumAsync<TRelated>(
            Specification<TEntity> listRelatedSpec,
-           Expression<Func<TEntity, IEnumerable<TRelated>>> relatedEnumSelect) where TRelated : class
+           Expression<Func<TEntity, IEnumerable<TRelated>>> relatedEnumSelect) where TRelated: class
         {
             var relatedEntities = await _context.EnumerateRelatedEnumAsync(_logger, listRelatedSpec, relatedEnumSelect);
             if (_authoriationParameters.ReadAuthorizationRequired)
@@ -165,7 +165,7 @@ namespace Infrastructure.Services
             return result;
         }
 
-        protected async Task<IEnumerable<TCustom>> ReadAuthorizedOnlyFilter<TCustom>(IEnumerable<TCustom> entities) where TCustom : class
+        protected async Task<IEnumerable<TCustom>> ReadAuthorizedOnlyFilter<TCustom>(IEnumerable<TCustom> entities) where TCustom: class
         {
             var authorizedEntities = new List<TCustom>();
             foreach (var entity in entities)
@@ -174,7 +174,7 @@ namespace Infrastructure.Services
             return authorizedEntities;
         }
 
-        protected async Task AuthorizeWithException<TCustom>(TCustom entity, OperationAuthorizationRequirement requirement) where TCustom : class
+        protected async Task AuthorizeWithException<TCustom>(TCustom entity, OperationAuthorizationRequirement requirement) where TCustom: class
         {
             if (!await Authorize(entity, requirement))
             {
@@ -183,7 +183,7 @@ namespace Infrastructure.Services
                 throw new AuthorizationException(message);
             }
         }
-        protected async Task AuthorizeWithException<TCustom>(object key, OperationAuthorizationRequirement requirement) where TCustom : class
+        protected async Task AuthorizeWithException<TCustom>(object key, OperationAuthorizationRequirement requirement) where TCustom: class
         {
             var entity = _context.ReadByKeyAsync<TCustom, Service<TEntity>>(_logger, key, true);
             await AuthorizeWithException(entity, requirement);

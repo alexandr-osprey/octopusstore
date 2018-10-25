@@ -3,17 +3,17 @@ using ApplicationCore.ViewModels;
 
 namespace ApplicationCore.ViewModels
 {
-    public class CharacteristicViewModel : EntityViewModel<Characteristic>
+    public class CharacteristicViewModel: EntityViewModel<Characteristic>
     {
         public string Title { get; set; }
         public int CategoryId { get; set; }
 
         public CharacteristicViewModel()
-            : base()
+           : base()
         {
         }
         public CharacteristicViewModel(Characteristic categoryProperty)
-            : base(categoryProperty)
+           : base(categoryProperty)
         {
             Title = categoryProperty.Title;
             CategoryId = categoryProperty.CategoryId;

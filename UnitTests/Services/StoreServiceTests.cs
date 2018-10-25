@@ -4,10 +4,10 @@ using ApplicationCore.Entities;
 
 namespace UnitTests.Services
 {
-    public class StoreServiceTests : ServiceTestBase<Store, IStoreService>
+    public class StoreServiceTests: ServiceTestBase<Store, IStoreService>
     {
         public StoreServiceTests(ITestOutputHelper output)
-            : base(output)
+           : base(output)
         { }
     }
 }

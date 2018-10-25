@@ -11,9 +11,9 @@ using Xunit.Abstractions;
 
 namespace UnitTests.Controllers
 {
-    public class MeasurementUnitControllerTests : ControllerTestBase<MeasurementUnit, MeasurementUnitsController, IMeasurementUnitService>
+    public class MeasurementUnitControllerTests: ControllerTestBase<MeasurementUnit, MeasurementUnitsController, IMeasurementUnitService>
     {
-        public MeasurementUnitControllerTests(ITestOutputHelper output) : base(output)
+        public MeasurementUnitControllerTests(ITestOutputHelper output): base(output)
         { }
 
         [Fact]

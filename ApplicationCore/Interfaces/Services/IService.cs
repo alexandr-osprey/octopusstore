@@ -12,7 +12,7 @@ namespace ApplicationCore.Interfaces
     /// Maintains full lifecycle of entities
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
-    public interface IService<TEntity> where TEntity : class
+    public interface IService<TEntity> where TEntity: class
     {
         /// <summary>
         /// Service name for logging
@@ -119,7 +119,7 @@ namespace ApplicationCore.Interfaces
         /// <param name="spec"></param>
         /// <param name="relatedSelect"></param>
         /// <returns></returns>
-        Task<IEnumerable<TRelated>> EnumerateRelatedAsync<TRelated>(Specification<TEntity> spec, Expression<Func<TEntity, TRelated>> relatedSelect) where TRelated : class;
+        Task<IEnumerable<TRelated>> EnumerateRelatedAsync<TRelated>(Specification<TEntity> spec, Expression<Func<TEntity, TRelated>> relatedSelect) where TRelated: class;
         /// <summary>
         /// Enumerates entities related to repository entity (based on specification) by select expression
         /// </summary>
@@ -129,6 +129,6 @@ namespace ApplicationCore.Interfaces
         /// <returns></returns>
         Task<IEnumerable<TRelated>> EnumerateRelatedEnumAsync<TRelated>(
            Specification<TEntity> listRelatedSpec,
-           Expression<Func<TEntity, IEnumerable<TRelated>>> relatedEnumSelect) where TRelated : class;
+           Expression<Func<TEntity, IEnumerable<TRelated>>> relatedEnumSelect) where TRelated: class;
     }
 }

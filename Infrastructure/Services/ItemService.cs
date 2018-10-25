@@ -9,7 +9,7 @@ using ApplicationCore.Exceptions;
 
 namespace Infrastructure.Services
 {
-    public class ItemService : Service<Item>, IItemService
+    public class ItemService: Service<Item>, IItemService
     {
         protected IItemImageService _itemImageService;
         protected ICategoryService _categoryService;
@@ -20,9 +20,9 @@ namespace Infrastructure.Services
             IItemImageService itemImageService,
             ICategoryService categoryService,
             IScopedParameters scopedParameters,
-            IAuthoriationParameters<Item> authoriationParameters,
+            IAuthorizationParameters<Item> authoriationParameters,
             IAppLogger<Service<Item>> logger)
-            : base(context, identityService, scopedParameters, authoriationParameters, logger)
+           : base(context, identityService, scopedParameters, authoriationParameters, logger)
         {
             _itemImageService = itemImageService;
             _categoryService = categoryService;
@@ -44,7 +44,7 @@ namespace Infrastructure.Services
         {
             return categoryId.HasValue
                 ? await _categoryService.EnumerateSubcategoriesAsync(new EntitySpecification<Category>(categoryId.Value))
-                : new List<Category>();
+               : new List<Category>();
         }
         public override async Task ValidateCreateWithExceptionAsync(Item item)
         {

@@ -7,7 +7,7 @@ namespace ApplicationCore.Identity
     /// (for example, perform read operation with evaluating Update rights)
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public interface IAuthoriationParameters<T> where T: class
+    public interface IAuthorizationParameters<T> where T: class
     {
         /// <summary>
         /// Specifies if authorization for Create operation should be checked

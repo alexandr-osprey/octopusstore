@@ -4,9 +4,9 @@ using ApplicationCore.ViewModels;
 namespace ApplicationCore.ViewModels
 {
     public abstract class FileDetailsViewModel<TFileDetails, TEntity> 
-        : EntityViewModel<TFileDetails> 
-        where TFileDetails : FileInfo<TEntity>, new() 
-        where TEntity : Entity, new()
+       : EntityViewModel<TFileDetails> 
+        where TFileDetails: FileInfo<TEntity>, new() 
+        where TEntity: Entity, new()
     {
         public string Title { get; set; }
         public string ContentType { get; set; }
@@ -14,11 +14,11 @@ namespace ApplicationCore.ViewModels
         public int RelatedId { get; set; }
 
         public FileDetailsViewModel()
-            : base()
+           : base()
         {
         }
         public FileDetailsViewModel(TFileDetails fileDetail)
-            : base(fileDetail)
+           : base(fileDetail)
         {
             Title = fileDetail.Title;
             ContentType = fileDetail.ContentType;

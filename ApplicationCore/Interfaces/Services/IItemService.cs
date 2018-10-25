@@ -7,7 +7,7 @@ namespace ApplicationCore.Interfaces
     /// <summary>
     /// Maintains full lifecycle of Item entities
     /// </summary>
-    public interface IItemService : IService<Item>
+    public interface IItemService: IService<Item>
     {
         /// <summary>
         /// Creates ItemIndexSpecification based on provided parameters.

@@ -14,7 +14,7 @@ namespace OctopusStore.Controllers
 {
     [Produces("application/json")]
     [Route("api/[controller]")]
-    public class IdentityController : Controller
+    public class IdentityController: Controller
     {
         private IAppLogger<IdentityController> _logger { get; }
         protected IIdentityService _service { get; }

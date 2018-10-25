@@ -3,7 +3,7 @@
     /// <summary>
     /// Property Value of and Item Variant. For example 32GB of Storage in iPhone variant.
     /// </summary>
-    public class ItemVariantCharacteristicValue : Entity
+    public class ItemVariantCharacteristicValue: Entity
     {
         public int ItemVariantId { get; set; }
         public int CharacteristicValueId { get; set; }

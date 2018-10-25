@@ -12,19 +12,14 @@ namespace OctopusStore.Controllers
 {
     [Produces("application/json")]
     [Route("api/[controller]")]
-    public class MeasurementUnitsController
-        : CRUDController<
-            IMeasurementUnitService,
-            MeasurementUnit, 
-            MeasurementUnitViewModel, 
-            MeasurementUnitViewModel>
+    public class MeasurementUnitsController: CRUDController<IMeasurementUnitService, MeasurementUnit, MeasurementUnitViewModel>
     {
         public MeasurementUnitsController(
             IMeasurementUnitService measurementUnitService,
             IAuthorizationService authorizationService,
             IScopedParameters scopedParameters,
             IAppLogger<ICRUDController<MeasurementUnit>> logger)
-            : base(measurementUnitService, scopedParameters, logger)
+           : base(measurementUnitService, scopedParameters, logger)
         {
         }
 
@@ -36,9 +31,6 @@ namespace OctopusStore.Controllers
             return await base.IndexNotPagedAsync(new EntitySpecification<MeasurementUnit>());
         }
         [HttpGet("{id:int}/checkUpdateAuthorization")]
-        public async Task<ActionResult> CheckUpdateAuthorization(int id)
-        {
-            return await base.CheckUpdateAuthorizationAsync(id);
-        }
+        public async Task<ActionResult> CheckUpdateAuthorization(int id) => await base.CheckUpdateAuthorizationAsync(id);
     }
 }

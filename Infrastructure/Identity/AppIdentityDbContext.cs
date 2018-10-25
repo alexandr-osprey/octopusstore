@@ -8,13 +8,13 @@ namespace Infrastructure.Identity
     /// <summary>
     /// DbContext used for storing Application Users
     /// </summary>
-    public class AppIdentityDbContext : IdentityDbContext<ApplicationUser>
+    public class AppIdentityDbContext: IdentityDbContext<ApplicationUser>
     {
         public DbSet<RefreshToken> RefreshTokens { get; set; }
         
 
         public AppIdentityDbContext(DbContextOptions<AppIdentityDbContext> options)
-            : base(options)
+           : base(options)
         {
         }
 

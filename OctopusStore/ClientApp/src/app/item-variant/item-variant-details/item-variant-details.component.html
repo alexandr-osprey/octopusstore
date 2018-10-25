@@ -4,7 +4,7 @@
       <div class="col-12 col-md-12">
         <h4>Variants</h4>
         <button *ngFor="let variant of itemDetails.itemVariants"
-                [ngClass]="{'item-variant__button': true, 'btn' : true, 'btn-light': true,'current-item-variant__button': variant==currentVariant}"
+                [ngClass]="{'item-variant__button': true, 'btn': true, 'btn-light': true,'current-item-variant__button': variant==currentVariant}"
                 (click)="selectItemVariant(variant)">
           {{variant.title}}
         </button>

@@ -12,10 +12,10 @@ using Xunit.Abstractions;
 
 namespace UnitTests.Controllers
 {
-    public class StoreControllerTest : ControllerTestBase<Store, StoresController, IStoreService>
+    public class StoreControllerTest: ControllerTestBase<Store, StoresController, IStoreService>
     {
         public StoreControllerTest(ITestOutputHelper output)
-            : base(output)
+           : base(output)
         { }
 
         [Fact]
@@ -46,16 +46,16 @@ namespace UnitTests.Controllers
                 JsonConvert.SerializeObject(actual, Formatting.None, jsonSettings));
         }
 
-        [Fact]
-        public async Task GetDetail()
-        {
-            var store = await GetQueryable(context).FirstOrDefaultAsync();
-            var expected = new StoreViewModel(store);
-            var actual = await controller.GetDetail(store.Id);
-            Assert.Equal(
-                JsonConvert.SerializeObject(expected, Formatting.None, jsonSettings),
-                JsonConvert.SerializeObject(actual, Formatting.None, jsonSettings));
-        }
+        //[Fact]
+        //public async Task GetDetail()
+        //{
+        //    var store = await GetQueryable(context).FirstOrDefaultAsync();
+        //    var expected = new StoreViewModel(store);
+        //    var actual = await controller.GetDetail(store.Id);
+        //    Assert.Equal(
+        //        JsonConvert.SerializeObject(expected, Formatting.None, jsonSettings),
+        //        JsonConvert.SerializeObject(actual, Formatting.None, jsonSettings));
+        //}
 
         [Fact]
         public async Task Post()

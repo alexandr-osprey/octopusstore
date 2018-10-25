@@ -21,7 +21,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Infrastructure.Identity
 {
-    public class IdentityService : IIdentityService
+    public class IdentityService: IIdentityService
     {
         protected readonly SignInManager<ApplicationUser> _signInManager;
         protected readonly UserManager<ApplicationUser> _userManager;

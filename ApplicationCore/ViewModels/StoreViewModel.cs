@@ -4,7 +4,7 @@ using System;
 
 namespace ApplicationCore.ViewModels
 {
-    public class StoreViewModel : EntityViewModel<Store>
+    public class StoreViewModel: EntityViewModel<Store>
     {
         public string Title { get; set; }
         public string OwnerId { get; set; }
@@ -13,11 +13,11 @@ namespace ApplicationCore.ViewModels
         public DateTime RegistrationDate { get; set; }
 
         public StoreViewModel()
-            : base()
+           : base()
         {
         } 
         public StoreViewModel(Store store)
-            : base(store)
+           : base(store)
         {
             Title = store.Title;
             OwnerId = store.OwnerId;

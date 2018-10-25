@@ -3,10 +3,10 @@ using ApplicationCore.Specifications;
 
 namespace ApplicationCore.Specifications
 {
-    public class StoreIndexSpecification : Specification<Store>
+    public class StoreIndexSpecification: Specification<Store>
     {
         public StoreIndexSpecification(int pageIndex, int pageSize, string title)
-            : base(i => (!HasValue(title) || i.Title.Contains(title)))
+           : base(i => (!HasValue(title) || i.Title.Contains(title)))
         {
             Take = pageSize;
             Skip = Take * (pageIndex - 1);

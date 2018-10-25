@@ -6,10 +6,10 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Infrastructure.Identity
 {
-    public class StoreAuthorizationHandler : StoreEntityAuthorizationHandler<Store>
+    public class StoreAuthorizationHandler: StoreEntityAuthorizationHandler<Store>
     {
         public StoreAuthorizationHandler(UserManager<ApplicationUser> userManager, StoreContext storeContext, IAppLogger<IAuthorziationHandler<Store>> appLogger)
-            : base(userManager, storeContext, appLogger)
+           : base(userManager, storeContext, appLogger)
         {
         }
 

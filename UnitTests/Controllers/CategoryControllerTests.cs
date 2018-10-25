@@ -15,9 +15,9 @@ using Xunit.Abstractions;
 
 namespace UnitTests.Controllers
 {
-    public class CategoryControllerTests : ControllerTestBase<Category, CategoriesController, ICategoryService>
+    public class CategoryControllerTests: ControllerTestBase<Category, CategoriesController, ICategoryService>
     {
-        public CategoryControllerTests(ITestOutputHelper output) : base(output)
+        public CategoryControllerTests(ITestOutputHelper output): base(output)
         {
         }
 

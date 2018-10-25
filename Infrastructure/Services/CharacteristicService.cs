@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Services
 {
-    public class CharacteristicService : Service<Characteristic>, ICharacteristicService
+    public class CharacteristicService: Service<Characteristic>, ICharacteristicService
     {
         protected ICategoryService _сategoryService;
 
@@ -18,9 +18,9 @@ namespace Infrastructure.Services
             IIdentityService identityService,
             ICategoryService categoryService,
             IScopedParameters scopedParameters,
-            IAuthoriationParameters<Characteristic> authoriationParameters,
+            IAuthorizationParameters<Characteristic> authoriationParameters,
             IAppLogger<Service<Characteristic>> logger)
-            : base(context, identityService, scopedParameters, authoriationParameters, logger)
+           : base(context, identityService, scopedParameters, authoriationParameters, logger)
         {
             _сategoryService = categoryService;
         }

@@ -12,18 +12,13 @@ using ApplicationCore.Interfaces;
 namespace OctopusStore.Controllers
 {
     [Route("api/[controller]")]
-    public class ItemImagesController 
-        : CRUDController<
-            IItemImageService, 
-            ItemImage, 
-            ItemImageViewModel, 
-            ItemImageViewModel>
+    public class ItemImagesController: CRUDController<IItemImageService, ItemImage, ItemImageViewModel>
     {
         public ItemImagesController(
             IItemImageService service, 
             IScopedParameters scopedParameters,
             IAppLogger<ICRUDController<ItemImage>> logger)
-            : base(service, scopedParameters, logger)
+           : base(service, scopedParameters, logger)
         {
         }
 
@@ -45,11 +40,6 @@ namespace OctopusStore.Controllers
                     throw new Exception(message);
                 }
             }
-        }
-        [HttpGet("{id:int}/checkUpdateAuthorization")]
-        public async Task<ActionResult> CheckUpdateAuthorization(int id)
-        {
-            return await base.CheckUpdateAuthorizationAsync(id);
         }
         [HttpPut("{id:int}")]
         public async Task<ItemImageViewModel> Put(int id, [FromBody]ItemImageViewModel itemImageViewModel)
@@ -89,16 +79,12 @@ namespace OctopusStore.Controllers
         {
             return await base.GetAsync(new EntitySpecification<ItemImage>(id));
         }
-        [AllowAnonymous]
-        [HttpGet("{id:int}/details")]
-        public async Task<ItemImageViewModel> GetDetal(int id)
-        {
-            return await base.GetDetailAsync(new EntitySpecification<ItemImage>(id));
-        }
         [HttpDelete("{id:int}")]
-        public async Task<ActionResult> Delete(int id)
+        public async Task<Response> Delete(int id)
         {
             return await base.DeleteSingleAsync(new EntitySpecification<ItemImage>(id));
         }
+        [HttpGet("{id:int}/checkUpdateAuthorization")]
+        public async Task<ActionResult> CheckUpdateAuthorization(int id) => await base.CheckUpdateAuthorizationAsync(id);
     }
 }

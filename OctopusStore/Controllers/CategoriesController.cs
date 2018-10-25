@@ -12,19 +12,14 @@ namespace OctopusStore.Controllers
 {
     [Produces("application/json")]
     [Route("api/[controller]")]
-    public class CategoriesController
-        : CRUDController<
-            ICategoryService,
-            Category,
-            CategoryViewModel,
-            CategoryViewModel>
+    public class CategoriesController: CRUDController<ICategoryService, Category, CategoryViewModel>
     {
         public int RootCategoryId = 1;
         public CategoriesController(
             ICategoryService service,
             IScopedParameters scopedParameters,
             IAppLogger<ICRUDController<Category>> logger)
-            : base(service, scopedParameters, logger)
+           : base(service, scopedParameters, logger)
         {
         }
 
@@ -57,10 +52,7 @@ namespace OctopusStore.Controllers
         //    return await base.IndexByRelatedNotPagedAsync(_service.EnumerateByItemAsync, spec);
         //}
         [HttpGet("{id:int}/checkUpdateAuthorization")]
-        public async Task<ActionResult> CheckUpdateAuthorization(int id)
-        {
-            return await base.CheckUpdateAuthorizationAsync(id);
-        }
+        public async Task<ActionResult> CheckUpdateAuthorization(int id) => await base.CheckUpdateAuthorizationAsync(id);
         protected async Task<IEnumerable<Category>> IndexByStoreId(int storeId)
         {
             var spec = new Specification<Item>((i => i.StoreId == storeId), (i => i.Category))

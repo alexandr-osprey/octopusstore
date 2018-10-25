@@ -12,9 +12,9 @@ using Xunit.Abstractions;
 
 namespace UnitTests.Controllers
 {
-    public class ItemVariantControllerTest : ControllerTestBase<ItemVariant, ItemVariantsController, IItemVariantService>
+    public class ItemVariantControllerTest: ControllerTestBase<ItemVariant, ItemVariantsController, IItemVariantService>
     {
-        public ItemVariantControllerTest(ITestOutputHelper output) : base(output)
+        public ItemVariantControllerTest(ITestOutputHelper output): base(output)
         { }
 
         [Fact]

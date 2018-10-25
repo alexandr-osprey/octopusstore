@@ -3,18 +3,18 @@ using ApplicationCore.ViewModels;
 
 namespace ApplicationCore.ViewModels
 {
-    public class CategoryViewModel  : EntityViewModel<Category>
+    public class CategoryViewModel : EntityViewModel<Category>
     {
         public string Title { get; set; }
         public int ParentCategoryId { get; set; }
         public string Description { get; set; }
 
         public CategoryViewModel()
-            : base()
+           : base()
         {
         }
         public CategoryViewModel(Category category)
-            : base(category)
+           : base(category)
         {
             Title = category.Title;
             ParentCategoryId = category.ParentCategoryId;

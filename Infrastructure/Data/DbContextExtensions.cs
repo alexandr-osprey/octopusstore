@@ -27,7 +27,7 @@ namespace Infrastructure.Data
         /// <param name="spec"></param>
         /// <param name="checkExistence"></param>
         /// <returns></returns>
-        public static async Task<TEntity> ReadSingleBySpecAsync<TEntity, TService>(this DbContext context, IAppLogger<TService> logger, Specification<TEntity> spec, bool checkExistence = true) where TEntity : class
+        public static async Task<TEntity> ReadSingleBySpecAsync<TEntity, TService>(this DbContext context, IAppLogger<TService> logger, Specification<TEntity> spec, bool checkExistence = true) where TEntity: class
         {
             if (spec == null)
                 throw new ArgumentNullException(nameof(spec));
@@ -54,7 +54,7 @@ namespace Infrastructure.Data
         /// <param name="entityToAdd"></param>
         /// <param name="checkExistence"></param>
         /// <returns></returns>
-        public static async Task<TEntity> CreateAsync<TEntity, TService>(this DbContext context, IAppLogger<TService> logger, TEntity entityToAdd, bool checkExistence = true) where TEntity : class
+        public static async Task<TEntity> CreateAsync<TEntity, TService>(this DbContext context, IAppLogger<TService> logger, TEntity entityToAdd, bool checkExistence = true) where TEntity: class
         {
             if (entityToAdd == null)
                 throw new ArgumentNullException(nameof(entityToAdd));
@@ -86,7 +86,7 @@ namespace Infrastructure.Data
         /// <param name="checkExistence"></param>
         /// <param name="keys"></param>
         /// <returns></returns>
-        public static async Task<TEntity> ReadByKeysAsync<TEntity, TService>(this DbContext context, IAppLogger<TService> logger, bool checkExistence = true, params object[] keys) where TEntity : class
+        public static async Task<TEntity> ReadByKeysAsync<TEntity, TService>(this DbContext context, IAppLogger<TService> logger, bool checkExistence = true, params object[] keys) where TEntity: class
         {
             if (keys == null || keys.Length == 0)
                 throw new ArgumentException(nameof(keys));
@@ -115,7 +115,7 @@ namespace Infrastructure.Data
         /// <param name="key"></param>
         /// <param name="checkExistence"></param>
         /// <returns></returns>
-        public static async Task<TEntity> ReadByKeyAsync<TEntity, TService>(this DbContext context, IAppLogger<TService> logger, object key, bool checkExistence = true) where TEntity : class
+        public static async Task<TEntity> ReadByKeyAsync<TEntity, TService>(this DbContext context, IAppLogger<TService> logger, object key, bool checkExistence = true) where TEntity: class
         {
             return await context.ReadByKeysAsync<TEntity, TService>(logger, checkExistence, key);
         }
@@ -129,7 +129,7 @@ namespace Infrastructure.Data
         /// <param name="entity"></param>
         /// <param name="checkExistence"></param>
         /// <returns></returns>
-        public static async Task<TEntity> ReadSingleAsync<TEntity, TService>(this DbContext context, IAppLogger<TService> logger, TEntity entity, bool checkExistence = true) where TEntity : class
+        public static async Task<TEntity> ReadSingleAsync<TEntity, TService>(this DbContext context, IAppLogger<TService> logger, TEntity entity, bool checkExistence = true) where TEntity: class
         {
             if (entity == null)
                 throw new ArgumentNullException(nameof(entity));
@@ -156,7 +156,7 @@ namespace Infrastructure.Data
         /// <param name="entityToUpdate"></param>
         /// <param name="checkExistence"></param>
         /// <returns></returns>
-        public static async Task<TEntity> UpdateAsync<TEntity, TService>(this DbContext context, IAppLogger<TService> logger, TEntity entityToUpdate, bool checkExistence = true) where TEntity : class
+        public static async Task<TEntity> UpdateAsync<TEntity, TService>(this DbContext context, IAppLogger<TService> logger, TEntity entityToUpdate, bool checkExistence = true) where TEntity: class
         {
             if (entityToUpdate == null)
                 throw new ArgumentNullException(nameof(entityToUpdate));
@@ -183,7 +183,7 @@ namespace Infrastructure.Data
             }
         }
 
-        public static async Task DeleteAsync<TEntity, TService>(this DbContext context, IAppLogger<TService> logger, TEntity entityToDelete, bool checkExistence = true) where TEntity : class
+        public static async Task DeleteAsync<TEntity, TService>(this DbContext context, IAppLogger<TService> logger, TEntity entityToDelete, bool checkExistence = true) where TEntity: class
         {
             if (entityToDelete == null)
                 throw new ArgumentNullException(nameof(entityToDelete));
@@ -203,7 +203,7 @@ namespace Infrastructure.Data
                 throw updateException.LogAndGetDbUpdateException(entityToDelete, logger, $"Function: {nameof(DeleteAsync)}");
             }
         }
-        public static async Task<int> DeleteAsync<TEntity, TService>(this DbContext context, IAppLogger<TService> logger, Specification<TEntity> spec) where TEntity : class
+        public static async Task<int> DeleteAsync<TEntity, TService>(this DbContext context, IAppLogger<TService> logger, Specification<TEntity> spec) where TEntity: class
         {
             if (spec == null)
                 throw new ArgumentNullException(nameof(spec));
@@ -220,7 +220,7 @@ namespace Infrastructure.Data
             }
         }
 
-        public static async Task<int> CountAsync<TEntity, TService>(this DbContext context, IAppLogger<TService> logger, Specification<TEntity> countSpec) where TEntity : class
+        public static async Task<int> CountAsync<TEntity, TService>(this DbContext context, IAppLogger<TService> logger, Specification<TEntity> countSpec) where TEntity: class
         {
             if (countSpec == null)
                 throw new ArgumentNullException(nameof(countSpec));
@@ -233,7 +233,7 @@ namespace Infrastructure.Data
                 throw readException.LogAndGetDbReadException(logger, $"Function: {nameof(CountAsync)}, {nameof(countSpec)}: {countSpec}");
             }
         }
-        public static async Task<bool> ExistsBySpecAsync<TEntity, TService>(this DbContext context, IAppLogger<TService> logger, Specification<TEntity> specToCheck, bool throwNotFound = false) where TEntity : class
+        public static async Task<bool> ExistsBySpecAsync<TEntity, TService>(this DbContext context, IAppLogger<TService> logger, Specification<TEntity> specToCheck, bool throwNotFound = false) where TEntity: class
         {
             if (specToCheck == null)
                 throw new ArgumentNullException(nameof(specToCheck));
@@ -250,11 +250,11 @@ namespace Infrastructure.Data
                 throw new EntityNotFoundException($"{typeof(TEntity).Name} with spec {specToCheck} not found");
             return exists;
         }
-        public static IQueryable<T> NoTrackingSet<T>(this DbContext context) where T : class
+        public static IQueryable<T> NoTrackingSet<T>(this DbContext context) where T: class
         {
             return context.Set<T>().AsNoTracking();
         }
-        public static async Task<bool> ExistsAsync<TEntity, TService>(this DbContext context, IAppLogger<TService> logger, TEntity entityToCheck, bool throwNotFound = false) where TEntity : class
+        public static async Task<bool> ExistsAsync<TEntity, TService>(this DbContext context, IAppLogger<TService> logger, TEntity entityToCheck, bool throwNotFound = false) where TEntity: class
         {
             if (entityToCheck == null)
                 throw new ArgumentNullException(nameof(entityToCheck));
@@ -272,7 +272,7 @@ namespace Infrastructure.Data
             return exists;
         }
 
-        public static async Task<IEnumerable<TEntity>> EnumerateAllAsync<TEntity, TService>(this DbContext context, IAppLogger<TService> logger) where TEntity : class
+        public static async Task<IEnumerable<TEntity>> EnumerateAllAsync<TEntity, TService>(this DbContext context, IAppLogger<TService> logger) where TEntity: class
         {
             try
             {
@@ -286,7 +286,7 @@ namespace Infrastructure.Data
             }
         }
 
-        public static async Task<IEnumerable<TEntity>> EnumerateAsync<TEntity, TService>(this DbContext context, IAppLogger<TService> logger, Specification<TEntity> listSpec) where TEntity : class
+        public static async Task<IEnumerable<TEntity>> EnumerateAsync<TEntity, TService>(this DbContext context, IAppLogger<TService> logger, Specification<TEntity> listSpec) where TEntity: class
         {
             if (listSpec == null)
                 throw new ArgumentNullException(nameof(listSpec));
@@ -305,7 +305,7 @@ namespace Infrastructure.Data
         public static async Task<IEnumerable<TRelated>> EnumerateRelatedAsync<TEntity, TRelated, TService>(
             this DbContext context, IAppLogger<TService> logger,
             Specification<TEntity> listRelatedSpec,
-            Expression<Func<TEntity, TRelated>> relatedSelect) where TEntity : class where TRelated : class
+            Expression<Func<TEntity, TRelated>> relatedSelect) where TEntity: class where TRelated: class
         {
             if (listRelatedSpec == null)
                 throw new ArgumentNullException(nameof(listRelatedSpec));
@@ -326,7 +326,7 @@ namespace Infrastructure.Data
         public static async Task<IEnumerable<TRelated>> EnumerateRelatedEnumAsync<TEntity, TRelated, TService>(
             this DbContext context, IAppLogger<TService> logger,
             Specification<TEntity> listRelatedSpec,
-            Expression<Func<TEntity, IEnumerable<TRelated>>> relatedEnumSelect) where TEntity : class where TRelated : class
+            Expression<Func<TEntity, IEnumerable<TRelated>>> relatedEnumSelect) where TEntity: class where TRelated: class
         {
             if (listRelatedSpec == null)
                 throw new ArgumentNullException(nameof(listRelatedSpec));
@@ -344,13 +344,13 @@ namespace Infrastructure.Data
             }
         }
 
-        public static IQueryable<T> GetQueryBySpecSkipAndTake<T>(this DbContext context, Specification<T> spec) where T : class
+        public static IQueryable<T> GetQueryBySpecSkipAndTake<T>(this DbContext context, Specification<T> spec) where T: class
         {
             var result = context.GetQueryBySpecWithIncludes(spec);
             result = result.Skip(spec.Skip);
-            return spec.Take > 0 ? result.Take(spec.Take) : result;
+            return spec.Take > 0 ? result.Take(spec.Take): result;
         }
-        public static IQueryable<T> GetQueryBySpecWithIncludes<T>(this DbContext context, Specification<T> spec) where T : class
+        public static IQueryable<T> GetQueryBySpecWithIncludes<T>(this DbContext context, Specification<T> spec) where T: class
         {
             // fetch a Queryable that includes all expression-based includes
             var queryableResultWithIncludes = spec.Includes

@@ -3,18 +3,18 @@ using ApplicationCore.ViewModels;
 
 namespace ApplicationCore.ViewModels
 {
-    public class ItemVariantViewModel : EntityViewModel<ItemVariant>
+    public class ItemVariantViewModel: EntityViewModel<ItemVariant>
     {
         public string Title { get; set; }
         public int ItemId { get; set; }
         public decimal Price { get; set; }
 
         public ItemVariantViewModel()
-            : base()
+           : base()
         {
         }
         public ItemVariantViewModel(ItemVariant itemVariant)
-            : base(itemVariant)
+           : base(itemVariant)
         {
             Title = itemVariant.Title;
             Price = itemVariant.Price;

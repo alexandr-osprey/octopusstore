@@ -1,6 +1,6 @@
 <div *ngIf="messages.length" class="messages">
   <div *ngFor="let message of messages.reverse()"
-        [ngClass]="{ 'message-box' : true,
+        [ngClass]="{ 'message-box': true,
                     'message-box-info':  message.style=='Info',
                     'message-box-warn':  message.style=='Warn',
                     'message-box-success':  message.style=='Success',

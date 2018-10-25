@@ -14,10 +14,10 @@ using Xunit.Abstractions;
 
 namespace UnitTests.Services
 {
-    public class ItemImageServiceTests : ServiceTestBase<ItemImage, IItemImageService>
+    public class ItemImageServiceTests: ServiceTestBase<ItemImage, IItemImageService>
     {
         public ItemImageServiceTests(ITestOutputHelper output)
-            : base(output)
+           : base(output)
         {
         }
 

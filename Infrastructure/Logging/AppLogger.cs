@@ -4,7 +4,7 @@ using System;
 
 namespace Infrastructure.Logging
 {
-    public class AppLogger<T> : IAppLogger<T>
+    public class AppLogger<T>: IAppLogger<T>
     {
         private static Logger _logger = LogManager.GetLogger(typeof(T).FullName);
         private static string _loggerName = typeof(T).FullName;

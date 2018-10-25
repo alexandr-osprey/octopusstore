@@ -3,7 +3,7 @@
     /// <summary>
     /// Value of characteristic
     /// </summary>
-    public class CharacteristicValue : Entity
+    public class CharacteristicValue: Entity
     {
         public string Title { get; set; }
         public int CharacteristicId { get; set; }

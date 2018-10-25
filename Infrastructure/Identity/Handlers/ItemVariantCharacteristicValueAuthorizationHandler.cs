@@ -9,10 +9,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Identity
 {
-    public class ItemVariantCharacteristicValueAuthorizationHandler : StoreEntityAuthorizationHandler<ItemVariantCharacteristicValue>
+    public class ItemVariantCharacteristicValueAuthorizationHandler: StoreEntityAuthorizationHandler<ItemVariantCharacteristicValue>
     {
         public ItemVariantCharacteristicValueAuthorizationHandler(UserManager<ApplicationUser> userManager, StoreContext storeContext, IAppLogger<IAuthorziationHandler<ItemVariantCharacteristicValue>> appLogger)
-            : base(userManager, storeContext, appLogger)
+           : base(userManager, storeContext, appLogger)
         {
         }
 

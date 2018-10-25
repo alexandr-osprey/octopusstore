@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace ApplicationCore.ViewModels
 {
-    public class ItemVariantDetailViewModel : EntityViewModel<ItemVariant>
+    public class ItemVariantDetailViewModel: EntityViewModel<ItemVariant>
     {
         public string Title { get; set; }
         public int ItemId { get; set; }
@@ -12,7 +12,7 @@ namespace ApplicationCore.ViewModels
         public IEnumerable<ItemVariantCharacteristicValueViewModel> ItemVariantCharacteristicValues { get; set; }
 
         public ItemVariantDetailViewModel(ItemVariant itemVariant)
-            : base(itemVariant)
+           : base(itemVariant)
         {
             Id = itemVariant.Id;
             Title = itemVariant.Title;

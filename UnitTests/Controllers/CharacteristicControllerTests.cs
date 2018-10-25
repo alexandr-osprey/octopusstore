@@ -13,10 +13,10 @@ using Xunit.Abstractions;
 
 namespace UnitTests.Controllers
 {
-    public class CharacteristicControllerTests : ControllerTestBase<Characteristic, CharacteristicsController, ICharacteristicService>
+    public class CharacteristicControllerTests: ControllerTestBase<Characteristic, CharacteristicsController, ICharacteristicService>
     {
         private readonly ICategoryService _categoryService;
-        public CharacteristicControllerTests(ITestOutputHelper output) : base(output)
+        public CharacteristicControllerTests(ITestOutputHelper output): base(output)
         {
             _categoryService = Resolve<ICategoryService>();
         }

@@ -6,18 +6,18 @@ using Infrastructure.Data;
 namespace Infrastructure.Services
 {
     public abstract class ImageService<TImage, TEntity>
-        : FileInfoService<TImage, TEntity>,
+       : FileInfoService<TImage, TEntity>,
         IImageService<TImage, TEntity>
-        where TImage : Image<TEntity>
-        where TEntity : Entity
+        where TImage: Image<TEntity>
+        where TEntity: Entity
     {
         public ImageService(
             StoreContext context,
             IIdentityService identityService,
             IScopedParameters scopedParameters,
-            IAuthoriationParameters<TImage> authoriationParameters,
+            IAuthorizationParameters<TImage> authoriationParameters,
             IAppLogger<Service<TImage>> logger)
-            : base(context, identityService, scopedParameters, authoriationParameters, logger)
+           : base(context, identityService, scopedParameters, authoriationParameters, logger)
         {
         }
     }

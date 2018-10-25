@@ -6,7 +6,7 @@ namespace ApplicationCore.Entities
     /// <summary>
     /// Store for seller
     /// </summary>
-    public class Store : Entity
+    public class Store: Entity
     {
         public string Title { get; set; }
         public string Description { get; set; }

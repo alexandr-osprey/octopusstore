@@ -12,18 +12,13 @@ namespace OctopusStore.Controllers
 {
     [Produces("application/json")]
     [Route("api/[controller]")]
-    public class CharacteristicValuesController
-        : CRUDController<
-            ICharacteristicValueService, 
-            CharacteristicValue,
-            CharacteristicValueViewModel,
-            CharacteristicValueViewModel>
+    public class CharacteristicValuesController: CRUDController<ICharacteristicValueService, CharacteristicValue, CharacteristicValueViewModel>
     {
         public CharacteristicValuesController(
             ICharacteristicValueService service,
             IScopedParameters scopedParameters,
             IAppLogger<ICRUDController<CharacteristicValue>> logger)
-            : base(service, scopedParameters, logger)
+           : base(service, scopedParameters, logger)
         {
         }
 
@@ -39,21 +34,13 @@ namespace OctopusStore.Controllers
         {
             return await base.IndexByFunctionNotPagedAsync(_service.EnumerateByCategoryAsync, new EntitySpecification<Category>(categoryId));
         }
-        [HttpGet("{id:int}/checkUpdateAuthorization")]
-        public async Task<ActionResult> CheckUpdateAuthorization(int id)
-        {
-            return await base.CheckUpdateAuthorizationAsync(id);
-        }
         [HttpPut("{id:int}")]
         public async Task<CharacteristicValueViewModel> Put(int id, [FromBody]CharacteristicValueViewModel characteristicValueViewModel)
         {
             characteristicValueViewModel.Id = id;
             return await base.UpdateAsync(characteristicValueViewModel);
         }
-        [HttpPost]
-        public async Task<CharacteristicValueViewModel> Post([FromBody]CharacteristicValueViewModel characteristicValueViewModel)
-        {
-            return await base.CreateAsync(characteristicValueViewModel);
-        }
+        [HttpGet("{id:int}/checkUpdateAuthorization")]
+        public async Task<ActionResult> CheckUpdateAuthorization(int id) => await base.CheckUpdateAuthorizationAsync(id);
     }
 }

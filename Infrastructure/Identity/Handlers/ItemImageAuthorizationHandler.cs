@@ -7,10 +7,10 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Infrastructure.Identity
 {
-    public class ItemImageAuthorizationHandler : StoreEntityAuthorizationHandler<ItemImage>
+    public class ItemImageAuthorizationHandler: StoreEntityAuthorizationHandler<ItemImage>
     {
         public ItemImageAuthorizationHandler(UserManager<ApplicationUser> userManager, StoreContext storeContext, IAppLogger<IAuthorziationHandler<ItemImage>> appLogger)
-            : base(userManager, storeContext, appLogger)
+           : base(userManager, storeContext, appLogger)
         {
         }
 

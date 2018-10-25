@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Services
 {
-    public class StoreService : Service<Store>, IStoreService
+    public class StoreService: Service<Store>, IStoreService
     {
         protected IItemService _itemService;
 
@@ -18,9 +18,9 @@ namespace Infrastructure.Services
             IIdentityService identityService,
             IScopedParameters scopedParameters,
             IItemService itemService,
-            IAuthoriationParameters<Store> authoriationParameters,
+            IAuthorizationParameters<Store> authoriationParameters,
             IAppLogger<Service<Store>> logger)
-            : base(context, identityService, scopedParameters, authoriationParameters, logger)
+           : base(context, identityService, scopedParameters, authoriationParameters, logger)
         {
             _itemService = itemService;
         }

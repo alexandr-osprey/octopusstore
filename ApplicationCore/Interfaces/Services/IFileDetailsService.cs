@@ -9,7 +9,7 @@ namespace ApplicationCore.Interfaces
     /// </summary>
     /// <typeparam name="TFileDetails"></typeparam>
     /// <typeparam name="TEntity"></typeparam>
-    public interface IFiledetailservice<TFileDetails, TEntity> : IService<TFileDetails> where TFileDetails : FileInfo<TEntity> where TEntity: Entity
+    public interface IFiledetailservice<TFileDetails, TEntity>: IService<TFileDetails> where TFileDetails: FileInfo<TEntity> where TEntity: Entity
     {
         /// <summary>
         /// Max allowed file zise

@@ -9,9 +9,9 @@ using Xunit.Abstractions;
 namespace UnitTests.Controllers
 {
     public abstract class ControllerTestBase<TEntity, TController, TService> 
-        : TestBase<TEntity> 
-        where TController : Controller
-        where TService : IService<TEntity>
+       : TestBase<TEntity> 
+        where TController: Controller
+        where TService: IService<TEntity>
         where TEntity: Entity
 
     {
@@ -19,7 +19,7 @@ namespace UnitTests.Controllers
         protected TService service;
 
         public ControllerTestBase(ITestOutputHelper output)
-            : base(output)
+           : base(output)
         {
             controller = Resolve<TController>();
             service = Resolve<TService>();
