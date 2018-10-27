@@ -26,7 +26,7 @@ namespace UnitTests.Controllers
         [Fact]
         public async Task Index()
         {
-            var category = await context.Categories.FirstOrDefaultAsync(c => c.Title == "Smartphones");
+            var category = await _context.Categories.FirstOrDefaultAsync(c => c.Title == "Smartphones");
             var categories = await _categoryService.EnumerateParentCategoriesAsync(new EntitySpecification<Category>(category.Id));
             var categoryIds = from c in categories select c.Id;
             var spec = new CharacteristicByCategoryIdsSpecification(categoryIds)
@@ -42,9 +42,7 @@ namespace UnitTests.Controllers
             var characteristicValues = await service.EnumerateAsync(spec2);
             var expected = new IndexViewModel<CharacteristicValueViewModel>(1, 1, characteristicValues.Count(), from c in characteristicValues select new  CharacteristicValueViewModel(c));
             var actual = await controller.Index(category.Id);
-            Assert.Equal(
-                JsonConvert.SerializeObject(expected, Formatting.None, jsonSettings),
-                JsonConvert.SerializeObject(actual, Formatting.None, jsonSettings));
+            Equal(expected, actual);
         }
     }
 }

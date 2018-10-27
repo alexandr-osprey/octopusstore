@@ -30,18 +30,16 @@ namespace UnitTests.Controllers
             int pageSize = 3;
 
             var actual = (await controller.Index(page, pageSize, null, null, null, null));
-            var items = await GetQueryable(context)
+            var items = await GetQueryable()
                 .Skip(pageSize * (page - 1))
                 .Take(pageSize).ToListAsync();
-            int totalCount = await context.Items.CountAsync();
+            int totalCount = await _context.Items.CountAsync();
             var expected = new IndexViewModel<ItemViewModel>(
                 page,
                 GetPageCount(totalCount, pageSize),
                 totalCount,
                 from i in items select new ItemViewModel(i));
-            Assert.Equal(
-                JsonConvert.SerializeObject(expected, Formatting.None, jsonSettings),
-                JsonConvert.SerializeObject(actual, Formatting.None, jsonSettings));
+            Equal(expected, actual);
         }
         [Fact]
         public async Task IndexWithoutFiltersWithoutPageSize()
@@ -50,18 +48,16 @@ namespace UnitTests.Controllers
             int take = 50;
 
             var actual = (await controller.Index(page, null, null, null, null, null));
-            var items = await GetQueryable(context)
+            var items = await GetQueryable()
                 .Skip(take * (page - 1))
                 .Take(take).ToListAsync();
-            int totalCount = await context.Items.CountAsync();
+            int totalCount = await _context.Items.CountAsync();
             var expected = new IndexViewModel<ItemViewModel>(
                 page,
                 GetPageCount(totalCount, take),
                 totalCount,
                 from i in items select new ItemViewModel(i));
-            Assert.Equal(
-                JsonConvert.SerializeObject(expected, Formatting.None, jsonSettings),
-                JsonConvert.SerializeObject(actual, Formatting.None, jsonSettings));
+            Equal(expected, actual);
         }
 
         [Fact]
@@ -71,28 +67,26 @@ namespace UnitTests.Controllers
             int take = 50;
 
             var actual = (await controller.Index(null, null, "sa", null, null, null));
-            var items = await GetQueryable(context).Where(i => i.Title.Contains("Sa")).ToListAsync();
+            var items = await GetQueryable().Where(i => i.Title.Contains("Sa")).ToListAsync();
             int totalCount = items.Count;
             var expected = new IndexViewModel<ItemViewModel>(
                 page,
                 GetPageCount(totalCount, take),
                 totalCount,
                 from i in items select new ItemViewModel(i));
-            Assert.Equal(
-                JsonConvert.SerializeObject(expected, Formatting.None, jsonSettings),
-                JsonConvert.SerializeObject(actual, Formatting.None, jsonSettings));
+            Equal(expected, actual);
         }
         [Fact]
         public async Task IndexWithAllFilters()
         {
-            var samsung7 = await context.Items
+            var samsung7 = await _context.Items
             .AsNoTracking()
             .Where(i => i.Title.Contains("Samsung 7"))
             .FirstOrDefaultAsync();
 
             int page = 1;
             int pageSize = 5;
-            var query = GetQueryable(context)
+            var query = GetQueryable()
                 .Where(i => i.Title.Contains("Samsung"))
                 .Where(i => i.StoreId == samsung7.StoreId)
                 .Where(i => i.BrandId == samsung7.BrandId);
@@ -102,21 +96,19 @@ namespace UnitTests.Controllers
                 .Take(pageSize).ToListAsync();
             var expected = new IndexViewModel<ItemViewModel>(page, GetPageCount(totalCount, pageSize), totalCount, from i in items select new ItemViewModel(i));
             var actual = (await controller.Index(page, pageSize, "Samsung", samsung7.CategoryId, samsung7.StoreId, samsung7.BrandId));
-            Assert.Equal(
-                JsonConvert.SerializeObject(expected, Formatting.None, jsonSettings),
-                JsonConvert.SerializeObject(actual, Formatting.None, jsonSettings));
+            Equal(expected, actual);
         }
         [Fact]
         public async Task IndexWithAllFiltersThumbnails()
         {
-            var samsung7 = await context.Items
+            var samsung7 = await _context.Items
             .AsNoTracking()
             .Where(i => i.Title.Contains("Samsung 7"))
             .FirstOrDefaultAsync();
 
             int page = 1;
             int pageSize = 5;
-            var query = GetQueryable(context)
+            var query = GetQueryable()
                 .Where(i => i.Title.Contains("Samsung"))
                 .Where(i => i.StoreId == samsung7.StoreId)
                 .Where(i => i.BrandId == samsung7.BrandId);
@@ -126,14 +118,12 @@ namespace UnitTests.Controllers
                 .Take(pageSize).ToListAsync();
             var expected = new IndexViewModel<ItemThumbnailViewModel>(page, GetPageCount(totalCount, pageSize), totalCount, from i in items select new ItemThumbnailViewModel(i));
             var actual = (await controller.IndexThumbnails(page, pageSize, "Samsung", samsung7.CategoryId, samsung7.StoreId, samsung7.BrandId));
-            Assert.Equal(
-                JsonConvert.SerializeObject(expected, Formatting.None, jsonSettings),
-                JsonConvert.SerializeObject(actual, Formatting.None, jsonSettings));
+            Equal(expected, actual);
         }
         [Fact]
         public async Task IndexByCategory()
         {
-            var clothesCategory = await context.Categories
+            var clothesCategory = await _context.Categories
             .AsNoTracking()
             .Where(c => c.Title == "Clothes")
             .Include(c => c.Subcategories)
@@ -143,7 +133,7 @@ namespace UnitTests.Controllers
 
             int page = 1;
             int pageSize = 5;
-            var query = GetQueryable(context)
+            var query = GetQueryable()
                 .Where(i => categories.Where(c => c.Id == i.CategoryId).Any());
             int totalCount = query.Count();
             var items = await query
@@ -151,48 +141,42 @@ namespace UnitTests.Controllers
                 .Take(pageSize).ToListAsync();
             var expected = new IndexViewModel<ItemViewModel>(page, GetPageCount(totalCount, pageSize), totalCount, from i in items select new ItemViewModel(i));
             var actual = (await controller.Index(null, null, null, clothesCategory.Id, null, null));
-            Assert.Equal(
-                JsonConvert.SerializeObject(expected, Formatting.None, jsonSettings),
-                JsonConvert.SerializeObject(actual, Formatting.None, jsonSettings));
+            Equal(expected, actual);
         }
         [Fact]
         public async Task Get()
         {
-            var samsungItem = await context.Items
+            var samsungItem = await _context.Items
             .AsNoTracking()
             .Where(i => i.Title.Contains("Samsung 7"))
             .FirstOrDefaultAsync();
-            var expectedItem = await GetQueryable(context)
+            var expectedItem = await GetQueryable()
                 .FirstOrDefaultAsync(i => i.Id == samsungItem.Id);
             var expected = new ItemViewModel(expectedItem);
             var actual = await controller.Get(samsungItem.Id);
-            Assert.Equal(
-                JsonConvert.SerializeObject(expected, Formatting.None, jsonSettings),
-                JsonConvert.SerializeObject(actual, Formatting.None, jsonSettings));
+            Equal(expected, actual);
 
             await Assert.ThrowsAsync<EntityNotFoundException>(() => controller.Get(9999));
         }
         [Fact]
         public async Task GetDetail()
         {
-            var samsungItem = await context.Items
+            var samsungItem = await _context.Items
                 .AsNoTracking()
                 .Where(i => i.Title.Contains("Samsung 7"))
                 .FirstOrDefaultAsync();
-            var expectedItem = await GetQueryable(context)
+            var expectedItem = await GetQueryable()
                 .FirstOrDefaultAsync(i => i.Id == samsungItem.Id);
             var expected = new ItemDetailViewModel(expectedItem);
             var actual = await controller.GetDetail(samsungItem.Id);
-            Assert.Equal(
-                JsonConvert.SerializeObject(expected, Formatting.None, jsonSettings),
-                JsonConvert.SerializeObject(actual, Formatting.None, jsonSettings));
+            Equal(expected, actual);
 
             await Assert.ThrowsAsync<EntityNotFoundException>(() => controller.Get(9999));
         }
         [Fact]
         public async Task Post()
         {
-            var samsungItem = await context.Items
+            var samsungItem = await _context.Items
                 .AsNoTracking()
                 .Where(i => i.Title.Contains("Samsung 7"))
                 .FirstOrDefaultAsync();
@@ -202,32 +186,25 @@ namespace UnitTests.Controllers
             var itemViewModel = new ItemViewModel(samsungItem);
             var actual = await controller.Post(itemViewModel);
             var expected = new ItemViewModel(
-                    await GetQueryable(context)
+                    await GetQueryable()
                         .FirstOrDefaultAsync(i => i.Id == actual.Id));
-
-            Assert.Equal(
-                JsonConvert.SerializeObject(expected, Formatting.None, jsonSettings),
-                JsonConvert.SerializeObject(actual, Formatting.None, jsonSettings));
+            Equal(expected, actual);
         }
         [Fact]
         public async Task Put()
         {
-            var samsungItem = await context.Items
+            var samsungItem = await _context.Items
                .AsNoTracking()
                .Where(i => i.Title.Contains("Samsung 7"))
                .FirstOrDefaultAsync();
-            samsungItem = await GetQueryable(context).FirstOrDefaultAsync(i => i.Id == samsungItem.Id);
+            samsungItem = await GetQueryable().FirstOrDefaultAsync(i => i.Id == samsungItem.Id);
             samsungItem.Title += "_UPDATED";
             var itemViewModel = new ItemViewModel(samsungItem);
             var actual = await controller.Put(itemViewModel.Id, itemViewModel);
-            var expItem = await GetQueryable(context)
+            var expItem = await GetQueryable()
                 .FirstOrDefaultAsync(i => i.Id == samsungItem.Id);
             var expected = new ItemViewModel(expItem);
-
-            Assert.Equal(
-                JsonConvert.SerializeObject(expected, Formatting.None, jsonSettings),
-                JsonConvert.SerializeObject(actual, Formatting.None, jsonSettings));
-
+            Equal(expected, actual);
             itemViewModel.Id = 9999;
             await Assert.ThrowsAsync<EntityNotFoundException>(() => controller.Put(itemViewModel.Id, itemViewModel));
         }
@@ -235,18 +212,18 @@ namespace UnitTests.Controllers
         public async Task Delete()
         {
             int id = 3;
-            var item = await GetQueryable(context).FirstOrDefaultAsync(i => i.Id == id);
+            var item = await GetQueryable().FirstOrDefaultAsync(i => i.Id == id);
             foreach (var image in item.Images)
                 await CreateItemImageCopy(image);
             await controller.Delete(item.Id);
-            Assert.False(context.Items.Where(i => i.Id == id).Any());
-            Assert.False(context.ItemVariants.Where(v => v.ItemId == item.Id).Any());
-            Assert.False(context.ItemImages.Where(i => i.RelatedId == item.Id).Any());
+            Assert.False(_context.Items.Where(i => i.Id == id).Any());
+            Assert.False(_context.ItemVariants.Where(v => v.ItemId == item.Id).Any());
+            Assert.False(_context.ItemImages.Where(i => i.RelatedId == item.Id).Any());
             await Assert.ThrowsAsync<EntityNotFoundException>(() => controller.Delete(9999));
         }
-        protected override IQueryable<Item> GetQueryable(DbContext context)
+        protected override IQueryable<Item> GetQueryable()
         {
-            return context
+            return _context
                 .Set<Item>()
                 .AsNoTracking()
                 .Include(i => i.Brand)

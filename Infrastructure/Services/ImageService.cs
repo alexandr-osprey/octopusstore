@@ -8,8 +8,8 @@ namespace Infrastructure.Services
     public abstract class ImageService<TImage, TEntity>
        : FileInfoService<TImage, TEntity>,
         IImageService<TImage, TEntity>
-        where TImage: Image<TEntity>
-        where TEntity: Entity
+        where TImage : Image<TEntity>
+        where TEntity : Entity
     {
         public ImageService(
             StoreContext context,

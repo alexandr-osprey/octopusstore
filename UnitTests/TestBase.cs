@@ -51,16 +51,18 @@ namespace UnitTests
         protected UserManager<ApplicationUser> _userManager;
         protected ITestOutputHelper _output;
         protected int _maxTake = 200;
-        protected StoreContext context;
+        protected StoreContext _context;
         protected AppIdentityDbContext _identityContext;
         protected static string johnId = "john@mail.com";
+        protected static string adminId = "admin@mail.com";
 
         public TestBase(ITestOutputHelper output)
         {
             var logger = Resolve<IAppLogger<StoreContext>>();
             _logger = Resolve<IAppLogger<TestBase<TEntity>>>();
-            context = Resolve<StoreContext>();
+            _context = Resolve<StoreContext>();
             StoreContextSeed.SeedStoreAsync(Resolve<StoreContext>(), logger).Wait();
+            //_context.DetachAllEntities();
             NLog.LogManager.Configuration = new NLog.Config.XmlLoggingConfiguration("NLog.config", false);
             _output = output;
             _identityContext = Resolve<AppIdentityDbContext>();
@@ -69,8 +71,9 @@ namespace UnitTests
 
         protected static async Task ConfigureIdentity()
         {
-            //IdentityConfiguration.ConfigureTesting(services, configuration);
             services.AddSingleton(identityContextOptions);
+            //IdentityConfiguration.ConfigureTesting(services, configuration);
+
             services.AddSingleton(_ => new TokenValidationParameters());
             services.AddDbContext<AppIdentityDbContext>();
             services.AddIdentity<ApplicationUser, IdentityRole>()
@@ -86,7 +89,6 @@ namespace UnitTests
 
             var serviceProvider = services.BuildServiceProvider();
 
-            string adminId = "admin@mail.com";
             AppIdentityDbContextSeed.SeedAsync(serviceProvider, Resolve<UserManager<ApplicationUser>>()).Wait();
             await AppIdentityDbContextSeed.AddClaim(Resolve<UserManager<ApplicationUser>>(),
                 new Claim(CustomClaimTypes.Administrator, CustomClaimValues.Content),
@@ -100,8 +102,8 @@ namespace UnitTests
                     new ClaimsIdentity(
                         new List<Claim>()
                         {
-                            new Claim(ClaimTypes.NameIdentifier, johnId),
-                            new Claim(ClaimTypes.Name, johnId)
+                            new Claim(ClaimTypes.NameIdentifier, adminId),
+                            new Claim(ClaimTypes.Name, adminId)
                         }
                    )
                 )
@@ -115,9 +117,11 @@ namespace UnitTests
         {
             // db options
             services.AddSingleton(storeContextOptions);
+            services.AddDbContext<StoreContext>(options => options.UseInMemoryDatabase(Guid.NewGuid().ToString()));
 
             Startup.ConfigureDI(services);
-            services.AddScoped(typeof(IAuthorizationParameters<>), typeof(AuthoriationParametersWithoutAuthorization<>));
+            services.AddSingleton(typeof(IAuthorizationParameters<>), typeof(AuthoriationParametersWithoutAuthorization<>));
+            services.AddSingleton<IAuthorizationParameters<CartItem>, AuthoriationParametersWithoutAuthorization<CartItem>>();
 
             var conf = new Mock<IConfiguration>();
             services.AddSingleton(conf.Object);
@@ -140,9 +144,9 @@ namespace UnitTests
             ServiceProvider serviceProvider = services.BuildServiceProvider();
             return serviceProvider.GetRequiredService<T>();
         }
-        protected virtual IQueryable<TEntity> GetQueryable(DbContext context)
+        protected virtual IQueryable<TEntity> GetQueryable()
         {
-            return context.Set<TEntity>().AsNoTracking();
+            return _context.Set<TEntity>().AsNoTracking();
         }
 
         protected async Task GetCategoryHierarchyAsync(int id, HashSet<Category> hierarchy)
@@ -152,7 +156,7 @@ namespace UnitTests
         }
         protected async Task GetCategoryParentsAsync(int categoryId, HashSet<Category> hierarchy)
         {
-            var category = await context
+            var category = await _context
                 .Set<Category>()
                 .AsNoTracking()
                 .Where(c => c.Id == categoryId)
@@ -166,7 +170,7 @@ namespace UnitTests
         }
         public async Task GetCategorySubcategoriesAsync(int categoryId, HashSet<Category> hierarchy)
         {
-            var category = await context
+            var category = await _context
                 .Set<Category>()
                 .AsNoTracking()
                 .Where(c => c.Id == categoryId)
@@ -199,8 +203,8 @@ namespace UnitTests
             if (!File.Exists(fileCopy))
                 File.Copy(itemImage.FullPath, fileCopy);
             itemImage.FullPath = fileCopy;
-            context.Set<ItemImage>().Update(itemImage);
-            await context.SaveChangesAsync();
+            _context.Set<ItemImage>().Update(itemImage);
+            await _context.SaveChangesAsync();
         }
     }
 }

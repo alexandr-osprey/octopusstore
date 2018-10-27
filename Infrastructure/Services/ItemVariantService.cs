@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Services
 {
-    public class ItemVariantService: Service<ItemVariant>, IItemVariantService
+    public class ItemVariantService : Service<ItemVariant>, IItemVariantService
     {
         public ItemVariantService(
             StoreContext context,
@@ -27,7 +27,7 @@ namespace Infrastructure.Services
             return await base.DeleteAsync(spec);
         }
 
-        public override async Task ValidateCreateWithExceptionAsync(ItemVariant itemVariant)
+        protected override async Task ValidateCreateWithExceptionAsync(ItemVariant itemVariant)
         {
             if (!await _context.ExistsBySpecAsync(_logger, new EntitySpecification<Item>(itemVariant.ItemId)))
                 throw new EntityValidationException($"Item with Id {itemVariant.ItemId} does not exist. ");

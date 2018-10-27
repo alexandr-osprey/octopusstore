@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Services
 {
-    public abstract class FileInfoService<TFileInfo, TEntity> 
-       : Service<TFileInfo>, 
-        IFiledetailservice<TFileInfo, TEntity> 
-        where TFileInfo: FileInfo<TEntity> 
-        where TEntity: Entity
+    public abstract class FileInfoService<TFileInfo, TEntity>
+       : Service<TFileInfo>,
+        IFiledetailservice<TFileInfo, TEntity>
+        where TFileInfo : FileInfo<TEntity>
+        where TEntity : Entity
     {
         public FileInfoService(
             StoreContext context,
@@ -32,7 +32,7 @@ namespace Infrastructure.Services
         override public async Task<TFileInfo> CreateAsync(TFileInfo entity)
         {
             if (entity == null)
-                throw new ArgumentNullException(nameof(entity)); 
+                throw new ArgumentNullException(nameof(entity));
             await base.CreateAsync(entity);
             try
             {
@@ -82,7 +82,7 @@ namespace Infrastructure.Services
             }
             await base.DeleteRelatedEntitiesAsync(entity);
         }
-        public override async Task ValidateCreateWithExceptionAsync(TFileInfo fileInfo)
+        protected override async Task ValidateCreateWithExceptionAsync(TFileInfo fileInfo)
         {
             ValidateFile(fileInfo);
             await ValidateRelatedEntityAsync(fileInfo);

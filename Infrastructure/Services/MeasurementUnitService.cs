@@ -5,7 +5,7 @@ using Infrastructure.Data;
 
 namespace Infrastructure.Services
 {
-    public class MeasurementUnitService: Service<MeasurementUnit>, IMeasurementUnitService
+    public class MeasurementUnitService : Service<MeasurementUnit>, IMeasurementUnitService
     {
         public MeasurementUnitService(
             StoreContext context,

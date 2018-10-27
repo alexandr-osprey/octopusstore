@@ -99,13 +99,13 @@ namespace ApplicationCore.Interfaces
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        Task ValidateCreateWithExceptionAsync(TEntity entity);
-        /// <summary>
-        /// Verifies data integrity of entity before updating
-        /// </summary>
-        /// <param name="entity"></param>
-        /// <returns></returns>
-        Task ValidateUpdateWithExceptionAsync(TEntity entity);
+        //Task ValidateCreateWithExceptionAsync(TEntity entity);
+        ///// <summary>
+        ///// Verifies data integrity of entity before updating
+        ///// </summary>
+        ///// <param name="entity"></param>
+        ///// <returns></returns>
+        //Task ValidateUpdateWithExceptionAsync(TEntity entity);
         /// <summary>
         /// Retrieves entities based on specification
         /// </summary>

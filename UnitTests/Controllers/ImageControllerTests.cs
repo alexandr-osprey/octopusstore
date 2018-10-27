@@ -26,8 +26,8 @@ namespace UnitTests.Controllers
         [Fact]
         public async Task Create()
         {
-            var item = await context.Items.Include(i => i.Images).FirstOrDefaultAsync();
-            var lastImage = await GetQueryable(context).LastOrDefaultAsync();
+            var item = await _context.Items.Include(i => i.Images).FirstOrDefaultAsync();
+            var lastImage = await GetQueryable().LastOrDefaultAsync();
             var imageMock = new Mock<IFormFile>();
             var filename = Path.GetFileName(lastImage.FullPath);
             var st = await service.GetStreamAsync(lastImage.Id);
@@ -49,7 +49,7 @@ namespace UnitTests.Controllers
             var image = imageMock.Object;
             var actual = await controller.PostForm(item.Id, image);
 
-            var newImage = await GetQueryable(context).FirstOrDefaultAsync(i => i.Id == actual.Id);
+            var newImage = await GetQueryable().FirstOrDefaultAsync(i => i.Id == actual.Id);
             var streamActual = File.OpenRead(newImage.FullPath);
             byte[] bytesActual = new byte[streamActual.Length];
             streamActual.Read(bytesActual, 0, (int)streamActual.Length);
@@ -59,7 +59,7 @@ namespace UnitTests.Controllers
         [Fact]
         public async Task Get()
         {
-            var imageExpected = await GetQueryable(context).FirstOrDefaultAsync();
+            var imageExpected = await GetQueryable().FirstOrDefaultAsync();
             var streamExpected = File.OpenRead(imageExpected.FullPath);
             byte[] bytesExpected = new byte[streamExpected.Length];
             streamExpected.Read(bytesExpected, 0, (int)streamExpected.Length);
@@ -76,33 +76,29 @@ namespace UnitTests.Controllers
         [Fact]
         public async Task Put()
         {
-            var imageExpected = await GetQueryable(context).FirstOrDefaultAsync();
+            var imageExpected = await GetQueryable().FirstOrDefaultAsync();
             imageExpected.Title = "UPDATED";
             var expected = new ItemImageViewModel(imageExpected);
             var actual = await controller.Put(imageExpected.Id, new ItemImageViewModel(imageExpected));
             Assert.Equal(
                 JsonConvert.SerializeObject(expected, Formatting.None, jsonSettings),
                 JsonConvert.SerializeObject(actual, Formatting.None, jsonSettings));
-            var imageActual = await GetQueryable(context).FirstOrDefaultAsync(i => i.Id == imageExpected.Id);
-            Assert.Equal(
-                JsonConvert.SerializeObject(imageExpected, Formatting.None, jsonSettings),
-                JsonConvert.SerializeObject(imageActual, Formatting.None, jsonSettings));
+            var imageActual = await GetQueryable().FirstOrDefaultAsync(i => i.Id == imageExpected.Id);
+            Equal(imageExpected, imageActual);
             await Get();
         }
         [Fact]
         public async Task Index()
         {
-            var imagesExpected = await GetQueryable(context).Where(i => i.RelatedId == 1).ToListAsync();
+            var imagesExpected = await GetQueryable().Where(i => i.RelatedId == 1).ToListAsync();
             var expected = new IndexViewModel<ItemImageViewModel>(1, 1, imagesExpected.Count, from i in imagesExpected select new ItemImageViewModel(i));
             var actual = await controller.Index(1);
-            Assert.Equal(
-                JsonConvert.SerializeObject(expected, Formatting.None, jsonSettings),
-                JsonConvert.SerializeObject(actual, Formatting.None, jsonSettings));
+            Equal(expected, actual);
         }
         [Fact]
         public async Task Delete()
         {
-            var fileDetails = await GetQueryable(context).LastOrDefaultAsync();
+            var fileDetails = await GetQueryable().LastOrDefaultAsync();
             await CreateItemImageCopy(fileDetails);
             await controller.Delete(fileDetails.Id);
 

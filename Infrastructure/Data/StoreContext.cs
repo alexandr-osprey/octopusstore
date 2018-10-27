@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using ApplicationCore.Entities;
+using System.Linq;
 
 namespace Infrastructure.Data
 {
@@ -22,6 +23,18 @@ namespace Infrastructure.Data
         public DbSet<ItemVariant> ItemVariants { get; set; }
         public DbSet<ItemVariantCharacteristicValue> ItemVariantCharacteristicValues { get; set; }
         public DbSet<CartItem> CartItems { get; set; }
+
+        public void DetachAllEntities()
+        {
+            var changedEntriesCopy = this.ChangeTracker.Entries()
+                .Where(e => e.State == EntityState.Added ||
+                            e.State == EntityState.Modified ||
+                            e.State == EntityState.Deleted)
+                .ToList();
+
+            foreach (var entry in changedEntriesCopy)
+                entry.State = EntityState.Detached;
+        }
         //public DbSet<StoreAdministrator> StoreAdministrators { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)

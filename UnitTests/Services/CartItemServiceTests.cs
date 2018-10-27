@@ -2,6 +2,7 @@
 using ApplicationCore.Interfaces;
 using ApplicationCore.Specifications;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -10,74 +11,96 @@ using Xunit.Abstractions;
 
 namespace UnitTests.Services
 {
-    public class CartItemServiceTests: ServiceTestBase<CartItem, ICartItemService>
+    public class CartItemServiceTests : ServiceTestBase<CartItem, ICartItemService>
     {
         protected IQueryable<ItemVariant> itemVariants;
         public CartItemServiceTests(ITestOutputHelper output)
            : base(output)
         {
-            itemVariants = context.Set<ItemVariant>().AsNoTracking();
-        }
-        protected async Task PopulateData()
-        {
-            var itemVariant = await itemVariants.FirstOrDefaultAsync();
-            await context.AddAsync(new CartItem() { OwnerId = johnId, ItemVariantId = itemVariant.Id, Number = 5 });
-            await context.AddAsync(new CartItem() { OwnerId = johnId, ItemVariantId = itemVariant.Id + 1, Number = 6 });
-            await context.SaveChangesAsync();
-        }
-        [Fact]
-        public async Task AddToCartWhenExistsAsync()
-        {
-            await PopulateData();
-            await AddToCartAsync();
+            itemVariants = _context.Set<ItemVariant>().AsNoTracking();
         }
         [Fact]
         public async Task AddToCartAsync()
         {
             var itemVariant = await itemVariants.FirstOrDefaultAsync();
-            var beforeAdd = await GetQueryable(context).Where(i => i.OwnerId == johnId).ToListAsync();
+            var beforeAdd = await GetQueryable().Where(i => i.OwnerId == johnId).ToListAsync();
             int numberBeforeAdd = 0;
             var cartItemBeforeAdd = beforeAdd.FirstOrDefault(i => i.ItemVariantId == itemVariant.Id);
             if (cartItemBeforeAdd != null)
                 numberBeforeAdd = cartItemBeforeAdd.Number;
             int q = 1;
-            int numberAfterAdd = q + numberBeforeAdd;
-            await service.AddToCartAsync(johnId, itemVariant.Id, q);
-            var afterAdd = await GetQueryable(context).Where(i => i.OwnerId == johnId).ToListAsync();
-            Assert.Equal(numberAfterAdd, (await GetQueryable(context).FirstOrDefaultAsync(i => i.OwnerId == johnId && i.ItemVariantId == itemVariant.Id)).Number);
-        }
-        //[Fact]
-        //public async Task EnumerateCartItemsAsync()
-        //{
-        //    await PopulateData();
-        //    var expected = await GetQueryable(context).Where(i => i.OwnerId == johnId).ToListAsync();
-        //    var actual = await service.EnumerateCartItemsAsync();
-        //    Equal(expected, actual);
-        //}
-        [Fact]
-        public async Task RemoveFromCartWhenExistsAsync()
-        {
-            await PopulateData();
-            await RemoveFromCartAsync();
+            int expected = q + numberBeforeAdd;
+            await _service.AddToCartAsync(johnId, itemVariant.Id, q);
+            var afterAdd = await GetQueryable().Where(i => i.OwnerId == johnId).ToListAsync();
+            int actual = (await GetQueryable().FirstOrDefaultAsync(i => i.OwnerId == johnId && i.ItemVariantId == itemVariant.Id)).Number;
+            Assert.Equal(expected, actual);
         }
         [Fact]
         public async Task RemoveFromCartAsync()
         {
             var itemVariant = await itemVariants.FirstOrDefaultAsync();
-            var beforeRemove = await GetQueryable(context).Where(i => i.OwnerId == johnId).ToListAsync();
+            var beforeRemove = await GetQueryable().Where(i => i.OwnerId == johnId).ToListAsync();
             int numberBeforeRemove = 0;
             var cartItemBeforeRemove = beforeRemove.FirstOrDefault(i => i.ItemVariantId == itemVariant.Id);
             if (cartItemBeforeRemove != null)
                 numberBeforeRemove = cartItemBeforeRemove.Number;
             int q = 1;
             int numberAfterRemoveExpected = numberBeforeRemove - q;
-            numberAfterRemoveExpected = numberAfterRemoveExpected < 0 ? 0: numberAfterRemoveExpected;
-            await service.RemoveFromCartAsync(johnId, itemVariant.Id, q);
-            var afterRemove = await GetQueryable(context).Where(i => i.OwnerId == johnId).ToListAsync();
+            numberAfterRemoveExpected = numberAfterRemoveExpected < 0 ? 0 : numberAfterRemoveExpected;
+            await _service.RemoveFromCartAsync(johnId, itemVariant.Id, q);
+            var afterRemove = await GetQueryable().Where(i => i.OwnerId == johnId).ToListAsync();
             if (numberAfterRemoveExpected <= 0)
-                Assert.False(await GetQueryable(context).Where(i => i.OwnerId == johnId && i.ItemVariantId == itemVariant.Id).AnyAsync());
+                Assert.False(await GetQueryable().Where(i => i.OwnerId == johnId && i.ItemVariantId == itemVariant.Id).AnyAsync());
             else
-                Assert.Equal(numberAfterRemoveExpected, (await GetQueryable(context).FirstOrDefaultAsync(i => i.OwnerId == johnId && i.ItemVariantId == itemVariant.Id)).Number);
+                Assert.Equal(numberAfterRemoveExpected, (await GetQueryable().FirstOrDefaultAsync(i => i.OwnerId == johnId && i.ItemVariantId == itemVariant.Id)).Number);
+        }
+
+        protected override async Task<IEnumerable<CartItem>> GetCorrectNewEntitesAsync()
+        {
+            return await Task.FromResult(new List<CartItem>
+            {
+                new CartItem() { OwnerId = johnId, ItemVariantId = 2, Number = 7 },
+                new CartItem() { OwnerId = johnId, ItemVariantId = 3, Number = 8 }
+            });
+        }
+
+        protected override async Task<IEnumerable<CartItem>> GetIncorrectNewEntitesAsync()
+        {
+            await _context.AddAsync(new CartItem() { OwnerId = adminId, ItemVariantId = 1, Number = 7 });
+            await _context.AddAsync(new CartItem() { OwnerId = adminId, ItemVariantId = 2, Number = 8 });
+            await _context.SaveChangesAsync();
+            return await Task.FromResult(new List<CartItem>
+            {
+                // first two already exist
+                new CartItem() { OwnerId = adminId, ItemVariantId = 1, Number = 7 },
+                new CartItem() { OwnerId = adminId, ItemVariantId = 2, Number = 8 },
+                new CartItem() { OwnerId = johnId, ItemVariantId = 3, Number = 0 },
+                new CartItem() { OwnerId = johnId, ItemVariantId = 999, Number = 8 },
+                new CartItem() { OwnerId = "", ItemVariantId = 999, Number = 8 }
+            });
+        }
+
+        protected override async Task<IEnumerable<CartItem>> GetCorrectEntitesForUpdateAsync()
+        {
+            return await Task.FromResult(new List<CartItem>
+            {
+                new CartItem() { Id = 1, OwnerId = johnId, ItemVariantId = 1, Number = 77 },
+                new CartItem() { Id = 2, OwnerId = johnId, ItemVariantId = 2, Number = 88 },
+            });
+        }
+
+        protected override async Task<IEnumerable<CartItem>> GetIncorrectEntitesForUpdateAsync()
+        {
+            return await Task.FromResult(new List<CartItem>
+            {
+                new CartItem() { Id = 1, OwnerId = johnId, ItemVariantId = 1, Number = -1 },
+                //new CartItem() { Id = 2, OwnerId = johnId, ItemVariantId = 99, Number = 88 },
+            });
+        }
+
+        protected override Specification<CartItem> GetEntitiesToDeleteSpecification()
+        {
+            return new Specification<CartItem>(c => c.ItemVariantId == 1 && c.OwnerId == johnId);
         }
     }
 }

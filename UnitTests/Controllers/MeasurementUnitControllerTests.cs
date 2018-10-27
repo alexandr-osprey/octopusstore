@@ -20,13 +20,11 @@ namespace UnitTests.Controllers
         public async Task Index()
         {
             var actual = await controller.Index();
-            var measurementUnits = await GetQueryable(context)
+            var measurementUnits = await GetQueryable()
                 .ToListAsync();
 
             var expected = new IndexViewModel<MeasurementUnitViewModel>(1, 1, measurementUnits.Count(), from m in measurementUnits select new MeasurementUnitViewModel(m));
-            Assert.Equal(
-                JsonConvert.SerializeObject(expected, Formatting.None, jsonSettings),
-                JsonConvert.SerializeObject(actual, Formatting.None, jsonSettings));
+            Equal(expected, actual);
         }
     }
 }

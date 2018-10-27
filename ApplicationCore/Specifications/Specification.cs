@@ -89,7 +89,7 @@ namespace ApplicationCore.Specifications
         }
         protected static bool HasValue(string s)
         {
-            return (s != null && s != "");
+            return (!string.IsNullOrWhiteSpace(s));
         }
     }
 }

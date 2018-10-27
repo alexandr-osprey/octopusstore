@@ -46,7 +46,7 @@ namespace OctopusStore.Controllers
         public virtual async Task<TViewModel> CreateAsync(TViewModel viewModel)
         {
             if (viewModel == null)
-                throw new ArgumentNullException(nameof(viewModel));
+                throw new BadRequestException("Empty body");
             viewModel.Id = 0;
             var entity = await _service.CreateAsync(viewModel.ToModel());
             return GetViewModel<TViewModel>(entity);
@@ -75,7 +75,7 @@ namespace OctopusStore.Controllers
         protected async Task<TViewModel> UpdateAsync(TViewModel viewModel)
         {
             if (viewModel == null)
-                throw new ArgumentNullException(nameof(viewModel));
+                throw new BadRequestException("Empty body");
             var entityToUpdate = await _service.ReadSingleAsync(viewModel.ToModel());
             var entitiy = await _service.UpdateAsync(viewModel.UpdateModel(entityToUpdate));
             return GetViewModel<TViewModel>(entitiy);
@@ -89,11 +89,12 @@ namespace OctopusStore.Controllers
             return new Response($"Deleted {_entityName}(s) according to spec {spec}");
         }
 
-        protected async Task<ActionResult> DeleteAsync(Specification<TEntity> spec)
+        protected async Task<Response> DeleteAsync(Specification<TEntity> spec)
         {
-            if (spec == null) throw new ArgumentNullException(nameof(spec));
+            if (spec == null)
+                throw new ArgumentNullException(nameof(spec));
             int deleted = await _service.DeleteAsync(spec);
-            return Ok(new Response($"Deleted {deleted} {_entityName}(s)"));
+            return new Response($"Deleted {deleted} {_entityName}(s)");
         }
 
         protected async Task<IndexViewModel<TViewModel>> IndexAsync(Specification<TEntity> spec)
@@ -138,7 +139,6 @@ namespace OctopusStore.Controllers
             return GetIndexViewModel<TViewModel>(page, totalPages, totalCount, entities);
         }
         protected IndexViewModel<TCustomViewModel> GetIndexViewModel<TCustomViewModel>(int page, int totalPages, int totalCount, IEnumerable<TEntity> entities)
-            //where TCustomIndexViewModel: EntityIndexViewModel<TCustomViewModel, TEntity>
             where TCustomViewModel: EntityViewModel<TEntity>
         {
             var viewModels = from e in entities select GetViewModel<TCustomViewModel>(e);
@@ -156,7 +156,7 @@ namespace OctopusStore.Controllers
     public class ActivatorsStorage
     {
         public delegate object ObjectActivator(params object[] args);
-        private readonly Dictionary<Type, ObjectActivator> activators = new Dictionary<Type, ObjectActivator>();
+        protected readonly static Dictionary<Type, ObjectActivator> activators = new Dictionary<Type, ObjectActivator>();
 
         private ObjectActivator CreateActivator(Type type, params Type[] argTypes)
         {

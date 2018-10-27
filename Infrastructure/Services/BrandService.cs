@@ -1,4 +1,6 @@
-﻿using ApplicationCore.Entities;
+﻿using System.Threading.Tasks;
+using ApplicationCore.Entities;
+using ApplicationCore.Exceptions;
 using ApplicationCore.Identity;
 using ApplicationCore.Interfaces;
 using Infrastructure.Data;
@@ -15,6 +17,17 @@ namespace Infrastructure.Services
             IAppLogger<Service<Brand>> logger)
            : base(context, identityService, scopedParameters, authoriationParameters, logger)
         {
+        }
+
+        protected override async Task ValidateCreateWithExceptionAsync(Brand brand)
+        {
+            await base.ValidateCreateWithExceptionAsync(brand);
+            if (string.IsNullOrWhiteSpace(brand.Title))
+                throw new EntityValidationException("Title not specified");
+        }
+        protected override async Task ValidateUpdateWithExceptionAsync(Brand brand)
+        {
+            await ValidateCreateWithExceptionAsync(brand);
         }
     }
 }

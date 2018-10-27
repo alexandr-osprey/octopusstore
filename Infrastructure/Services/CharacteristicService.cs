@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Services
 {
-    public class CharacteristicService: Service<Characteristic>, ICharacteristicService
+    public class CharacteristicService : Service<Characteristic>, ICharacteristicService
     {
         protected ICategoryService _сategoryService;
 

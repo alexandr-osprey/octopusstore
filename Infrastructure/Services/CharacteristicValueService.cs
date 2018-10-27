@@ -9,7 +9,7 @@ using ApplicationCore.Identity;
 
 namespace Infrastructure.Services
 {
-    public class CharacteristicValueService: Service<CharacteristicValue>, ICharacteristicValueService
+    public class CharacteristicValueService : Service<CharacteristicValue>, ICharacteristicValueService
     {
         protected ICharacteristicService _сharacteristicService;
 

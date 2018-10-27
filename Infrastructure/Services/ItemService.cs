@@ -9,7 +9,7 @@ using ApplicationCore.Exceptions;
 
 namespace Infrastructure.Services
 {
-    public class ItemService: Service<Item>, IItemService
+    public class ItemService : Service<Item>, IItemService
     {
         protected IItemImageService _itemImageService;
         protected ICategoryService _categoryService;
@@ -46,7 +46,7 @@ namespace Infrastructure.Services
                 ? await _categoryService.EnumerateSubcategoriesAsync(new EntitySpecification<Category>(categoryId.Value))
                : new List<Category>();
         }
-        public override async Task ValidateCreateWithExceptionAsync(Item item)
+        protected override async Task ValidateCreateWithExceptionAsync(Item item)
         {
             var category = await _context.ReadByKeyAsync<Category, Service<Item>>(_logger, item.CategoryId, false)
                 ?? throw new EntityValidationException($"Category with Id {item.CategoryId} does not exist. ");

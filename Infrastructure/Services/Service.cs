@@ -41,10 +41,10 @@ namespace Infrastructure.Services
 
         public virtual async Task<TEntity> CreateAsync(TEntity entity)
         {
+            entity.OwnerId = _scopedParameters.ClaimsPrincipal.Identity.Name;
             await ValidateCreateWithExceptionAsync(entity);
             if (_authoriationParameters.CreateAuthorizationRequired)
             {
-                entity.OwnerId = _scopedParameters.ClaimsPrincipal.Identity.Name;
                 await AuthorizeWithException(entity, _authoriationParameters.CreateOperationRequirement);
             }
             var result = await _context.CreateAsync(_logger, entity);
@@ -129,12 +129,13 @@ namespace Infrastructure.Services
             _logger.Trace("{Name} deleted entity related to {entity} (if such existed)", Name, entity);
             await Task.CompletedTask;
         }
-        public virtual async Task ValidateCreateWithExceptionAsync(TEntity entity)
+        protected virtual async Task ValidateCreateWithExceptionAsync(TEntity entity)
         {
-            //_logger.Trace("{Name} validated {entity}", Name, entity);
+            if (entity.OwnerId == null)
+                throw new EntityValidationException("OwnerId not specified");
             await Task.CompletedTask;
         }
-        public virtual async Task ValidateUpdateWithExceptionAsync(TEntity entity)
+        protected virtual async Task ValidateUpdateWithExceptionAsync(TEntity entity)
         {
             //_logger.Trace("{Name} validated {entity}", Name, entity);
             await Task.CompletedTask;

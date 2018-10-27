@@ -81,6 +81,12 @@ namespace Infrastructure.Data
                 storeContext.ItemVariantCharacteristicValues.AddRange(instance.itemVariantCharacteristicValues);
                 await storeContext.SaveChangesAsync();
             }
+            if (!storeContext.CartItems.Any())
+            {
+                instance.CartItems = instance.GetPreconfiguredCartItems();
+                storeContext.CartItems.AddRange(instance.CartItems);
+                await storeContext.SaveChangesAsync();
+            }
         }
 
         private List<MeasurementUnit> measurementUnits;
@@ -93,8 +99,10 @@ namespace Infrastructure.Data
         private List<ItemImage> itemsImages;
         private List<ItemVariant> itemVariants;
         private List<ItemVariantCharacteristicValue> itemVariantCharacteristicValues;
+        private List<CartItem> CartItems;
         private IAppLogger<StoreContext> _logger;
 
+        string adminId = "admin@mail.com";
         string johnId = "john@mail.com";
         string jenniferId = "jennifer@mail.com";
 
@@ -102,73 +110,71 @@ namespace Infrastructure.Data
         {
             return new List<MeasurementUnit>()
             {
-                new MeasurementUnit { Title = "m" },
-                new MeasurementUnit { Title = "kg" },
-                new MeasurementUnit { Title = "pcs" }
+                new MeasurementUnit { Title = "m", OwnerId = adminId },
+                new MeasurementUnit { Title = "kg", OwnerId = adminId },
+                new MeasurementUnit { Title = "pcs", OwnerId = adminId }
             };
         }
         private List<Brand> GetPreconfiguredBrands()
         {
             return new List<Brand>
             {
-                new Brand { Title = "Apple" },
-                new Brand { Title = "Samsung" },
-                new Brand { Title = "Pebble"},
+                new Brand { Title = "Apple", OwnerId = adminId },
+                new Brand { Title = "Samsung", OwnerId = adminId },
+                new Brand { Title = "Pebble", OwnerId = adminId},
 
-                new Brand { Title = "CK" },
-                new Brand { Title = "Armani" }
+                new Brand { Title = "CK", OwnerId = adminId },
+                new Brand { Title = "Armani", OwnerId = adminId }
             };
         }
         private List<Category> GetPreconfiguredCategories()
         {
             return new List<Category>
             {
-                new Category { Title = "Categories", CanHaveItems = true },
+                new Category { Title = "Categories", CanHaveItems = true, OwnerId = adminId },
 
-                new Category { Title = "Electronics",  ParentCategoryId = 1, CanHaveItems = false }, //1
-                new Category { Title = "Smartphones",  ParentCategoryId = 2, CanHaveItems = true}, //2
-                new Category { Title = "Smartwatches", ParentCategoryId = 2, CanHaveItems = true}, //3
+                new Category { Title = "Electronics",  ParentCategoryId = 1, CanHaveItems = false, OwnerId = adminId }, //1
+                new Category { Title = "Smartphones",  ParentCategoryId = 2, CanHaveItems = true, OwnerId = adminId}, //2
+                new Category { Title = "Smartwatches", ParentCategoryId = 2, CanHaveItems = true, OwnerId = adminId}, //3
 
-                new Category { Title = "Clothes",  ParentCategoryId = 1, CanHaveItems = false}, //4
-                new Category { Title = "Shoes", ParentCategoryId = 5, CanHaveItems = true}, //5
-                new Category { Title = "Jackets", ParentCategoryId = 5, CanHaveItems = true}, //6
+                new Category { Title = "Clothes",  ParentCategoryId = 1, CanHaveItems = false, OwnerId = adminId}, //4
+                new Category { Title = "Shoes", ParentCategoryId = 5, CanHaveItems = true, OwnerId = adminId}, //5
+                new Category { Title = "Jackets", ParentCategoryId = 5, CanHaveItems = true, OwnerId = adminId}, //6
             };
         }
         private List<Characteristic> GetPreconfiguredCharacteristics()
         {
-            var characteristics = new List<Characteristic>
+            return new List<Characteristic>
             {
-                new Characteristic { Title = "Storage", CategoryId = categories[1].Id }, //0
-                new Characteristic { Title = "Resolution", CategoryId = categories[1].Id  }, //1
-                new Characteristic { Title = "Battery", CategoryId = categories[3].Id  },//2
+                new Characteristic { Title = "Storage", CategoryId = categories[1].Id, OwnerId = adminId }, //0
+                new Characteristic { Title = "Resolution", CategoryId = categories[1].Id, OwnerId = adminId  }, //1
+                new Characteristic { Title = "Battery", CategoryId = categories[3].Id, OwnerId = adminId  },//2
 
-                new Characteristic { Title = "Size", CategoryId = categories[4].Id }, //3
-                new Characteristic { Title = "Fashion", CategoryId = categories[4].Id }, //4
-                new Characteristic { Title = "Colour", CategoryId = categories[6].Id }, //5
+                new Characteristic { Title = "Size", CategoryId = categories[4].Id, OwnerId = adminId }, //3
+                new Characteristic { Title = "Fashion", CategoryId = categories[4].Id, OwnerId = adminId }, //4
+                new Characteristic { Title = "Colour", CategoryId = categories[6].Id, OwnerId = adminId }, //5
             };
-            return characteristics;
         }
         private List<CharacteristicValue> GetPreconfiguredCharacteristicValues()
         {
-            var categoryPropertyValues = new List<CharacteristicValue>
+            return new List<CharacteristicValue>
             {
-                new CharacteristicValue { Title = "16GB",  CharacteristicId = characteristics[0].Id }, //0
-                new CharacteristicValue { Title = "32GB",  CharacteristicId = characteristics[0].Id }, //1
-                new CharacteristicValue { Title = "64GB",  CharacteristicId = characteristics[0].Id }, //2
-                new CharacteristicValue { Title = "HD",  CharacteristicId = characteristics[1].Id }, //3
-                new CharacteristicValue { Title = "Full HD",  CharacteristicId = characteristics[1].Id }, //4
-                new CharacteristicValue { Title = "1000 mAh",  CharacteristicId = characteristics[2].Id }, //5
-                new CharacteristicValue { Title = "2000 mAh",  CharacteristicId = characteristics[2].Id }, //6
+                new CharacteristicValue { Title = "16GB",  CharacteristicId = characteristics[0].Id, OwnerId = adminId }, //0
+                new CharacteristicValue { Title = "32GB",  CharacteristicId = characteristics[0].Id, OwnerId = adminId }, //1
+                new CharacteristicValue { Title = "64GB",  CharacteristicId = characteristics[0].Id, OwnerId = adminId }, //2
+                new CharacteristicValue { Title = "HD",  CharacteristicId = characteristics[1].Id, OwnerId = adminId }, //3
+                new CharacteristicValue { Title = "Full HD",  CharacteristicId = characteristics[1].Id, OwnerId = adminId }, //4
+                new CharacteristicValue { Title = "1000 mAh",  CharacteristicId = characteristics[2].Id, OwnerId = adminId }, //5
+                new CharacteristicValue { Title = "2000 mAh",  CharacteristicId = characteristics[2].Id, OwnerId = adminId }, //6
 
-                new CharacteristicValue { Title = "X",  CharacteristicId = characteristics[3].Id }, //7
-                new CharacteristicValue { Title = "XL",  CharacteristicId = characteristics[3].Id }, //8
-                new CharacteristicValue { Title = "XXL",  CharacteristicId = characteristics[3].Id }, //9
-                new CharacteristicValue { Title = "Much fashion",  CharacteristicId = characteristics[4].Id }, //10
-                new CharacteristicValue { Title = "Not so fashion",  CharacteristicId = characteristics[4].Id }, //11
-                new CharacteristicValue { Title = "Black",  CharacteristicId = characteristics[5].Id }, //12
-                new CharacteristicValue { Title = "White",  CharacteristicId = characteristics[5].Id }, //13
+                new CharacteristicValue { Title = "X",  CharacteristicId = characteristics[3].Id, OwnerId = adminId }, //7
+                new CharacteristicValue { Title = "XL",  CharacteristicId = characteristics[3].Id, OwnerId = adminId }, //8
+                new CharacteristicValue { Title = "XXL",  CharacteristicId = characteristics[3].Id, OwnerId = adminId }, //9
+                new CharacteristicValue { Title = "Much fashion",  CharacteristicId = characteristics[4].Id, OwnerId = adminId }, //10
+                new CharacteristicValue { Title = "Not so fashion",  CharacteristicId = characteristics[4].Id, OwnerId = adminId }, //11
+                new CharacteristicValue { Title = "Black",  CharacteristicId = characteristics[5].Id, OwnerId = adminId }, //12
+                new CharacteristicValue { Title = "White",  CharacteristicId = characteristics[5].Id, OwnerId = adminId }, //13
             };
-            return categoryPropertyValues;
         }
         private List<Store> GetPreconfiguredStores()
         {
@@ -200,7 +206,7 @@ namespace Infrastructure.Data
         private List<ItemImage> GetPreconfiguredItemImageDetails()
         {
             string contentType = @"image/jpeg";
-            var imagesDetails = new List<ItemImage>
+            return new List<ItemImage>
             {
                 new ItemImage ("iPhone 6 - 1", johnId, contentType, items[0].Id, null) { FullPath= Path.Combine(@"C:\files\", johnId, "iPhone 6 - 1.jpg") },
                 new ItemImage ("iPhone 6 - 2.jpg", johnId, contentType, items[0].Id, null) { FullPath= Path.Combine(@"C:\files\", johnId, "iPhone 6 - 2.jpg") },
@@ -212,11 +218,10 @@ namespace Infrastructure.Data
                 new ItemImage ("Shoes.jpg", jenniferId, contentType, items[4].Id, null) { FullPath= Path.Combine(@"C:\files\", jenniferId, "Shoes.jpg") },
                 new ItemImage ("Jacket.jpg", jenniferId,  contentType, items[5].Id, null) { FullPath= Path.Combine(@"C:\files\", jenniferId, "Jacket.jpg") }
             };
-            return imagesDetails;
         }
         private List<ItemVariant> GetPreconfiguredItemVariants()
         {
-            var itemVariants = new List<ItemVariant>
+            return new List<ItemVariant>
             {
                 new ItemVariant { Title = "iPhone 6 32GB", Price = 700, ItemId = items[0].Id, OwnerId = johnId }, //0
                 new ItemVariant { Title = "iPhone 6 64GB", Price = 800, ItemId = items[0].Id, OwnerId = johnId }, //1
@@ -232,7 +237,6 @@ namespace Infrastructure.Data
                 new ItemVariant { Title = "Jacket white", Price = 500, ItemId = items[5].Id, OwnerId = jenniferId  },  //9
 
             };
-            return itemVariants;
         }
         private List<ItemVariantCharacteristicValue> GetPreconfiguredItemCharacteristicValues()
         {
@@ -328,6 +332,15 @@ namespace Infrastructure.Data
                 ) { OwnerId = jenniferId },
             };
             return itemPropertyValues;
+        }
+
+        private List<CartItem> GetPreconfiguredCartItems()
+        {
+            return new List<CartItem>
+            {
+                new CartItem() { OwnerId = johnId, ItemVariantId = itemVariants[0].Id, Number = 5 },
+                new CartItem() { OwnerId = johnId, ItemVariantId = itemVariants[1].Id, Number = 6 }
+            };
         }
         private string GetIdByEmail(UserManager<ApplicationUser> userManager, string email)
         {

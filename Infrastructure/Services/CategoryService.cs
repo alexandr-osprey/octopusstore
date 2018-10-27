@@ -1,4 +1,5 @@
 ﻿using ApplicationCore.Entities;
+using ApplicationCore.Exceptions;
 using ApplicationCore.Identity;
 using ApplicationCore.Interfaces;
 using ApplicationCore.Specifications;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Services
 {
-    public class CategoryService: Service<Category>, ICategoryService
+    public class CategoryService : Service<Category>, ICategoryService
     {
         public int RootCategoryId { get; set; } = 1;
 
@@ -90,6 +91,21 @@ namespace Infrastructure.Services
                     }
                 }
             }
+        }
+
+        protected override async Task ValidateCreateWithExceptionAsync(Category category)
+        {
+            await base.ValidateCreateWithExceptionAsync(category);
+            if (string.IsNullOrWhiteSpace(category.Title))
+                throw new EntityValidationException("Title not specified");
+            if (string.IsNullOrWhiteSpace(category.Description))
+                throw new EntityValidationException("Description not specified");
+            if (!await _context.ExistsBySpecAsync(_logger, new EntitySpecification<Category>(category.ParentCategoryId)))
+                throw new EntityValidationException("Parent category does not exist");
+        }
+        protected override async Task ValidateUpdateWithExceptionAsync(Category category)
+        {
+            await ValidateCreateWithExceptionAsync(category);
         }
         protected async Task GetSubcategoriesAsync(Category category, HashSet<Category> subcategories)
         {

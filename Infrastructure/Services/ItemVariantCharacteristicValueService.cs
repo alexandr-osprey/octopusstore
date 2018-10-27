@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Services
 {
-    public class ItemVariantCharacteristicValueService 
+    public class ItemVariantCharacteristicValueService
        : Service<ItemVariantCharacteristicValue>,
         IItemVariantCharacteristicValueService
     {
@@ -36,7 +36,7 @@ namespace Infrastructure.Services
         {
             return await _itemVariantService.EnumerateRelatedEnumAsync(itemVariantSpec, (v => v.ItemVariantCharacteristicValues));
         }
-        public override async Task ValidateCreateWithExceptionAsync(ItemVariantCharacteristicValue itemVariantCharactecteristicValue)
+        protected override async Task ValidateCreateWithExceptionAsync(ItemVariantCharacteristicValue itemVariantCharactecteristicValue)
         {
             await base.ValidateCreateWithExceptionAsync(itemVariantCharactecteristicValue);
             var itemVariant = await _context
@@ -54,7 +54,7 @@ namespace Infrastructure.Services
             if (!possibleCharacteristicValues.Contains(characteristicValue))
                 throw new EntityValidationException($"Characteristic value {itemVariantCharactecteristicValue.CharacteristicValueId} has the wrong category");
         }
-        public override async Task ValidateUpdateWithExceptionAsync(ItemVariantCharacteristicValue itemVariantCharactecteristicValue)
+        protected override async Task ValidateUpdateWithExceptionAsync(ItemVariantCharacteristicValue itemVariantCharactecteristicValue)
         {
             await ValidateCreateWithExceptionAsync(itemVariantCharactecteristicValue);
         }
