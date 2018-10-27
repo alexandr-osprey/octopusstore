@@ -32,14 +32,15 @@ namespace UnitTests
             foreach(var correctNewEntity in await GetCorrectNewEntitesAsync())
             {
                 var newEntity = await _service.CreateAsync(correctNewEntity);
-                AssertCreateSuccess(newEntity);
+                await AssertCreateSuccessAsync(newEntity);
             }
         }
         protected abstract Task<IEnumerable<TEntity>> GetCorrectNewEntitesAsync();
-        protected virtual void AssertCreateSuccess(TEntity entity)
+        protected virtual async Task AssertCreateSuccessAsync(TEntity entity)
         {
             Assert.NotEqual(0, entity.Id);
             Assert.NotNull(entity.OwnerId);
+            await Task.CompletedTask;
         }
 
         [Fact]

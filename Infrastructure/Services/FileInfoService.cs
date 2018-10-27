@@ -84,9 +84,16 @@ namespace Infrastructure.Services
         }
         protected override async Task ValidateCreateWithExceptionAsync(TFileInfo fileInfo)
         {
+            await ValidateUpdateWithExceptionAsync(fileInfo);
             ValidateFile(fileInfo);
             await ValidateRelatedEntityAsync(fileInfo);
             await base.ValidateCreateWithExceptionAsync(fileInfo);
+        }
+        protected override async Task ValidateUpdateWithExceptionAsync(TFileInfo fileInfo)
+        {
+            await base.ValidateUpdateWithExceptionAsync(fileInfo);
+            if (string.IsNullOrWhiteSpace(fileInfo.Title))
+                throw new EntityValidationException("Incorrect title");
         }
 
         protected async Task<bool> ValidateRelatedEntityAsync(TFileInfo fileInfo)
