@@ -117,7 +117,7 @@ namespace UnitTests
         {
             // db options
             services.AddSingleton(storeContextOptions);
-            services.AddDbContext<StoreContext>(options => options.UseInMemoryDatabase(Guid.NewGuid().ToString()));
+            //services.AddDbContext<StoreContext>(options => options.UseInMemoryDatabase(Guid.NewGuid().ToString()));
 
             Startup.ConfigureDI(services);
             services.AddSingleton(typeof(IAuthorizationParameters<>), typeof(AuthoriationParametersWithoutAuthorization<>));

@@ -20,12 +20,12 @@ namespace Infrastructure.Services
         {
         }
 
-        override public async Task<int> DeleteAsync(Specification<ItemVariant> spec)
-        {
-            spec.AddInclude((i => i.ItemVariantCharacteristicValues));
-            spec.Description += " include ItemVariantCharacteristicValues";
-            return await base.DeleteAsync(spec);
-        }
+        //override public async Task<int> DeleteAsync(Specification<ItemVariant> spec)
+        //{
+        //    spec.AddInclude((i => i.ItemVariantCharacteristicValues));
+        //    spec.Description += " include ItemVariantCharacteristicValues";
+        //    return await base.DeleteAsync(spec);
+        //}
 
         protected override async Task ValidateCreateWithExceptionAsync(ItemVariant itemVariant)
         {

@@ -98,11 +98,11 @@ namespace UnitTests.Controllers
         [Fact]
         public async Task Delete()
         {
-            var fileDetails = await GetQueryable().LastOrDefaultAsync();
-            await CreateItemImageCopy(fileDetails);
-            await controller.Delete(fileDetails.Id);
+            var fileInfo = await GetQueryable().LastOrDefaultAsync();
+            await CreateItemImageCopy(fileInfo);
+            await controller.Delete(fileInfo.Id);
 
-            Assert.False(File.Exists(fileDetails.FullPath));
+            Assert.False(File.Exists(fileInfo.FullPath));
         }
         public static MemoryStream ReadFully(Stream input)
         {

@@ -33,7 +33,7 @@ namespace Infrastructure.Services
         }
         public override async Task DeleteRelatedEntitiesAsync(Item item)
         {
-            var imageDeleteSpec = new Specification<ItemImage>((i => item.Images.Contains(i)))
+            var imageDeleteSpec = new Specification<ItemImage>(i => i.RelatedId == item.Id)
             {
                 Description = $"ItemImage with item id={item.Id}"
             };
@@ -48,6 +48,7 @@ namespace Infrastructure.Services
         }
         protected override async Task ValidateCreateWithExceptionAsync(Item item)
         {
+            await ValidateUpdateWithExceptionAsync(item);
             var category = await _context.ReadByKeyAsync<Category, Service<Item>>(_logger, item.CategoryId, false)
                 ?? throw new EntityValidationException($"Category with Id {item.CategoryId} does not exist. ");
             if (!category.CanHaveItems)
@@ -59,6 +60,14 @@ namespace Infrastructure.Services
             if (!await _context.ExistsBySpecAsync(_logger, new EntitySpecification<MeasurementUnit>(item.MeasurementUnitId)))
                 throw new EntityValidationException($"MeasurementUnit with Id {item.MeasurementUnitId}  does not exist. ");
             await base.ValidateCreateWithExceptionAsync(item);
+        }
+        protected override async Task ValidateUpdateWithExceptionAsync(Item item)
+        {
+            await base.ValidateUpdateWithExceptionAsync(item);
+            if (string.IsNullOrWhiteSpace(item.Title))
+                throw new EntityValidationException("Incorrect title");
+            if (string.IsNullOrWhiteSpace(item.Description))
+                throw new EntityValidationException("Incorrect description");
         }
     }
 }

@@ -118,11 +118,17 @@ namespace UnitTests
         }
         protected async Task DeleteSingleEntityAsync(TEntity entity)
         {
-            await BeforeDeleteAsync(entity);
-            await _service.DeleteSingleAsync(new EntitySpecification<TEntity>(entity.Id));
-            Assert.False(await GetQueryable().AnyAsync(e => e == entity));
-            await AssertRelatedDeleted(entity);
-            await AfterDeleteAsync(entity);
+            try
+            {
+                await BeforeDeleteAsync(entity);
+                await _service.DeleteSingleAsync(new EntitySpecification<TEntity>(entity.Id));
+                Assert.False(await GetQueryable().AnyAsync(e => e == entity));
+                await AssertRelatedDeleted(entity);
+            }
+            finally
+            {
+                await AfterDeleteAsync(entity);
+            }
         }
         protected virtual async Task BeforeDeleteAsync(TEntity entity)
         {

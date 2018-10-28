@@ -3,9 +3,9 @@ using ApplicationCore.ViewModels;
 
 namespace ApplicationCore.ViewModels
 {
-    public abstract class FileDetailsViewModel<TFileDetails, TEntity> 
-       : EntityViewModel<TFileDetails> 
-        where TFileDetails: FileInfo<TEntity>, new() 
+    public abstract class FileInfoViewModel<TFileInfo, TEntity> 
+       : EntityViewModel<TFileInfo> 
+        where TFileInfo: FileInfo<TEntity>, new() 
         where TEntity: Entity, new()
     {
         public string Title { get; set; }
@@ -13,11 +13,11 @@ namespace ApplicationCore.ViewModels
         public string OwnerUsername { get; set; }
         public int RelatedId { get; set; }
 
-        public FileDetailsViewModel()
+        public FileInfoViewModel()
            : base()
         {
         }
-        public FileDetailsViewModel(TFileDetails fileDetail)
+        public FileInfoViewModel(TFileInfo fileDetail)
            : base(fileDetail)
         {
             Title = fileDetail.Title;
@@ -26,7 +26,7 @@ namespace ApplicationCore.ViewModels
             OwnerUsername = fileDetail.OwnerId;
         }
 
-        public override TFileDetails UpdateModel(TFileDetails modelToUpdate)
+        public override TFileInfo UpdateModel(TFileInfo modelToUpdate)
         {
             modelToUpdate.Title = Title;
             //modelToUpdate.RelatedId = modelToUpdate.RelatedId;

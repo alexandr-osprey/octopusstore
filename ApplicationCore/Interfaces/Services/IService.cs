@@ -1,4 +1,5 @@
-﻿using ApplicationCore.Identity;
+﻿using ApplicationCore.Entities;
+using ApplicationCore.Identity;
 using ApplicationCore.Specifications;
 using Microsoft.EntityFrameworkCore;
 using System;

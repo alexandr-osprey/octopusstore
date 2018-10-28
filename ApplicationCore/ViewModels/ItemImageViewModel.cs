@@ -15,7 +15,7 @@ namespace ApplicationCore.ViewModels
 
         public override ItemImage ToModel()
         {
-            var image = new ItemImage(Title, OwnerUsername, ContentType, RelatedId)
+            var image = new ItemImage(Title, ContentType, RelatedId)
             {
                 Id = Id
             };

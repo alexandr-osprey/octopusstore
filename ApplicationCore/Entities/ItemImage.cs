@@ -12,12 +12,12 @@ namespace ApplicationCore.Entities
         {
         }
 
-        public ItemImage(string title, string ownerId, string contentType, int relatedId, Stream inputStream)
-           : base(title, ownerId, contentType, relatedId, inputStream)
+        public ItemImage(string title, string contentType, int relatedId, Stream inputStream)
+           : base(title, contentType, relatedId, inputStream)
         {
         }
-        public ItemImage(string title, string ownerId, string contentType, int relatedId)
-           : this(title, ownerId, contentType, relatedId, null)
+        public ItemImage(string title, string contentType, int relatedId)
+           : this(title, contentType, relatedId, null)
         {
         }
     }

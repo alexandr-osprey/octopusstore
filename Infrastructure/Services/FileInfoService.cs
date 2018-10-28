@@ -12,7 +12,7 @@ namespace Infrastructure.Services
 {
     public abstract class FileInfoService<TFileInfo, TEntity>
        : Service<TFileInfo>,
-        IFiledetailservice<TFileInfo, TEntity>
+        IFileInfoservice<TFileInfo, TEntity>
         where TFileInfo : FileInfo<TEntity>
         where TEntity : Entity
     {

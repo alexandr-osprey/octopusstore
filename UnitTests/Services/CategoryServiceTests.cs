@@ -125,7 +125,7 @@ namespace UnitTests.Services
         {
             return await Task.FromResult(new List<Category>()
             {
-                new Category() { OwnerId = null, Description = "Category 2", Title = "Category 2", ParentCategoryId = 1 },
+                //new Category() { OwnerId = null, Description = "Category 2", Title = "Category 2", ParentCategoryId = 1 },
                 new Category() { OwnerId = adminId, Description = " ", Title = "Category 3", ParentCategoryId = 2 },
                 new Category() { OwnerId = adminId, Description = "Category 3", Title = "Category 3", ParentCategoryId = 99 },
                 new Category() { OwnerId = adminId, Description = "Category 3", Title = "", ParentCategoryId = 2 },

@@ -23,6 +23,6 @@
         /// <summary>
         /// Id of a user who created this Entity. May be used for authorization.
         /// </summary>
-        public string OwnerId { get; set; }
+        public virtual string OwnerId { get; set; }
     }
 }

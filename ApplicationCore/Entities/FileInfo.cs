@@ -29,18 +29,25 @@ namespace ApplicationCore.Entities
         public FileInfo()
         {
         }
-        public FileInfo(string title, string ownerId, string contentType, int relatedId, Stream inputStream)
+        public FileInfo(string title, string contentType, int relatedId, Stream inputStream)
         {
             Title = title;
             ContentType = contentType;
             RelatedId = relatedId;
-            OwnerId = ownerId;
             InputStream = inputStream;
-            DirectoryPath =
-                Path.Combine(rootDirectory, GetSafeFileName(ownerId));
-            FullPath = 
-                Path.Combine(DirectoryPath, 
-                    Guid.NewGuid().ToString() + GetExtension(contentType));
+        }
+        public override string OwnerId
+        {
+            get => base.OwnerId;
+            set
+            {
+                base.OwnerId = value;
+                DirectoryPath =
+                Path.Combine(rootDirectory, GetSafeFileName(OwnerId));
+                FullPath =
+                    Path.Combine(DirectoryPath,
+                        Guid.NewGuid().ToString() + GetExtension(ContentType));
+            }
         }
 
         public bool ContentTypeAllowed => AllowedContentTypes.Contains(ContentType);

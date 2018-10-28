@@ -24,7 +24,7 @@ namespace UnitTests.Services
             var firstItemDetails = await GetQueryable().FirstOrDefaultAsync();
             return await Task.FromResult(new List<ItemImage>()
             {
-                new ItemImage("testImage1", "testuser", @"image/jpg", 1, _service.GetStream(firstItemDetails))
+                new ItemImage("testImage1", @"image/jpg", 1, _service.GetStream(firstItemDetails))
             });
         }
 
@@ -33,22 +33,24 @@ namespace UnitTests.Services
             var firstItemDetails = await GetQueryable().FirstOrDefaultAsync();
             return await Task.FromResult(new List<ItemImage>()
             {
-                new ItemImage("", "testuser", @"image/jpg", 1, _service.GetStream(firstItemDetails)),
-                new ItemImage("test", "testuser", @"image/jpg", 999, _service.GetStream(firstItemDetails)),
-                new ItemImage("test", "testuser", @"image/jpg", 1, null),
-                new ItemImage("test", "testuser", @"image/exe", 1, _service.GetStream(firstItemDetails)),
+                new ItemImage("", @"image/jpg", 1, _service.GetStream(firstItemDetails)),
+                new ItemImage("test", @"image/jpg", 999, _service.GetStream(firstItemDetails)),
+                new ItemImage("test", @"image/jpg", 1, null),
+                new ItemImage("test",  @"image/exe", 1, _service.GetStream(firstItemDetails)),
             });
         }
 
         //[Fact]
         protected override async Task AssertCreateSuccessAsync(ItemImage itemImage)
         {
+            var firstItemDetails = await GetQueryable().FirstOrDefaultAsync();
             await base.AssertCreateSuccessAsync(itemImage);
             Assert.True(_context.ItemImages.Contains(itemImage));
             var fileDest = File.Open(itemImage.FullPath, FileMode.Open);
-            var fileInit = File.Open(itemImage.FullPath, FileMode.Open);
+            var fileInit = File.Open(firstItemDetails.FullPath, FileMode.Open);
             Assert.Equal(fileInit.Length, fileDest.Length);
             fileDest.Close();
+            fileInit.Close();
             Directory.Delete(itemImage.DirectoryPath, true);
         }
         [Fact]

@@ -7,9 +7,9 @@ namespace ApplicationCore.Interfaces
     /// <summary>
     ///  Maintains full lifecycle of FileInfo entities
     /// </summary>
-    /// <typeparam name="TFileDetails"></typeparam>
+    /// <typeparam name="TFileInfo"></typeparam>
     /// <typeparam name="TEntity"></typeparam>
-    public interface IFiledetailservice<TFileDetails, TEntity>: IService<TFileDetails> where TFileDetails: FileInfo<TEntity> where TEntity: Entity
+    public interface IFileInfoservice<TFileInfo, TEntity>: IService<TFileInfo> where TFileInfo: FileInfo<TEntity> where TEntity: Entity
     {
         /// <summary>
         /// Max allowed file zise
@@ -26,6 +26,6 @@ namespace ApplicationCore.Interfaces
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        Stream GetStream(TFileDetails entity);
+        Stream GetStream(TFileInfo entity);
     }
 }

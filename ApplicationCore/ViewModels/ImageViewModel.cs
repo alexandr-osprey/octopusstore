@@ -3,7 +3,7 @@
 namespace ApplicationCore.ViewModels
 {
     public abstract class ImageViewModel<TImageDetails, TEntity>
-       : FileDetailsViewModel<TImageDetails, TEntity>
+       : FileInfoViewModel<TImageDetails, TEntity>
         where TImageDetails: FileInfo<TEntity>, new()
         where TEntity: Entity, new()
     {

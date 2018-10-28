@@ -1,58 +1,154 @@
-﻿//using ApplicationCore.Entities;
-//using ApplicationCore.Interfaces;
-//using Microsoft.EntityFrameworkCore;
-//using ApplicationCore.Specifications;
-//using System;
-//using System.Collections.Generic;
-//using System.IO;
-//using System.Linq;
-//using System.Threading.Tasks;
-//using Xunit;
-//using Xunit.Abstractions;
-//using Infrastructure.Data;
+﻿using ApplicationCore.Entities;
+using ApplicationCore.Interfaces;
+using Microsoft.EntityFrameworkCore;
+using ApplicationCore.Specifications;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using Xunit;
+using Xunit.Abstractions;
+using Infrastructure.Data;
 
-//namespace UnitTests.Services
-//{
-//    public class ItemServiceTests: ServiceTestBase<Item, IItemService>
-//    {
-//        public ItemServiceTests(ITestOutputHelper output)
-//           : base(output)
-//        {
-//        }
+namespace UnitTests.Services
+{
+    public class ItemServiceTests : ServiceTestBase<Item, IItemService>
+    {
+        public ItemServiceTests(ITestOutputHelper output)
+           : base(output)
+        {
+        }
 
-//        [Fact]
-//        public async Task DeleteAsync()
-//        {
-//            var item = await GetQueryable().LastOrDefaultAsync();
-//            var imagePaths = new List<string>();
-//            foreach (var image in item.Images)
-//            {
-//                imagePaths.Add(image.FullPath);
-//                File.Copy(image.FullPath, image.FullPath + ".backup");
-//            }
-//            try
-//            {
-//                await _service.DeleteAsync(new ItemDetailSpecification(item.Id));
-//                Assert.False(GetQueryable().Contains(item));
-//                foreach (var image in item.Images)
-//                    Assert.False(context.ItemImages.Contains(image));
-//                foreach (var variant in item.ItemVariants)
-//                    Assert.False(context.ItemVariants.Contains(variant));
-//            }
-//            finally
-//            {
-//                foreach (var path in imagePaths)
-//                {
-//                    Assert.False(File.Exists(path));
-//                    File.Move(path + ".backup", path);
-//                }
-//            }
-//        }
-//        protected override IQueryable<Item> GetQueryable()
-//        {
-//            return base.GetQueryable().Include(i => i.Images)
-//                    .Include(i => i.ItemVariants)
-//                        .ThenInclude(i => i.ItemVariantCharacteristicValues);
-//        }
-//    }
-//}
+        protected override async Task<IEnumerable<Item>> GetCorrectEntitesForUpdateAsync()
+        {
+            var firstItem = await GetQueryable().FirstOrDefaultAsync();
+            firstItem.Title = "Updated title";
+            firstItem.Description = "Updated Description";
+            return new List<Item>()
+            {
+                firstItem
+            };
+        }
+
+        protected override async Task<IEnumerable<Item>> GetCorrectNewEntitesAsync()
+        {
+            var firstItem = await _context.Set<Item>().FirstOrDefaultAsync();
+            firstItem.Id = 0;
+            firstItem.Description = "desc1";
+            return new List<Item>()
+            {
+                firstItem
+            };
+        }
+
+        protected override async Task AfterDeleteAsync(Item entity)
+        {
+            await base.AfterDeleteAsync(entity);
+            StoreContextSeed.EnsureFilesAreInPlace();
+        }
+        protected override async Task AssertRelatedDeleted(Item entity)
+        {
+            Assert.False(await _context.Set<ItemImage>().AnyAsync(i => i.RelatedId == entity.Id));
+        }
+        protected override Specification<Item> GetEntitiesToDeleteSpecification()
+        {
+            return new Specification<Item>(i => i.Title.Contains("iPhone"));
+        }
+
+        protected override async Task<IEnumerable<Item>> GetIncorrectEntitesForUpdateAsync()
+        {
+            var firstItem = await GetQueryable().FirstOrDefaultAsync();
+            firstItem.Title = null;
+            return new List<Item>()
+            {
+                firstItem
+            };
+        }
+
+        protected override async Task<IEnumerable<Item>> GetIncorrectNewEntitesAsync()
+        {
+            var firstItem = await GetQueryable().FirstOrDefaultAsync();
+            return new List<Item>()
+            {
+                new Item()
+                {
+                    Title = null,
+                    BrandId = firstItem.BrandId,
+                    CategoryId = firstItem.CategoryId,
+                    Description = firstItem.Description,
+                    OwnerId = firstItem.OwnerId,
+                    MeasurementUnitId = firstItem.MeasurementUnitId,
+                    StoreId = firstItem.StoreId
+                },
+                new Item()
+                {
+                    Title = firstItem.Title,
+                    BrandId = 99,
+                    CategoryId = firstItem.CategoryId,
+                    Description = firstItem.Description,
+                    OwnerId = firstItem.OwnerId,
+                    MeasurementUnitId = firstItem.MeasurementUnitId,
+                    StoreId = firstItem.StoreId
+                },
+                new Item()
+                {
+                    Title = firstItem.Title,
+                    BrandId = firstItem.BrandId,
+                    CategoryId = 1,
+                    Description = firstItem.Description,
+                    OwnerId = firstItem.OwnerId,
+                    MeasurementUnitId = firstItem.MeasurementUnitId,
+                    StoreId = firstItem.StoreId
+                },
+                new Item()
+                {
+                    Title = firstItem.Title,
+                    BrandId = firstItem.BrandId,
+                    CategoryId = 99,
+                    Description = firstItem.Description,
+                    OwnerId = firstItem.OwnerId,
+                    MeasurementUnitId = firstItem.MeasurementUnitId,
+                    StoreId = firstItem.StoreId
+                },
+                new Item()
+                {
+                    Title = firstItem.Title,
+                    BrandId = firstItem.BrandId,
+                    CategoryId = firstItem.CategoryId,
+                    Description = null,
+                    OwnerId = firstItem.OwnerId,
+                    MeasurementUnitId = firstItem.MeasurementUnitId,
+                    StoreId = firstItem.StoreId
+                },
+                new Item()
+                {
+                    Title = firstItem.Title,
+                    BrandId = firstItem.BrandId,
+                    CategoryId = firstItem.CategoryId,
+                    Description = firstItem.Description,
+                    OwnerId = firstItem.OwnerId,
+                    MeasurementUnitId = 99,
+                    StoreId = firstItem.StoreId
+                },
+                new Item()
+                {
+                    Title = firstItem.Title,
+                    BrandId = firstItem.BrandId,
+                    CategoryId = firstItem.CategoryId,
+                    Description = firstItem.Description,
+                    OwnerId = firstItem.OwnerId,
+                    MeasurementUnitId = firstItem.MeasurementUnitId,
+                    StoreId = 99
+                },
+            };
+        }
+
+        protected override IQueryable<Item> GetQueryable()
+        {
+            return base.GetQueryable().Include(i => i.Images)
+                    .Include(i => i.ItemVariants)
+                        .ThenInclude(i => i.ItemVariantCharacteristicValues);
+        }
+    }
+}
