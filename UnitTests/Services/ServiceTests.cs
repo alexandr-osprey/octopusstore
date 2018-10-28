@@ -13,14 +13,14 @@ using Xunit.Abstractions;
 
 namespace UnitTests
 {
-    public abstract class ServiceTestBase<TEntity, TService>
+    public abstract class ServiceTests<TEntity, TService>
        : TestBase<TEntity>
         where TService: IService<TEntity>
         where TEntity: Entity
     {
         protected readonly TService _service;
 
-        public ServiceTestBase(ITestOutputHelper output)
+        public ServiceTests(ITestOutputHelper output)
            : base(output)
         {
             _service = Resolve<TService>();

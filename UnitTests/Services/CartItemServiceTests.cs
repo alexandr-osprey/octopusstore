@@ -11,7 +11,7 @@ using Xunit.Abstractions;
 
 namespace UnitTests.Services
 {
-    public class CartItemServiceTests : ServiceTestBase<CartItem, ICartItemService>
+    public class CartItemServiceTests : ServiceTests<CartItem, ICartItemService>
     {
         protected IQueryable<ItemVariant> itemVariants;
         public CartItemServiceTests(ITestOutputHelper output)

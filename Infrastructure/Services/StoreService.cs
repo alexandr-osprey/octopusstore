@@ -1,4 +1,5 @@
 ﻿using ApplicationCore.Entities;
+using ApplicationCore.Exceptions;
 using ApplicationCore.Identity;
 using ApplicationCore.Interfaces;
 using ApplicationCore.Specifications;
@@ -52,6 +53,22 @@ namespace Infrastructure.Services
             };
             await _itemService.DeleteAsync(spec);
             await base.DeleteRelatedEntitiesAsync(store);
+        }
+
+        protected override async Task ValidateCreateWithExceptionAsync(Store store)
+        {
+            await base.ValidateCreateWithExceptionAsync(store);
+            await ValidateUpdateWithExceptionAsync(store);
+        }
+        protected override async Task ValidateUpdateWithExceptionAsync(Store store)
+        {
+            await base.ValidateUpdateWithExceptionAsync(store);
+            if (string.IsNullOrWhiteSpace(store.Title))
+                throw new EntityValidationException("Incorrect title");
+            if (string.IsNullOrWhiteSpace(store.Description))
+                throw new EntityValidationException("Incorrect description");
+            if (string.IsNullOrWhiteSpace(store.Address))
+                throw new EntityValidationException("Incorrect address");
         }
     }
 }

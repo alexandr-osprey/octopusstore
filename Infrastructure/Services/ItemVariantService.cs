@@ -20,20 +20,21 @@ namespace Infrastructure.Services
         {
         }
 
-        //override public async Task<int> DeleteAsync(Specification<ItemVariant> spec)
-        //{
-        //    spec.AddInclude((i => i.ItemVariantCharacteristicValues));
-        //    spec.Description += " include ItemVariantCharacteristicValues";
-        //    return await base.DeleteAsync(spec);
-        //}
-
         protected override async Task ValidateCreateWithExceptionAsync(ItemVariant itemVariant)
         {
+            await base.ValidateCreateWithExceptionAsync(itemVariant);
+            await ValidateUpdateWithExceptionAsync(itemVariant);
             if (!await _context.ExistsBySpecAsync(_logger, new EntitySpecification<Item>(itemVariant.ItemId)))
                 throw new EntityValidationException($"Item with Id {itemVariant.ItemId} does not exist. ");
+        }
+
+        protected override async Task ValidateUpdateWithExceptionAsync(ItemVariant itemVariant)
+        {
+            await base.ValidateUpdateWithExceptionAsync(itemVariant);
+            if (string.IsNullOrWhiteSpace(itemVariant.Title))
+                throw new EntityValidationException($"Incorrect title. ");
             if (itemVariant.Price <= 0)
                 throw new EntityValidationException($"Price can't be zero or less. ");
-            await base.ValidateCreateWithExceptionAsync(itemVariant);
         }
     }
 }

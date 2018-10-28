@@ -11,7 +11,7 @@ using Xunit.Abstractions;
 
 namespace UnitTests.Services
 {
-    public class CategoryServiceTests : ServiceTestBase<Category, ICategoryService>
+    public class CategoryServiceTests : ServiceTests<Category, ICategoryService>
     {
         public CategoryServiceTests(ITestOutputHelper output)
            : base(output)

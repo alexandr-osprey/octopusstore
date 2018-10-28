@@ -8,7 +8,7 @@ using Xunit.Abstractions;
 
 namespace UnitTests.Services
 {
-    public class BrandServiceTests : ServiceTestBase<Brand, IBrandService>
+    public class BrandServiceTests : ServiceTests<Brand, IBrandService>
     {
         public BrandServiceTests(ITestOutputHelper output)
            : base(output)
