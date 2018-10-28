@@ -1,4 +1,5 @@
 ﻿using ApplicationCore.Entities;
+using ApplicationCore.Exceptions;
 using ApplicationCore.Identity;
 using ApplicationCore.Interfaces;
 using ApplicationCore.Specifications;
@@ -36,20 +37,18 @@ namespace Infrastructure.Services
             var categories = await _сategoryService.EnumerateParentCategoriesAsync(spec);
             return await EnumerateAsync(new CharacteristicByCategoryIdsSpecification(from c in categories select c.Id));
         }
-        //protected override async Task ValidateCreateWithExceptionAsync(Characteristic characteristic)
-        //{
-        //    await base.ValidateCreateWithExceptionAsync(store);
-        //    await ValidateUpdateWithExceptionAsync(store);
-        //}
-        //protected override async Task ValidateUpdateWithExceptionAsync(Characteristic characteristic)
-        //{
-        //    await base.ValidateUpdateWithExceptionAsync(store);
-        //    if (string.IsNullOrWhiteSpace(store.Title))
-        //        throw new EntityValidationException("Incorrect title");
-        //    if (string.IsNullOrWhiteSpace(store.Description))
-        //        throw new EntityValidationException("Incorrect description");
-        //    if (string.IsNullOrWhiteSpace(store.Address))
-        //        throw new EntityValidationException("Incorrect address");
-        //}
+        protected override async Task ValidateCreateWithExceptionAsync(Characteristic characteristic)
+        {
+            await base.ValidateCreateWithExceptionAsync(characteristic);
+            await ValidateUpdateWithExceptionAsync(characteristic);
+            if (!await _context.ExistsBySpecAsync(_logger, new EntitySpecification<Category>(characteristic.CategoryId)))
+                throw new EntityValidationException("Category does not exist");
+        }
+        protected override async Task ValidateUpdateWithExceptionAsync(Characteristic characteristic)
+        {
+            await base.ValidateUpdateWithExceptionAsync(characteristic);
+            if (string.IsNullOrWhiteSpace(characteristic.Title))
+                throw new EntityValidationException("Title not specified");
+        }
     }
 }

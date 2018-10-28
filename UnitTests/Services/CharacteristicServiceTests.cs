@@ -1,56 +1,57 @@
-﻿//using ApplicationCore.Entities;
-//using ApplicationCore.Interfaces;
-//using ApplicationCore.Specifications;
-//using Microsoft.EntityFrameworkCore;
-//using System.Collections.Generic;
-//using System.Threading.Tasks;
-//using Xunit.Abstractions;
+﻿using ApplicationCore.Entities;
+using ApplicationCore.Interfaces;
+using ApplicationCore.Specifications;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Xunit.Abstractions;
 
-//namespace UnitTests.Services
-//{
-//    public class CharacteristicServiceTests : ServiceTests<Characteristic, ICharacteristicService>
-//    {
-//        public CharacteristicServiceTests(ITestOutputHelper output)
-//           : base(output)
-//        {
-//        }
+namespace UnitTests.Services
+{
+    public class CharacteristicServiceTests : ServiceTests<Characteristic, ICharacteristicService>
+    {
+        public CharacteristicServiceTests(ITestOutputHelper output)
+           : base(output)
+        {
+        }
 
-//        protected override async Task<IEnumerable<Brand>> GetCorrectNewEntitesAsync()
-//        {
-//            return await Task.FromResult(
-//                new List<Brand>()
-//                {
-//                    new Brand() { Title = "Brand title 1"},
-//                    new Brand() { Title = "Brand title 2"},
-//                });
-//        }
-//        protected override async Task<IEnumerable<Brand>> GetIncorrectNewEntitesAsync()
-//        {
-//            return await Task.FromResult(
-//                new List<Brand>()
-//                {
-//                    new Brand() { Title = null},
-//                });
-//        }
-//        protected override Specification<Brand> GetEntitiesToDeleteSpecification()
-//        {
-//            return new Specification<Brand>(b => b.Title.Contains("Samsung"));
-//        }
-//        protected override async Task<IEnumerable<Brand>> GetCorrectEntitesForUpdateAsync()
-//        {
-//            var apple = await GetQueryable().FirstOrDefaultAsync(b => b.Title == "Apple");
-//            apple.Title = "Apple 1";
-//            return new List<Brand>() { apple };
-//        }
-//        protected override async Task<IEnumerable<Brand>> GetIncorrectEntitesForUpdateAsync()
-//        {
-//            return await Task.FromResult(
-//                new List<Brand>()
-//                {
-//                    new Brand() { Id = 1, Title = null},
-//                    new Brand() { Id = 1, Title = "" },
-//                    new Brand() { Id = 1, Title = " "},
-//                });
-//        }
-//    }
-//}
+        protected override async Task<IEnumerable<Characteristic>> GetCorrectNewEntitesAsync()
+        {
+            return await Task.FromResult(
+                new List<Characteristic>()
+                {
+                    new Characteristic() { Title = "title 1", CategoryId = 2 },
+                    new Characteristic() { Title = "title 2", CategoryId = 3},
+                });
+        }
+        protected override async Task<IEnumerable<Characteristic>> GetIncorrectNewEntitesAsync()
+        {
+            return await Task.FromResult(
+                new List<Characteristic>()
+                {
+                    new Characteristic() { Title = null, CategoryId = 2 },
+                    new Characteristic() { Title = "new2", CategoryId = 0 },
+                });
+        }
+        protected override Specification<Characteristic> GetEntitiesToDeleteSpecification()
+        {
+            return new EntitySpecification<Characteristic>(2);
+        }
+        protected override async Task<IEnumerable<Characteristic>> GetCorrectEntitesForUpdateAsync()
+        {
+            var storage = await _context.Set<Characteristic>().FirstOrDefaultAsync(b => b.Title == "Storage");
+            storage.Title = "Updated storage";
+            return new List<Characteristic>() { storage };
+        }
+        protected override async Task<IEnumerable<Characteristic>> GetIncorrectEntitesForUpdateAsync()
+        {
+            var first = await _context.Set<Characteristic>().FirstAsync();
+            return await Task.FromResult(
+                new List<Characteristic>()
+                {
+                 //   new Characteristic() { Id = first.Id, Title = first.Title, CategoryId = first.CategoryId, OwnerId = first.OwnerId },
+                    new Characteristic() { Id = first.Id, Title = "", CategoryId = first.CategoryId, OwnerId = first.OwnerId },
+                });
+        }
+    }
+}
