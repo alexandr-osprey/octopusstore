@@ -1,5 +1,4 @@
 ﻿using ApplicationCore.Entities;
-using ApplicationCore.ViewModels;
 
 namespace ApplicationCore.ViewModels
 {
@@ -7,12 +6,10 @@ namespace ApplicationCore.ViewModels
     {
         public string Title { get; set; }
 
-        public MeasurementUnitViewModel() 
-           : base()
+        public MeasurementUnitViewModel(): base()
         {
         }
-        public MeasurementUnitViewModel(MeasurementUnit measurementUnit)
-           : base(measurementUnit)
+        public MeasurementUnitViewModel(MeasurementUnit measurementUnit): base(measurementUnit)
         {
             Title = measurementUnit.Title;
         }

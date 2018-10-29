@@ -8,12 +8,10 @@ namespace ApplicationCore.ViewModels
         public string Title { get; set; }
         public int CharacteristicId { get; set; }
 
-        public CharacteristicValueViewModel()
-           : base()
+        public CharacteristicValueViewModel(): base()
         {
         }
-        public CharacteristicValueViewModel(CharacteristicValue categoryPropertyValue)
-           : base(categoryPropertyValue)
+        public CharacteristicValueViewModel(CharacteristicValue categoryPropertyValue): base(categoryPropertyValue)
         {
             Title = categoryPropertyValue.Title;
             CharacteristicId = categoryPropertyValue.CharacteristicId;

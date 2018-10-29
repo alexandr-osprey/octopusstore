@@ -1,7 +1,6 @@
 ﻿using ApplicationCore.Entities;
 using ApplicationCore.Identity;
 using ApplicationCore.Interfaces;
-using Infrastructure.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Identity;
@@ -9,8 +8,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Identity
 {
-    public abstract class DefaultAuthorizationHandler<T> 
-       : AuthorizationHandler<OperationAuthorizationRequirement, T> where T: Entity
+    public abstract class DefaultAuthorizationHandler<T>: AuthorizationHandler<OperationAuthorizationRequirement, T> where T: Entity
     {
         protected UserManager<ApplicationUser> _userManager;
         protected IAppLogger<IAuthorziationHandler<T>> _logger;
@@ -21,10 +19,7 @@ namespace Infrastructure.Identity
             _logger = logger;
         }
 
-        protected override async Task
-            HandleRequirementAsync(AuthorizationHandlerContext context,
-                                    OperationAuthorizationRequirement requirement,
-                                    T entity)
+        protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, OperationAuthorizationRequirement requirement, T entity)
         {
             if (DefaultChecks(context, requirement, entity))
             {
@@ -41,9 +36,7 @@ namespace Infrastructure.Identity
             }
         }
 
-        protected bool DefaultChecks(AuthorizationHandlerContext context,
-                                    OperationAuthorizationRequirement requirement,
-                                    T entity)
+        protected bool DefaultChecks(AuthorizationHandlerContext context, OperationAuthorizationRequirement requirement, T entity)
         {
             return ReadAny(context, requirement)
                     || CreateAuthorized(context, requirement)
@@ -51,16 +44,14 @@ namespace Infrastructure.Identity
                     || UpdateDeleteContentAdministrator(context, requirement);
         }
 
-        public bool ReadAny(AuthorizationHandlerContext context, 
-            OperationAuthorizationRequirement requirement)
+        public bool ReadAny(AuthorizationHandlerContext context, OperationAuthorizationRequirement requirement)
         {
             if (requirement.Name == Operations.Read)
                 return true;
             return false;
         }
 
-        public bool CreateAuthorized(AuthorizationHandlerContext context,
-                                    OperationAuthorizationRequirement requirement)
+        public bool CreateAuthorized(AuthorizationHandlerContext context, OperationAuthorizationRequirement requirement)
         {
             if (requirement.Name == Operations.Create 
                 && context.User != null)
@@ -68,9 +59,7 @@ namespace Infrastructure.Identity
             return false;
         }
 
-        public bool UpdateDeleteOwner(AuthorizationHandlerContext context,
-                                    OperationAuthorizationRequirement requirement,
-                                    T entity)
+        public bool UpdateDeleteOwner(AuthorizationHandlerContext context, OperationAuthorizationRequirement requirement, T entity)
         {
             if (!(requirement.Name == Operations.Update || requirement.Name == Operations.Delete)
                 || context.User == null)
@@ -80,8 +69,7 @@ namespace Infrastructure.Identity
             return false;
         }
 
-        public bool UpdateDeleteContentAdministrator(AuthorizationHandlerContext context,
-                                    OperationAuthorizationRequirement requirement)
+        public bool UpdateDeleteContentAdministrator(AuthorizationHandlerContext context, OperationAuthorizationRequirement requirement)
         {
             if (!(requirement.Name == Operations.Update || requirement.Name == Operations.Delete)
                 || context.User == null)
@@ -98,9 +86,7 @@ namespace Infrastructure.Identity
         /// <param name="requirement"></param>
         /// <param name="entity"></param>
         /// <returns></returns>
-        protected virtual async Task<bool> ValidateRightsOnEntityPropertiesAsync(AuthorizationHandlerContext context,
-                                    OperationAuthorizationRequirement requirement,
-                                    T entity)
+        protected virtual async Task<bool> ValidateRightsOnEntityPropertiesAsync(AuthorizationHandlerContext context, OperationAuthorizationRequirement requirement, T entity)
         {
             return await Task.FromResult(true);
         }

@@ -6,8 +6,7 @@ namespace Infrastructure.Identity
 {
     public class CartItemAuthorizationHandler : DefaultAuthorizationHandler<CartItem>
     {
-        public CartItemAuthorizationHandler(UserManager<ApplicationUser> userManager, IAppLogger<IAuthorziationHandler<CartItem>> appLogger)
-           : base(userManager, appLogger)
+        public CartItemAuthorizationHandler(UserManager<ApplicationUser> userManager, IAppLogger<IAuthorziationHandler<CartItem>> appLogger): base(userManager, appLogger)
         {
         }
         //override defaults

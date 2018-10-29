@@ -10,12 +10,10 @@ namespace ApplicationCore.Exceptions
         public EntityValidationException()
         {
         }
-        public EntityValidationException(string message)
-           : base(message)
+        public EntityValidationException(string message): base(message)
         {
         }
-        public EntityValidationException(string message, Exception inner)
-           : base(message, inner)
+        public EntityValidationException(string message, Exception inner): base(message, inner)
         {
         }
     }

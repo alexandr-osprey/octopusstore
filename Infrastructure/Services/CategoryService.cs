@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Services
 {
-    public class CategoryService : Service<Category>, ICategoryService
+    public class CategoryService: Service<Category>, ICategoryService
     {
         public int RootCategoryId { get; set; } = 1;
 

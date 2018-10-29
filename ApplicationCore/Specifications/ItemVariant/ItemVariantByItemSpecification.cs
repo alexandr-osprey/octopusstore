@@ -5,8 +5,7 @@ namespace ApplicationCore.Specifications
 {
     public class ItemVariantByItemSpecification: Specification<ItemVariant>
     {
-        public ItemVariantByItemSpecification(int itemId)
-           : base((v => v.ItemId == itemId))
+        public ItemVariantByItemSpecification(int itemId): base((v => v.ItemId == itemId))
         {
             Description = $"ItemVariant with ItemId={itemId}";
         }

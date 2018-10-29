@@ -5,7 +5,7 @@ using ApplicationCore.Identity;
 
 namespace Infrastructure.Services
 {
-    public class ItemImageService : ImageService<ItemImage, Item>, IItemImageService
+    public class ItemImageService: ImageService<ItemImage, Item>, IItemImageService
     {
         public ItemImageService(
             StoreContext context,

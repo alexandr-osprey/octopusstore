@@ -7,12 +7,10 @@ namespace ApplicationCore.ViewModels
         where TImageDetails: FileInfo<TEntity>, new()
         where TEntity: Entity, new()
     {
-        public ImageViewModel()
-           : base()
+        public ImageViewModel(): base()
         {
         }
-        public ImageViewModel(TImageDetails image)
-           : base(image)
+        public ImageViewModel(TImageDetails image): base(image)
         {
         }
     }

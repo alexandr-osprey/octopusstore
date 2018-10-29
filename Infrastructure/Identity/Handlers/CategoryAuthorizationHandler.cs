@@ -6,8 +6,7 @@ namespace Infrastructure.Identity
 {
     public class CategoryAuthorizationHandler: DefaultAuthorizationHandler<Category>
     {
-        public CategoryAuthorizationHandler(UserManager<ApplicationUser> userManager, IAppLogger<IAuthorziationHandler<Category>> appLogger)
-           : base(userManager, appLogger)
+        public CategoryAuthorizationHandler(UserManager<ApplicationUser> userManager, IAppLogger<IAuthorziationHandler<Category>> appLogger): base(userManager, appLogger)
         {
         }
     }

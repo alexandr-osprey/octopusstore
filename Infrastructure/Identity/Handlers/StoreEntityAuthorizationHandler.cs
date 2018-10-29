@@ -9,8 +9,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Identity
 {
-    public abstract class StoreEntityAuthorizationHandler<T>
-       : DefaultAuthorizationHandler<T> where T: Entity
+    public abstract class StoreEntityAuthorizationHandler<T>: DefaultAuthorizationHandler<T> where T: Entity
     {
         protected StoreContext _storeContext;
 

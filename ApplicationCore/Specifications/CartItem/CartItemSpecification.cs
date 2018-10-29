@@ -2,10 +2,9 @@
 
 namespace ApplicationCore.Specifications
 {
-    public class CartItemSpecification : EntitySpecification<CartItem>
+    public class CartItemSpecification: EntitySpecification<CartItem>
     {
-        public CartItemSpecification(string ownerId)
-           : base(i => i.OwnerId == ownerId)
+        public CartItemSpecification(string ownerId): base(i => i.OwnerId == ownerId)
         {
             Description += $"{nameof(ownerId)}: {ownerId}";
         }

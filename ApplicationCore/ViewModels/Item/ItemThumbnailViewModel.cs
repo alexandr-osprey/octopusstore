@@ -9,12 +9,10 @@ namespace ApplicationCore.ViewModels
         public IEnumerable<decimal> Prices { get; set; }
         public IEnumerable<ItemImageViewModel> Images { get; set; }
 
-        public ItemThumbnailViewModel()
-           : base()
+        public ItemThumbnailViewModel(): base()
         {
         }
-        public ItemThumbnailViewModel(Item item)
-           : base(item)
+        public ItemThumbnailViewModel(Item item): base(item)
         {
             Images = from image in item.Images select new ItemImageViewModel(image);
             Prices = from variant in item.ItemVariants select variant.Price;

@@ -12,12 +12,10 @@ namespace ApplicationCore.ViewModels
         public string Address { get; set; }
         public DateTime RegistrationDate { get; set; }
 
-        public StoreViewModel()
-           : base()
+        public StoreViewModel(): base()
         {
         } 
-        public StoreViewModel(Store store)
-           : base(store)
+        public StoreViewModel(Store store): base(store)
         {
             Title = store.Title;
             OwnerId = store.OwnerId;

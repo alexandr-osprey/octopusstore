@@ -8,8 +8,7 @@ namespace ApplicationCore.Specifications
     /// <typeparam name="T"></typeparam>
     public abstract class DetailSpecification<T>: EntitySpecification<T> where T: Entity
     {
-        public DetailSpecification(int id)
-           : base(id)
+        public DetailSpecification(int id): base(id)
         {
         }
     }

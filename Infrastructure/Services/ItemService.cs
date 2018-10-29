@@ -9,7 +9,7 @@ using ApplicationCore.Exceptions;
 
 namespace Infrastructure.Services
 {
-    public class ItemService : Service<Item>, IItemService
+    public class ItemService: Service<Item>, IItemService
     {
         protected IItemImageService _itemImageService;
         protected ICategoryService _categoryService;

@@ -7,12 +7,10 @@ namespace ApplicationCore.ViewModels
         public int ItemVariantId { get; set; }
         public int CharacteristicValueId { get; set; }
 
-        public ItemPropertyViewModel()
-           : base()
+        public ItemPropertyViewModel(): base()
         {
         }
-        public ItemPropertyViewModel(ItemProperty itemProperty)
-           : base(itemProperty)
+        public ItemPropertyViewModel(ItemProperty itemProperty): base(itemProperty)
         {
             Id = itemProperty.Id;
             ItemVariantId = itemProperty.ItemVariantId;

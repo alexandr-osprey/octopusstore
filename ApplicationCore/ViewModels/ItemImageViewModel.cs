@@ -4,12 +4,10 @@ namespace ApplicationCore.ViewModels
 {
     public class ItemImageViewModel: ImageViewModel<ItemImage, Item>
     {
-        public ItemImageViewModel()
-           : base()
+        public ItemImageViewModel(): base()
         {
         }
-        public ItemImageViewModel(ItemImage itemImage)
-           : base(itemImage)
+        public ItemImageViewModel(ItemImage itemImage): base(itemImage)
         {
         }
 

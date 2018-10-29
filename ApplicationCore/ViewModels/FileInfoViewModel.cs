@@ -1,5 +1,4 @@
 ﻿using ApplicationCore.Entities;
-using ApplicationCore.ViewModels;
 
 namespace ApplicationCore.ViewModels
 {
@@ -13,12 +12,10 @@ namespace ApplicationCore.ViewModels
         public string OwnerUsername { get; set; }
         public int RelatedId { get; set; }
 
-        public FileInfoViewModel()
-           : base()
+        public FileInfoViewModel(): base()
         {
         }
-        public FileInfoViewModel(TFileInfo fileDetail)
-           : base(fileDetail)
+        public FileInfoViewModel(TFileInfo fileDetail): base(fileDetail)
         {
             Title = fileDetail.Title;
             ContentType = fileDetail.ContentType;

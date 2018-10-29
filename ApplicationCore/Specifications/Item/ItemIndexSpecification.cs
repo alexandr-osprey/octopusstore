@@ -7,8 +7,7 @@ namespace ApplicationCore.Specifications
 {
     public class ItemIndexSpecification: EntitySpecification<Item>
     {
-        public ItemIndexSpecification(ItemIndexSpecification itemIndexSpecification)
-           : base(itemIndexSpecification)
+        public ItemIndexSpecification(ItemIndexSpecification itemIndexSpecification): base(itemIndexSpecification)
         {
         }
 

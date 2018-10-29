@@ -9,12 +9,10 @@ namespace ApplicationCore.ViewModels
         public int ItemId { get; set; }
         public decimal Price { get; set; }
 
-        public ItemVariantViewModel()
-           : base()
+        public ItemVariantViewModel(): base()
         {
         }
-        public ItemVariantViewModel(ItemVariant itemVariant)
-           : base(itemVariant)
+        public ItemVariantViewModel(ItemVariant itemVariant): base(itemVariant)
         {
             Title = itemVariant.Title;
             Price = itemVariant.Price;

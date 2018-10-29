@@ -10,12 +10,10 @@ namespace ApplicationCore.Exceptions
         public CustomDbException()
         {
         }
-        public CustomDbException(string message)
-           : base(message)
+        public CustomDbException(string message): base(message)
         {
         }
-        public CustomDbException(string message, Exception inner)
-           : base(message, inner)
+        public CustomDbException(string message, Exception inner): base(message, inner)
         {
         }
     }

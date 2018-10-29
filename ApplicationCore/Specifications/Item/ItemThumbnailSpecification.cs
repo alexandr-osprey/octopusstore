@@ -4,8 +4,7 @@ namespace ApplicationCore.Specifications
 {
     public class ItemThumbnailSpecification: EntitySpecification<Item>
     {
-        public ItemThumbnailSpecification(int id)
-           : base(id)
+        public ItemThumbnailSpecification(int id): base(id)
         {
             AddInclude(i => i.Images);
             AddInclude(i => i.Brand);

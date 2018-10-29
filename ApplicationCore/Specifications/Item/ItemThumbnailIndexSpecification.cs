@@ -5,8 +5,7 @@ namespace ApplicationCore.Specifications
 {
     public class ItemThumbnailIndexSpecification: ItemIndexSpecification
     {
-        public ItemThumbnailIndexSpecification(ItemIndexSpecification itemIndexSpecification)
-           : base(itemIndexSpecification)
+        public ItemThumbnailIndexSpecification(ItemIndexSpecification itemIndexSpecification): base(itemIndexSpecification)
         {
             SetProperties();
         }

@@ -22,8 +22,7 @@ namespace ApplicationCore.Specifications
         /// <summary>
         /// Select all by default
         /// </summary>
-        public Specification()
-           : this(e => true)
+        public Specification(): this(e => true)
         {
         }
         /// <summary>
@@ -52,10 +51,7 @@ namespace ApplicationCore.Specifications
         /// </summary>
         /// <param name="criteria"></param>
         /// <param name="includeExpressions"></param>
-        public Specification(
-            Expression<Func<T, bool>> criteria,
-            params Expression<Func<T, object>>[] includeExpressions)
-           : this(criteria)
+        public Specification(Expression<Func<T, bool>> criteria, params Expression<Func<T, object>>[] includeExpressions): this(criteria)
         {
             foreach (var i in includeExpressions)
                 AddInclude(i);
@@ -66,8 +62,7 @@ namespace ApplicationCore.Specifications
         /// <param name="criteria"></param>
         /// <param name="take"></param>
         /// <param name="skip"></param>
-        public Specification(Expression<Func<T, bool>> criteria, int take, int skip)
-           : this(criteria)
+        public Specification(Expression<Func<T, bool>> criteria, int take, int skip): this(criteria)
         {
             Take = take;
             Skip = skip;

@@ -11,8 +11,7 @@ namespace ApplicationCore.ViewModels
         public decimal Price { get; set; }
         public IEnumerable<ItemPropertyViewModel> ItemProperties { get; set; }
 
-        public ItemVariantDetailViewModel(ItemVariant itemVariant)
-           : base(itemVariant)
+        public ItemVariantDetailViewModel(ItemVariant itemVariant): base(itemVariant)
         {
             Id = itemVariant.Id;
             Title = itemVariant.Title;

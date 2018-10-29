@@ -1,5 +1,4 @@
 ﻿using ApplicationCore.Entities;
-using ApplicationCore.ViewModels;
 
 namespace ApplicationCore.ViewModels
 {
@@ -8,12 +7,10 @@ namespace ApplicationCore.ViewModels
         public string Title { get; set; }
         public int CategoryId { get; set; }
 
-        public CharacteristicViewModel()
-           : base()
+        public CharacteristicViewModel(): base()
         {
         }
-        public CharacteristicViewModel(Characteristic categoryProperty)
-           : base(categoryProperty)
+        public CharacteristicViewModel(Characteristic categoryProperty): base(categoryProperty)
         {
             Title = categoryProperty.Title;
             CategoryId = categoryProperty.CategoryId;

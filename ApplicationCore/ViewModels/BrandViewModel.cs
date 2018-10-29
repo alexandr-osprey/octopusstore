@@ -1,5 +1,4 @@
 ﻿using ApplicationCore.Entities;
-using ApplicationCore.ViewModels;
 
 namespace ApplicationCore.ViewModels
 {
@@ -7,8 +6,7 @@ namespace ApplicationCore.ViewModels
     {
         public string Title { get; set; }
 
-        public BrandViewModel(Brand brand)
-           : base(brand)
+        public BrandViewModel(Brand brand): base(brand)
         {
             Title = brand.Title;
         }

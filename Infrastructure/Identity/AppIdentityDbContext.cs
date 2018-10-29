@@ -13,8 +13,7 @@ namespace Infrastructure.Identity
         public DbSet<RefreshToken> RefreshTokens { get; set; }
         
 
-        public AppIdentityDbContext(DbContextOptions<AppIdentityDbContext> options)
-           : base(options)
+        public AppIdentityDbContext(DbContextOptions<AppIdentityDbContext> options): base(options)
         {
         }
 

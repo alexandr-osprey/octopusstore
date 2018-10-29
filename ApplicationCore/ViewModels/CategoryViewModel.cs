@@ -9,12 +9,10 @@ namespace ApplicationCore.ViewModels
         public int ParentCategoryId { get; set; }
         public string Description { get; set; }
 
-        public CategoryViewModel()
-           : base()
+        public CategoryViewModel(): base()
         {
         }
-        public CategoryViewModel(Category category)
-           : base(category)
+        public CategoryViewModel(Category category): base(category)
         {
             Title = category.Title;
             ParentCategoryId = category.ParentCategoryId;

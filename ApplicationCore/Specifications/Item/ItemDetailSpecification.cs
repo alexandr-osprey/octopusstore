@@ -4,8 +4,7 @@ namespace ApplicationCore.Specifications
 {
     public class ItemDetailSpecification: DetailSpecification<Item>
     {
-        public ItemDetailSpecification(int id)
-           : base(id)
+        public ItemDetailSpecification(int id): base(id)
         {
             AddInclude(i => i.Images);
             AddInclude(i => i.Brand);

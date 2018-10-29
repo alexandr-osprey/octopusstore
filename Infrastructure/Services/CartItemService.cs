@@ -8,10 +8,8 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Services
 {
-    public class CartItemService : Service<CartItem>, ICartItemService
+    public class CartItemService: Service<CartItem>, ICartItemService
     {
-        //public string OwnerId { get; set; }
-
         public CartItemService(
             StoreContext context,
             IIdentityService identityService,

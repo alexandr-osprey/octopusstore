@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Services
 {
-    public class ItemVariantService : Service<ItemVariant>, IItemVariantService
+    public class ItemVariantService: Service<ItemVariant>, IItemVariantService
     {
         public ItemVariantService(
             StoreContext context,

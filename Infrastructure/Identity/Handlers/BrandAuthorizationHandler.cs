@@ -6,8 +6,7 @@ namespace Infrastructure.Identity
 {
     public class BrandAuthorizationHandler: DefaultAuthorizationHandler<Brand>
     {
-        public BrandAuthorizationHandler(UserManager<ApplicationUser> userManager, IAppLogger<IAuthorziationHandler<Brand>> appLogger)
-           : base(userManager, appLogger)
+        public BrandAuthorizationHandler(UserManager<ApplicationUser> userManager, IAppLogger<IAuthorziationHandler<Brand>> appLogger): base(userManager, appLogger)
         {
         }
     }

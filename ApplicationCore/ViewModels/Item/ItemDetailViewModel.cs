@@ -15,8 +15,7 @@ namespace ApplicationCore.ViewModels
         public IEnumerable<ItemVariantViewModel> ItemVariants { get; set; }
         public IEnumerable<ItemImageViewModel> Images { get; set; }
 
-        public ItemDetailViewModel(Item item)
-           : base(item)
+        public ItemDetailViewModel(Item item): base(item)
         {
             Title = item.Title;
             Description = item.Description;
