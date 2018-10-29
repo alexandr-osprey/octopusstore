@@ -2,9 +2,9 @@
 
 namespace ApplicationCore.Specifications
 {
-    public class ItemVariantCharacteristicValueSpecification: Specification<ItemVariantCharacteristicValue>
+    public class ItemPropertyByVariantSpecification: Specification<ItemProperty>
     {
-        public ItemVariantCharacteristicValueSpecification(int itemVariantId)
+        public ItemPropertyByVariantSpecification(int itemVariantId)
            : base((i => i.ItemVariantId == itemVariantId))
         {
             Description = $"ItemVariantCharacteristics with ItemVariantId={itemVariantId}";

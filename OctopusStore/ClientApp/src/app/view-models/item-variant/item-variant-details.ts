@@ -1,12 +1,11 @@
-import { Entity } from "../entity";
-import { ItemVariantCharacteristicValue } from "../item-variant-characteristic-value/item-variant-characteristic-value";
 import { ItemVariant } from "./item-variant";
 import { EntityDetail } from "../entity-detail";
+import { ItemProperty } from "../item-property/item-property";
 
 export class ItemVariantDetails extends EntityDetail<ItemVariant> {
   itemId: number;
   price: number;
-  itemVariantCharacteristicValues: ItemVariantCharacteristicValue[];
+  itemProperties: ItemProperty[];
 
   public constructor(init?: Partial<ItemVariantDetails>) {
     super(init);

@@ -1,11 +1,9 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using ApplicationCore.Entities;
 using ApplicationCore.Interfaces;
 using ApplicationCore.Specifications;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Identity
 {
@@ -18,7 +16,7 @@ namespace Infrastructure.Identity
 
         protected override async Task<Store> GetStoreEntityAsync(ItemVariant itemVariant)
         {
-            var item = await _storeContext.ReadSingleBySpecAsync(_logger, new EntitySpecification<Item>(i => i.Id == itemVariant.ItemId, (i => i.Store)), true);
+            var item = await _storeContext.ReadSingleBySpecAsync(_logger, new Specification<Item>(i => i.Id == itemVariant.ItemId, (i => i.Store)), true);
             return item.Store;
         }
     }

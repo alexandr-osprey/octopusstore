@@ -1,4 +1,5 @@
 ﻿using ApplicationCore.Entities;
+using ApplicationCore.Exceptions;
 using ApplicationCore.Interfaces;
 using ApplicationCore.Specifications;
 using Microsoft.EntityFrameworkCore;
@@ -66,17 +67,32 @@ namespace UnitTests.Services
 
         protected override async Task<IEnumerable<CartItem>> GetIncorrectNewEntitesAsync()
         {
-            await _context.AddAsync(new CartItem() { OwnerId = adminId, ItemVariantId = 1, Number = 7 });
-            await _context.AddAsync(new CartItem() { OwnerId = adminId, ItemVariantId = 2, Number = 8 });
-            await _context.SaveChangesAsync();
+            //await _context.AddAsync(new CartItem() { OwnerId = adminId, ItemVariantId = 1, Number = 7 });
+            //await _context.AddAsync(new CartItem() { OwnerId = adminId, ItemVariantId = 2, Number = 8 });
+            //await _context.SaveChangesAsync();
             return await Task.FromResult(new List<CartItem>
             {
-                // first two already exist
-                new CartItem() { OwnerId = adminId, ItemVariantId = 1, Number = 7 },
-                new CartItem() { OwnerId = adminId, ItemVariantId = 2, Number = 8 },
                 new CartItem() { OwnerId = johnId, ItemVariantId = 3, Number = 0 },
                 new CartItem() { OwnerId = johnId, ItemVariantId = 999, Number = 8 },
                 new CartItem() { OwnerId = "", ItemVariantId = 999, Number = 8 }
+            });
+        }
+
+        [Fact]
+        public async Task CreateAsyncThrowsAlreadyExists()
+        {
+            foreach (var duplicateEntity in await GetDuplicateEntitiesAsync())
+            {
+                await Assert.ThrowsAsync<EntityAlreadyExistsException>(() => _service.CreateAsync(duplicateEntity));
+            }
+        }
+        protected async Task<IEnumerable<CartItem>> GetDuplicateEntitiesAsync()
+        {
+            return await Task.FromResult(new List<CartItem>
+            {
+                // first two already exist
+                new CartItem() { OwnerId = johnId, ItemVariantId = 1, Number = 7 },
+                new CartItem() { OwnerId = johnId, ItemVariantId = 2, Number = 8 },
             });
         }
 

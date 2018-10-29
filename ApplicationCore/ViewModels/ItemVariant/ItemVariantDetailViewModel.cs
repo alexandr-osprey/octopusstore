@@ -9,7 +9,7 @@ namespace ApplicationCore.ViewModels
         public string Title { get; set; }
         public int ItemId { get; set; }
         public decimal Price { get; set; }
-        public IEnumerable<ItemVariantCharacteristicValueViewModel> ItemVariantCharacteristicValues { get; set; }
+        public IEnumerable<ItemPropertyViewModel> ItemProperties { get; set; }
 
         public ItemVariantDetailViewModel(ItemVariant itemVariant)
            : base(itemVariant)
@@ -18,8 +18,8 @@ namespace ApplicationCore.ViewModels
             Title = itemVariant.Title;
             ItemId = itemVariant.ItemId;
             Price = itemVariant.Price;
-            ItemVariantCharacteristicValues = (from propertyValue in itemVariant.ItemVariantCharacteristicValues
-                                            select new ItemVariantCharacteristicValueViewModel(propertyValue));
+            ItemProperties = (from propertyValue in itemVariant.ItemProperties
+                                            select new ItemPropertyViewModel(propertyValue));
         }
 
         public override ItemVariant ToModel()

@@ -1,9 +1,9 @@
 import { Characteristic } from "../../view-models/characteristic/characteristic";
 import { CharacteristicValue } from "../../view-models/characteristic-value/characteristic-value";
-import { ItemVariantCharacteristicValue } from "../../view-models/item-variant-characteristic-value/item-variant-characteristic-value";
 import { ItemVariant } from "../../view-models/item-variant/item-variant";
+import { ItemProperty } from "../../view-models/item-property/item-property";
 
-export class CharacteristicValueDisplayed extends ItemVariantCharacteristicValue {
+export class CharacteristicValueDisplayed extends ItemProperty {
   public characteristics: Characteristic[];
   public characteristicValues: CharacteristicValue[];
   private _characteristicId: number;
@@ -19,7 +19,7 @@ export class CharacteristicValueDisplayed extends ItemVariantCharacteristicValue
   public characteristic: Characteristic;
   public itemVariant: ItemVariant;
 
-  constructor(characteristics: Characteristic[], characteristicValues: CharacteristicValue[], init?: Partial<ItemVariantCharacteristicValue>) {
+  constructor(characteristics: Characteristic[], characteristicValues: CharacteristicValue[], init?: Partial<ItemProperty>) {
     super(init);
     this.characteristics = characteristics;
     this.characteristicValues = characteristicValues;
@@ -31,7 +31,7 @@ export class CharacteristicValueDisplayed extends ItemVariantCharacteristicValue
       this.characteristicValue = new CharacteristicValue();
     }
   }
-  updateValues(value?: Partial<ItemVariantCharacteristicValue>) {
+  updateValues(value?: Partial<ItemProperty>) {
     this.id = value.id;
     this.characteristicValueId = value.characteristicValueId;
     this.itemVariantId = value.itemVariantId;

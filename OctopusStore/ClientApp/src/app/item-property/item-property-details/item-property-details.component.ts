@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { ItemVariantCharacteristicValueService } from '../../services/item-variant-characteristic-value-service';
+import { ItemPropertyService } from '../../services/item-property-service';
 import { ItemDetails } from '../../view-models/item/item-details';
 import { Observable } from "rxjs/Observable";
 import "rxjs/add/observable/zip";
@@ -7,17 +7,17 @@ import { MessageService } from '../../services/message.service';
 import { CharacteristicService } from '../../services/characteristic.service';
 import { CharacteristicValueService } from '../../services/characteristic-value.service';
 import { ItemVariant } from '../../view-models/item-variant/item-variant';
-import { CharacteristicValueDisplayed } from '../item-variant-characteristic-value-create-update/characteristic-value-displayed';
+import { CharacteristicValueDisplayed } from '../item-property-create-update/characteristic-value-displayed';
 import { Subscription } from 'rxjs';
 import { Characteristic } from '../../view-models/characteristic/characteristic';
 import { CharacteristicValue } from '../../view-models/characteristic-value/characteristic-value';
 
 @Component({
-  selector: 'app-item-variant-characteristic-value-details',
-  templateUrl: './item-variant-characteristic-value-details.component.html',
-  styleUrls: ['./item-variant-characteristic-value-details.component.css']
+  selector: 'app-item-property-details',
+  templateUrl: './item-property-details.component.html',
+  styleUrls: ['./item-property-details.component.css']
 })
-export class ItemVariantCharacteristicValueDetailsComponent implements OnInit, OnChanges {
+export class ItemPropertyDetailsComponent implements OnInit, OnChanges {
   @Input() itemDetails: ItemDetails;
   @Input() currentVariant: ItemVariant;
   public characteristicValuesDisplayed: CharacteristicValueDisplayed[];
@@ -27,7 +27,7 @@ export class ItemVariantCharacteristicValueDetailsComponent implements OnInit, O
     private messageService: MessageService,
     private characteristicService: CharacteristicService,
     private characteristicValueService: CharacteristicValueService,
-    private itemVariantCharacteristicValueService: ItemVariantCharacteristicValueService) {
+    private itemPropertyService: ItemPropertyService) {
     this.itemCharacteristicValues = [];
   }
 
@@ -43,7 +43,7 @@ export class ItemVariantCharacteristicValueDetailsComponent implements OnInit, O
       Observable.zip(
         this.characteristicService.index({ categoryId: this.itemDetails.category.id }),
         this.characteristicValueService.index({ categoryId: this.itemDetails.category.id }),
-        this.itemVariantCharacteristicValueService.index({ itemId: this.itemDetails.id })
+        this.itemPropertyService.index({ itemId: this.itemDetails.id })
       ).subscribe((data) => {
         let characteristics: Characteristic[] = [];
         let characteristicValues: CharacteristicValue[] = [];

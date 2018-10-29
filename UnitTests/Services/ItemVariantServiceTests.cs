@@ -64,7 +64,7 @@ namespace UnitTests.Services
 
         protected override IQueryable<ItemVariant> GetQueryable()
         {
-            return base.GetQueryable().Include(i => i.ItemVariantCharacteristicValues);
+            return base.GetQueryable().Include(i => i.ItemProperties);
         }
     }
 }

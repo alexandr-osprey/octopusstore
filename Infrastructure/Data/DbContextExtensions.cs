@@ -261,7 +261,7 @@ namespace Infrastructure.Data
             bool exists = false;
             try
             {
-                exists = await context.Set<TEntity>().Where(e => e == entityToCheck).AnyAsync();
+                exists = await context.Set<TEntity>().AnyAsync(e => e.GetHashCode() == entityToCheck.GetHashCode());
             }
             catch (Exception readException)
             {

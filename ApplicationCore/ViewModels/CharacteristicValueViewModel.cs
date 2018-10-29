@@ -31,7 +31,7 @@ namespace ApplicationCore.ViewModels
         public override CharacteristicValue UpdateModel(CharacteristicValue modelToUpdate)
         {
             modelToUpdate.Title = Title;
-            modelToUpdate.CharacteristicId = CharacteristicId;
+            //modelToUpdate.CharacteristicId = CharacteristicId;
             return modelToUpdate;
         }
     }

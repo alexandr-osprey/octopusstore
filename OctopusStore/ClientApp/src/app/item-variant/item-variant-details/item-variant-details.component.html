@@ -14,8 +14,8 @@
       <div class="col-12 col-md-12">
         <div *ngIf="currentVariant" class="current-variant">
           <div class="current-item-variant__title">{{ currentVariant.title }}</div>
-          <app-item-variant-characteristic-value-details [(itemDetails)]="itemDetails" [(currentVariant)]="currentVariant">
-          </app-item-variant-characteristic-value-details>
+          <app-item-property-details [(itemDetails)]="itemDetails" [(currentVariant)]="currentVariant">
+          </app-item-property-details>
         </div>
       </div>
     </div>

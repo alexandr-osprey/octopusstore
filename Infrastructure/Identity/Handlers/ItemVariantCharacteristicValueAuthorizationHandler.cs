@@ -9,16 +9,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Identity
 {
-    public class ItemVariantCharacteristicValueAuthorizationHandler: StoreEntityAuthorizationHandler<ItemVariantCharacteristicValue>
+    public class ItemPropertyAuthorizationHandler: StoreEntityAuthorizationHandler<ItemProperty>
     {
-        public ItemVariantCharacteristicValueAuthorizationHandler(UserManager<ApplicationUser> userManager, StoreContext storeContext, IAppLogger<IAuthorziationHandler<ItemVariantCharacteristicValue>> appLogger)
+        public ItemPropertyAuthorizationHandler(UserManager<ApplicationUser> userManager, StoreContext storeContext, IAppLogger<IAuthorziationHandler<ItemProperty>> appLogger)
            : base(userManager, storeContext, appLogger)
         {
         }
 
-        protected override async Task<Store> GetStoreEntityAsync(ItemVariantCharacteristicValue entity)
+        protected override async Task<Store> GetStoreEntityAsync(ItemProperty entity)
         {
-            await _storeContext.ExistsBySpecAsync(_logger, new EntitySpecification<ItemVariant>(entity.ItemVariantId), true);
             var itemVariant = await _storeContext
                 .NoTrackingSet<ItemVariant>()
                 .Where(v => v.Id == entity.ItemVariantId)

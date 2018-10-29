@@ -12,6 +12,6 @@ namespace ApplicationCore.Entities
         public int ItemId { get; set; }
 
         public Item Item { get; set; }
-        public ICollection<ItemVariantCharacteristicValue> ItemVariantCharacteristicValues { get; set; } = new List<ItemVariantCharacteristicValue>();
+        public ICollection<ItemProperty> ItemProperties { get; set; } = new List<ItemProperty>();
     }
 }

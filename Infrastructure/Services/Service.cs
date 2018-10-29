@@ -43,10 +43,12 @@ namespace Infrastructure.Services
         {
             entity.OwnerId = _scopedParameters.ClaimsPrincipal.Identity.Name;
             await ValidateCreateWithExceptionAsync(entity);
+            await ValidateCustomUniquinessWithException(entity);
             if (_authoriationParameters.CreateAuthorizationRequired)
             {
                 await AuthorizeWithException(entity, _authoriationParameters.CreateOperationRequirement);
             }
+            //await ValidateUniquiness
             var result = await _context.CreateAsync(_logger, entity);
             _logger.Trace("{Name} added entity {entity}", Name, result);
             return result;
@@ -127,6 +129,10 @@ namespace Infrastructure.Services
         public virtual async Task DeleteRelatedEntitiesAsync(TEntity entity)
         {
             _logger.Trace("{Name} deleted entity related to {entity} (if such existed)", Name, entity);
+            await Task.CompletedTask;
+        }
+        protected virtual async Task ValidateCustomUniquinessWithException(TEntity entity)
+        {
             await Task.CompletedTask;
         }
         protected virtual async Task ValidateCreateWithExceptionAsync(TEntity entity)

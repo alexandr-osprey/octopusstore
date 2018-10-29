@@ -15,8 +15,7 @@ namespace Infrastructure.Identity
 
         protected override async Task<Store> GetStoreEntityAsync(Item item)
         {
-            var store = await _storeContext.ReadByKeyAsync<Store, IAuthorziationHandler<Item>>(_logger, item.StoreId, true);
-            return store;
+            return await _storeContext.ReadByKeyAsync<Store, IAuthorziationHandler<Item>>(_logger, item.StoreId, true);
         }
     }
 }

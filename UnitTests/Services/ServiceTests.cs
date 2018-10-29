@@ -66,7 +66,7 @@ namespace UnitTests
         {
             await Assert.ThrowsAsync<EntityNotFoundException>(() => _service.ReadSingleAsync(new EntitySpecification<TEntity>(9999)));
         }
-
+        
         [Fact]
         public async Task EnumerateAsync()
         {

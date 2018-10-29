@@ -29,7 +29,7 @@ namespace UnitTests.Controllers
         public async Task Post()
         {
             var variant = await GetQueryable().FirstOrDefaultAsync();
-            foreach (var property in variant.ItemVariantCharacteristicValues)
+            foreach (var property in variant.ItemProperties)
             {
                 property.ItemVariantId = 0;
             }
@@ -74,9 +74,9 @@ namespace UnitTests.Controllers
         {
             var variant = await GetQueryable().FirstOrDefaultAsync();
             await controller.Delete(variant.Id);
-            foreach (var property in variant.ItemVariantCharacteristicValues)
+            foreach (var property in variant.ItemProperties)
             {
-                Assert.False(await _context.ItemVariantCharacteristicValues.ContainsAsync(property));
+                Assert.False(await _context.ItemProperties.ContainsAsync(property));
             }
             Assert.False(await _context.ItemVariants.ContainsAsync(variant));
         }
@@ -85,7 +85,7 @@ namespace UnitTests.Controllers
             return _context
                     .Set<ItemVariant>()
                     .AsNoTracking()
-                    .Include(j => j.ItemVariantCharacteristicValues);
+                    .Include(j => j.ItemProperties);
         }
     }
 }

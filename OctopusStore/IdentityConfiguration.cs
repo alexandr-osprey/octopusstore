@@ -94,7 +94,7 @@ namespace OctopusStore
             services.AddScoped<IAuthorizationHandler, CharacteristicValueAuthorizationHandler>();
             services.AddScoped<IAuthorizationHandler, ItemImageAuthorizationHandler>();
             services.AddScoped<IAuthorizationHandler, ItemVariantAuthorizationHandler>();
-            services.AddScoped<IAuthorizationHandler, ItemVariantCharacteristicValueAuthorizationHandler>();
+            services.AddScoped<IAuthorizationHandler, ItemPropertyAuthorizationHandler>();
             services.AddScoped<IAuthorizationHandler, MeasurementUnitAuthorizationHandler>();
             services.AddScoped<IAuthorizationHandler, StoreAuthorizationHandler>();
         }

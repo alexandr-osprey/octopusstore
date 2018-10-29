@@ -1,10 +1,10 @@
 import { Entity } from "../entity";
 
-export class ItemVariantCharacteristicValue extends Entity {
+export class ItemProperty extends Entity {
   itemVariantId: number;
   characteristicValueId: number;
 
-  public constructor(init?: Partial<ItemVariantCharacteristicValue>) {
+  public constructor(init?: Partial<ItemProperty>) {
     super(init);
     Object.assign(this, init);
   }

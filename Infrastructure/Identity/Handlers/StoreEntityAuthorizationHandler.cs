@@ -28,20 +28,19 @@ namespace Infrastructure.Identity
             await base.HandleRequirementAsync(context, requirement, entity);
             if (!context.HasSucceeded)
             {
-                if (await CreateUpdateDeleteStoreAdministrator(context, requirement, entity))
+                if (await IsStoreAdministrator(context, requirement, entity))
                 {
                     context.Succeed(requirement);
                 }
             }
         }
 
-        public async Task<bool> CreateUpdateDeleteStoreAdministrator(
+        public async Task<bool> IsStoreAdministrator(
             AuthorizationHandlerContext context,
             OperationAuthorizationRequirement requirement,
             T entity)
         {
-            if (!(requirement.Name == Operations.Create || requirement.Name == Operations.Update || requirement.Name == Operations.Delete)
-                || context.User == null)
+            if (context.User == null)
                 return false;
 
             Store store = await GetStoreEntityAsync(entity);

@@ -1,9 +1,8 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { ItemVariantCharacteristicValue } from '../../view-models/item-variant-characteristic-value/item-variant-characteristic-value';
 import { MessageService } from '../../services/message.service';
 import { CharacteristicService } from '../../services/characteristic.service';
 import { CharacteristicValueService } from '../../services/characteristic-value.service';
-import { ItemVariantCharacteristicValueService } from '../../services/item-variant-characteristic-value-service';
+import { ItemPropertyService } from '../../services/item-property-service';
 import { ItemVariant } from '../../view-models/item-variant/item-variant';
 import { Observable } from 'rxjs';
 import 'rxjs/add/observable/zip';
@@ -11,13 +10,14 @@ import { CharacteristicValueDisplayed } from './characteristic-value-displayed';
 import { Item } from '../../view-models/item/item';
 import { CharacteristicValue } from '../../view-models/characteristic-value/characteristic-value';
 import { Characteristic } from '../../view-models/characteristic/characteristic';
+import { ItemProperty } from '../../view-models/item-property/item-property';
 
 @Component({
-  selector: 'app-item-variant-characteristic-value-create-update',
-  templateUrl: './item-variant-characteristic-value-create-update.component.html',
-  styleUrls: ['./item-variant-characteristic-value-create-update.component.css']
+  selector: 'app-item-property-create-update',
+  templateUrl: './item-property-create-update.component.html',
+  styleUrls: ['./item-property-create-update.component.css']
 })
-export class ItemVariantCharacteristicValueCreateUpdateComponent implements OnInit, OnChanges {
+export class ItemPropertyCreateUpdateComponent implements OnInit, OnChanges {
   @Input() itemVariant: ItemVariant;
   @Input() item: Item;
   public characteristicValuesDisplayed: CharacteristicValueDisplayed[] = [];
@@ -30,7 +30,7 @@ export class ItemVariantCharacteristicValueCreateUpdateComponent implements OnIn
     protected messageService: MessageService,
     protected characteristicService: CharacteristicService,
     protected characteristicValueService: CharacteristicValueService,
-    protected itemVariantCharacteristicValueService: ItemVariantCharacteristicValueService) {
+    protected itemPropertyService: ItemPropertyService) {
   }
 
   ngOnInit() {
@@ -44,7 +44,7 @@ export class ItemVariantCharacteristicValueCreateUpdateComponent implements OnIn
       Observable.zip(
         this.characteristicService.index({ categoryId: this.item.categoryId }),
         this.characteristicValueService.index({ categoryId: this.item.categoryId }),
-        this.itemVariantCharacteristicValueService.index({ itemId: this.item.id })
+        this.itemPropertyService.index({ itemId: this.item.id })
       ).subscribe(data => {
         
         data[0].entities.forEach(c => this.characteristics.push(new Characteristic(c)));
@@ -59,14 +59,14 @@ export class ItemVariantCharacteristicValueCreateUpdateComponent implements OnIn
   protected currentVariantChanged() {
     this.characteristicValuesDisplayed = this.itemCharacteristicValues.filter(v => v.itemVariantId == this.itemVariant.id);
   }
-  protected addItemVariantCharacteristicValue() {
+  protected addItemProperty() {
     let addedItemVariant = new CharacteristicValueDisplayed(this.characteristics, this.characteristicValues, { id: 0, itemVariantId: this.itemVariant.id });
     this.itemCharacteristicValues.push(addedItemVariant);
     this.characteristicValuesDisplayed.push(addedItemVariant);
   }
-  protected removeItemVariantCharacteristicValue(characteristicValueDisplayed: CharacteristicValueDisplayed) {
+  protected removeItemProperty(characteristicValueDisplayed: CharacteristicValueDisplayed) {
     if (characteristicValueDisplayed.id != 0) {
-      this.itemVariantCharacteristicValueService.delete(characteristicValueDisplayed.id).subscribe(data => {
+      this.itemPropertyService.delete(characteristicValueDisplayed.id).subscribe(data => {
         if (data) {
           this.characteristicValuesDisplayed = this.characteristicValuesDisplayed.filter(c => c.id != characteristicValueDisplayed.id);
           this.messageService.sendSuccess("Item variant characteristic value deleted");
@@ -76,16 +76,14 @@ export class ItemVariantCharacteristicValueCreateUpdateComponent implements OnIn
     this.characteristicValuesDisplayed = this.characteristicValuesDisplayed.filter(v => v != characteristicValueDisplayed);
     this.itemCharacteristicValues = this.itemCharacteristicValues.filter(v => v != characteristicValueDisplayed)
   }
-  protected saveItemVariantCharacteristicValues() {
-    this.characteristicValuesDisplayed.forEach(value => {
-      this.saveItemVariantCharacteristicValue(value);
-    });
+  protected saveItemProperties() {
+    this.characteristicValuesDisplayed.forEach(value => this.saveItemProperty(value));
     this.messageService.sendSuccess("Item variant characteristic values saved");
   }
-  protected saveItemVariantCharacteristicValue(value: CharacteristicValueDisplayed) {
+  protected saveItemProperty(value: CharacteristicValueDisplayed) {
     let index = this.characteristicValuesDisplayed.indexOf(value);
     if (~index) {
-      this.itemVariantCharacteristicValueService.postOrPut(value).subscribe((data: ItemVariantCharacteristicValue) => {
+      this.itemPropertyService.postOrPut(value).subscribe((data: ItemProperty) => {
         if (data) {
           this.characteristicValuesDisplayed[index].updateValues(data);
         }

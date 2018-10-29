@@ -67,9 +67,9 @@ namespace Infrastructure.Data
                 storeContext.ItemVariants.AddRange(PreconfiguredItemVariants);
                 await storeContext.SaveChangesAsync();
             }
-            if (!storeContext.ItemVariantCharacteristicValues.Any())
+            if (!storeContext.ItemProperties.Any())
             {
-                storeContext.ItemVariantCharacteristicValues.AddRange(PreconfiguredItemCharacteristicValues);
+                storeContext.ItemProperties.AddRange(PreconfiguredItemProperties);
                 await storeContext.SaveChangesAsync();
             }
             if (!storeContext.CartItems.Any())
@@ -280,117 +280,117 @@ namespace Infrastructure.Data
                         new ItemVariant { Title = "Samsung 7 32GB Full HD", Price = 550, ItemId = PreconfiguredItems[1].Id, OwnerId = johnId }, //3
                         new ItemVariant { Title = "Samsung 8 32GB HD", Price = 700, ItemId = PreconfiguredItems[2].Id, OwnerId = johnId },  //4
                         new ItemVariant { Title = "Samsung 8 32GB Full HD", Price = 750, ItemId = PreconfiguredItems[2].Id, OwnerId = johnId }, //5
-                        new ItemVariant { Title = "Pebble 1000mAh", Price = 400, ItemId = PreconfiguredItems[3].Id, OwnerId = johnId  },
+                        new ItemVariant { Title = "Pebble 1000mAh", Price = 400, ItemId = PreconfiguredItems[3].Id, OwnerId = johnId  }, //6
 
-                        new ItemVariant { Title = "Shoes X Much fashion", Price = 700, ItemId = PreconfiguredItems[4].Id, OwnerId = jenniferId  }, //6
-                        new ItemVariant { Title = "Shoes XXL Much fashion", Price = 700, ItemId = PreconfiguredItems[4].Id, OwnerId = jenniferId  }, //7
-                        new ItemVariant { Title = "Jacket black", Price = 450, ItemId = PreconfiguredItems[5].Id, OwnerId = jenniferId  }, //8
-                        new ItemVariant { Title = "Jacket white", Price = 500, ItemId = PreconfiguredItems[5].Id, OwnerId = jenniferId  },  //9
+                        new ItemVariant { Title = "Shoes X Much fashion", Price = 700, ItemId = PreconfiguredItems[4].Id, OwnerId = jenniferId  }, //7
+                        new ItemVariant { Title = "Shoes XXL Much fashion", Price = 700, ItemId = PreconfiguredItems[4].Id, OwnerId = jenniferId  }, //8
+                        new ItemVariant { Title = "Jacket black", Price = 450, ItemId = PreconfiguredItems[5].Id, OwnerId = jenniferId  }, //9
+                        new ItemVariant { Title = "Jacket white", Price = 500, ItemId = PreconfiguredItems[5].Id, OwnerId = jenniferId  },  //10
                     };
                 }
                 return _PreconfiguredItemVariants;
             }
         }
-        private static List<ItemVariantCharacteristicValue> _PreconfiguredItemCharacteristicValues;
-        private static List<ItemVariantCharacteristicValue> PreconfiguredItemCharacteristicValues
+        private static List<ItemProperty> _PreconfiguredItemProperties;
+        private static List<ItemProperty> PreconfiguredItemProperties
         {
             get
             {
-                if (_PreconfiguredItemCharacteristicValues == null)
+                if (_PreconfiguredItemProperties == null)
                 {
-                    _PreconfiguredItemCharacteristicValues = new List<ItemVariantCharacteristicValue>
+                    _PreconfiguredItemProperties = new List<ItemProperty>
                     {
                         // iphone 32
-                        new ItemVariantCharacteristicValue (
+                        new ItemProperty (
                             PreconfiguredItemVariants[0].Id,
                             PreconfiguredCharacteristicValues[1].Id
                         ) { OwnerId = johnId },
-                        new ItemVariantCharacteristicValue (
+                        new ItemProperty (
                             PreconfiguredItemVariants[0].Id,
                             PreconfiguredCharacteristicValues[3].Id
                         ) { OwnerId = johnId },
                         // iphone 64
-                        new ItemVariantCharacteristicValue (
+                        new ItemProperty (
                             PreconfiguredItemVariants[1].Id,
                             PreconfiguredCharacteristicValues[2].Id
                         ) { OwnerId = johnId },
-                        new ItemVariantCharacteristicValue (
+                        new ItemProperty (
                             PreconfiguredItemVariants[1].Id,
                             PreconfiguredCharacteristicValues[4].Id
                         ) { OwnerId = johnId },
                         //samsung 7 32 hd
-                        new ItemVariantCharacteristicValue (
+                        new ItemProperty (
                             PreconfiguredItemVariants[2].Id,
                             PreconfiguredCharacteristicValues[1].Id
                         ) { OwnerId = johnId },
-                        new ItemVariantCharacteristicValue (
+                        new ItemProperty (
                             PreconfiguredItemVariants[2].Id,
                             PreconfiguredCharacteristicValues[3].Id
                         ) { OwnerId = johnId },
                         //samsung 7 32 full hd
-                        new ItemVariantCharacteristicValue (
+                        new ItemProperty (
                             PreconfiguredItemVariants[3].Id,
                             PreconfiguredCharacteristicValues[1].Id
                         ) { OwnerId = johnId },
-                        new ItemVariantCharacteristicValue (
+                        new ItemProperty (
                             PreconfiguredItemVariants[3].Id,
                             PreconfiguredCharacteristicValues[4].Id
                         ) { OwnerId = johnId },
                         //samsung 8 64 hd
-                        new ItemVariantCharacteristicValue (
+                        new ItemProperty (
                             PreconfiguredItemVariants[4].Id,
                             PreconfiguredCharacteristicValues[2].Id
                         ) { OwnerId = johnId },
-                        new ItemVariantCharacteristicValue (
+                        new ItemProperty (
                             PreconfiguredItemVariants[4].Id,
                             PreconfiguredCharacteristicValues[3].Id
                         ) { OwnerId = johnId },
                         //samsung 8 64 full hd
-                        new ItemVariantCharacteristicValue (
+                        new ItemProperty (
                             PreconfiguredItemVariants[5].Id,
                             PreconfiguredCharacteristicValues[2].Id
                         ) { OwnerId = johnId },
-                        new ItemVariantCharacteristicValue (
+                        new ItemProperty (
                             PreconfiguredItemVariants[5].Id,
                             PreconfiguredCharacteristicValues[4].Id
                         ) { OwnerId = johnId },
                         //pebble 100mAh
-                        new ItemVariantCharacteristicValue (
+                        new ItemProperty (
                             PreconfiguredItemVariants[6].Id,
                             PreconfiguredCharacteristicValues[5].Id
                         ) { OwnerId = johnId },
 
                         //shoes X much fashion
-                        new ItemVariantCharacteristicValue (
+                        new ItemProperty (
                             PreconfiguredItemVariants[7].Id,
                             PreconfiguredCharacteristicValues[7].Id
                         ) { OwnerId = jenniferId },
-                        new ItemVariantCharacteristicValue (
+                        new ItemProperty (
                             PreconfiguredItemVariants[7].Id,
                             PreconfiguredCharacteristicValues[10].Id
                         ) { OwnerId = jenniferId },
                         //shoes XXL much fashion
-                        new ItemVariantCharacteristicValue (
+                        new ItemProperty (
                             PreconfiguredItemVariants[8].Id,
                             PreconfiguredCharacteristicValues[9].Id
                         ) { OwnerId = jenniferId },
-                        new ItemVariantCharacteristicValue (
+                        new ItemProperty (
                             PreconfiguredItemVariants[8].Id,
                             PreconfiguredCharacteristicValues[10].Id
                         ) { OwnerId = jenniferId },
                         //jacket black
-                        new ItemVariantCharacteristicValue (
+                        new ItemProperty (
                             PreconfiguredItemVariants[9].Id,
                             PreconfiguredCharacteristicValues[12].Id
                         ) { OwnerId = jenniferId },
                         //jacket white
-                        new ItemVariantCharacteristicValue (
+                        new ItemProperty (
                             PreconfiguredItemVariants[9].Id,
                             PreconfiguredCharacteristicValues[13].Id
                         ) { OwnerId = jenniferId },
                     };
                 }
-                return _PreconfiguredItemCharacteristicValues;
+                return _PreconfiguredItemProperties;
             }
         }
         private static List<CartItem> _PreconfiguredCartItems;

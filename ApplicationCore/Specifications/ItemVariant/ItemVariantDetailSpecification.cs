@@ -7,7 +7,7 @@ namespace ApplicationCore.Specifications
         public ItemVariantDetailSpecification(int id)
            : base(id)
         {
-            AddInclude("ItemVariantCharacteristicValues.CharacteristicValue.Characteristic");
+            AddInclude("ItemProperties.CharacteristicValue.Characteristic");
         }
     }
 }

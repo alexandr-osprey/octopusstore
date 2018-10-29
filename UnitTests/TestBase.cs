@@ -102,8 +102,8 @@ namespace UnitTests
                     new ClaimsIdentity(
                         new List<Claim>()
                         {
-                            new Claim(ClaimTypes.NameIdentifier, adminId),
-                            new Claim(ClaimTypes.Name, adminId)
+                            new Claim(ClaimTypes.NameIdentifier, johnId),
+                            new Claim(ClaimTypes.Name, johnId)
                         }
                    )
                 )
@@ -130,7 +130,7 @@ namespace UnitTests
             services.AddScoped<ItemsController>();
             services.AddScoped<ItemImagesController>();
             services.AddScoped<ItemVariantsController>();
-            services.AddScoped<ItemVariantCharacteristicValuesController>();
+            services.AddScoped<ItemPropertiesController>();
             services.AddScoped<StoresController>();
             services.AddScoped<MeasurementUnitsController>();
             services.AddScoped<CategoriesController>();

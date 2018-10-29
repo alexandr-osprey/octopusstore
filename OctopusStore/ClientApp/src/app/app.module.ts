@@ -11,11 +11,11 @@ import { CategoriesComponent } from './categories/categories.component';
 import { MessagesComponent } from './messages/messages.component';
 import { PaginatorComponent } from './paginator/paginator.component';
 import { ItemVariantCreateUpdateComponent } from './item-variant/item-variant-create-update/item-variant-create-update.component';
-import { ItemVariantCharacteristicValueCreateUpdateComponent } from './item-variant-characteristic-value/item-variant-characteristic-value-create-update/item-variant-characteristic-value-create-update.component';
+import { ItemPropertyCreateUpdateComponent } from './item-property/item-property-create-update/item-property-create-update.component';
 import { ItemCreateUpdateComponent } from './item/item-create-update/item-create-update.component';
 import { ItemThumbnailsComponent } from './item/item-thumbnails/item-thumbnails.component';
 import { ItemDetailsComponent } from './item/item-details/item-details.component';
-import { ItemVariantCharacteristicValueDetailsComponent } from './item-variant-characteristic-value/item-variant-characteristic-value-details/item-variant-characteristic-value-details.component';
+import { ItemPropertyDetailsComponent } from './item-property/item-property-details/item-property-details.component';
 import { ItemVariantDetailsComponent } from './item-variant/item-variant-details/item-variant-details.component';
 import { ItemImageGalleryComponent } from './item-image/item-image-gallery/item-image-gallery.component';
 import { ItemImageCreateUpdateComponent } from './item-image/item-image-create-update/item-image-create-update.component';
@@ -48,8 +48,8 @@ import { StoreAdministratorsComponent } from './store/store-administrators/store
     ItemCreateUpdateComponent,
     ItemVariantCreateUpdateComponent,
     ItemVariantDetailsComponent,
-    ItemVariantCharacteristicValueCreateUpdateComponent,
-    ItemVariantCharacteristicValueDetailsComponent,
+    ItemPropertyCreateUpdateComponent,
+    ItemPropertyDetailsComponent,
     ItemImageCreateUpdateComponent,
     ItemImageDisplayComponent,
     ItemsNavigationPaneComponent,

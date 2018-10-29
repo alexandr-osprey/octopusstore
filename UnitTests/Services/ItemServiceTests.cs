@@ -148,7 +148,7 @@ namespace UnitTests.Services
         {
             return base.GetQueryable().Include(i => i.Images)
                     .Include(i => i.ItemVariants)
-                        .ThenInclude(i => i.ItemVariantCharacteristicValues);
+                        .ThenInclude(i => i.ItemProperties);
         }
     }
 }

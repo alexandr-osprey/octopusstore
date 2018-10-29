@@ -232,7 +232,7 @@ namespace UnitTests.Controllers
                 .Include(i => i.Images)
                 .Include(i => i.Category)
                 .Include(i => i.ItemVariants)
-                    .ThenInclude(j => j.ItemVariantCharacteristicValues)
+                    .ThenInclude(j => j.ItemProperties)
                         .ThenInclude(o => o.CharacteristicValue)
                             .ThenInclude(c => c.Characteristic);
         }

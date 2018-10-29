@@ -104,7 +104,7 @@ namespace OctopusStore
             services.AddScoped<IItemVariantService, ItemVariantService>();
             services.AddScoped<IStoreService, StoreService>();
             services.AddScoped<IItemService, ItemService>();
-            services.AddScoped<IItemVariantCharacteristicValueService, ItemVariantCharacteristicValueService>();
+            services.AddScoped<IItemPropertyService, ItemPropertyService>();
             services.AddScoped<IItemImageService, ItemImageService>();
             services.AddScoped<ICharacteristicService, CharacteristicService>();
             services.AddScoped<ICharacteristicValueService, CharacteristicValueService>();

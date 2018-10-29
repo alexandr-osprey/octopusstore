@@ -40,20 +40,25 @@ namespace Infrastructure.Services
             else
                 await UpdateAsync(cartItem);
         }
+        protected override async Task ValidateCustomUniquinessWithException(CartItem cartItem)
+        {
+            await base.ValidateCustomUniquinessWithException(cartItem);
+            if (await _context.ExistsBySpecAsync(_logger, new CartItemSpecification(cartItem.OwnerId, cartItem.ItemVariantId)))
+                throw new EntityAlreadyExistsException($"Cart item with variant {cartItem.ItemVariantId} already exists");
+        }
         protected override async Task ValidateCreateWithExceptionAsync(CartItem cartItem)
         {
+            await base.ValidateCreateWithExceptionAsync(cartItem);
+            await ValidateUpdateWithExceptionAsync(cartItem);
             if (!await _context.ExistsBySpecAsync(_logger, new EntitySpecification<ItemVariant>(cartItem.ItemVariantId)))
                 throw new EntityValidationException($"Item variant {cartItem.ItemVariantId} does not exist");
-            if (await _context.ExistsBySpecAsync(_logger, new CartItemSpecification(cartItem.OwnerId, cartItem.ItemVariantId)))
-                throw new EntityValidationException($"Cart item with variant {cartItem.ItemVariantId} already exists");
-            if (cartItem.Number <= 0)
-                throw new EntityValidationException($"Number can't be negative");
+            
         }
         protected override async Task ValidateUpdateWithExceptionAsync(CartItem cartItem)
         {
+            await base.ValidateUpdateWithExceptionAsync(cartItem);
             if (cartItem.Number <= 0)
                 throw new EntityValidationException($"Number can't be negative");
-            await base.ValidateUpdateWithExceptionAsync(cartItem);
         }
     }
 }

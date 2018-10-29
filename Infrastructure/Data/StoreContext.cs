@@ -21,7 +21,7 @@ namespace Infrastructure.Data
         public DbSet<Item> Items { get; set; }
         public DbSet<ItemImage> ItemImages { get; set; }
         public DbSet<ItemVariant> ItemVariants { get; set; }
-        public DbSet<ItemVariantCharacteristicValue> ItemVariantCharacteristicValues { get; set; }
+        public DbSet<ItemProperty> ItemProperties { get; set; }
         public DbSet<CartItem> CartItems { get; set; }
 
         public void DetachAllEntities()
@@ -48,7 +48,7 @@ namespace Infrastructure.Data
             builder.Entity<Item>(ConfigureItem);
             builder.Entity<ItemImage>(ConfigureItemImage);
             builder.Entity<ItemVariant>(ConfigureItemVariant);
-            builder.Entity<ItemVariantCharacteristicValue>(ConfigureItemVariantCharacteristicValue);
+            builder.Entity<ItemProperty>(ConfigureItemProperty);
             //builder.Entity<StoreAdministrator>(ConfigureStoreAdministrator);
         }
         private void ConfigureBrand(EntityTypeBuilder<Brand> builder)
@@ -134,9 +134,9 @@ namespace Infrastructure.Data
             builder.Property(t => t.Title).IsRequired();
             builder.ToTable(nameof(ItemVariant));
         }
-        private void ConfigureItemVariantCharacteristicValue(EntityTypeBuilder<ItemVariantCharacteristicValue> builder)
+        private void ConfigureItemProperty(EntityTypeBuilder<ItemProperty> builder)
         {
-            builder.ToTable(nameof(ItemVariantCharacteristicValue));
+            builder.ToTable(nameof(ItemProperty));
         }
         //private void ConfigureStoreAdministrator(EntityTypeBuilder<StoreAdministrator> builder)
         //{
