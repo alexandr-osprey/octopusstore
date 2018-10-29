@@ -31,11 +31,7 @@ namespace OctopusStore.Controllers
             [FromQuery(Name = "storeId")]int? storeId)
         {
             categoryId = categoryId ?? _service.RootCategoryId;
-            var spec = new EntitySpecification<Category>((c => c.Id == categoryId.Value), (c => c.Subcategories))
-            {
-                Description = $"Categories with Id {categoryId.Value} includes Subcatetories"
-            };
-            var categories = await _service.EnumerateHierarchyAsync(spec);
+            var categories = await _service.EnumerateHierarchyAsync(new EntitySpecification<Category>(c => c.Id == categoryId.Value));
             if (storeId.HasValue)
             {
                 var storeCategories = await IndexByStoreId(storeId.Value);

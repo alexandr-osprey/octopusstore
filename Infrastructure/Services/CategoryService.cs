@@ -58,7 +58,7 @@ namespace Infrastructure.Services
         }
         public async Task<IEnumerable<Category>> EnumerateParentCategoriesAsync(Specification<Item> itemSpec)
         {
-            var categories = await _context.EnumerateRelatedAsync(_logger, itemSpec, (i => i.Category));
+            var categories = (await _context.EnumerateRelatedAsync(_logger, itemSpec, (i => i.Category))).Distinct();
             var flatCategories = new HashSet<Category>();
             foreach (var category in categories)
                 await GetParentCategoriesAsync(category, flatCategories);
