@@ -2,6 +2,7 @@
 using ApplicationCore.Exceptions;
 using ApplicationCore.Identity;
 using ApplicationCore.Interfaces;
+using ApplicationCore.Interfaces.Services;
 using ApplicationCore.Specifications;
 using Infrastructure.Data;
 using System;

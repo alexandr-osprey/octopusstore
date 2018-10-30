@@ -1,6 +1,7 @@
 ﻿using ApplicationCore.Entities;
 using ApplicationCore.Identity;
 using ApplicationCore.Interfaces;
+using ApplicationCore.Interfaces.Services;
 using Infrastructure.Data;
 
 namespace Infrastructure.Services

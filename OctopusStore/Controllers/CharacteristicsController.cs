@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ApplicationCore.ViewModels;
 using ApplicationCore.Interfaces;
+using ApplicationCore.Interfaces.Services;
 
 namespace OctopusStore.Controllers
 {

@@ -1,6 +1,6 @@
 ﻿using ApplicationCore.Entities;
 using ApplicationCore.Exceptions;
-using ApplicationCore.Interfaces;
+using ApplicationCore.Interfaces.Services;
 using ApplicationCore.Specifications;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;

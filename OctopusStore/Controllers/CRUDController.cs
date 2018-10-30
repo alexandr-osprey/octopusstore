@@ -8,6 +8,7 @@ using ApplicationCore.Entities;
 using ApplicationCore.Exceptions;
 using ApplicationCore.Identity;
 using ApplicationCore.Interfaces;
+using ApplicationCore.Interfaces.Services;
 using ApplicationCore.Specifications;
 using ApplicationCore.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -195,14 +196,5 @@ namespace OctopusStore.Controllers
             activators[type] = activator;
             return activator;
         }
-    }
-
-    public class Response
-    {
-        public Response(string message)
-        {
-            Message = message;
-        }
-        public string Message { get; set; }
     }
 }

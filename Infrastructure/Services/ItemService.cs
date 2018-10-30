@@ -6,6 +6,7 @@ using ApplicationCore.Interfaces;
 using System.Collections.Generic;
 using ApplicationCore.Identity;
 using ApplicationCore.Exceptions;
+using ApplicationCore.Interfaces.Services;
 
 namespace Infrastructure.Services
 {

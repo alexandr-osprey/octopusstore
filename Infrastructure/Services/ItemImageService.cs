@@ -2,6 +2,7 @@
 using Infrastructure.Data;
 using ApplicationCore.Interfaces;
 using ApplicationCore.Identity;
+using ApplicationCore.Interfaces.Services;
 
 namespace Infrastructure.Services
 {

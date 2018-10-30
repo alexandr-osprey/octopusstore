@@ -3,7 +3,7 @@ using ApplicationCore.Specifications;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace ApplicationCore.Interfaces
+namespace ApplicationCore.Interfaces.Services
 {
     /// <summary>
     /// Maintains full lifecycle of Characteristic entities

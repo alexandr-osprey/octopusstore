@@ -2,7 +2,7 @@
 using ApplicationCore.Specifications;
 using System.Threading.Tasks;
 
-namespace ApplicationCore.Interfaces
+namespace ApplicationCore.Interfaces.Services
 {
     /// <summary>
     /// Maintains full lifecycle of Item entities

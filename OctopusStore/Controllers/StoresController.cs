@@ -9,6 +9,7 @@ using ApplicationCore.Exceptions;
 using ApplicationCore.Identity;
 using System.Security.Claims;
 using System.Security.Authentication;
+using ApplicationCore.Interfaces.Services;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 

@@ -1,13 +1,11 @@
-﻿using ApplicationCore.Entities;
-using ApplicationCore.Identity;
+﻿using ApplicationCore.Identity;
 using ApplicationCore.Specifications;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace ApplicationCore.Interfaces
+namespace ApplicationCore.Interfaces.Services
 {
     /// <summary>
     /// Maintains full lifecycle of entities

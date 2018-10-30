@@ -1,11 +1,10 @@
 ﻿using ApplicationCore.Entities;
 using ApplicationCore.Exceptions;
-using ApplicationCore.Interfaces;
+using ApplicationCore.Interfaces.Services;
 using ApplicationCore.Specifications;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;

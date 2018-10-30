@@ -1,15 +1,13 @@
 ﻿using ApplicationCore.Entities;
-using ApplicationCore.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using ApplicationCore.Specifications;
-using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 using Infrastructure.Data;
+using ApplicationCore.Interfaces.Services;
 
 namespace UnitTests.Services
 {
