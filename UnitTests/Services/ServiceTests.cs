@@ -6,6 +6,7 @@ using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Xunit;
@@ -73,6 +74,20 @@ namespace UnitTests
             var expected = await _context.Set<TEntity>().AsNoTracking().ToListAsync();
             var actual = await _service.EnumerateAsync(new Specification<TEntity>(e => true));
             Equal(expected, actual);
+        }
+        [Fact]
+        public async Task EnumerateWithPaging()
+        {
+            int pageSize = 2;
+            int totalCount = await _context.Set<TEntity>().CountAsync();
+            //penultimate page
+            int page = GetPageCount(totalCount, pageSize) - 1;
+            page = page <= 0 ? 1 : page;
+            var spec = new Specification<TEntity>(e => true);
+            spec.SetPaging(page, pageSize);
+            var actual = await _service.EnumerateAsync(spec);
+            var expected = await _context.Set<TEntity>().Skip(pageSize * (page - 1)).Take(pageSize).ToListAsync();
+            Equal(actual, expected);
         }
         [Fact]
         public async Task EnumerateAsyncEmpty()
@@ -163,9 +178,16 @@ namespace UnitTests
         {
             int pageSize = 3;
             int totalCount = await _context.Set<TEntity>().CountAsync();
-            int expected = (int)Math.Ceiling((decimal)totalCount / pageSize);
-            int actual = await _service.PageCountAsync(new Specification<TEntity>(e => true) { Take = pageSize });
+            int expected = GetPageCount(totalCount, pageSize);
+            var spec = new Specification<TEntity>(e => true);
+            spec.SetPaging(1, pageSize);
+            int actual = await _service.PageCountAsync(spec);
             Assert.Equal(expected, actual);
+        }
+
+        protected int GetPageCount(int totalCount, int pageSize)
+        {
+            return (int)Math.Ceiling((decimal)totalCount / pageSize);
         }
     }
 }

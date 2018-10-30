@@ -13,12 +13,13 @@ namespace ApplicationCore.Specifications
 
         public ItemIndexSpecification(int pageIndex, int pageSize, string title, IEnumerable<Category> categories, int? storeId, int? brandId)
            : base(i => (!HasValue(title) || i.Title.Contains(title, System.StringComparison.OrdinalIgnoreCase)) &&
-                        (!(categories != null && categories.Count() > 0) || categories.Where(c => c.Id == i.CategoryId).Any()) &&
+                        (!(categories != null && categories.Count() > 0) || categories.Any(c => c.Id == i.CategoryId)) &&
                         (!storeId.HasValue || i.StoreId == storeId) &&
                         (!brandId.HasValue || i.BrandId == brandId))
         {
-            Take = pageSize;
-            Skip = Take * (pageIndex - 1);
+            //Take = pageSize;
+            //Skip = Take * (pageIndex - 1);
+            SetPaging(pageIndex, pageSize);
 
             Description = $"{nameof(pageIndex)}: {pageIndex}, {nameof(pageSize)}: {pageSize}" +
                 $", {nameof(title)}: {title ?? "null"}" +

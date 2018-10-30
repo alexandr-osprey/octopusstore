@@ -65,10 +65,8 @@ namespace OctopusStore.Controllers
         }
         // DELETE api/<controller>/5
         [HttpDelete("{id}")]
-        public async Task<Response> Delete(int id)
-        {
-            return await base.DeleteSingleAsync(new EntitySpecification<ItemProperty>(id));
-        }
+        public async Task<Response> Delete(int id) => await base.DeleteSingleAsync(new EntitySpecification<ItemProperty>(id));
+
         [HttpGet("{id:int}/checkUpdateAuthorization")]
         public async Task<ActionResult> CheckUpdateAuthorization(int id) => await base.CheckUpdateAuthorizationAsync(id);
     }

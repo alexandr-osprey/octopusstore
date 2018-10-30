@@ -15,9 +15,9 @@ namespace ApplicationCore.Specifications
         public List<string> IncludeStrings { get; } = new List<string>();
         public Func<T, int> OrderBy { get; set; } = o => o.GetHashCode();
 
-        public int Take { get; set; }
-        public int Skip { get; set; }
-        public int Page { get { return Skip / Take + 1; } }
+        public int Take { get; protected set; }
+        public int Skip { get; protected set; }
+        public int Page => Skip / Take + 1;
         public virtual string Description { get; set; }
         /// <summary>
         /// Select all by default
@@ -56,16 +56,11 @@ namespace ApplicationCore.Specifications
             foreach (var i in includeExpressions)
                 AddInclude(i);
         }
-        /// <summary>
-        /// Select based on criteria with take and skip specified
-        /// </summary>
-        /// <param name="criteria"></param>
-        /// <param name="take"></param>
-        /// <param name="skip"></param>
-        public Specification(Expression<Func<T, bool>> criteria, int take, int skip): this(criteria)
+
+        public virtual void SetPaging(int page, int pageSize)
         {
-            Take = take;
-            Skip = skip;
+            Take = pageSize;
+            Skip = Take * (page - 1);
         }
 
         public override string ToString()

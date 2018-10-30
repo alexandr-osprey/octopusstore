@@ -115,7 +115,7 @@ namespace OctopusStore.Controllers
         }
         protected async Task<IndexViewModel<TViewModel>> IndexNotPagedAsync(Specification<TEntity> spec)
         {
-            spec.Take = _maxTake;
+            spec.SetPaging(1, _maxTake);
             var entities = await _service.EnumerateAsync(spec);
             return GetNotPagedIndexViewModel(entities);
         }

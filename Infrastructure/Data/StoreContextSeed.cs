@@ -415,6 +415,7 @@ namespace Infrastructure.Data
             {
                 if (!File.Exists(itemImage.FullPath))
                 {
+                    Directory.CreateDirectory(Path.GetDirectoryName(itemImage.FullPath));
                     string rel = Path.GetRelativePath(pathToFiles, itemImage.FullPath);
                     string fullBackupPath = Path.Combine(pathToBackup, rel);
                     File.Copy(fullBackupPath, itemImage.FullPath);
