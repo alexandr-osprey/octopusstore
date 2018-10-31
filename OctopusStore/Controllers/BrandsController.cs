@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using ApplicationCore.ViewModels;
 using ApplicationCore.Interfaces;
 using ApplicationCore.Interfaces.Services;
+using ApplicationCore.Interfaces.Controllers;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -13,12 +14,12 @@ namespace OctopusStore.Controllers
 {
     [Produces("application/json")]
     [Route("api/[controller]")]
-    public class BrandsController: CRUDController<IBrandService, Brand, BrandViewModel>
+    public class BrandsController: CRUDController<IBrandService, Brand, BrandViewModel>, IBrandsController
     {
         public BrandsController(
             IBrandService  brandService,
             IScopedParameters scopedParameters,
-            IAppLogger<ICRUDController<Brand>> logger)
+            IAppLogger<IController<Brand, BrandViewModel>> logger)
            : base(brandService, scopedParameters, logger)
         {
         }
@@ -26,14 +27,14 @@ namespace OctopusStore.Controllers
         // GET: api/<controller>
         [AllowAnonymous]
         [HttpGet]
-        public async Task<IndexViewModel<BrandViewModel>> Index() => await base.IndexNotPagedAsync(new EntitySpecification<Brand>());
+        public async Task<IndexViewModel<BrandViewModel>> IndexAsync() => await base.IndexNotPagedAsync(new EntitySpecification<Brand>());
 
         // GET api/<controller>/5
         [AllowAnonymous]
         [HttpGet("{id:int}")]
-        public async Task<BrandViewModel> Get(int id) => await base.GetAsync(new Specification<Brand>(b => b.Id == id));
+        public async Task<BrandViewModel> Get(int id) => await base.ReadAsync(id);
 
         [HttpGet("{id:int}/checkUpdateAuthorization")]
-        public async Task<ActionResult> CheckUpdateAuthorization(int id) => await base.CheckUpdateAuthorizationAsync(id);
+        public async Task<Response> CheckUpdateAuthorization(int id) => await base.CheckUpdateAuthorizationAsync(id);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using ApplicationCore.Entities;
 using ApplicationCore.Identity;
 using ApplicationCore.Interfaces;
+using ApplicationCore.Interfaces.Controllers;
 using Infrastructure;
 using Infrastructure.Data;
 using Infrastructure.Identity;
@@ -125,17 +126,17 @@ namespace UnitTests
 
             var conf = new Mock<IConfiguration>();
             services.AddSingleton(conf.Object);
-            services.AddScoped<BrandsController>();
+            services.AddScoped<IBrandsController, BrandsController>();
             services.AddScoped<IdentityController>();
-            services.AddScoped<ItemsController>();
-            services.AddScoped<ItemImagesController>();
-            services.AddScoped<ItemVariantsController>();
-            services.AddScoped<ItemPropertiesController>();
-            services.AddScoped<StoresController>();
-            services.AddScoped<MeasurementUnitsController>();
-            services.AddScoped<CategoriesController>();
-            services.AddScoped<CharacteristicsController>();
-            services.AddScoped<CharacteristicValuesController>();
+            //services.AddScoped<ItemsController>();
+            //services.AddScoped<ItemImagesController>();
+            //services.AddScoped<ItemVariantsController>();
+            //services.AddScoped<ItemPropertiesController>();
+            //services.AddScoped<StoresController>();
+            //services.AddScoped<MeasurementUnitsController>();
+            //services.AddScoped<CategoriesController>();
+            //services.AddScoped<CharacteristicsController>();
+            //services.AddScoped<CharacteristicValuesController>();
 
             ConfigureIdentity().Wait();
         }

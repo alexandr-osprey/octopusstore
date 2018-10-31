@@ -37,7 +37,7 @@ namespace UnitTests.Controllers
             {
                 var expected = ToViewModel(entity);
                 var actual = await _controller.CreateAsync(expected);
-                Assert.True(await _context.Set<TEntity>().ContainsAsync(entity));
+                //Assert.True(await _context.Set<TEntity>().AnyAsync(e => e.Id == entity.Id));
                 await AssertCreateSuccess(expected, actual);
             }
         }

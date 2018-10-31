@@ -8,7 +8,7 @@ using Xunit.Abstractions;
 
 namespace UnitTests.Services
 {
-    public class CharacteristicValueServiceTests: ServiceTests<CharacteristicValue, ICharacteristicValueService>
+    public class CharacteristicValueServiceTests : ServiceTests<CharacteristicValue, ICharacteristicValueService>
     {
         public CharacteristicValueServiceTests(ITestOutputHelper output)
            : base(output)

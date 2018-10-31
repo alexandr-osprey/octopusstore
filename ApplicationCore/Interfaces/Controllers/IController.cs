@@ -9,7 +9,7 @@ namespace ApplicationCore.Interfaces.Controllers
         Task<TViewModel> CreateAsync(TViewModel viewModel);
         Task<TViewModel> ReadAsync(int id);
         Task<TViewModel> UpdateAsync(TViewModel viewModel);
-        Task<TViewModel> DeleteAsync(int id);
+        Task<Response> DeleteAsync(int id);
         Task<Response> CheckUpdateAuthorizationAsync(int id);
     }
 }

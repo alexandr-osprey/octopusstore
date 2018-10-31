@@ -10,7 +10,7 @@ using Xunit.Abstractions;
 
 namespace UnitTests.Services
 {
-    public class ItemPropertyServiceTests : ServiceTests<ItemProperty, IItemPropertyService>
+    public class ItemPropertyServiceTests: ServiceTests<ItemProperty, IItemPropertyService>
     {
         public ItemPropertyServiceTests(ITestOutputHelper output)
            : base(output)
@@ -52,7 +52,7 @@ namespace UnitTests.Services
             return await Task.FromResult(
                 new List<ItemProperty>()
                 {
-                 //   new Characteristic() { Id = first.Id, Title = first.Title, CategoryId = first.CategoryId, OwnerId = first.OwnerId },
+                    //   new Characteristic() { Id = first.Id, Title = first.Title, CategoryId = first.CategoryId, OwnerId = first.OwnerId },
                 });
         }
         [Fact]

@@ -6,6 +6,9 @@ namespace ApplicationCore.ViewModels
     {
         public string Title { get; set; }
 
+        public BrandViewModel(): base()
+        {
+        }
         public BrandViewModel(Brand brand): base(brand)
         {
             Title = brand.Title;
