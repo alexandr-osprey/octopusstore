@@ -6,11 +6,10 @@ namespace ApplicationCore.Interfaces.Controllers
 {
     public interface IController<TEntity, TViewModel> where TEntity: Entity where TViewModel: EntityViewModel<TEntity>
     {
-        Task<TViewModel> Create(TViewModel viewModel);
-        Task<TViewModel> Read(int id);
-        Task<TViewModel> Update(TViewModel viewModel);
-        Task<TViewModel> Delete(int id);
-        Task<IndexViewModel<TViewModel>> Index();
-        Task<Response> CheckUpdateAuthorization(int id);
+        Task<TViewModel> CreateAsync(TViewModel viewModel);
+        Task<TViewModel> ReadAsync(int id);
+        Task<TViewModel> UpdateAsync(TViewModel viewModel);
+        Task<TViewModel> DeleteAsync(int id);
+        Task<Response> CheckUpdateAuthorizationAsync(int id);
     }
 }

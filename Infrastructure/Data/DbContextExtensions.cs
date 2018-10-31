@@ -56,13 +56,14 @@ namespace Infrastructure.Data
         /// <returns></returns>
         public static async Task<TEntity> CreateAsync<TEntity, TService>(this DbContext context, IAppLogger<TService> logger, TEntity entityToAdd, bool checkExistence = true) where TEntity: class
         {
+            TEntity created = null;
             if (entityToAdd == null)
                 throw new ArgumentNullException(nameof(entityToAdd));
             if (checkExistence && await context.ExistsAsync(logger, entityToAdd))
                 throw new EntityAlreadyExistsException($"{typeof(TEntity).Name} {entityToAdd} already exists");
             try
             {
-                context.Set<TEntity>().Add(entityToAdd);
+                created = context.Set<TEntity>().Add(entityToAdd).Entity;
                 await context.SaveChangesAsync();
             }
             catch (DbUpdateException updateException)
@@ -73,7 +74,7 @@ namespace Infrastructure.Data
             {
                 throw exception.LogAndGetDbException(logger, $"Function: {nameof(CreateAsync)}, entity: {entityToAdd}");
             }
-            return entityToAdd;
+            return created;
         }
 
         /// <summary>
