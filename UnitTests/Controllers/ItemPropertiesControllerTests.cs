@@ -18,7 +18,7 @@ namespace UnitTests.Controllers
         }
 
         [Fact]
-        public async Task IndexByVariant()
+        public async Task IndexByVariantAsync()
         {
             var item = await _context.Items.Include(i => i.ItemVariants).FirstOrDefaultAsync();
             int variantId = item.ItemVariants.ElementAt(0).Id;
@@ -29,7 +29,7 @@ namespace UnitTests.Controllers
         }
 
         [Fact]
-        public async Task IndexByItem()
+        public async Task IndexByItemAsync()
         {
             var item = await _context.Items.Include(i => i.ItemVariants).FirstOrDefaultAsync();
             var values = await GetQueryable().Where(v => item.ItemVariants.Contains(v.ItemVariant)).ToListAsync();
@@ -79,7 +79,7 @@ namespace UnitTests.Controllers
             return entities;
         }
 
-        protected override Task AssertUpdateSuccess(ItemProperty beforeUpdate, ItemPropertyViewModel expected, ItemPropertyViewModel actual)
+        protected override Task AssertUpdateSuccessAsync(ItemProperty beforeUpdate, ItemPropertyViewModel expected, ItemPropertyViewModel actual)
         {
             Assert.Equal(beforeUpdate.Id, actual.Id);
             Assert.Equal(beforeUpdate.ItemVariantId, actual.ItemVariantId);

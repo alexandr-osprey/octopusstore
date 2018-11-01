@@ -6,7 +6,7 @@ import { IdentityService } from './identity-service';
 import { Router } from '@angular/router';
 import { ItemProperty } from '../view-models/item-property/item-property';
 import { ItemPropertyIndex } from '../view-models/item-property/item-property-index';
-import { ItemPropertyDetails } from '../view-models/item-property/item-property-details';
+import { ItemPropertyDetail } from '../view-models/item-property/item-property-detail';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +14,7 @@ import { ItemPropertyDetails } from '../view-models/item-property/item-property-
 export class ItemPropertyService extends DataReadWriteService<
   ItemProperty,
   ItemPropertyIndex,
-  ItemPropertyDetails> {
+  ItemPropertyDetail> {
 
   constructor(
     protected http: HttpClient,

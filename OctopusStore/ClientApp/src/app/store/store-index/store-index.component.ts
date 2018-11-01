@@ -11,7 +11,7 @@ import { ParameterNames } from '../../services/parameter-names';
 })
 export class StoreIndexComponent implements OnInit {
   storeIndex: StoreIndex;
-  //detailsLink: string = this.storeService.getUrlWithParameter(ParameterNames.details);
+  //detailsLink: string = this.storeService.getUrlWithParameter(ParameterNames.detail);
 
   constructor(
     private storeService: StoreService
@@ -22,8 +22,8 @@ export class StoreIndexComponent implements OnInit {
     this.initializeComponent();
   }
 
-  getDetailsUrl(store: Store): string {
-    return `${store.id}/${ParameterNames.details}`;
+  getDetailUrl(store: Store): string {
+    return `${store.id}/${ParameterNames.detail}`;
   }
 
   initializeComponent() {

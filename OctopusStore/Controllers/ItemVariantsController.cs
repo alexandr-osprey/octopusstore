@@ -38,7 +38,7 @@
 //        public async Task<ItemVariantViewModel> Get(int id) => await base.GetAsync(new EntitySpecification<ItemVariant>(id));
 
 //        [AllowAnonymous]
-//        [HttpGet("{id:int}/details")]
+//        [HttpGet("{id:int}/detail")]
 //        public async Task<ItemVariantDetailViewModel> GetDetail(int id) => await base.GetDetailAsync<ItemVariantDetailViewModel>(new ItemVariantDetailSpecification(id));
 
 //        // POST api/<controller>

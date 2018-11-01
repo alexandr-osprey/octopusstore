@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { ItemPropertyService } from '../../services/item-property-service';
-import { ItemDetails } from '../../view-models/item/item-details';
+import { ItemDetail } from '../../view-models/item/item-detail';
 import { Observable } from "rxjs/Observable";
 import "rxjs/add/observable/zip";
 import { MessageService } from '../../services/message.service';
@@ -13,12 +13,12 @@ import { Characteristic } from '../../view-models/characteristic/characteristic'
 import { CharacteristicValue } from '../../view-models/characteristic-value/characteristic-value';
 
 @Component({
-  selector: 'app-item-property-details',
-  templateUrl: './item-property-details.component.html',
-  styleUrls: ['./item-property-details.component.css']
+  selector: 'app-item-property-detail',
+  templateUrl: './item-property-detail.component.html',
+  styleUrls: ['./item-property-detail.component.css']
 })
-export class ItemPropertyDetailsComponent implements OnInit, OnChanges {
-  @Input() itemDetails: ItemDetails;
+export class ItemPropertyDetailComponent implements OnInit, OnChanges {
+  @Input() itemDetail: ItemDetail;
   @Input() currentVariant: ItemVariant;
   public characteristicValuesDisplayed: CharacteristicValueDisplayed[];
   public itemCharacteristicValues: CharacteristicValueDisplayed[];
@@ -39,11 +39,11 @@ export class ItemPropertyDetailsComponent implements OnInit, OnChanges {
   }
 
   initializeComponent() {
-    if (this.itemDetails) {
+    if (this.itemDetail) {
       Observable.zip(
-        this.characteristicService.index({ categoryId: this.itemDetails.category.id }),
-        this.characteristicValueService.index({ categoryId: this.itemDetails.category.id }),
-        this.itemPropertyService.index({ itemId: this.itemDetails.id })
+        this.characteristicService.index({ categoryId: this.itemDetail.category.id }),
+        this.characteristicValueService.index({ categoryId: this.itemDetail.category.id }),
+        this.itemPropertyService.index({ itemId: this.itemDetail.id })
       ).subscribe((data) => {
         let characteristics: Characteristic[] = [];
         let characteristicValues: CharacteristicValue[] = [];

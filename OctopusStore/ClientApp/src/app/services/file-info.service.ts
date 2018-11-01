@@ -4,17 +4,17 @@ import { DataReadWriteService } from './data-read-write-service';
 import { MessageService } from './message.service';
 import { HttpClient } from '@angular/common/http';
 import { FileInfoIndex } from '../view-models/file-info/file-info-index';
-import { FileInfoDetails } from '../view-models/file-info/file-info-details';
+import { FileInfoDetail } from '../view-models/file-info/file-info-detail';
 import { IdentityService } from './identity-service';
 import { Router } from '@angular/router';
 
 export abstract class FileInfoService<
   TEntity extends Entity,
   TIndex extends FileInfoIndex<TEntity>,
-  TDetails extends FileInfoDetails<TEntity>> extends DataReadWriteService<
+  TDetail extends FileInfoDetail<TEntity>> extends DataReadWriteService<
   TEntity,
   TIndex,
-  TDetails> {
+  TDetail> {
 
   public filePostUrl: string;
 
@@ -24,6 +24,6 @@ export abstract class FileInfoService<
     protected identityService: IdentityService,
     protected messageService: MessageService) {
     super(http, router, identityService, messageService);
-    this.serviceName = 'File details service';
+    this.serviceName = 'File detail service';
   }
 }

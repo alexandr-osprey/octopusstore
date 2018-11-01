@@ -14,16 +14,16 @@ import { ItemVariantCreateUpdateComponent } from './item-variant/item-variant-cr
 import { ItemPropertyCreateUpdateComponent } from './item-property/item-property-create-update/item-property-create-update.component';
 import { ItemCreateUpdateComponent } from './item/item-create-update/item-create-update.component';
 import { ItemThumbnailsComponent } from './item/item-thumbnails/item-thumbnails.component';
-import { ItemDetailsComponent } from './item/item-details/item-details.component';
-import { ItemPropertyDetailsComponent } from './item-property/item-property-details/item-property-details.component';
-import { ItemVariantDetailsComponent } from './item-variant/item-variant-details/item-variant-details.component';
+import { ItemDetailComponent } from './item/item-detail/item-detail.component';
+import { ItemPropertyDetailComponent } from './item-property/item-property-detail/item-property-detail.component';
+import { ItemVariantDetailComponent } from './item-variant/item-variant-detail/item-variant-detail.component';
 import { ItemImageGalleryComponent } from './item-image/item-image-gallery/item-image-gallery.component';
 import { ItemImageCreateUpdateComponent } from './item-image/item-image-create-update/item-image-create-update.component';
 import { ItemImageDisplayComponent } from './item-image/item-image-display/item-image-display.component';
 import { ItemsNavigationPaneComponent } from './item/items-navigation-pane/items-navigation-pane.component';
 import { HomepageComponent } from './homepage/homepage/homepage.component';
 import { StoreCreateUpdateComponent } from './store/store-create-update/store-create-update.component';
-import { StoreDetailsComponent } from './store/store-details/store-details.component';
+import { StoreDetailComponent } from './store/store-detail/store-detail.component';
 import { StoreIndexComponent } from './store/store-index/store-index.component';
 import { IdentitySignInComponent } from './identity/identity-sign-in/identity-sign-in.component';
 import { DefaultErrorHandler } from './error-handlers/default-error-handler';
@@ -36,7 +36,7 @@ import { StoreAdministratorsComponent } from './store/store-administrators/store
 @NgModule({
   declarations: [
     AppComponent,
-    ItemDetailsComponent,
+    ItemDetailComponent,
     ItemThumbnailComponent,
     HeaderComponent,
     ItemThumbnailsComponent,
@@ -47,15 +47,15 @@ import { StoreAdministratorsComponent } from './store/store-administrators/store
     ItemImageGalleryComponent,
     ItemCreateUpdateComponent,
     ItemVariantCreateUpdateComponent,
-    ItemVariantDetailsComponent,
+    ItemVariantDetailComponent,
     ItemPropertyCreateUpdateComponent,
-    ItemPropertyDetailsComponent,
+    ItemPropertyDetailComponent,
     ItemImageCreateUpdateComponent,
     ItemImageDisplayComponent,
     ItemsNavigationPaneComponent,
     HomepageComponent,
     StoreCreateUpdateComponent,
-    StoreDetailsComponent,
+    StoreDetailComponent,
     StoreIndexComponent,
     IdentitySignUpComponent,
     IdentitySignInComponent,

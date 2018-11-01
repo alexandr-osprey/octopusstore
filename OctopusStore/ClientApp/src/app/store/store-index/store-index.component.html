@@ -1,7 +1,7 @@
 <div *ngIf="storeIndex" class="row">
   <div class="item-thumbnails col-12 col-md-12">
     <div class="row">
-      <a *ngFor="let store of storeIndex.entities" [routerLink]="getDetailsUrl(store)" class="col-12 col-md-12 link">{{store.title}}</a>
+      <a *ngFor="let store of storeIndex.entities" [routerLink]="getDetailUrl(store)" class="col-12 col-md-12 link">{{store.title}}</a>
     </div>
 
     <div class="row fixed-row-bottom">

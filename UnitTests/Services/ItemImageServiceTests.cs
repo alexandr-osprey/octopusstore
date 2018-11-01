@@ -21,33 +21,33 @@ namespace UnitTests.Services
 
         protected override async Task<IEnumerable<ItemImage>> GetCorrectNewEntitesAsync()
         {
-            var firstItemDetails = await GetQueryable().FirstOrDefaultAsync();
+            var firstItemDetail = await GetQueryable().FirstOrDefaultAsync();
             return await Task.FromResult(new List<ItemImage>()
             {
-                new ItemImage("testImage1", @"image/jpg", 1, _service.GetStream(firstItemDetails))
+                new ItemImage("testImage1", @"image/jpg", 1, _service.GetStream(firstItemDetail))
             });
         }
 
         protected override async Task<IEnumerable<ItemImage>> GetIncorrectNewEntitesAsync()
         {
-            var firstItemDetails = await GetQueryable().FirstOrDefaultAsync();
+            var firstItemDetail = await GetQueryable().FirstOrDefaultAsync();
             return await Task.FromResult(new List<ItemImage>()
             {
-                new ItemImage("", @"image/jpg", 1, _service.GetStream(firstItemDetails)),
-                new ItemImage("test", @"image/jpg", 999, _service.GetStream(firstItemDetails)),
+                new ItemImage("", @"image/jpg", 1, _service.GetStream(firstItemDetail)),
+                new ItemImage("test", @"image/jpg", 999, _service.GetStream(firstItemDetail)),
                 new ItemImage("test", @"image/jpg", 1, null),
-                new ItemImage("test",  @"image/exe", 1, _service.GetStream(firstItemDetails)),
+                new ItemImage("test",  @"image/exe", 1, _service.GetStream(firstItemDetail)),
             });
         }
 
         //[Fact]
         protected override async Task AssertCreateSuccessAsync(ItemImage itemImage)
         {
-            var firstItemDetails = await GetQueryable().FirstOrDefaultAsync();
+            var firstItemDetail = await GetQueryable().FirstOrDefaultAsync();
             await base.AssertCreateSuccessAsync(itemImage);
             Assert.True(_context.ItemImages.Contains(itemImage));
             var fileDest = File.Open(itemImage.FullPath, FileMode.Open);
-            var fileInit = File.Open(firstItemDetails.FullPath, FileMode.Open);
+            var fileInit = File.Open(firstItemDetail.FullPath, FileMode.Open);
             Assert.Equal(fileInit.Length, fileDest.Length);
             fileDest.Close();
             fileInit.Close();
@@ -56,8 +56,8 @@ namespace UnitTests.Services
         [Fact]
         public async Task GetStream()
         {
-            var details = await GetQueryable().FirstOrDefaultAsync();
-            using (var stream = _service.GetStream(details))
+            var detail = await GetQueryable().FirstOrDefaultAsync();
+            using (var stream = _service.GetStream(detail))
             {
                 byte[] readBytes = new byte[stream.Length];
                 int bytesCount = await stream.ReadAsync(readBytes, 0, (int)stream.Length);
@@ -89,20 +89,20 @@ namespace UnitTests.Services
         }
         protected override async Task<IEnumerable<ItemImage>> GetCorrectEntitesForUpdateAsync()
         {
-            var firstItemDetails = await GetQueryable().FirstOrDefaultAsync();
-            firstItemDetails.Title = "Updated 1";
+            var firstItemDetail = await GetQueryable().FirstOrDefaultAsync();
+            firstItemDetail.Title = "Updated 1";
             return new List<ItemImage>()
             {
-                firstItemDetails
+                firstItemDetail
             };
         }
         protected override async Task<IEnumerable<ItemImage>> GetIncorrectEntitesForUpdateAsync()
         {
-            var firstItemDetails = await GetQueryable().FirstOrDefaultAsync();
-            firstItemDetails.Title = "";
+            var firstItemDetail = await GetQueryable().FirstOrDefaultAsync();
+            firstItemDetail.Title = "";
             return new List<ItemImage>()
             {
-                firstItemDetails
+                firstItemDetail
             };
         }
         protected override Specification<ItemImage> GetEntitiesToDeleteSpecification()

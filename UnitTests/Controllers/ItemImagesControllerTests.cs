@@ -24,7 +24,7 @@ namespace UnitTests.Controllers
         }
 
         [Fact]
-        public async Task Create()
+        public async Task CreateImageAsync()
         {
             var item = await _context.Items.Include(i => i.Images).FirstOrDefaultAsync();
             var lastImage = await GetQueryable().LastOrDefaultAsync();
@@ -57,7 +57,7 @@ namespace UnitTests.Controllers
             Assert.Equal(bytesExpected.Length, bytesActual.Length);
         }
         [Fact]
-        public async Task Get()
+        public async Task GetFileAsync()
         {
             var imageExpected = await GetQueryable().FirstOrDefaultAsync();
             var streamExpected = File.OpenRead(imageExpected.FullPath);
@@ -74,7 +74,7 @@ namespace UnitTests.Controllers
             Assert.Equal(bytesExpected, bytesActual);
         }
         [Fact]
-        public async Task Put()
+        public async Task UpdateWithoutImageAsync()
         {
             var imageExpected = await GetQueryable().FirstOrDefaultAsync();
             imageExpected.Title = "UPDATED";
@@ -85,10 +85,10 @@ namespace UnitTests.Controllers
                 JsonConvert.SerializeObject(actual, Formatting.None, jsonSettings));
             var imageActual = await GetQueryable().FirstOrDefaultAsync(i => i.Id == imageExpected.Id);
             Equal(imageExpected, imageActual);
-            await Get();
+            await GetFileAsync();
         }
         [Fact]
-        public async Task Index()
+        public async Task IndexAsync()
         {
             var imagesExpected = await GetQueryable().Where(i => i.RelatedId == 1).ToListAsync();
             var expected = new IndexViewModel<ItemImageViewModel>(1, 1, imagesExpected.Count, from i in imagesExpected select new ItemImageViewModel(i));
@@ -96,7 +96,7 @@ namespace UnitTests.Controllers
             Equal(expected, actual);
         }
         [Fact]
-        public async Task Delete()
+        public async Task DeleteWithImageAsync()
         {
             var fileInfo = await GetQueryable().LastOrDefaultAsync();
             await CreateItemImageCopy(fileInfo);
@@ -116,7 +116,7 @@ namespace UnitTests.Controllers
             return ms;
         }
 
-        protected override Task AssertUpdateSuccess(ItemImage beforeUpdate, ItemImageViewModel expected, ItemImageViewModel actual)
+        protected override Task AssertUpdateSuccessAsync(ItemImage beforeUpdate, ItemImageViewModel expected, ItemImageViewModel actual)
         {
             Assert.Equal(expected.Title, actual.Title);
             Assert.Equal(beforeUpdate.RelatedId, actual.RelatedId);

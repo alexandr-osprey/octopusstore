@@ -59,7 +59,7 @@ export abstract class DataReadWriteService
     return this.getCustom(this.getUrlWithId(id), params, this.defaultHttpHeaders, this.getAuthenticationRequired);
   }
   public getDetail(id: number, params: any = {}): Observable<TDetail> {
-    return this.getCustom(this.getUrlWithIdWithSuffix(id, "details"), params, this.defaultHttpHeaders, this.getAuthenticationRequired);
+    return this.getCustom(this.getUrlWithIdWithSuffix(id, "detail"), params, this.defaultHttpHeaders, this.getAuthenticationRequired);
   }
   public delete(id: number): Observable<string> {
     return this.deleteCustom(this.getUrlWithId(id), {}, this.defaultHttpHeaders, this.deleteAuthenticationRequired);

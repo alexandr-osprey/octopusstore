@@ -2,9 +2,9 @@ import { Entity } from "../entity";
 import { Brand } from "./brand";
 import { EntityDetail } from "../entity-detail";
 
-export class BrandDetails extends EntityDetail<Brand> {
+export class BrandDetail extends EntityDetail<Brand> {
 
-  public constructor(init?: Partial<BrandDetails>) {
+  public constructor(init?: Partial<BrandDetail>) {
     super(init);
     Object.assign(this, init);
   }

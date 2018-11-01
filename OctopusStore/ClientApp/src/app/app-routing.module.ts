@@ -2,10 +2,10 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router'
 import { ItemCreateUpdateComponent } from './item/item-create-update/item-create-update.component';
 import { ItemThumbnailsComponent } from './item/item-thumbnails/item-thumbnails.component';
-import { ItemDetailsComponent } from './item/item-details/item-details.component';
+import { ItemDetailComponent } from './item/item-detail/item-detail.component';
 import { HomepageComponent } from './homepage/homepage/homepage.component';
 import { StoreCreateUpdateComponent } from './store/store-create-update/store-create-update.component';
-import { StoreDetailsComponent } from './store/store-details/store-details.component';
+import { StoreDetailComponent } from './store/store-detail/store-detail.component';
 import { StoreIndexComponent } from './store/store-index/store-index.component';
 import { IdentitySignInComponent } from './identity/identity-sign-in/identity-sign-in.component';
 import { CreateUpdateAuthorizationGuard } from './guards/create-update-authorization-guard';
@@ -44,8 +44,8 @@ const routes: Routes = [
     canActivate: [CreateUpdateAuthorizationGuard],
   },
   {
-    path: 'items/:id/details',
-    component: ItemDetailsComponent,
+    path: 'items/:id/detail',
+    component: ItemDetailComponent,
     pathMatch: 'full'
   },
   {
@@ -75,8 +75,8 @@ const routes: Routes = [
     canActivate: [CreateUpdateAuthorizationGuard],
   },
   {
-    path: 'stores/:id/details',
-    component: StoreDetailsComponent,
+    path: 'stores/:id/detail',
+    component: StoreDetailComponent,
   },
 
   { path: 'pageNotFound', component: PageNotFoundComponent },

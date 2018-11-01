@@ -44,7 +44,7 @@ export class StoreCreateUpdateComponent implements OnInit {
       if (data) {
         this.store = data;
         this.messageService.sendSuccess(`Store saved`);
-        this.router.navigate([`/stores/${data.id}/details`]);
+        this.router.navigate([`/stores/${data.id}/detail`]);
       }
     });
   }

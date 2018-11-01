@@ -22,7 +22,7 @@ namespace UnitTests.Controllers
         }
 
         [Fact]
-        public async Task Index()
+        public async Task IndexAsync()
         {
             var category = await _context.Categories.FirstOrDefaultAsync(c => c.Title == "Smartphones");
             var categories = await _categoryService.EnumerateParentCategoriesAsync(new EntitySpecification<Category>(category.Id));
@@ -46,7 +46,7 @@ namespace UnitTests.Controllers
             Equal(expected, actual);
         }
 
-        protected override Task AssertUpdateSuccess(Characteristic beforeUpdate, CharacteristicViewModel expected, CharacteristicViewModel actual)
+        protected override Task AssertUpdateSuccessAsync(Characteristic beforeUpdate, CharacteristicViewModel expected, CharacteristicViewModel actual)
         {
             Assert.Equal(expected.Title, actual.Title);
             Assert.Equal(beforeUpdate.CategoryId, actual.CategoryId);

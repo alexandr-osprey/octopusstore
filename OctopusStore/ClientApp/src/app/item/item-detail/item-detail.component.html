@@ -1,4 +1,4 @@
-<div class="row" *ngIf="itemDetails">
+<div class="row" *ngIf="itemDetail">
   <div class="d-lg-none col-12 col-md-12">
     <button class="btn btn-link link" (click)="goBack()">Back</button>
   </div>
@@ -9,21 +9,21 @@
   </div>
   <div class="col-md-6 item-details__main-properties">
     <div class="item-details__brand">
-      <p>{{ itemDetails.brand.title }}</p>
+      <p>{{ itemDetail.brand.title }}</p>
     </div>
     <div class="item-details__title">
-      <p>{{ itemDetails.title | uppercase }}</p>
+      <p>{{ itemDetail.title | uppercase }}</p>
     </div>
     <div [hidden]="!currentPrice" class="item-details__current-price">
       <p>Price: {{ currentPrice }}</p>
     </div>
-    <div class="item-details__store">{{ itemDetails.store.title }}</div>
+    <div class="item-details__store">{{ itemDetail.store.title }}</div>
     <div class="item-details__description">
-      {{itemDetails.description}}
+      {{itemDetail.description}}
     </div>
     <div>
-      <a *ngIf="authorizedToUpdate" [routerLink]="[getUpdateLink(itemDetails.id)]" class="link">Update</a>
+      <a *ngIf="authorizedToUpdate" [routerLink]="[getUpdateLink(itemDetail.id)]" class="link">Update</a>
     </div>
-    <app-item-variant-details [itemDetails]="itemDetails" (itemVariantSelected)="itemVariantSelected($event)"></app-item-variant-details>
+    <app-item-variant-detail [itemDetail]="itemDetail" (itemVariantSelected)="itemVariantSelected($event)"></app-item-variant-detail>
   </div>
 </div>

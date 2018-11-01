@@ -48,7 +48,7 @@ namespace Infrastructure.Data
             }
             if (!storeContext.ItemImages.Any())
             {
-                storeContext.ItemImages.AddRange(PreconfiguredItemImageDetails);
+                storeContext.ItemImages.AddRange(PreconfiguredItemImageDetail);
                 await storeContext.SaveChangesAsync();
             }
             if (!storeContext.Characteristics.Any())
@@ -242,14 +242,14 @@ namespace Infrastructure.Data
                 return _PreconfiguredItems;
             }
         }
-        private static List<ItemImage> _PreconfiguredItemImageDetails;
-        private static List<ItemImage> PreconfiguredItemImageDetails
+        private static List<ItemImage> _PreconfiguredItemImageDetail;
+        private static List<ItemImage> PreconfiguredItemImageDetail
         {
             get
             {
-                if (_PreconfiguredItemImageDetails == null)
+                if (_PreconfiguredItemImageDetail == null)
                 {
-                    _PreconfiguredItemImageDetails = new List<ItemImage>
+                    _PreconfiguredItemImageDetail = new List<ItemImage>
                     {
                         new ItemImage ("iPhone 6 - 1", itemImageContentType, PreconfiguredItems[0].Id, null) { OwnerId = johnId, FullPath = Path.Combine(pathToFiles, johnId, "iPhone 6 - 1.jpg"),  },
                         new ItemImage ("iPhone 6 - 2.jpg", itemImageContentType, PreconfiguredItems[0].Id, null) { OwnerId = johnId, FullPath = Path.Combine(pathToFiles, johnId, "iPhone 6 - 2.jpg") },
@@ -262,7 +262,7 @@ namespace Infrastructure.Data
                         new ItemImage ("Jacket.jpg", itemImageContentType, PreconfiguredItems[5].Id, null) { OwnerId = johnId, FullPath= Path.Combine(pathToFiles, jenniferId, "Jacket.jpg") }
                     };
                 }
-                return _PreconfiguredItemImageDetails;
+                return _PreconfiguredItemImageDetail;
             }
         }
         private static List<ItemVariant> _PreconfiguredItemVariants;
@@ -413,7 +413,7 @@ namespace Infrastructure.Data
         }
         public static void EnsureFilesAreInPlace()
         {
-            foreach (var itemImage in PreconfiguredItemImageDetails)
+            foreach (var itemImage in PreconfiguredItemImageDetail)
             {
                 if (!File.Exists(itemImage.FullPath))
                 {

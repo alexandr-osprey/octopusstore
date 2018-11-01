@@ -15,10 +15,10 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace OctopusStore.Controllers
 {
-    public class CRUDController<TService, TEntity, TViewModel> : Controller, IController<TEntity, TViewModel>
-        where TService : IService<TEntity>
-        where TEntity : Entity
-        where TViewModel : EntityViewModel<TEntity>
+    public class CRUDController<TService, TEntity, TViewModel>: Controller, IController<TEntity, TViewModel>
+        where TService: IService<TEntity>
+        where TEntity: Entity
+        where TViewModel: EntityViewModel<TEntity>
     {
         protected readonly TService _service;
         protected readonly IAppLogger<IController<TEntity, TViewModel>> _logger;

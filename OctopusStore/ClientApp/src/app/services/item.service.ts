@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { MessageService } from './message.service'
-import { ItemDetails } from '../view-models/item/item-details';
+import { ItemDetail } from '../view-models/item/item-detail';
 import { ItemIndex } from '../view-models/item/item-index';
 import { DataReadWriteService } from './data-read-write-service';
 import { Item } from '../view-models/item/item';
@@ -14,7 +14,7 @@ import { ParameterNames } from './parameter-names';
 
 
 @Injectable()
-export class ItemService extends DataReadWriteService<Item, ItemIndex, ItemDetails> {
+export class ItemService extends DataReadWriteService<Item, ItemIndex, ItemDetail> {
   constructor(
     protected http: HttpClient,
     protected router: Router,

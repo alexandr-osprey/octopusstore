@@ -24,7 +24,7 @@ namespace UnitTests.Controllers
         }
 
         [Fact]
-        public async Task IndexAll()
+        public async Task IndexAllAsync()
         {
             var actual = await _controller.IndexAsync(null, null);
             var rootCategories = await GetQueryable()
@@ -37,7 +37,7 @@ namespace UnitTests.Controllers
             Equal(expected, actual);
         }
         [Fact]
-        public async Task IndexClothes()
+        public async Task IndexClothesAsync()
         {
             var clothes = await GetQueryable()
             .FirstOrDefaultAsync(c => c.Title == "Clothes");
@@ -52,7 +52,7 @@ namespace UnitTests.Controllers
         }
 
         [Fact]
-        public async Task IndexByStore()
+        public async Task IndexByStoreAsync()
         {
             int storeId = 1;
             var categories = await _context.Items
@@ -70,7 +70,7 @@ namespace UnitTests.Controllers
             Equal(expected, actual);
         }
         [Fact]
-        public async Task IndexWrongCategory()
+        public async Task IndexWrongCategoryAsync()
         {
             var actual = await _controller.IndexAsync(99696, null);
             var expected = new IndexViewModel<CategoryViewModel>(0, 0, 0, new List<CategoryViewModel>());

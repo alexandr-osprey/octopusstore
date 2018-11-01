@@ -1,27 +1,27 @@
-<div *ngIf="storeDetails" class="row">
+<div *ngIf="storeDetail" class="row">
   <div class="d-lg-none col-12 col-md-12">
     <button class="btn btn-link link" (click)="goBack()">Back</button>
   </div>
   <div class="col-12 col-md-12">
     <div class="store-details__title">
-      <p>{{ storeDetails.title }}</p>
+      <p>{{ storeDetail.title }}</p>
     </div>
     <div>
-      <p>{{ storeDetails.OwnerId }}</p>
+      <p>{{ storeDetail.OwnerId }}</p>
     </div>
     <div>
       <label for="registration-date">Registration date</label>
-      <p name="registration-date">{{ storeDetails.registrationDate }}</p>
+      <p name="registration-date">{{ storeDetail.registrationDate }}</p>
     </div>
     <div>
       <label for="address">Address</label>
-      <p name="address">{{ storeDetails.address }}</p>
+      <p name="address">{{ storeDetail.address }}</p>
     </div>
     <div>
       <label for="description">Description</label>
-      <p name="description">{{ storeDetails.description }}</p>
+      <p name="description">{{ storeDetail.description }}</p>
     </div>
-    <a *ngIf="authorizedToUpdate" [routerLink]="[getUpdateLink(storeDetails.id)]" class="link">Update</a>
+    <a *ngIf="authorizedToUpdate" [routerLink]="[getUpdateLink(storeDetail.id)]" class="link">Update</a>
   </div>
   <div class="col-12 col-md-12">
     <app-item-thumbnails></app-item-thumbnails>

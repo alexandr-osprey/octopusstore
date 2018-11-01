@@ -8,7 +8,7 @@ import { Store } from '../store/store';
 import { Category } from '../category/category';
 import { MeasurementUnit } from '../measurement-unit/measurement-unit';
 
-export class ItemDetails extends EntityDetail<Item> {
+export class ItemDetail extends EntityDetail<Item> {
   description: string;
   measurementUnit: MeasurementUnit;
   category: Category;
@@ -17,7 +17,7 @@ export class ItemDetails extends EntityDetail<Item> {
   images: ItemImage[];
   itemVariants: ItemVariant[];
 
-  public constructor(init?: Partial<ItemDetails>) {
+  public constructor(init?: Partial<ItemDetail>) {
     super(init);
     Object.assign(this, init);
   }

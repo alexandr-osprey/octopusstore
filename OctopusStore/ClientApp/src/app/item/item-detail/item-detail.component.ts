@@ -1,20 +1,20 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
-import { ItemDetails } from '../../view-models/item/item-details';
+import { ItemDetail } from '../../view-models/item/item-detail';
 import { ItemService } from '../../services/item.service';
 import { ItemVariant } from '../../view-models/item-variant/item-variant';
 import { ItemImage } from '../../view-models/item-image/item-image';
 import { IdentityService } from '../../services/identity-service';
 
 @Component({
-  selector: 'app-item-details',
-  templateUrl: './item-details.component.html',
-  styleUrls: ['./item-details.component.css'],
+  selector: 'app-item-detail',
+  templateUrl: './item-detail.component.html',
+  styleUrls: ['./item-detail.component.css'],
   providers: [ItemService]
 })
-export class ItemDetailsComponent implements OnInit {
-  public itemDetails: ItemDetails;
+export class ItemDetailComponent implements OnInit {
+  public itemDetail: ItemDetail;
   public authorizedToUpdate: boolean = false;
 
   public displayedImages: ItemImage[];
@@ -33,10 +33,10 @@ export class ItemDetailsComponent implements OnInit {
   initializeComponent() {
     let itemId = +this.route.snapshot.paramMap.get('id');
     if (itemId) {
-      this.itemService.getDetail(itemId).subscribe((data: ItemDetails) => {
+      this.itemService.getDetail(itemId).subscribe((data: ItemDetail) => {
         if (data) {
-          this.itemDetails = new ItemDetails(data);
-          this.displayedImages = this.itemDetails.images;
+          this.itemDetail = new ItemDetail(data);
+          this.displayedImages = this.itemDetail.images;
         }
         this.identityService.checkCreateUpdateAuthorization(this.getUpdateLink(itemId)).subscribe(result => {
           if (result)

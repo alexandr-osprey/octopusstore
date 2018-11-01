@@ -18,7 +18,7 @@ namespace UnitTests.Controllers
         }
 
         [Fact]
-        public async Task Index()
+        public async Task IndexAsync()
         {
             var cartItems = await _context.Set<CartItem>().AsNoTracking().Where(i => i.OwnerId == johnId).ToListAsync();
             var expected = IndexViewModel<CartItemViewModel>.FromEnumerableNotPaged(from c in cartItems select ToViewModel(c));
@@ -47,7 +47,7 @@ namespace UnitTests.Controllers
             var actual = await _controller.RemoveFromCartAsync(new CartItemViewModel() { ItemVariantId = existing.ItemVariantId, Number = existing.Number });
         }
 
-        protected override Task AssertUpdateSuccess(CartItem beforeUpdate, CartItemViewModel expected, CartItemViewModel actual)
+        protected override Task AssertUpdateSuccessAsync(CartItem beforeUpdate, CartItemViewModel expected, CartItemViewModel actual)
         {
             Assert.Equal(expected.Number, actual.Number);
             Assert.Equal(beforeUpdate.ItemVariantId, actual.ItemVariantId);
