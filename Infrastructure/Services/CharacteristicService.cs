@@ -13,7 +13,7 @@ namespace Infrastructure.Services
 {
     public class CharacteristicService: Service<Characteristic>, ICharacteristicService
     {
-        protected ICategoryService _сategoryService;
+        protected readonly ICategoryService _сategoryService;
 
         public CharacteristicService(
             StoreContext context,
@@ -38,6 +38,7 @@ namespace Infrastructure.Services
             var categories = await _сategoryService.EnumerateParentCategoriesAsync(spec);
             return await EnumerateAsync(new CharacteristicByCategoryIdsSpecification(from c in categories select c.Id));
         }
+
         protected override async Task ValidateCreateWithExceptionAsync(Characteristic characteristic)
         {
             await base.ValidateCreateWithExceptionAsync(characteristic);
@@ -45,6 +46,7 @@ namespace Infrastructure.Services
             if (!await _context.ExistsBySpecAsync(_logger, new EntitySpecification<Category>(characteristic.CategoryId)))
                 throw new EntityValidationException("Category does not exist");
         }
+
         protected override async Task ValidateUpdateWithExceptionAsync(Characteristic characteristic)
         {
             await base.ValidateUpdateWithExceptionAsync(characteristic);

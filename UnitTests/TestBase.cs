@@ -132,7 +132,7 @@ namespace UnitTests
             //services.AddScoped<ItemsController>();
             services.AddScoped<IItemImagesController, ItemImagesController>();
             //services.AddScoped<ItemVariantsController>();
-            //services.AddScoped<ItemPropertiesController>();
+            services.AddScoped<IItemPropertiesController, ItemPropertiesController>();
             //services.AddScoped<StoresController>();
             //services.AddScoped<MeasurementUnitsController>();
             services.AddScoped<ICategoriesController, CategoriesController>();

@@ -26,6 +26,7 @@ namespace Infrastructure.Services
             if (string.IsNullOrWhiteSpace(brand.Title))
                 throw new EntityValidationException("Title not specified");
         }
+
         protected override async Task ValidateUpdateWithExceptionAsync(Brand brand)
         {
             await ValidateCreateWithExceptionAsync(brand);

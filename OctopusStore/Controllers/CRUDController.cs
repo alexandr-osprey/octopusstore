@@ -20,12 +20,12 @@ namespace OctopusStore.Controllers
         where TEntity : Entity
         where TViewModel : EntityViewModel<TEntity>
     {
-        protected TService _service;
+        protected readonly TService _service;
         protected readonly IAppLogger<IController<TEntity, TViewModel>> _logger;
-        protected string _entityName = typeof(TEntity).Name;
-        protected int _maxTake = 200;
-        protected int _defaultTake = 50;
-        protected IScopedParameters _scopedParameters;
+        protected readonly string _entityName = typeof(TEntity).Name;
+        protected readonly int _maxTake = 200;
+        protected readonly int _defaultTake = 50;
+        protected readonly IScopedParameters _scopedParameters;
 
         public CRUDController(
             TService service,

@@ -1,74 +1,60 @@
-﻿//using System.Collections.Generic;
-//using System.Threading.Tasks;
-//using ApplicationCore.Entities;
-//using ApplicationCore.Exceptions;
-//using ApplicationCore.Specifications;
-//using Microsoft.AspNetCore.Authorization;
-//using Microsoft.AspNetCore.Mvc;
-//using ApplicationCore.ViewModels;
-//using ApplicationCore.Interfaces;
-//using ApplicationCore.Interfaces.Services;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using ApplicationCore.Entities;
+using ApplicationCore.Exceptions;
+using ApplicationCore.Specifications;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using ApplicationCore.ViewModels;
+using ApplicationCore.Interfaces;
+using ApplicationCore.Interfaces.Services;
+using ApplicationCore.Interfaces.Controllers;
 
-//// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+namespace OctopusStore.Controllers
+{
+    [Produces("application/json")]
+    [Route("api/[controller]")]
+    public class ItemPropertiesController: CRUDController<IItemPropertyService, ItemProperty, ItemPropertyViewModel>, IItemPropertiesController
+    {
+        public ItemPropertiesController(
+            IItemPropertyService itemPropertyService,
+            IScopedParameters scopedParameters,
+            IAppLogger<IController<ItemProperty, ItemPropertyViewModel>> logger)
+           : base(itemPropertyService, scopedParameters, logger)
+        {
+        }
 
-//namespace OctopusStore.Controllers
-//{
-//    [Produces("application/json")]
-//    [Route("api/[controller]")]
-//    public class ItemPropertiesController: CRUDController<IItemPropertyService, ItemProperty, ItemPropertyViewModel>
-//    {
-//        public ItemPropertiesController(
-//            IItemPropertyService itemPropertyService,
-//            IScopedParameters scopedParameters,
-//            IAppLogger<ICRUDController<ItemProperty>> logger)
-//           : base(itemPropertyService, scopedParameters, logger)
-//        {
-//        }
+        [HttpPost]
+        public override async Task<ItemPropertyViewModel> CreateAsync([FromBody]ItemPropertyViewModel itemPropertyViewModel) => await base.CreateAsync(itemPropertyViewModel ?? throw new BadRequestException("Item variant characteristic value not provided"));
 
-//        [AllowAnonymous]
-//        [HttpGet]
-//        public async Task<IndexViewModel<ItemPropertyViewModel>> Index(
-//            [FromQuery(Name = "itemVariantId")]int? itemVariantId,
-//            [FromQuery(Name = "itemId")]int? itemId)
-//        {
-            
-//            if (itemVariantId.HasValue)
-//                return await IndexByItemVariant(itemVariantId.Value);
-//            else if (itemId.HasValue)
-//                return await IndexByItem(itemId.Value);
-//            return GetNotPagedIndexViewModel(new List<ItemProperty>());
-//        }
-//        [AllowAnonymous]
-//        [HttpGet("/api/itemVariants/{itemVariantId:int}/characteristicValues")]
-//        public async Task<IndexViewModel<ItemPropertyViewModel>> IndexByItemVariant(int itemVariantId)
-//        {
-//            return await base.IndexNotPagedAsync(new ItemPropertyByVariantSpecification(itemVariantId));
-//        }
-//        [AllowAnonymous]
-//        [HttpGet("/api/items/{itemId:int}/characteristicValues")]
-//        public async Task<IndexViewModel<ItemPropertyViewModel>> IndexByItem(int itemId)
-//        {
-//            return await base.IndexByRelatedNotPagedAsync(_service.EnumerateByItemVariantAsync, new ItemVariantByItemSpecification(itemId));
-//        }
-//        // PUT api/<controller>/5
-//        [HttpPut("{id:int}")]
-//        public async Task<ItemPropertyViewModel> Put(int id, [FromBody]ItemPropertyViewModel itemPropertyViewModel)
-//        {
-//            if (itemPropertyViewModel == null) throw new BadRequestException("Item variant characteristic value not provided");
-//            itemPropertyViewModel.Id = id;
-//            return await base.UpdateAsync(itemPropertyViewModel);
-//        }
-//        [HttpPost]
-//        public async Task<ItemPropertyViewModel> Post([FromBody]ItemPropertyViewModel itemPropertyViewModel)
-//        {
-//            if (itemPropertyViewModel == null) throw new BadRequestException("Item variant characteristic value not provided");
-//            return await base.CreateAsync(itemPropertyViewModel);
-//        }
-//        // DELETE api/<controller>/5
-//        [HttpDelete("{id}")]
-//        public async Task<Response> Delete(int id) => await base.DeleteSingleAsync(new EntitySpecification<ItemProperty>(id));
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<IndexViewModel<ItemPropertyViewModel>> IndexAsync(
+            [FromQuery(Name = "itemVariantId")]int? itemVariantId,
+            [FromQuery(Name = "itemId")]int? itemId)
+        {
+            if (itemVariantId.HasValue)
+                return await IndexByItemVariantAsync(itemVariantId.Value);
+            else if (itemId.HasValue)
+                return await IndexByItemAsync(itemId.Value);
+            return GetNotPagedIndexViewModel(new List<ItemProperty>());
+        }
 
-//        [HttpGet("{id:int}/checkUpdateAuthorization")]
-//        public async Task<ActionResult> CheckUpdateAuthorization(int id) => await base.CheckUpdateAuthorizationAsync(id);
-//    }
-//}
+        [AllowAnonymous]
+        [HttpGet("/api/itemVariants/{itemVariantId:int}/characteristicValues")]
+        public async Task<IndexViewModel<ItemPropertyViewModel>> IndexByItemVariantAsync(int itemVariantId) => await base.IndexNotPagedAsync(new ItemPropertyByVariantSpecification(itemVariantId));
+
+        [AllowAnonymous]
+        [HttpGet("/api/items/{itemId:int}/characteristicValues")]
+        public async Task<IndexViewModel<ItemPropertyViewModel>> IndexByItemAsync(int itemId) => await base.IndexByRelatedNotPagedAsync(_service.EnumerateByItemVariantAsync, new ItemVariantByItemSpecification(itemId));
+
+        [HttpPut("{id:int}")]
+        public override async Task<ItemPropertyViewModel> UpdateAsync([FromBody]ItemPropertyViewModel itemPropertyViewModel) => await base.UpdateAsync(itemPropertyViewModel ?? throw new BadRequestException("Item variant characteristic value not provided"));
+
+        [HttpDelete("{id}")]
+        public override async Task<Response> DeleteAsync(int id) => await base.DeleteAsync(id);
+
+        [HttpGet("{id:int}/checkUpdateAuthorization")]
+        public override async Task<Response> CheckUpdateAuthorizationAsync(int id) => await base.CheckUpdateAuthorizationAsync(id);
+    }
+}

@@ -49,12 +49,14 @@ namespace Infrastructure.Services
             }
             return entity;
         }
+
         public async Task<Stream> GetStreamAsync(int id)
         {
             TFileInfo entity = await _context.ReadByKeyAsync<TFileInfo, Service<TFileInfo>>(_logger, id);
             if (entity == null) { return null; }
             return GetStream(entity);
         }
+
         public Stream GetStream(TFileInfo entity)
         {
             if (entity == null) { return null; }
@@ -69,6 +71,7 @@ namespace Infrastructure.Services
                 throw new IOException(message, exception);
             }
         }
+
         override public async Task DeleteRelatedEntitiesAsync(TFileInfo entity)
         {
             try
@@ -83,6 +86,7 @@ namespace Infrastructure.Services
             }
             await base.DeleteRelatedEntitiesAsync(entity);
         }
+
         protected override async Task ValidateCreateWithExceptionAsync(TFileInfo fileInfo)
         {
             await ValidateUpdateWithExceptionAsync(fileInfo);
@@ -90,6 +94,7 @@ namespace Infrastructure.Services
             await ValidateRelatedEntityAsync(fileInfo);
             await base.ValidateCreateWithExceptionAsync(fileInfo);
         }
+
         protected override async Task ValidateUpdateWithExceptionAsync(TFileInfo fileInfo)
         {
             await base.ValidateUpdateWithExceptionAsync(fileInfo);
@@ -103,6 +108,7 @@ namespace Infrastructure.Services
                 throw new EntityValidationException($"Error saving image: related entity with Id {fileInfo.RelatedId} does not exist");
             return true;
         }
+
         protected bool ValidateFile(TFileInfo fileInfo)
         {
             if (fileInfo.InputStream == null || fileInfo.InputStream.Length == 0)
@@ -113,6 +119,7 @@ namespace Infrastructure.Services
                 throw new EntityValidationException($"Unsupported content type: { fileInfo.ContentType }");
             return true;
         }
+
         protected async static Task SaveFile(string fileName, Stream inputStream)
         {
             if (inputStream == null)

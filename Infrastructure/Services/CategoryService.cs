@@ -13,7 +13,7 @@ namespace Infrastructure.Services
 {
     public class CategoryService: Service<Category>, ICategoryService
     {
-        public int RootCategoryId { get; set; } = 1;
+        public int RootCategoryId { get;  } = 1;
 
         public CategoryService(
             StoreContext context,
@@ -30,6 +30,7 @@ namespace Infrastructure.Services
             var categories = await _context.EnumerateRelatedAsync(_logger, spec, (i => i.Category));
             return await EnumerateHierarchyAsync(new EntitySpecification<Category>(c => categories.Contains(c)));
         }
+
         public async Task<IEnumerable<Category>> EnumerateHierarchyAsync(Specification<Category> spec)
         {
             var hierarchy = new HashSet<Category>();
@@ -37,12 +38,14 @@ namespace Infrastructure.Services
             hierarchy.UnionWith(await EnumerateSubcategoriesAsync(spec));
             return hierarchy;
         }
+
         public async Task<IEnumerable<Category>> EnumerateParentCategoriesAsync(Specification<Category> spec)
         {
             var flatCategories = new HashSet<Category>();
             await GetParentCategoriesAsync(spec, flatCategories);
             return flatCategories;
         }
+
         public async Task<IEnumerable<Category>> EnumerateSubcategoriesAsync(Specification<Category> spec)
         {
             var flatCategories = new HashSet<Category>();
@@ -57,6 +60,7 @@ namespace Infrastructure.Services
             }
             return flatCategories;
         }
+
         public async Task<IEnumerable<Category>> EnumerateParentCategoriesAsync(Specification<Item> itemSpec)
         {
             var categories = (await _context.EnumerateRelatedAsync(_logger, itemSpec, (i => i.Category))).Distinct();
@@ -65,6 +69,7 @@ namespace Infrastructure.Services
                 await GetParentCategoriesAsync(category, flatCategories);
             return flatCategories;
         }
+
         public async Task<IEnumerable<Category>> EnumerateSubcategoriesAsync(Specification<Item> itemSpec)
         {
             var categories = await _context.EnumerateRelatedAsync(_logger, itemSpec, (i => i.Category));
@@ -73,12 +78,14 @@ namespace Infrastructure.Services
                 await GetSubcategoriesAsync(category, flatCategories);
             return flatCategories;
         }
+
         public async Task GetParentCategoriesAsync(Specification<Category> spec, HashSet<Category> hierarchy)
         {
             var categories = await _context.EnumerateAsync(_logger, spec);
             foreach (var c in categories)
                 await GetParentCategoriesAsync(c, hierarchy);
         }
+
         public async Task GetParentCategoriesAsync(Category category, HashSet<Category> hierarchy)
         {
             if (category != null)

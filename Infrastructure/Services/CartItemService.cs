@@ -28,6 +28,7 @@ namespace Infrastructure.Services
             cartItem.Number += number;
             return cartItem.Id == 0 ? await CreateAsync(cartItem) : await UpdateAsync(cartItem);
         }
+
         public async Task RemoveFromCartAsync(string ownerId, int itemVariantId, int number)
         {
             var cartItem = await _context.ReadSingleBySpecAsync(_logger, new CartItemSpecification(ownerId, itemVariantId), false);
@@ -39,12 +40,14 @@ namespace Infrastructure.Services
             else
                 await UpdateAsync(cartItem);
         }
+
         protected override async Task ValidateCustomUniquinessWithException(CartItem cartItem)
         {
             await base.ValidateCustomUniquinessWithException(cartItem);
             if (await _context.ExistsBySpecAsync(_logger, new CartItemSpecification(cartItem.OwnerId, cartItem.ItemVariantId)))
                 throw new EntityAlreadyExistsException($"Cart item with variant {cartItem.ItemVariantId} already exists");
         }
+
         protected override async Task ValidateCreateWithExceptionAsync(CartItem cartItem)
         {
             await base.ValidateCreateWithExceptionAsync(cartItem);
@@ -53,6 +56,7 @@ namespace Infrastructure.Services
                 throw new EntityValidationException($"Item variant {cartItem.ItemVariantId} does not exist");
             
         }
+
         protected override async Task ValidateUpdateWithExceptionAsync(CartItem cartItem)
         {
             await base.ValidateUpdateWithExceptionAsync(cartItem);

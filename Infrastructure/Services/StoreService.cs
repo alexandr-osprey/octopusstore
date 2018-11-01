@@ -13,7 +13,7 @@ namespace Infrastructure.Services
 {
     public class StoreService: Service<Store>, IStoreService
     {
-        protected IItemService _itemService;
+        protected readonly IItemService _itemService;
 
         public StoreService(
            StoreContext context,
@@ -46,6 +46,7 @@ namespace Infrastructure.Services
             await base.DeleteSingleAsync(entity);
             await IdentityService.RemoveFromUsersAsync(new Claim(entity.OwnerId, entity.Id.ToString()));
         }
+
         public override async Task DeleteRelatedEntitiesAsync(Store store)
         {
             var spec = new Specification<Item>(i => store.Items.Contains(i))
@@ -61,6 +62,7 @@ namespace Infrastructure.Services
             await base.ValidateCreateWithExceptionAsync(store);
             await ValidateUpdateWithExceptionAsync(store);
         }
+
         protected override async Task ValidateUpdateWithExceptionAsync(Store store)
         {
             await base.ValidateUpdateWithExceptionAsync(store);

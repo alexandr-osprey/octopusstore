@@ -12,8 +12,8 @@ namespace Infrastructure.Services
 {
     public class ItemService: Service<Item>, IItemService
     {
-        protected IItemImageService _itemImageService;
-        protected ICategoryService _categoryService;
+        protected readonly IItemImageService _itemImageService;
+        protected readonly ICategoryService _categoryService;
 
         public ItemService(
             StoreContext context,
@@ -28,10 +28,12 @@ namespace Infrastructure.Services
             _itemImageService = itemImageService;
             _categoryService = categoryService;
         }
+
         public async Task<ItemIndexSpecification> GetIndexSpecificationByParameters(int page, int pageSize, string title, int? categoryId, int? storeId, int? brandId)
         {
             return new ItemIndexSpecification(page, pageSize, title, await GetCategoriesAsync(categoryId), storeId, brandId);
         }
+
         public override async Task DeleteRelatedEntitiesAsync(Item item)
         {
             var imageDeleteSpec = new Specification<ItemImage>(i => i.RelatedId == item.Id)
@@ -41,12 +43,14 @@ namespace Infrastructure.Services
             await _itemImageService.DeleteAsync(imageDeleteSpec);
             await base.DeleteRelatedEntitiesAsync(item);
         }
+
         private async Task<IEnumerable<Category>> GetCategoriesAsync(int? categoryId)
         {
             return categoryId.HasValue
                 ? await _categoryService.EnumerateSubcategoriesAsync(new EntitySpecification<Category>(categoryId.Value))
                : new List<Category>();
         }
+
         protected override async Task ValidateCreateWithExceptionAsync(Item item)
         {
             await ValidateUpdateWithExceptionAsync(item);
@@ -62,6 +66,7 @@ namespace Infrastructure.Services
                 throw new EntityValidationException($"MeasurementUnit with Id {item.MeasurementUnitId}  does not exist. ");
             await base.ValidateCreateWithExceptionAsync(item);
         }
+
         protected override async Task ValidateUpdateWithExceptionAsync(Item item)
         {
             await base.ValidateUpdateWithExceptionAsync(item);

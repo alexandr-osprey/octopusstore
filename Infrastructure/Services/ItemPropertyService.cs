@@ -16,8 +16,8 @@ namespace Infrastructure.Services
        : Service<ItemProperty>,
         IItemPropertyService
     {
-        protected IItemVariantService _itemVariantService;
-        protected ICharacteristicValueService _characteristicValueService;
+        protected readonly IItemVariantService _itemVariantService;
+        protected readonly ICharacteristicValueService _characteristicValueService;
 
         public ItemPropertyService(
             StoreContext context,
@@ -43,10 +43,12 @@ namespace Infrastructure.Services
             if (itemVariantProperties.Select(i => i.CharacteristicValue.CharacteristicId).Contains(characteristicValue.CharacteristicId))
                 throw new EntityAlreadyExistsException($"Item property with characteristic {characteristicValue.CharacteristicId} in item variant {itemProperty.ItemVariantId} already exists. ");
         }
+
         public async Task<IEnumerable<ItemProperty>> EnumerateByItemVariantAsync(Specification<ItemVariant> itemVariantSpec)
         {
             return await _itemVariantService.EnumerateRelatedEnumAsync(itemVariantSpec, (v => v.ItemProperties));
         }
+
         protected override async Task ValidateCreateWithExceptionAsync(ItemProperty itemProperty)
         {
             await base.ValidateCreateWithExceptionAsync(itemProperty);
@@ -63,6 +65,7 @@ namespace Infrastructure.Services
             if (!possibleCharacteristicValues.Contains(characteristicValue))
                 throw new EntityValidationException($"Characteristic value {itemProperty.CharacteristicValueId} has the wrong category");
         }
+
         protected override async Task ValidateUpdateWithExceptionAsync(ItemProperty itemProperty)
         {
             await base.ValidateUpdateWithExceptionAsync(itemProperty);
