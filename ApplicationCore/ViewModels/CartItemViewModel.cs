@@ -29,7 +29,7 @@ namespace ApplicationCore.ViewModels
         }
         public override CartItem UpdateModel(CartItem modelToUpdate)
         {
-            modelToUpdate.Number = modelToUpdate.Number;
+            modelToUpdate.Number = Number;
             return modelToUpdate;
         }
     }

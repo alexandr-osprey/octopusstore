@@ -118,7 +118,7 @@ namespace OctopusStore.Controllers
             return GetNotPagedIndexViewModel(await _service.EnumerateAsync(spec));
         }
 
-        protected async Task<TDetailViewModel> GetDetailAsync<TDetailViewModel>(Specification<TEntity> spec) where TDetailViewModel : EntityViewModel<TEntity>
+        protected async Task<TDetailViewModel> GetDetailAsync<TDetailViewModel>(Specification<TEntity> spec) where TDetailViewModel: EntityViewModel<TEntity>
         {
             return GetViewModel<TDetailViewModel>(await _service.ReadSingleAsync(spec));
         }
@@ -137,7 +137,7 @@ namespace OctopusStore.Controllers
         }
 
         protected IndexViewModel<TCustomViewModel> GetIndexViewModel<TCustomViewModel>(int page, int totalPages, int totalCount, IEnumerable<TEntity> entities)
-            where TCustomViewModel : EntityViewModel<TEntity>
+            where TCustomViewModel: EntityViewModel<TEntity>
         {
             var viewModels = from e in entities select GetViewModel<TCustomViewModel>(e);
             return IndexViewModel<TCustomViewModel>.FromEnumerable(page, totalPages, totalCount, viewModels.OrderBy(v => v.Id));
@@ -145,7 +145,7 @@ namespace OctopusStore.Controllers
             //return (TCustomIndexViewModel)ast.GetActivator(typeof(TCustomIndexViewModel), types)(page, totalPages, totalCount, entities);
         }
 
-        protected TCustomViewModel GetViewModel<TCustomViewModel>(TEntity entity) where TCustomViewModel : EntityViewModel<TEntity>
+        protected TCustomViewModel GetViewModel<TCustomViewModel>(TEntity entity) where TCustomViewModel: EntityViewModel<TEntity>
         {
             return (TCustomViewModel)new ActivatorsStorage().GetActivator(typeof(TCustomViewModel), typeof(TEntity))(entity);
         }

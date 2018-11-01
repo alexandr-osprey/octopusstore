@@ -59,7 +59,7 @@ namespace UnitTests.Services
         {
             return await Task.FromResult(new List<CartItem>
             {
-                new CartItem() { OwnerId = johnId, ItemVariantId = 2, Number = 7 },
+                new CartItem() { OwnerId = johnId, ItemVariantId = 4, Number = 7 },
                 new CartItem() { OwnerId = johnId, ItemVariantId = 3, Number = 8 }
             });
         }

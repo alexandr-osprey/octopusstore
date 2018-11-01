@@ -6,7 +6,8 @@ namespace ApplicationCore.Interfaces.Controllers
 {
     public interface ICartItemsController: IController<CartItem, CartItemViewModel>
     {
-        Task<CartItemViewModel> AddToCart(CartItemViewModel cartItemViewModel);
-        Task<Response> RemoveFromCart(CartItemViewModel cartItemViewModel);
+        Task<IndexViewModel<CartItemViewModel>> Index();
+        Task<CartItemViewModel> AddToCartAsync(CartItemViewModel cartItemViewModel);
+        Task<Response> RemoveFromCartAsync(CartItemViewModel cartItemViewModel);
     }
 }

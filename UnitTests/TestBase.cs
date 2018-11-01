@@ -127,6 +127,7 @@ namespace UnitTests
             var conf = new Mock<IConfiguration>();
             services.AddSingleton(conf.Object);
             services.AddScoped<IBrandsController, BrandsController>();
+            services.AddScoped<ICartItemsController, CartItemsController>();
             services.AddScoped<IdentityController>();
             //services.AddScoped<ItemsController>();
             //services.AddScoped<ItemImagesController>();

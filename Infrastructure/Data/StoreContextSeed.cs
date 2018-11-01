@@ -85,9 +85,9 @@ namespace Infrastructure.Data
         private static string adminId = "admin@mail.com";
         private static string johnId = "john@mail.com";
         private static string jenniferId = "jennifer@mail.com";
-        private static string pathToFiles = @"C:\files\";
-        private static string pathToBackup = @"C:\files\backup";
-        private static string itemImageContentType = @"image/jpeg";
+        private static readonly string pathToFiles = @"C:\files\";
+        private static readonly string pathToBackup = @"C:\files\backup";
+        private static readonly string itemImageContentType = @"image/jpeg";
 
         private static List<MeasurementUnit> _PreconfiguredMeasurementUnits;
         private static List<MeasurementUnit> PreconfiguredMeasurementUnits
@@ -402,8 +402,10 @@ namespace Infrastructure.Data
                 {
                     _PreconfiguredCartItems = new List<CartItem>
                     {
-                        new CartItem() { OwnerId = johnId, ItemVariantId = PreconfiguredItemVariants[0].Id, Number = 5 },
-                        new CartItem() { OwnerId = johnId, ItemVariantId = PreconfiguredItemVariants[1].Id, Number = 6 }
+                        new CartItem() { OwnerId = johnId, ItemVariantId = PreconfiguredItemVariants[0].Id, Number = 1 },
+                        new CartItem() { OwnerId = johnId, ItemVariantId = PreconfiguredItemVariants[1].Id, Number = 2 },
+                        new CartItem() { OwnerId = jenniferId, ItemVariantId = PreconfiguredItemVariants[0].Id, Number = 3 },
+                        new CartItem() { OwnerId = jenniferId, ItemVariantId = PreconfiguredItemVariants[1].Id, Number = 4 },
                     };
                 }
                 return _PreconfiguredCartItems;

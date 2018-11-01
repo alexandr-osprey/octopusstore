@@ -35,7 +35,9 @@ namespace UnitTests.Controllers
 
         protected override async Task<IEnumerable<Brand>> GetCorrectEntitiesToUpdateAsync()
         {
-            return await _context.Set<Brand>().Skip(1).Take(3).ToListAsync();
+            var entities = await _context.Set<Brand>().Skip(1).Take(3).ToListAsync();
+            entities.ForEach(e => e.Title = "updated");
+            return entities;
         }
 
         protected override BrandViewModel ToViewModel(Brand entity)
