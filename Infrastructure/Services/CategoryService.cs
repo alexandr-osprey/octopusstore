@@ -101,7 +101,7 @@ namespace Infrastructure.Services
                 throw new EntityValidationException("Title not specified");
             if (string.IsNullOrWhiteSpace(category.Description))
                 throw new EntityValidationException("Description not specified");
-            if (!await _context.ExistsBySpecAsync(_logger, new EntitySpecification<Category>(category.ParentCategoryId)))
+            if (category.Id != 1 && !await _context.ExistsBySpecAsync(_logger, new EntitySpecification<Category>(category.ParentCategoryId)))
                 throw new EntityValidationException("Parent category does not exist");
         }
         protected override async Task ValidateUpdateWithExceptionAsync(Category category)
