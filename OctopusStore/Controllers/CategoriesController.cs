@@ -28,7 +28,7 @@ namespace OctopusStore.Controllers
         // GET: api/<controller>
         [AllowAnonymous]
         [HttpGet]
-        public async Task<IndexViewModel<CategoryViewModel>> Index(
+        public async Task<IndexViewModel<CategoryViewModel>> IndexAsync(
             [FromQuery(Name = "categoryId")]int? categoryId,
             [FromQuery(Name = "storeId")]int? storeId)
         {
@@ -36,7 +36,7 @@ namespace OctopusStore.Controllers
             var categories = await _service.EnumerateHierarchyAsync(new EntitySpecification<Category>(c => c.Id == categoryId.Value));
             if (storeId.HasValue)
             {
-                var storeCategories = await IndexByStoreId(storeId.Value);
+                var storeCategories = await IndexByStoreIdAsync(storeId.Value);
                 categories = (from c in categories where storeCategories.Contains(c) select c).OrderBy(c => c.Id);
             }
             return GetNotPagedIndexViewModel(categories);
@@ -50,8 +50,9 @@ namespace OctopusStore.Controllers
         //    return await base.IndexByRelatedNotPagedAsync(_service.EnumerateByItemAsync, spec);
         //}
         [HttpGet("{id:int}/checkUpdateAuthorization")]
-        public async Task<Response> CheckUpdateAuthorization(int id) => await base.CheckUpdateAuthorizationAsync(id);
-        protected async Task<IEnumerable<Category>> IndexByStoreId(int storeId)
+        public override async Task<Response> CheckUpdateAuthorizationAsync(int id) => await base.CheckUpdateAuthorizationAsync(id);
+
+        protected async Task<IEnumerable<Category>> IndexByStoreIdAsync(int storeId)
         {
             var spec = new Specification<Item>((i => i.StoreId == storeId), (i => i.Category))
             {

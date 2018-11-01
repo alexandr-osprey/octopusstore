@@ -28,7 +28,6 @@ namespace ApplicationCore.ViewModels
         public override Characteristic UpdateModel(Characteristic modelToUpdate)
         {
             modelToUpdate.Title = Title;
-            modelToUpdate.CategoryId = CategoryId;
             return modelToUpdate;
         }
     }

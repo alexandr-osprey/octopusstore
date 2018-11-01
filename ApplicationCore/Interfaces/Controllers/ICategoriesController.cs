@@ -6,6 +6,6 @@ namespace ApplicationCore.Interfaces.Controllers
 {
     public interface ICategoriesController: IController<Category, CategoryViewModel>
     {
-        Task<IndexViewModel<CategoryViewModel>> Index(int? categoryId, int? storeId);
+        Task<IndexViewModel<CategoryViewModel>> IndexAsync(int? categoryId, int? storeId);
     }
 }

@@ -32,7 +32,7 @@ namespace OctopusStore.Controllers
         // GET api/<controller>/5
         [AllowAnonymous]
         [HttpGet("{id:int}")]
-        public async Task<BrandViewModel> Get(int id) => await base.ReadAsync(id);
+        public override async Task<BrandViewModel> ReadAsync(int id) => await base.ReadAsync(id);
 
         [HttpGet("{id:int}/checkUpdateAuthorization")]
         public async Task<Response> CheckUpdateAuthorization(int id) => await base.CheckUpdateAuthorizationAsync(id);

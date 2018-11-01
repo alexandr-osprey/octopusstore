@@ -52,7 +52,7 @@ namespace OctopusStore.Controllers
             return GetViewModel<TViewModel>(entity);
         }
 
-        public async Task<TViewModel> ReadAsync(int id)
+        public virtual async Task<TViewModel> ReadAsync(int id)
         {
             return await ReadAsync(new EntitySpecification<TEntity>(id));
         }
@@ -66,12 +66,12 @@ namespace OctopusStore.Controllers
             return GetViewModel<TViewModel>(entitiy);
         }
 
-        public async Task<Response> DeleteAsync(int id)
+        public virtual async Task<Response> DeleteAsync(int id)
         {
             return await DeleteAsync(new EntitySpecification<TEntity>(id));
         }
 
-        public async Task<Response> CheckUpdateAuthorizationAsync(int id)
+        public virtual async Task<Response> CheckUpdateAuthorizationAsync(int id)
         {
             var entity = await _service.ReadSingleAsync(new EntitySpecification<TEntity>(id));
             await _service.IdentityService.AuthorizeAsync(User, entity, OperationAuthorizationRequirements.Update, true);
@@ -93,7 +93,7 @@ namespace OctopusStore.Controllers
             return GetIndexViewModel<TCustomViewModel>(spec.Page, totalPages, totalCount, entities);
         }
 
-        protected async Task<IndexViewModel<TViewModel>> IndexAsync(Specification<TEntity> spec)
+        protected virtual async Task<IndexViewModel<TViewModel>> IndexAsync(Specification<TEntity> spec)
         {
             return await IndexAsync<TViewModel>(spec);
         }
@@ -150,7 +150,7 @@ namespace OctopusStore.Controllers
             return (TCustomViewModel)new ActivatorsStorage().GetActivator(typeof(TCustomViewModel), typeof(TEntity))(entity);
         }
 
-        protected async Task<Response> DeleteSingleAsync(Specification<TEntity> spec)
+        protected virtual async Task<Response> DeleteSingleAsync(Specification<TEntity> spec)
         {
             if (spec == null)
                 throw new ArgumentNullException(nameof(spec));
@@ -158,7 +158,7 @@ namespace OctopusStore.Controllers
             return new Response($"Deleted {_entityName}(s) according to spec {spec}");
         }
 
-        protected async Task<Response> DeleteAsync(Specification<TEntity> spec)
+        protected virtual async Task<Response> DeleteAsync(Specification<TEntity> spec)
         {
             if (spec == null)
                 throw new ArgumentNullException(nameof(spec));

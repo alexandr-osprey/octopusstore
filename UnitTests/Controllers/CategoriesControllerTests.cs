@@ -26,7 +26,7 @@ namespace UnitTests.Controllers
         [Fact]
         public async Task IndexAll()
         {
-            var actual = await _controller.Index(null, null);
+            var actual = await _controller.IndexAsync(null, null);
             var rootCategories = await GetQueryable()
                 .ToListAsync();
             var expected = new IndexViewModel<CategoryViewModel>(1,
@@ -41,7 +41,7 @@ namespace UnitTests.Controllers
         {
             var clothes = await GetQueryable()
             .FirstOrDefaultAsync(c => c.Title == "Clothes");
-            var actual = await _controller.Index(clothes.Id, null);
+            var actual = await _controller.IndexAsync(clothes.Id, null);
             var spec = new EntitySpecification<Category>(clothes.Id);
             var flatCategories = await _service.EnumerateHierarchyAsync(spec);
             var expected = new IndexViewModel<CategoryViewModel>(1,
@@ -66,13 +66,13 @@ namespace UnitTests.Controllers
             foreach (var category in categories)
                 await GetCategoryHierarchyAsync(category.Id, expectedCategories);
             var expected = new IndexViewModel<CategoryViewModel>(1, 1, expectedCategories.Count, (from e in expectedCategories select new CategoryViewModel(e)).OrderBy(c => c.Id));
-            var actual = await _controller.Index(categoryId: null, storeId: storeId);
+            var actual = await _controller.IndexAsync(categoryId: null, storeId: storeId);
             Equal(expected, actual);
         }
         [Fact]
         public async Task IndexWrongCategory()
         {
-            var actual = await _controller.Index(99696, null);
+            var actual = await _controller.IndexAsync(99696, null);
             var expected = new IndexViewModel<CategoryViewModel>(0, 0, 0, new List<CategoryViewModel>());
             Equal(expected, actual);
         }

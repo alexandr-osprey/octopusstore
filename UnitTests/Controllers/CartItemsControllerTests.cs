@@ -47,6 +47,14 @@ namespace UnitTests.Controllers
             var actual = await _controller.RemoveFromCartAsync(new CartItemViewModel() { ItemVariantId = existing.ItemVariantId, Number = existing.Number });
         }
 
+        protected override Task AssertUpdateSuccess(CartItem beforeUpdate, CartItemViewModel expected, CartItemViewModel actual)
+        {
+            Assert.Equal(expected.Number, actual.Number);
+            Assert.Equal(beforeUpdate.ItemVariantId, actual.ItemVariantId);
+            Assert.Equal(beforeUpdate.Id, actual.Id);
+            return Task.CompletedTask;
+        }
+
         protected override async Task<IEnumerable<CartItem>> GetCorrectEntitiesToCreateAsync()
         {
             return await Task.FromResult(new List<CartItem>()
@@ -68,6 +76,7 @@ namespace UnitTests.Controllers
         {
             var cartItems = await _context.Set<CartItem>().AsNoTracking().ToListAsync();
             cartItems.ForEach(c => c.Number = 99);
+            cartItems.ForEach(c => c.ItemVariantId = 999);
             return cartItems;
         }
 

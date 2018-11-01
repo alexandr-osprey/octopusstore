@@ -6,6 +6,6 @@ namespace ApplicationCore.Interfaces.Controllers
 {
     public interface ICharacteristicValuesController: IController<CharacteristicValue, CharacteristicValueViewModel>
     {
-        Task<IndexViewModel<CharacteristicValueViewModel>> Index(int categoryId);
+        Task<IndexViewModel<CharacteristicValueViewModel>> IndexAsync(int categoryId);
     }
 }

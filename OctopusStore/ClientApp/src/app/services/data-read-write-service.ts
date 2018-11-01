@@ -42,7 +42,7 @@ export abstract class DataReadWriteService
     return this.customRequest("post", url, params, headers, authenticationRequired, body);
   }
   public put(entity: Entity, url: string = this.remoteUrl, params: any = {}, headers: HttpHeaders = this.defaultHttpHeaders): Observable<TEntity> {
-    return this.customRequest("put", this.getUrlWithId(entity.id, url), params, headers, this.putAuthenticationRequired, entity);
+    return this.customRequest("put", url, params, headers, this.putAuthenticationRequired, entity);
   }
   public postOrPut(model: TEntity, url: string = this.remoteUrl, params: any = {}, headers: HttpHeaders = this.defaultHttpHeaders): Observable<TEntity> {
     if (model.id)

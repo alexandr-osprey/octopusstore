@@ -31,7 +31,7 @@ namespace UnitTests.Controllers
             spec.SetPaging(1, _maxTake);
             var characteristics = await _service.EnumerateAsync(spec);
             var expected = new IndexViewModel<CharacteristicViewModel>(1, 1, characteristics.Count(), from c in characteristics select new CharacteristicViewModel(c));
-            var actual = await _controller.Index(category.Id);
+            var actual = await _controller.IndexAsync(category.Id);
             Equal(expected, actual);
         }
         [Fact]
@@ -42,8 +42,16 @@ namespace UnitTests.Controllers
             var categoryIds = from c in categories select c.Id;
             var characteristics = await GetQueryable().Where(c => categoryIds.Contains(c.CategoryId)).ToListAsync();
             var expected = new IndexViewModel<CharacteristicViewModel>(1, 1, characteristics.Count(), from c in characteristics select new CharacteristicViewModel(c));
-            var actual = await _controller.Index(category.Id);
+            var actual = await _controller.IndexAsync(category.Id);
             Equal(expected, actual);
+        }
+
+        protected override Task AssertUpdateSuccess(Characteristic beforeUpdate, CharacteristicViewModel expected, CharacteristicViewModel actual)
+        {
+            Assert.Equal(expected.Title, actual.Title);
+            Assert.Equal(beforeUpdate.CategoryId, actual.CategoryId);
+            Assert.Equal(beforeUpdate.Id, actual.Id);
+            return Task.CompletedTask;
         }
 
         protected override async Task<IEnumerable<Characteristic>> GetCorrectEntitiesToCreateAsync()
@@ -62,6 +70,7 @@ namespace UnitTests.Controllers
         {
             var characteristics = await _context.Set<Characteristic>().AsNoTracking().Take(3).ToListAsync();
             characteristics.ForEach(c => c.Title = "updated");
+            characteristics.ForEach(c => c.CategoryId = 99);
             return characteristics;
         }
 

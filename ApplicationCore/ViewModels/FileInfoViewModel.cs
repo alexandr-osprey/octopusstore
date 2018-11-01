@@ -9,7 +9,6 @@ namespace ApplicationCore.ViewModels
     {
         public string Title { get; set; }
         public string ContentType { get; set; }
-        public string OwnerUsername { get; set; }
         public int RelatedId { get; set; }
 
         public FileInfoViewModel(): base()
@@ -20,7 +19,6 @@ namespace ApplicationCore.ViewModels
             Title = fileDetail.Title;
             ContentType = fileDetail.ContentType;
             RelatedId = fileDetail.RelatedId;
-            OwnerUsername = fileDetail.OwnerId;
         }
 
         public override TFileInfo UpdateModel(TFileInfo modelToUpdate)

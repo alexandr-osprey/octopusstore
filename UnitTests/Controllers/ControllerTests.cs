@@ -66,15 +66,16 @@ namespace UnitTests.Controllers
         {
             foreach(var entity in await GetCorrectEntitiesToUpdateAsync())
             {
+                var beforeUpdate = await _context.Set<TEntity>().AsNoTracking().FirstAsync(e => e.Id == entity.Id);
                 var expected = ToViewModel(entity);
                 var actual = await _controller.UpdateAsync(expected);
-                await AssertUpdateSuccess(expected, actual);
+                await AssertUpdateSuccess(beforeUpdate, expected, actual);
             }
         }
         protected abstract Task<IEnumerable<TEntity>> GetCorrectEntitiesToUpdateAsync();
-        protected virtual async Task AssertUpdateSuccess(TViewModel expected, TViewModel actual)
+        protected virtual async Task AssertUpdateSuccess(TEntity beforeUpdate, TViewModel expected, TViewModel actual)
         {
-            Equal(actual, expected);
+            Equal(expected, actual);
             await Task.CompletedTask;
         }
 

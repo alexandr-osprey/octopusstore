@@ -35,7 +35,7 @@ namespace UnitTests.Controllers
             var spec2 = new CharacteristicValueByCharacteristicIdsSpecification(characteristicIds);
             var characteristicValues = await _service.EnumerateAsync(spec2);
             var expected = new IndexViewModel<CharacteristicValueViewModel>(1, 1, characteristicValues.Count(), from c in characteristicValues select new CharacteristicValueViewModel(c));
-            var actual = await _controller.Index(category.Id);
+            var actual = await _controller.IndexAsync(category.Id);
             Equal(expected, actual);
         }
 
@@ -51,10 +51,19 @@ namespace UnitTests.Controllers
             });
         }
 
+        protected override Task AssertUpdateSuccess(CharacteristicValue beforeUpdate, CharacteristicValueViewModel expected, CharacteristicValueViewModel actual)
+        {
+            Assert.Equal(expected.Title, actual.Title);
+            Assert.Equal(beforeUpdate.CharacteristicId, actual.CharacteristicId);
+            Assert.Equal(beforeUpdate.Id, actual.Id);
+            return Task.CompletedTask;
+        }
+
         protected override async Task<IEnumerable<CharacteristicValue>> GetCorrectEntitiesToUpdateAsync()
         {
             var entities = await _context.Set<CharacteristicValue>().AsNoTracking().Take(3).ToListAsync();
             entities.ForEach(e => e.Title = "updated");
+            entities.ForEach(e => e.CharacteristicId = 999);
             return entities;
         }
 

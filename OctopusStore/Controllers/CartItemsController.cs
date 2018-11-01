@@ -52,18 +52,18 @@ namespace OctopusStore.Controllers
             new CartItemSpecification(_scopedParameters.ClaimsPrincipal.Identity.Name));
 
         [HttpGet("{id:int}")]
-        public async Task<CartItemViewModel> Get(int id) => await base.ReadAsync(id);
+        public override async Task<CartItemViewModel> ReadAsync(int id) => await base.ReadAsync(id);
 
         [HttpPut]
-        public async Task<CartItemViewModel> Put([FromBody]CartItemViewModel cartItemViewModel) => await base.UpdateAsync(cartItemViewModel);
+        public override async Task<CartItemViewModel> UpdateAsync([FromBody]CartItemViewModel cartItemViewModel) => await base.UpdateAsync(cartItemViewModel);
 
         [HttpDelete("{id:int}")]
-        public async Task<Response> Delete(int id) => await base.DeleteSingleAsync(new EntitySpecification<CartItem>(id));
+        public override async Task<Response> DeleteAsync(int id) => await base.DeleteSingleAsync(new EntitySpecification<CartItem>(id));
 
         [HttpDelete]
-        public async Task<Response> Delete() => await base.DeleteAsync(new CartItemSpecification(_scopedParameters.ClaimsPrincipal.Identity.Name));
+        public async Task<Response> DeleteAsync() => await base.DeleteAsync(new CartItemSpecification(_scopedParameters.ClaimsPrincipal.Identity.Name));
 
         [HttpGet("{id:int}/checkUpdateAuthorization")]
-        public async Task<Response> CheckUpdateAuthorization(int id) => await base.CheckUpdateAuthorizationAsync(id);
+        public override async Task<Response> CheckUpdateAuthorizationAsync(int id) => await base.CheckUpdateAuthorizationAsync(id);
     }
 }
