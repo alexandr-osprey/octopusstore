@@ -11,9 +11,9 @@ using System.Linq;
 
 namespace UnitTests.Controllers
 {
-    public class CartItemControllerTests : ControllerTests<CartItem, CartItemViewModel, ICartItemsController, ICartItemService>
+    public class CartItemsControllerTests : ControllerTests<CartItem, CartItemViewModel, ICartItemsController, ICartItemService>
     {
-        public CartItemControllerTests(ITestOutputHelper output): base(output)
+        public CartItemsControllerTests(ITestOutputHelper output): base(output)
         {
         }
 

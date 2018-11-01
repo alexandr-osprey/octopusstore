@@ -17,9 +17,9 @@ using ApplicationCore.Interfaces.Services;
 
 namespace UnitTests.Controllers
 {
-    public class CategoryControllerTests : ControllerTests<Category, CategoryViewModel, ICategoriesController, ICategoryService>
+    public class CategoriesControllerTests : ControllerTests<Category, CategoryViewModel, ICategoriesController, ICategoryService>
     {
-        public CategoryControllerTests(ITestOutputHelper output) : base(output)
+        public CategoriesControllerTests(ITestOutputHelper output) : base(output)
         {
         }
 

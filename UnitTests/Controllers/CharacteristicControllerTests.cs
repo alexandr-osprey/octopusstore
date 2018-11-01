@@ -1,9 +1,6 @@
 ﻿using ApplicationCore.Entities;
-using ApplicationCore.Interfaces;
 using ApplicationCore.Specifications;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
-using OctopusStore.Controllers;
 using ApplicationCore.ViewModels;
 using System;
 using System.Linq;
@@ -16,10 +13,10 @@ using System.Collections.Generic;
 
 namespace UnitTests.Controllers
 {
-    public class CharacteristicControllerTests: ControllerTests<Characteristic, CharacteristicViewModel, ICharacteristicsController, ICharacteristicService>
+    public class CharacteristicsControllerTests: ControllerTests<Characteristic, CharacteristicViewModel, ICharacteristicsController, ICharacteristicService>
     {
         private readonly ICategoryService _categoryService;
-        public CharacteristicControllerTests(ITestOutputHelper output) : base(output)
+        public CharacteristicsControllerTests(ITestOutputHelper output) : base(output)
         {
             _categoryService = Resolve<ICategoryService>();
         }
