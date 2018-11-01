@@ -3,7 +3,7 @@ using ApplicationCore.ViewModels;
 
 namespace ApplicationCore.Interfaces.Controllers
 {
-    public interface ICharacteristicController: IController<Characteristic, CharacteristicViewModel>
+    public interface ICharacteristicValuesController: IController<CharacteristicValue, CharacteristicValueViewModel>
     {
     }
 }
