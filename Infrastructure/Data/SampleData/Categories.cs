@@ -1,5 +1,7 @@
 ﻿using ApplicationCore.Entities;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Infrastructure.Data.SampleData
 {
@@ -27,17 +29,31 @@ namespace Infrastructure.Data.SampleData
 
         protected override IEnumerable<Category> GetSourceEntities()
         {
-            return new List<Category>
+            var catetories = new List<Category>
             {
                 new Category { Title = "Categories", CanHaveItems = true, OwnerId = Users.AdminId },
-                new Category { Title = "Electronics",  ParentCategoryId = 1, CanHaveItems = false, OwnerId = Users.AdminId }, //1
-                new Category { Title = "Smartphones",  ParentCategoryId = 2, CanHaveItems = true, OwnerId = Users.AdminId}, //2
-                new Category { Title = "Smartwatches", ParentCategoryId = 2, CanHaveItems = true, OwnerId = Users.AdminId}, //3
+                new Category { Title = "Electronics",  CanHaveItems = false, OwnerId = Users.AdminId }, //1
+                new Category { Title = "Smartphones",  CanHaveItems = true, OwnerId = Users.AdminId}, //2
+                new Category { Title = "Smartwatches", CanHaveItems = true, OwnerId = Users.AdminId}, //3
 
-                new Category { Title = "Clothes",  ParentCategoryId = 1, CanHaveItems = false, OwnerId = Users.AdminId}, //4
-                new Category { Title = "Shoes", ParentCategoryId = 5, CanHaveItems = true, OwnerId = Users.AdminId}, //5
-                new Category { Title = "Jackets", ParentCategoryId = 5, CanHaveItems = true, OwnerId = Users.AdminId}, //6
+                new Category { Title = "Clothes", CanHaveItems = false, OwnerId = Users.AdminId}, //4
+                new Category { Title = "Shoes", CanHaveItems = true, OwnerId = Users.AdminId}, //5
+                new Category { Title = "Jackets", CanHaveItems = true, OwnerId = Users.AdminId}, //6
             };
+            return catetories;
+        }
+
+        protected override void AfterSeed(List<Category> categories)
+        {
+            categories[1].ParentCategoryId = categories[0].Id;
+            categories[4].ParentCategoryId = categories[0].Id;
+            categories[2].ParentCategoryId = categories[1].Id;
+            categories[3].ParentCategoryId = categories[1].Id;
+            categories[5].ParentCategoryId = categories[4].Id;
+            categories[6].ParentCategoryId = categories[4].Id;
+            //_storeContext.UpdateRange(categories);
+            _storeContext.SaveChanges();
+            base.AfterSeed(categories);
         }
     }
 }

@@ -21,12 +21,23 @@ namespace Infrastructure.Data.SampleData
 
         protected void Seed()
         {
-            if (!_storeContext.Set<T>().Any())
-            {
-                _storeContext.AddRange(GetSourceEntities());
-                _storeContext.SaveChanges();
-            }
+            BeforeSeed();
+            _storeContext.Set<T>().RemoveRange(_storeContext.Set<T>());
+            _storeContext.SaveChanges();
+            var savingEntities = GetSourceEntities();
+            _storeContext.AddRange(savingEntities);
+            _storeContext.SaveChanges();
+            AfterSeed(savingEntities.ToList());
             _entities = _storeContext.Set<T>().AsNoTracking().ToList();
+        }
+
+        protected virtual void BeforeSeed()
+        {
+
+        }
+        protected virtual void AfterSeed(List<T> entities)
+        {
+            
         }
     }
 }

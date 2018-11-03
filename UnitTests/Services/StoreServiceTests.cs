@@ -16,24 +16,24 @@ namespace UnitTests.Services
         {
         }
 
-        protected override async Task<IEnumerable<Store>> GetCorrectEntitesForUpdateAsync()
+        protected override IEnumerable<Store> GetCorrectEntitesForUpdate()
         {
-            var first = await _context.Set<Store>().FirstOrDefaultAsync();
-            first.Title = "Upd 1";
-            first.Description = "Upd 1";
-            first.Address = "Upd 1";
+            var store = _data.Stores.Jennifers;
+            store.Title = "Upd 1";
+            store.Description = "Upd 1";
+            store.Address = "Upd 1";
             return new List<Store>()
             {
-                first
+                store
             };
         }
 
-        protected override async Task<IEnumerable<Store>> GetCorrectNewEntitesAsync()
+        protected override IEnumerable<Store> GetCorrectNewEntites()
         {
-            return await Task.FromResult(new List<Store>()
+            return new List<Store>()
             {
                 new Store() { Title = "New store",  Address = "New address", Description = "New desc "}
-            });
+            };
         }
 
         protected override Specification<Store> GetEntitiesToDeleteSpecification()
@@ -41,9 +41,9 @@ namespace UnitTests.Services
             return new Specification<Store>(s => s.Title.Contains("Jennifer"));
         }
 
-        protected override async Task<IEnumerable<Store>> GetIncorrectEntitesForUpdateAsync()
+        protected override IEnumerable<Store> GetIncorrectEntitesForUpdate()
         {
-            var first = await _context.Set<Store>().FirstOrDefaultAsync();
+            var first = _data.Stores.Jennifers;
             first.Title = null;
             first.Description = "Upd 1";
             first.Address = "Upd 1";
@@ -53,9 +53,9 @@ namespace UnitTests.Services
             };
         }
 
-        protected override async Task<IEnumerable<Store>> GetIncorrectNewEntitesAsync()
+        protected override IEnumerable<Store> GetIncorrectNewEntites()
         {
-            var first = await _context.Set<Store>().FirstOrDefaultAsync();
+            var first = _data.Stores.Johns;
             first.Title = null;
             first.Description = "Upd 1";
             first.Address = "Upd 1";

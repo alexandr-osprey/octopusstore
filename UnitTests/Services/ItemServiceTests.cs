@@ -18,33 +18,33 @@ namespace UnitTests.Services
         {
         }
 
-        protected override async Task<IEnumerable<Item>> GetCorrectEntitesForUpdateAsync()
+        protected override IEnumerable<Item> GetCorrectEntitesForUpdate()
         {
-            var firstItem = await GetQueryable().FirstOrDefaultAsync();
-            firstItem.Title = "Updated title";
-            firstItem.Description = "Updated Description";
+            var item = _data.Items.Jacket;
+            item.Title = "Updated title";
+            item.Description = "Updated Description";
             return new List<Item>()
             {
-                firstItem
+                item
             };
         }
 
-        protected override async Task<IEnumerable<Item>> GetCorrectNewEntitesAsync()
+        protected override IEnumerable<Item> GetCorrectNewEntites()
         {
-            var firstItem = await _context.Set<Item>().FirstOrDefaultAsync();
-            firstItem.Id = 0;
-            firstItem.Description = "desc1";
             return new List<Item>()
             {
-                firstItem
+                new Item()
+                {
+                    BrandId = _data.Brands.CK.Id,
+                    CategoryId = _data.Categories.Shoes.Id,
+                    MeasurementUnitId = _data.MeasurementUnits.Pcs.Id,
+                    StoreId = _data.Stores.Jennifers.Id,
+                    Description = "Desc",
+                    Title = "title",
+                }
             };
         }
 
-        protected override async Task AfterDeleteAsync(Item entity)
-        {
-            await base.AfterDeleteAsync(entity);
-            //StoreContextSeed.EnsureFilesAreInPlace();
-        }
         protected override async Task AssertRelatedDeleted(Item entity)
         {
             Assert.False(await _context.Set<ItemImage>().AnyAsync(i => i.RelatedId == entity.Id));
@@ -54,89 +54,88 @@ namespace UnitTests.Services
             return new Specification<Item>(i => i.Title.Contains("iPhone"));
         }
 
-        protected override async Task<IEnumerable<Item>> GetIncorrectEntitesForUpdateAsync()
+        protected override IEnumerable<Item> GetIncorrectEntitesForUpdate()
         {
-            var firstItem = await GetQueryable().FirstOrDefaultAsync();
-            firstItem.Title = null;
+            _data.Items.PebbleWatch.Title = null;
             return new List<Item>()
             {
-                firstItem
+                _data.Items.PebbleWatch
             };
         }
 
-        protected override async Task<IEnumerable<Item>> GetIncorrectNewEntitesAsync()
+        protected override IEnumerable<Item> GetIncorrectNewEntites()
         {
-            var firstItem = await GetQueryable().FirstOrDefaultAsync();
+            var item = _data.Items.Samsung8;
             return new List<Item>()
             {
                 new Item()
                 {
                     Title = null,
-                    BrandId = firstItem.BrandId,
-                    CategoryId = firstItem.CategoryId,
-                    Description = firstItem.Description,
-                    OwnerId = firstItem.OwnerId,
-                    MeasurementUnitId = firstItem.MeasurementUnitId,
-                    StoreId = firstItem.StoreId
+                    BrandId = item.BrandId,
+                    CategoryId = item.CategoryId,
+                    Description = item.Description,
+                    OwnerId = item.OwnerId,
+                    MeasurementUnitId = item.MeasurementUnitId,
+                    StoreId = item.StoreId
                 },
                 new Item()
                 {
-                    Title = firstItem.Title,
+                    Title = item.Title,
                     BrandId = 99,
-                    CategoryId = firstItem.CategoryId,
-                    Description = firstItem.Description,
-                    OwnerId = firstItem.OwnerId,
-                    MeasurementUnitId = firstItem.MeasurementUnitId,
-                    StoreId = firstItem.StoreId
+                    CategoryId = item.CategoryId,
+                    Description = item.Description,
+                    OwnerId = item.OwnerId,
+                    MeasurementUnitId = item.MeasurementUnitId,
+                    StoreId = item.StoreId
                 },
                 new Item()
                 {
-                    Title = firstItem.Title,
-                    BrandId = firstItem.BrandId,
+                    Title = item.Title,
+                    BrandId = item.BrandId,
                     CategoryId = 1,
-                    Description = firstItem.Description,
-                    OwnerId = firstItem.OwnerId,
-                    MeasurementUnitId = firstItem.MeasurementUnitId,
-                    StoreId = firstItem.StoreId
+                    Description = item.Description,
+                    OwnerId = item.OwnerId,
+                    MeasurementUnitId = item.MeasurementUnitId,
+                    StoreId = item.StoreId
                 },
                 new Item()
                 {
-                    Title = firstItem.Title,
-                    BrandId = firstItem.BrandId,
+                    Title = item.Title,
+                    BrandId = item.BrandId,
                     CategoryId = 99,
-                    Description = firstItem.Description,
-                    OwnerId = firstItem.OwnerId,
-                    MeasurementUnitId = firstItem.MeasurementUnitId,
-                    StoreId = firstItem.StoreId
+                    Description = item.Description,
+                    OwnerId = item.OwnerId,
+                    MeasurementUnitId = item.MeasurementUnitId,
+                    StoreId = item.StoreId
                 },
                 new Item()
                 {
-                    Title = firstItem.Title,
-                    BrandId = firstItem.BrandId,
-                    CategoryId = firstItem.CategoryId,
+                    Title = item.Title,
+                    BrandId = item.BrandId,
+                    CategoryId = item.CategoryId,
                     Description = null,
-                    OwnerId = firstItem.OwnerId,
-                    MeasurementUnitId = firstItem.MeasurementUnitId,
-                    StoreId = firstItem.StoreId
+                    OwnerId = item.OwnerId,
+                    MeasurementUnitId = item.MeasurementUnitId,
+                    StoreId = item.StoreId
                 },
                 new Item()
                 {
-                    Title = firstItem.Title,
-                    BrandId = firstItem.BrandId,
-                    CategoryId = firstItem.CategoryId,
-                    Description = firstItem.Description,
-                    OwnerId = firstItem.OwnerId,
+                    Title = item.Title,
+                    BrandId = item.BrandId,
+                    CategoryId = item.CategoryId,
+                    Description = item.Description,
+                    OwnerId = item.OwnerId,
                     MeasurementUnitId = 99,
-                    StoreId = firstItem.StoreId
+                    StoreId = item.StoreId
                 },
                 new Item()
                 {
-                    Title = firstItem.Title,
-                    BrandId = firstItem.BrandId,
-                    CategoryId = firstItem.CategoryId,
-                    Description = firstItem.Description,
-                    OwnerId = firstItem.OwnerId,
-                    MeasurementUnitId = firstItem.MeasurementUnitId,
+                    Title = item.Title,
+                    BrandId = item.BrandId,
+                    CategoryId = item.CategoryId,
+                    Description = item.Description,
+                    OwnerId = item.OwnerId,
+                    MeasurementUnitId = item.MeasurementUnitId,
                     StoreId = 99
                 },
             };

@@ -29,13 +29,15 @@ namespace UnitTests
         [Fact]
         public virtual async Task CreateAsync()
         {
-            foreach(var correctNewEntity in await GetCorrectNewEntitesAsync())
+            foreach(var correctNewEntity in GetCorrectNewEntites())
             {
                 var newEntity = await _service.CreateAsync(correctNewEntity);
                 await AssertCreateSuccessAsync(newEntity);
             }
         }
-        protected abstract Task<IEnumerable<TEntity>> GetCorrectNewEntitesAsync();
+
+        protected abstract IEnumerable<TEntity> GetCorrectNewEntites();
+
         protected virtual async Task AssertCreateSuccessAsync(TEntity created)
         {
             Assert.NotEqual(0, created.Id);
@@ -44,14 +46,14 @@ namespace UnitTests
         }
 
         [Fact]
-        public virtual async Task CreateAsyncThrowsValidationException()
+        public virtual async Task CreateAsyncThrowsValidationExceptionAsync()
         {
-            foreach (var incorrectEntity in await GetIncorrectNewEntitesAsync())
+            foreach (var incorrectEntity in GetIncorrectNewEntites())
             {
                 await Assert.ThrowsAsync<EntityValidationException>(() => _service.CreateAsync(incorrectEntity));
             }
         }
-        protected abstract Task<IEnumerable<TEntity>> GetIncorrectNewEntitesAsync();
+        protected abstract IEnumerable<TEntity> GetIncorrectNewEntites();
 
         [Fact]
         public async Task ReadSingleAsync()
@@ -62,7 +64,7 @@ namespace UnitTests
         }
 
         [Fact]
-        public async Task ReadSingleAsyncThrowsNotFoundException()
+        public async Task ReadSingleAsyncThrowsNotFoundExceptionAsync()
         {
             await Assert.ThrowsAsync<EntityNotFoundException>(() => _service.ReadSingleAsync(new EntitySpecification<TEntity>(9999)));
         }
@@ -74,6 +76,7 @@ namespace UnitTests
             var actual = await _service.EnumerateAsync(new Specification<TEntity>(e => true));
             Equal(expected, actual);
         }
+
         [Fact]
         public async Task EnumerateWithPaging()
         {
@@ -85,7 +88,7 @@ namespace UnitTests
             var spec = new Specification<TEntity>(e => true);
             spec.SetPaging(page, pageSize);
             var actual = await _service.EnumerateAsync(spec);
-            var expected = await _context.Set<TEntity>().Skip(pageSize * (page - 1)).Take(pageSize).ToListAsync();
+            var expected = await _context.Set<TEntity>().AsNoTracking().Skip(pageSize * (page - 1)).Take(pageSize).ToListAsync();
             Equal(actual, expected);
         }
         [Fact]
@@ -95,25 +98,27 @@ namespace UnitTests
             var actual = await _service.EnumerateAsync(new Specification<TEntity>(e => false));
             Equal(expected, actual);
         }
+
         [Fact]
         public async Task UpdateAsync()
         {
-            foreach (var entityToUpdate in await GetCorrectEntitesForUpdateAsync())
+            foreach (var entityToUpdate in GetCorrectEntitesForUpdate())
             {
                 Equal(entityToUpdate, await _service.UpdateAsync(entityToUpdate));
             }
         }
-        protected abstract Task<IEnumerable<TEntity>> GetCorrectEntitesForUpdateAsync();
+
+        protected abstract IEnumerable<TEntity> GetCorrectEntitesForUpdate();
 
         [Fact]
-        public async Task UpdateThrowsEntityValidationException()
+        public async Task UpdateThrowsEntityValidationExceptionAsync()
         {
-            foreach (var incorrectEntity in await GetIncorrectEntitesForUpdateAsync())
+            foreach (var incorrectEntity in GetIncorrectEntitesForUpdate())
             {
                 await Assert.ThrowsAsync<EntityValidationException>(() => _service.UpdateAsync(incorrectEntity));
             }
         }
-        protected abstract Task<IEnumerable<TEntity>> GetIncorrectEntitesForUpdateAsync();
+        protected abstract IEnumerable<TEntity> GetIncorrectEntitesForUpdate();
 
         [Fact]
         public async Task DeleteSingleAsync()
@@ -121,6 +126,7 @@ namespace UnitTests
             var lastEntity = await _context.Set<TEntity>().LastOrDefaultAsync();
             await DeleteSingleEntityAsync(lastEntity);
         }
+
         [Fact]
         public async Task DeleteAsync()
         {
@@ -130,6 +136,7 @@ namespace UnitTests
                 await DeleteSingleEntityAsync(entityToDelete);
             }
         }
+
         protected async Task DeleteSingleEntityAsync(TEntity entity)
         {
             try
@@ -157,8 +164,9 @@ namespace UnitTests
         {
             await Task.CompletedTask;
         }
+
         [Fact]
-        public async Task DeleteSingleAsyncThrowsNotFoundException()
+        public async Task DeleteSingleAsyncThrowsNotFoundExceptionAsync()
         {
             await Assert.ThrowsAsync<EntityNotFoundException>(() => _service.DeleteSingleAsync(new EntitySpecification<TEntity>(9999)));
         }

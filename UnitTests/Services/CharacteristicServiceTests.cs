@@ -1,9 +1,7 @@
 ﻿using ApplicationCore.Entities;
 using ApplicationCore.Interfaces.Services;
 using ApplicationCore.Specifications;
-using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Xunit.Abstractions;
 
 namespace UnitTests.Services
@@ -15,43 +13,43 @@ namespace UnitTests.Services
         {
         }
 
-        protected override async Task<IEnumerable<Characteristic>> GetCorrectNewEntitesAsync()
+        protected override IEnumerable<Characteristic> GetCorrectNewEntites()
         {
-            return await Task.FromResult(
-                new List<Characteristic>()
-                {
-                    new Characteristic() { Title = "title 1", CategoryId = 2 },
-                    new Characteristic() { Title = "title 2", CategoryId = 3},
-                });
+            return new List<Characteristic>()
+            {
+                new Characteristic() { Title = "title 1", CategoryId = _data.Categories.Jackets.Id },
+                new Characteristic() { Title = "title 2", CategoryId = _data.Categories.Smartphones.Id },
+            };
         }
-        protected override async Task<IEnumerable<Characteristic>> GetIncorrectNewEntitesAsync()
+
+        protected override IEnumerable<Characteristic> GetIncorrectNewEntites()
         {
-            return await Task.FromResult(
-                new List<Characteristic>()
-                {
-                    new Characteristic() { Title = null, CategoryId = 2 },
-                    new Characteristic() { Title = "new2", CategoryId = 0 },
-                });
+            return new List<Characteristic>()
+            {
+                new Characteristic() { Title = null, CategoryId = _data.Categories.Jackets.Id },
+                new Characteristic() { Title = "new2", CategoryId = 0 },
+            };
         }
+
         protected override Specification<Characteristic> GetEntitiesToDeleteSpecification()
         {
-            return new EntitySpecification<Characteristic>(2);
+            return new EntitySpecification<Characteristic>(c => c == _data.Characteristics.Fashion);
         }
-        protected override async Task<IEnumerable<Characteristic>> GetCorrectEntitesForUpdateAsync()
+
+        protected override IEnumerable<Characteristic> GetCorrectEntitesForUpdate()
         {
-            var storage = await _context.Set<Characteristic>().FirstOrDefaultAsync(b => b.Title == "Storage");
-            storage.Title = "Updated storage";
-            return new List<Characteristic>() { storage };
+            _data.Characteristics.Storage.Title = "Updated storage";
+            return new List<Characteristic>() { _data.Characteristics.Storage };
         }
-        protected override async Task<IEnumerable<Characteristic>> GetIncorrectEntitesForUpdateAsync()
+
+        protected override IEnumerable<Characteristic> GetIncorrectEntitesForUpdate()
         {
-            var first = await _context.Set<Characteristic>().FirstAsync();
-            return await Task.FromResult(
-                new List<Characteristic>()
-                {
-                 //   new Characteristic() { Id = first.Id, Title = first.Title, CategoryId = first.CategoryId, OwnerId = first.OwnerId },
-                    new Characteristic() { Id = first.Id, Title = "", CategoryId = first.CategoryId, OwnerId = first.OwnerId },
-                });
+            _data.Characteristics.Size.Title = "";
+            return new List<Characteristic>()
+            {
+                //   new Characteristic() { Id = first.Id, Title = first.Title, CategoryId = first.CategoryId, OwnerId = first.OwnerId },
+                _data.Characteristics.Size
+            };
         }
     }
 }

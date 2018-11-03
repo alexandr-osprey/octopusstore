@@ -5,10 +5,10 @@ namespace Infrastructure.Data.SampleData
 {
     public class Items: SampleDataEntities<Item>
     {
-        public Brands Brands { get; }
-        public Stores Stores { get; }
-        public Categories Categories { get; }
-        public MeasurementUnits MeasurementUnits { get; }
+        protected Brands Brands { get; }
+        protected Stores Stores { get; }
+        protected Categories Categories { get; }
+        protected MeasurementUnits MeasurementUnits { get; }
 
         public Item IPhone6 { get; }
         public Item Samsung7 { get; }

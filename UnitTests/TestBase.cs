@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Claims;
+using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
@@ -55,7 +56,7 @@ namespace UnitTests
         protected int _maxTake = 200;
         protected StoreContext _context;
         protected AppIdentityDbContext _identityContext;
-        protected readonly SampleData _sampleData;
+        protected readonly SampleData _data;
         protected static string johnId = "john@mail.com";
         protected static string adminId = "admin@mail.com";
 
@@ -64,7 +65,9 @@ namespace UnitTests
             var logger = Resolve<IAppLogger<StoreContext>>();
             _logger = Resolve<IAppLogger<TestBase<TEntity>>>();
             _context = Resolve<StoreContext>();
-            _sampleData = new SampleData(Resolve<StoreContext>());
+            
+            _data = new SampleData(Resolve<StoreContext>());
+            //Thread.Sleep(1000);
             //_context.DetachAllEntities();
             NLog.LogManager.Configuration = new NLog.Config.XmlLoggingConfiguration("NLog.config", false);
             _output = output;

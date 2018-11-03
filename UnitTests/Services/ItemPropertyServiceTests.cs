@@ -17,44 +17,6 @@ namespace UnitTests.Services
         {
         }
 
-        protected override async Task<IEnumerable<ItemProperty>> GetCorrectNewEntitesAsync()
-        {
-            var newVariant = await _context.Set<ItemVariant>().AddAsync(new ItemVariant() { ItemId = 1, OwnerId = johnId, Price = 100 });
-            await _context.SaveChangesAsync();
-            return new List<ItemProperty>()
-                {
-                    new ItemProperty() { ItemVariantId = newVariant.Entity.Id, CharacteristicValueId = 1},
-                    new ItemProperty() { ItemVariantId = newVariant.Entity.Id, CharacteristicValueId = 4 },
-                };
-        }
-        protected override async Task<IEnumerable<ItemProperty>> GetIncorrectNewEntitesAsync()
-        {
-            return await Task.FromResult(
-                new List<ItemProperty>()
-                {
-                    new ItemProperty() {  ItemVariantId = 1, CharacteristicValueId = 999, OwnerId = johnId },
-                    new ItemProperty() {  ItemVariantId = 1, CharacteristicValueId = 8, OwnerId = johnId },
-                    new ItemProperty() {  ItemVariantId = 999, CharacteristicValueId = 5, OwnerId = johnId },
-                });
-        }
-        protected override Specification<ItemProperty> GetEntitiesToDeleteSpecification()
-        {
-            return new EntitySpecification<ItemProperty>(2);
-        }
-        protected override async Task<IEnumerable<ItemProperty>> GetCorrectEntitesForUpdateAsync()
-        {
-            var first = await _context.Set<ItemProperty>().FirstAsync();
-            first.CharacteristicValueId = 1;
-            return new List<ItemProperty>() { first };
-        }
-        protected override async Task<IEnumerable<ItemProperty>> GetIncorrectEntitesForUpdateAsync()
-        {
-            return await Task.FromResult(
-                new List<ItemProperty>()
-                {
-                    //   new Characteristic() { Id = first.Id, Title = first.Title, CategoryId = first.CategoryId, OwnerId = first.OwnerId },
-                });
-        }
         [Fact]
         public async Task CreateAsyncThrowsAlreadyExists()
         {
@@ -63,14 +25,49 @@ namespace UnitTests.Services
                 await Assert.ThrowsAsync<EntityAlreadyExistsException>(() => _service.CreateAsync(duplicateEntity));
             }
         }
+
+        protected override IEnumerable<ItemProperty> GetCorrectNewEntites()
+        {
+            return new List<ItemProperty>()
+            {
+                new ItemProperty() { ItemVariantId = _data.ItemVariants.JacketBlack.Id, CharacteristicValueId = _data.CharacteristicValues.MuchFashion.Id },
+                new ItemProperty() { ItemVariantId = _data.ItemVariants.Pebble1000mAh.Id, CharacteristicValueId = _data.CharacteristicValues.GB16.Id },
+            };
+        }
+
+        protected override IEnumerable<ItemProperty> GetIncorrectNewEntites()
+        {
+            var iphone664gb = _data.ItemProperties.IPhone664HD;
+            return new List<ItemProperty>()
+            {
+                new ItemProperty() {  ItemVariantId = iphone664gb.ItemVariantId, CharacteristicValueId = 999, OwnerId = iphone664gb.OwnerId },
+                new ItemProperty() {  ItemVariantId = iphone664gb.ItemVariantId, CharacteristicValueId = _data.CharacteristicValues.NotSoFashion.Id, OwnerId = iphone664gb.OwnerId },
+                new ItemProperty() {  ItemVariantId = 999, CharacteristicValueId = iphone664gb.CharacteristicValueId, OwnerId = iphone664gb.OwnerId },
+            };
+        }
+
+        protected override Specification<ItemProperty> GetEntitiesToDeleteSpecification()
+        {
+            return new EntitySpecification<ItemProperty>(i => i == _data.ItemProperties.Samsung732HDHD);
+        }
+
+        protected override IEnumerable<ItemProperty> GetCorrectEntitesForUpdate()
+        {
+            return new List<ItemProperty>() { };
+        }
+
+        protected override IEnumerable<ItemProperty> GetIncorrectEntitesForUpdate()
+        {
+            _data.ItemProperties.Samsung832HDHD.CharacteristicValueId = _data.CharacteristicValues.MuchFashion.Id;
+            return new List<ItemProperty>() { _data.ItemProperties.Samsung832HDHD };
+        }
+        
         protected async Task<IEnumerable<ItemProperty>> GetDuplicateEntitiesAsync()
         {
+            var iphone = _data.ItemProperties.IPhone632GB32;
             return await Task.FromResult(new List<ItemProperty>
             {
-                // first two already exist
-                new ItemProperty() {  CharacteristicValueId = 2, ItemVariantId = 1 },
-                new ItemProperty() {  CharacteristicValueId = 1, ItemVariantId = 1 },
-                new ItemProperty() { CharacteristicValueId = 4, ItemVariantId = 5 },
+                new ItemProperty() {  CharacteristicValueId = iphone.CharacteristicValueId, ItemVariantId = iphone.ItemVariantId },
             });
         }
     }

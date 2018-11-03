@@ -1,9 +1,7 @@
 ﻿using ApplicationCore.Entities;
 using ApplicationCore.Interfaces.Services;
 using ApplicationCore.Specifications;
-using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Xunit.Abstractions;
 
 namespace UnitTests.Services
@@ -15,44 +13,39 @@ namespace UnitTests.Services
         {
         }
 
-        protected override async Task<IEnumerable<CharacteristicValue>> GetCorrectNewEntitesAsync()
+        protected override IEnumerable<CharacteristicValue> GetCorrectNewEntites()
         {
-            return await Task.FromResult(
-                new List<CharacteristicValue>()
-                {
-                    new CharacteristicValue() { Title = "title 1",  CharacteristicId = 1 },
-                    new CharacteristicValue() { Title = "title 2", CharacteristicId = 3 },
-                });
+            return new List<CharacteristicValue>()
+            {
+                new CharacteristicValue() { Title = "title 1",  CharacteristicId = _data.Characteristics.Fashion.Id },
+                new CharacteristicValue() { Title = "title 2", CharacteristicId =  _data.Characteristics.Storage.Id },
+            };
         }
-        protected override async Task<IEnumerable<CharacteristicValue>> GetIncorrectNewEntitesAsync()
+
+        protected override IEnumerable<CharacteristicValue> GetIncorrectNewEntites()
         {
-            return await Task.FromResult(
-                new List<CharacteristicValue>()
-                {
-                    new CharacteristicValue() { Title = null, CharacteristicId = 2 },
-                    new CharacteristicValue() { Title = "new2", CharacteristicId = 0 },
-                });
+            return new List<CharacteristicValue>()
+            {
+                new CharacteristicValue() { Title = null, CharacteristicId = _data.Characteristics.Fashion.Id },
+                new CharacteristicValue() { Title = "new2", CharacteristicId = 0 },
+            };
         }
+
         protected override Specification<CharacteristicValue> GetEntitiesToDeleteSpecification()
         {
-            return new EntitySpecification<CharacteristicValue>(2);
+            return new EntitySpecification<CharacteristicValue>(c => c == _data.CharacteristicValues.GB16);
         }
-        protected override async Task<IEnumerable<CharacteristicValue>> GetCorrectEntitesForUpdateAsync()
+
+        protected override IEnumerable<CharacteristicValue> GetCorrectEntitesForUpdate()
         {
-            var storage = await _context.Set<CharacteristicValue>().FirstOrDefaultAsync(b => b.Title.Contains("32"));
-            storage.Title = "Updated storage";
-            return new List<CharacteristicValue>() { storage };
+            _data.CharacteristicValues.GB16.Title = "Updated storage";
+            return new List<CharacteristicValue>() { _data.CharacteristicValues.GB16 };
         }
-        protected override async Task<IEnumerable<CharacteristicValue>> GetIncorrectEntitesForUpdateAsync()
+
+        protected override IEnumerable<CharacteristicValue> GetIncorrectEntitesForUpdate()
         {
-            var first = await _context.Set<CharacteristicValue>().FirstAsync();
-            first.Title = null;
-            return await Task.FromResult(
-                new List<CharacteristicValue>()
-                {
-                 //   new Characteristic() { Id = first.Id, Title = first.Title, CategoryId = first.CategoryId, OwnerId = first.OwnerId },
-                    first
-                });
+            _data.CharacteristicValues.GB32.Title = null;
+            return new List<CharacteristicValue>() { _data.CharacteristicValues.GB32 };
         }
     }
 }

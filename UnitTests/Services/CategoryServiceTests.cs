@@ -20,7 +20,7 @@ namespace UnitTests.Services
         [Fact]
         public async Task EnumerateByItemHierarchy()
         {
-            int storeId = 1;
+            int storeId = _data.Stores.Johns.Id;
             var categories = await _context.Items
                 .Include(i => i.Category)
                 .Where(i => i.StoreId == storeId)
@@ -40,8 +40,7 @@ namespace UnitTests.Services
         [Fact]
         public async Task EnumeratHierarchy()
         {
-            var electronics = await GetQueryable()
-                .Where(c => c.Title == "Electronics").FirstOrDefaultAsync();
+            var electronics = _data.Categories.Electronics;
 
             HashSet<Category> expected = new HashSet<Category>();
             await GetCategoryHierarchyAsync(electronics.Id, expected);
@@ -50,24 +49,22 @@ namespace UnitTests.Services
             var actual = await _service.EnumerateHierarchyAsync(new EntitySpecification<Category>(electronics.Id));
             Equal(expected, actual);
         }
+
         [Fact]
         public async Task EnumerateSubcategoriesAsync()
         {
-            var clothesCategory = await GetQueryable()
-            .Where(c => c.Title == "Clothes")
-            .FirstOrDefaultAsync();
+            var clothesCategory = _data.Categories.Clothes;
             HashSet<Category> expected = new HashSet<Category>();
             await GetCategorySubcategoriesAsync(clothesCategory.Id, expected);
 
             var actual = await _service.EnumerateSubcategoriesAsync(new EntitySpecification<Category>(clothesCategory.Id));
             Equal(expected, actual);
         }
+
         [Fact]
         public async Task EnumerateParentCategoriesAsync()
         {
-            var clothesCategory = await GetQueryable()
-            .Where(c => c.Title == "Shoes")
-            .FirstOrDefaultAsync();
+            var clothesCategory = _data.Categories.Clothes;
             HashSet<Category> expected = new HashSet<Category>();
             await GetCategoryParentsAsync(clothesCategory.Id, expected);
 
@@ -77,79 +74,76 @@ namespace UnitTests.Services
         [Fact]
         public async Task EnumerateSubcategoriesByItemAsync()
         {
-            var items = await _context.Items
-                .Include(i => i.Category)
-                .Where(i => i.Title.Contains("Samsung") || i.Title.Contains("Shoes"))
-                .ToListAsync();
+            var items = _data.Items.Entities;
             var categories = items
-                .Select(i => i.Category)
-                .GroupBy(i => i.Id)
+                .Select(i => i.CategoryId)
+                .GroupBy(i => i)
                 .Select(grp => grp.First()).ToList();
 
             HashSet<Category> expected = new HashSet<Category>();
-            categories.ForEach(async c => await GetCategorySubcategoriesAsync(c.Id, expected));
+            categories.ForEach(async c => await GetCategorySubcategoriesAsync(c, expected));
 
             var actual = await _service.EnumerateSubcategoriesAsync(new EntitySpecification<Item>(i => items.Contains(i)));
             Equal(expected, actual);
         }
+
         [Fact]
         public async Task EnumerateParentCategoriesByItemAsync()
         {
-            var items = await _context.Items
-                .Include(i => i.Category)
-                .Where(i => i.Title.Contains("Samsung") || i.Title.Contains("Shoes"))
-                .ToListAsync();
+            var items = _data.Items.Entities;
             var categories = items
-                .Select(i => i.Category)
-                .GroupBy(i => i.Id)
+                .Select(i => i.CategoryId)
+                .GroupBy(i => i)
                 .Select(grp => grp.First()).ToList();
 
             HashSet<Category> expected = new HashSet<Category>();
-            categories.ForEach(async c => await GetCategoryParentsAsync(c.Id, expected));
+            categories.ForEach(async c => await GetCategoryParentsAsync(c, expected));
 
-            var actual = await _service.EnumerateParentCategoriesAsync(new EntitySpecification<Category>(c => categories.Contains(c)));
+            var actual = await _service.EnumerateParentCategoriesAsync(new EntitySpecification<Category>(c => categories.Contains(c.Id)));
             Equal(expected, actual);
         }
 
-        protected override async Task<IEnumerable<Category>> GetCorrectNewEntitesAsync()
+        protected override IEnumerable<Category> GetCorrectNewEntites()
         {
-            return await Task.FromResult(new List<Category>()
-            {
-                new Category() { OwnerId = adminId, Description = "Category 2", Title = "Category 2", ParentCategoryId = 1 },
-                new Category() { OwnerId = adminId, Description = "Category 3", Title = "Category 3", ParentCategoryId = 2 },
-            });
-        }
-
-        protected override async Task<IEnumerable<Category>> GetIncorrectNewEntitesAsync()
-        {
-            return await Task.FromResult(new List<Category>()
-            {
-                //new Category() { OwnerId = null, Description = "Category 2", Title = "Category 2", ParentCategoryId = 1 },
-                new Category() { OwnerId = adminId, Description = " ", Title = "Category 3", ParentCategoryId = 2 },
-                new Category() { OwnerId = adminId, Description = "Category 3", Title = "Category 3", ParentCategoryId = 99 },
-                new Category() { OwnerId = adminId, Description = "Category 3", Title = "", ParentCategoryId = 2 },
-            });
-        }
-
-        protected override async Task<IEnumerable<Category>> GetCorrectEntitesForUpdateAsync()
-        {
-            var shoes = await GetQueryable().FirstOrDefaultAsync(c => c.Title == "Shoes");
-            shoes.Title = "Tit1";
-            shoes.Description = "Desc1";
+            var parentId = _data.Categories.Root.Id;
             return new List<Category>()
             {
-                shoes
+                new Category() { OwnerId = adminId, Description = "Category 2", Title = "Category 2", ParentCategoryId = parentId },
+                new Category() { OwnerId = adminId, Description = "Category 3", Title = "Category 3", ParentCategoryId = parentId + 1 },
             };
         }
 
-        protected override async Task<IEnumerable<Category>> GetIncorrectEntitesForUpdateAsync()
+        protected override IEnumerable<Category> GetIncorrectNewEntites()
         {
-            return await Task.FromResult(new List<Category>()
+            var parentId = _data.Categories.Clothes.Id;
+            return new List<Category>()
             {
-                new Category() { Id = 2, Description = " ", Title = "Category 2" },
-                new Category() { Id = 3, Description = "Category 3", Title = "Category 3", ParentCategoryId = 99 },
-                new Category() { Id = 2, Description = "c", Title = "" },
-            });
+                //new Category() { OwnerId = null, Description = "Category 2", Title = "Category 2", ParentCategoryId = 1 },
+                new Category() { OwnerId = adminId, Description = " ", Title = "Category 3", ParentCategoryId = parentId },
+                new Category() { OwnerId = adminId, Description = "Category 3", Title = "Category 3", ParentCategoryId = 99 },
+                new Category() { OwnerId = adminId, Description = "Category 3", Title = "", ParentCategoryId = parentId },
+            };
+        }
+
+        protected override IEnumerable<Category> GetCorrectEntitesForUpdate()
+        {
+            _data.Categories.Shoes.Title = "Tit1";
+            _data.Categories.Shoes.Description = "Desc1";
+            return new List<Category>()
+            {
+                _data.Categories.Shoes
+            };
+        }
+
+        protected override IEnumerable<Category> GetIncorrectEntitesForUpdate()
+        {
+            _data.Categories.Electronics.Description = " ";
+            _data.Categories.Jackets.Title = "";
+            return new List<Category>()
+            {
+                _data.Categories.Electronics,
+                _data.Categories.Jackets
+            };
         }
 
         protected override Specification<Category> GetEntitiesToDeleteSpecification()

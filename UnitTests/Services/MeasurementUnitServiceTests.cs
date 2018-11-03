@@ -15,22 +15,21 @@ namespace UnitTests.Services
         {
         }
 
-        protected override async Task<IEnumerable<MeasurementUnit>> GetCorrectEntitesForUpdateAsync()
+        protected override IEnumerable<MeasurementUnit> GetCorrectEntitesForUpdate()
         {
-            var first = await _context.Set<MeasurementUnit>().FirstOrDefaultAsync();
-            first.Title = "Updated";
+            _data.MeasurementUnits.Kg.Title = "Updated";
             return new List<MeasurementUnit>()
             {
-                first
+                _data.MeasurementUnits.Kg
             };
         }
 
-        protected override async Task<IEnumerable<MeasurementUnit>> GetCorrectNewEntitesAsync()
+        protected override IEnumerable<MeasurementUnit> GetCorrectNewEntites()
         {
-            return await Task.FromResult(new List<MeasurementUnit>()
+            return new List<MeasurementUnit>()
             {
                 new MeasurementUnit() { Title = "Title 1" }
-            });
+            };
         }
 
         protected override Specification<MeasurementUnit> GetEntitiesToDeleteSpecification()
@@ -38,22 +37,21 @@ namespace UnitTests.Services
             return new Specification<MeasurementUnit>(m => m.Title == "kg");
         }
 
-        protected override async Task<IEnumerable<MeasurementUnit>> GetIncorrectEntitesForUpdateAsync()
+        protected override IEnumerable<MeasurementUnit> GetIncorrectEntitesForUpdate()
         {
-            var first = await _context.Set<MeasurementUnit>().FirstOrDefaultAsync();
-            first.Title = null;
+            _data.MeasurementUnits.Kg.Title = null;
             return new List<MeasurementUnit>()
             {
-                first
+                _data.MeasurementUnits.Kg
             };
         }
 
-        protected override async Task<IEnumerable<MeasurementUnit>> GetIncorrectNewEntitesAsync()
+        protected override IEnumerable<MeasurementUnit> GetIncorrectNewEntites()
         {
-            return await Task.FromResult(new List<MeasurementUnit>()
+            return new List<MeasurementUnit>()
             {
                 new MeasurementUnit() { Title = "" }
-            });
+            };
         }
     }
 }

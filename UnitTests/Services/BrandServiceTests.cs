@@ -1,9 +1,7 @@
 ﻿using ApplicationCore.Entities;
 using ApplicationCore.Interfaces.Services;
 using ApplicationCore.Specifications;
-using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Xunit.Abstractions;
 
 namespace UnitTests.Services
@@ -15,42 +13,31 @@ namespace UnitTests.Services
         {
         }
 
-        protected override async Task<IEnumerable<Brand>> GetCorrectNewEntitesAsync()
+        protected override IEnumerable<Brand> GetCorrectNewEntites()
         {
-            return await Task.FromResult(
-                new List<Brand>()
-                {
-                    new Brand() { Title = "Brand title 1"},
-                    new Brand() { Title = "Brand title 2"},
-                });
+            return new List<Brand>() { new Brand() { Title = "Brand title 1"}, new Brand() { Title = "Brand title 2"} };
         }
-        protected override async Task<IEnumerable<Brand>> GetIncorrectNewEntitesAsync()
+
+        protected override IEnumerable<Brand> GetIncorrectNewEntites()
         {
-            return await Task.FromResult(
-                new List<Brand>()
-                {
-                    new Brand() { Title = null},
-                });
+            return new List<Brand>() { new Brand() { Title = null} };
         }
+
         protected override Specification<Brand> GetEntitiesToDeleteSpecification()
         {
             return new Specification<Brand>(b => b.Title.Contains("Samsung"));
         }
-        protected override async Task<IEnumerable<Brand>> GetCorrectEntitesForUpdateAsync()
+
+        protected override IEnumerable<Brand> GetCorrectEntitesForUpdate()
         {
-            var apple = await GetQueryable().FirstOrDefaultAsync(b => b.Title == "Apple");
-            apple.Title = "Apple 1";
-            return new List<Brand>() { apple };
+            _data.Brands.Apple.Title = "Updated";
+            return new List<Brand>() { _data.Brands.Apple };
         }
-        protected override async Task<IEnumerable<Brand>> GetIncorrectEntitesForUpdateAsync()
+
+        protected override IEnumerable<Brand> GetIncorrectEntitesForUpdate()
         {
-            return await Task.FromResult(
-                new List<Brand>()
-                {
-                    new Brand() { Id = 1, Title = null},
-                    new Brand() { Id = 1, Title = "" },
-                    new Brand() { Id = 1, Title = " "},
-                });
+            int id = _data.Brands.Armani.Id;
+            return new List<Brand>() { new Brand() { Id = id, Title = null}, new Brand() { Id = id, Title = "" }, new Brand() { Id = id, Title = " "}, };
         }
     }
 }

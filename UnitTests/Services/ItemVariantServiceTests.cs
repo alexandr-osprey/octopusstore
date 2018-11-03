@@ -16,50 +16,49 @@ namespace UnitTests.Services
         {
         }
 
-        protected override async Task<IEnumerable<ItemVariant>> GetCorrectEntitesForUpdateAsync()
+        protected override IEnumerable<ItemVariant> GetCorrectEntitesForUpdate()
         {
-            var first = await _context.Set<ItemVariant>().FirstOrDefaultAsync();
-            first.Title = "Updated";
-            first.Price = 999;
+            var itemVariant = _data.ItemVariants.IPhone664GB;
+            itemVariant.Title = "Updated";
+            itemVariant.Price = 999;
             return new List<ItemVariant>()
             {
-                first
+                itemVariant
             };
         }
 
-        protected override async Task<IEnumerable<ItemVariant>> GetCorrectNewEntitesAsync()
+        protected override IEnumerable<ItemVariant> GetCorrectNewEntites()
         {
-            return await Task.FromResult(new List<ItemVariant>()
+            return new List<ItemVariant>()
             {
-                new ItemVariant() { ItemId = 1, Title = "title 1", Price = 500 },
-                new ItemVariant() { ItemId = 2, Title = "title 2", Price = 100 },
-                new ItemVariant() { ItemId = 3, Title = "title 3", Price = 300 },
-            });
+                new ItemVariant() { ItemId = _data.Items.IPhone6.Id, Title = "title 1", Price = 500 },
+            };
         }
 
         protected override Specification<ItemVariant> GetEntitiesToDeleteSpecification()
         {
-            return new Specification<ItemVariant>(i => i.Title.Contains("iPhone"));
+            return new Specification<ItemVariant>(i => i.Title.Contains("Samsung"));
         }
 
-        protected override async Task<IEnumerable<ItemVariant>> GetIncorrectEntitesForUpdateAsync()
+        protected override IEnumerable<ItemVariant> GetIncorrectEntitesForUpdate()
         {
-            var first = await _context.Set<ItemVariant>().FirstOrDefaultAsync();
+            var itemVariant = _data.ItemVariants.JacketBlack;
             return new List<ItemVariant>()
             {
-                new ItemVariant() { Id = first.Id, Title = "", ItemId = first.ItemId, OwnerId = first.OwnerId, Price = first.Price },
-                new ItemVariant() { Id = first.Id, Title = first.Title, ItemId = first.ItemId, OwnerId = first.OwnerId, Price = 0 },
+                new ItemVariant() { Id = itemVariant.Id, Title = "", ItemId = itemVariant.ItemId, OwnerId = itemVariant.OwnerId, Price = itemVariant.Price },
+                new ItemVariant() { Id = itemVariant.Id, Title = itemVariant.Title, ItemId = itemVariant.ItemId, OwnerId = itemVariant.OwnerId, Price = 0 },
             };
         }
 
-        protected override async Task<IEnumerable<ItemVariant>> GetIncorrectNewEntitesAsync()
+        protected override IEnumerable<ItemVariant> GetIncorrectNewEntites()
         {
-            return await Task.FromResult(new List<ItemVariant>()
+            var itemVariant = _data.ItemVariants.JacketBlack;
+            return new List<ItemVariant>()
             {
                 new ItemVariant() { ItemId = 0, Title = "title 1", Price = 500 },
-                new ItemVariant() { ItemId = 2, Title = null, Price = 100 },
-                new ItemVariant() { ItemId = 3, Title = "title 3", Price = 0 },
-            });
+                new ItemVariant() { ItemId = itemVariant.ItemId, Title = null, Price = 100 },
+                new ItemVariant() { ItemId = itemVariant.ItemId, Title = "title 3", Price = 0 },
+            };
         }
 
         protected override IQueryable<ItemVariant> GetQueryable()

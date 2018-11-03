@@ -38,7 +38,6 @@ namespace Infrastructure.Data.SampleData
 
         protected override IEnumerable<ItemImage> GetSourceEntities()
         {
-            EnsureFilesAreInPlace();
             return new List<ItemImage>
             {
                 new ItemImage("iPhone 6 - 1", ItemImageContentType, Items.IPhone6.Id, null) { OwnerId = Users.JohnId, FullPath = Path.Combine(PathToFiles, Users.JohnId, "iPhone 6 - 1.jpg"),  },
@@ -53,9 +52,15 @@ namespace Infrastructure.Data.SampleData
             };
         }
 
-        public void EnsureFilesAreInPlace()
+        protected override void AfterSeed(List<ItemImage> entities)
         {
-            foreach (var itemImage in Entities)
+            EnsureFilesAreInPlace(entities);
+            base.AfterSeed(entities);
+        }
+
+        public void EnsureFilesAreInPlace(List<ItemImage> entities)
+        {
+            foreach (var itemImage in entities)
             {
                 if (!File.Exists(itemImage.FullPath))
                 {

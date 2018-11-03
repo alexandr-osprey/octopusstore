@@ -13,6 +13,7 @@ namespace Infrastructure.Data.SampleData
         public Characteristic Size { get; }
         public Characteristic Fashion { get; }
         public Characteristic Colour { get; }
+        public Characteristic Univercal { get; }
 
         public Characteristics(StoreContext storeContext, Categories categories): base(storeContext)
         {
@@ -24,6 +25,7 @@ namespace Infrastructure.Data.SampleData
             Size = Entities[3];
             Fashion = Entities[4];
             Colour = Entities[5];
+            Univercal = Entities[6];
         }
 
         protected override IEnumerable<Characteristic> GetSourceEntities()
@@ -37,6 +39,7 @@ namespace Infrastructure.Data.SampleData
                 new Characteristic { Title = "Size", CategoryId = Categories.Clothes.Id, OwnerId = Users.AdminId }, //3
                 new Characteristic { Title = "Fashion", CategoryId = Categories.Clothes.Id, OwnerId = Users.AdminId }, //4
                 new Characteristic { Title = "Colour", CategoryId = Categories.Jackets.Id, OwnerId = Users.AdminId }, //5
+                new Characteristic { Title = "Universal", CategoryId = Categories.Root.Id, OwnerId = Users.AdminId }, //5
             };
         }
     }
