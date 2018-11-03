@@ -1,4 +1,6 @@
-﻿namespace ApplicationCore.Entities
+﻿using ApplicationCore.Interfaces;
+
+namespace ApplicationCore.Entities
 {
     /// <summary>
     /// Abstract entity with Id and OwnerId. Has Equals method overriden for comparison (and therefore searching) by Id, ToString overridden for verbose logging.
@@ -10,7 +12,7 @@
         public Entity()
         {
         }
-        public Entity(Entity entity)
+        protected Entity(Entity entity)
         {
             Id = entity.Id;
             OwnerId = entity.OwnerId;
@@ -20,6 +22,7 @@
         public bool Equals(Entity other) => null != other && Id == other.Id;
         public override bool Equals(object obj) => Equals(obj as Entity);
         public override int GetHashCode() => Id;
+
         /// <summary>
         /// Id of a user who created this Entity. May be used for authorization.
         /// </summary>

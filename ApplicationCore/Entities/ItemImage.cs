@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using ApplicationCore.Interfaces;
 using System.IO;
 
 namespace ApplicationCore.Entities
@@ -6,7 +6,7 @@ namespace ApplicationCore.Entities
     /// <summary>
     /// Image of an Item
     /// </summary>
-    public class ItemImage: Image<Item>
+    public class ItemImage: Image<Item>, IGenericMemberwiseClonable<ItemImage>
     {
         public ItemImage(): base()
         {
@@ -19,6 +19,14 @@ namespace ApplicationCore.Entities
         public ItemImage(string title, string contentType, int relatedId)
            : this(title, contentType, relatedId, null)
         {
+        }
+        protected ItemImage(ItemImage itemImage): base(itemImage)
+        {
+        }
+
+        public ItemImage ShallowClone()
+        {
+            return (ItemImage)MemberwiseClone();
         }
     }
 }

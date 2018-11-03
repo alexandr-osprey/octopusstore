@@ -43,7 +43,7 @@ namespace UnitTests.Services
         protected override async Task AfterDeleteAsync(Item entity)
         {
             await base.AfterDeleteAsync(entity);
-            StoreContextSeed.EnsureFilesAreInPlace();
+            //StoreContextSeed.EnsureFilesAreInPlace();
         }
         protected override async Task AssertRelatedDeleted(Item entity)
         {

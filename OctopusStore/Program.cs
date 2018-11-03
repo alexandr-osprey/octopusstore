@@ -1,6 +1,7 @@
 using System;
 using ApplicationCore.Interfaces;
 using Infrastructure.Data;
+using Infrastructure.Data.SampleData;
 using Infrastructure.Identity;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
@@ -25,7 +26,8 @@ namespace OctopusStore
                     AppIdentityDbContextSeed.SeedAsync(services, userManager).Wait();
 
                     var storeContext = services.GetRequiredService<StoreContext>();
-                    StoreContextSeed.SeedStoreAsync(storeContext, logger).Wait();
+                    //StoreContextSeed.SeedStoreAsync(storeContext, logger).Wait();
+                    var sampleData = new SampleData(storeContext);
                 }
                 catch (Exception ex)
                 {

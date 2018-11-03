@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ApplicationCore.Interfaces;
+using System;
 using System.Collections.Generic;
 
 namespace ApplicationCore.Entities
@@ -6,7 +7,7 @@ namespace ApplicationCore.Entities
     /// <summary>
     /// Store for seller
     /// </summary>
-    public class Store: Entity
+    public class Store: Entity, IGenericMemberwiseClonable<Store>
     {
         public string Title { get; set; }
         public string Description { get; set; }
@@ -14,5 +15,21 @@ namespace ApplicationCore.Entities
         public DateTime RegistrationDate { get; set; }
 
         public IEnumerable<Item> Items { get; set; } = new List<Item>();
+
+        public Store(): base()
+        {
+        }
+        protected Store(Store store): base(store)
+        {
+            Title = store.Title;
+            Description = store.Description;
+            Address = store.Address;
+            RegistrationDate = store.RegistrationDate;
+        }
+
+        public Store ShallowClone()
+        {
+            return (Store)MemberwiseClone();
+        }
     }
 }

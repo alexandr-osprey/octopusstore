@@ -36,6 +36,15 @@ namespace ApplicationCore.Entities
             RelatedId = relatedId;
             InputStream = inputStream;
         }
+        protected FileInfo(FileInfo<T> fileInfo): base(fileInfo)
+        {
+            Title = fileInfo.Title;
+            ContentType = fileInfo.ContentType;
+            RelatedId = fileInfo.RelatedId;
+            FullPath = fileInfo.FullPath;
+            DirectoryPath = fileInfo.DirectoryPath;
+        }
+
         public override string OwnerId
         {
             get => base.OwnerId;

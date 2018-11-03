@@ -1,16 +1,31 @@
-﻿using System.Collections.Generic;
+﻿using ApplicationCore.Interfaces;
+using System.Collections.Generic;
 
 namespace ApplicationCore.Entities
 {
     /// <summary>
     /// Characteristic of a category. Like Storage for Smartphones or Weight for bycicles.
     /// </summary>
-    public class Characteristic: Entity
+    public class Characteristic: Entity, IGenericMemberwiseClonable<Characteristic>
     {
         public string Title { get; set; }
         public int CategoryId { get; set; }
 
         public Category Category { get; set; }
         public ICollection<CharacteristicValue> CharacteristicValues { get; set; } = new List<CharacteristicValue>();
+
+        public Characteristic(): base()
+        {
+        }
+        protected Characteristic(Characteristic characteristic): base(characteristic)
+        {
+            Title = characteristic.Title;
+            CategoryId = characteristic.CategoryId;
+        }
+
+        public Characteristic ShallowClone()
+        {
+            return (Characteristic)MemberwiseClone();
+        }
     }
 }

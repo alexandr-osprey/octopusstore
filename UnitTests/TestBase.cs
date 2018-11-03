@@ -4,6 +4,7 @@ using ApplicationCore.Interfaces;
 using ApplicationCore.Interfaces.Controllers;
 using Infrastructure;
 using Infrastructure.Data;
+using Infrastructure.Data.SampleData;
 using Infrastructure.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -54,6 +55,7 @@ namespace UnitTests
         protected int _maxTake = 200;
         protected StoreContext _context;
         protected AppIdentityDbContext _identityContext;
+        protected readonly SampleData _sampleData;
         protected static string johnId = "john@mail.com";
         protected static string adminId = "admin@mail.com";
 
@@ -62,7 +64,7 @@ namespace UnitTests
             var logger = Resolve<IAppLogger<StoreContext>>();
             _logger = Resolve<IAppLogger<TestBase<TEntity>>>();
             _context = Resolve<StoreContext>();
-            StoreContextSeed.SeedStoreAsync(Resolve<StoreContext>(), logger).Wait();
+            _sampleData = new SampleData(Resolve<StoreContext>());
             //_context.DetachAllEntities();
             NLog.LogManager.Configuration = new NLog.Config.XmlLoggingConfiguration("NLog.config", false);
             _output = output;
@@ -129,7 +131,7 @@ namespace UnitTests
             services.AddScoped<IBrandsController, BrandsController>();
             services.AddScoped<ICartItemsController, CartItemsController>();
             services.AddScoped<IdentityController>();
-            //services.AddScoped<ItemsController>();
+            services.AddScoped<IItemsController, ItemsController>();
             services.AddScoped<IItemImagesController, ItemImagesController>();
             //services.AddScoped<ItemVariantsController>();
             services.AddScoped<IItemPropertiesController, ItemPropertiesController>();

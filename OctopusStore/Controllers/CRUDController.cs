@@ -118,7 +118,7 @@ namespace OctopusStore.Controllers
             return GetNotPagedIndexViewModel(await _service.EnumerateAsync(spec));
         }
 
-        protected async Task<TDetailViewModel> GetDetailAsync<TDetailViewModel>(Specification<TEntity> spec) where TDetailViewModel: EntityViewModel<TEntity>
+        protected async Task<TDetailViewModel> ReadDetailAsync<TDetailViewModel>(Specification<TEntity> spec) where TDetailViewModel: EntityViewModel<TEntity>
         {
             return GetViewModel<TDetailViewModel>(await _service.ReadSingleAsync(spec));
         }
