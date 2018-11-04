@@ -5,7 +5,7 @@ namespace Infrastructure.Data.SampleData
 {
     public class ItemVariants: SampleDataEntities<ItemVariant>
     {
-        public Items Items { get; }
+        protected Items Items { get; }
 
         public ItemVariant IPhone632GB { get; }
         public ItemVariant IPhone664GB { get; }

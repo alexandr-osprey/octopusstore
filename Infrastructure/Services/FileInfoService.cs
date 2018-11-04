@@ -28,7 +28,7 @@ namespace Infrastructure.Services
             Name = typeof(TFileInfo).Name + "Filedetailservice";
         }
 
-        public int MaxAllowedFileSize { get; set; } = 10 * 1024 * 1024;
+        public int MaxAllowedFileSize { get; protected set; } = 10 * 1024 * 1024;
 
         override public async Task<TFileInfo> CreateAsync(TFileInfo entity)
         {
@@ -44,7 +44,7 @@ namespace Infrastructure.Services
             catch (IOException exception)
             {
                 string message = $"Error saving file {entity.FullPath} from FileInfo {nameof(TFileInfo)} Id = {entity.Id}";
-                _logger.Warn(exception, message);
+                Logger.Warn(exception, message);
                 throw new IOException(message, exception);
             }
             return entity;
@@ -52,7 +52,7 @@ namespace Infrastructure.Services
 
         public async Task<Stream> GetStreamAsync(int id)
         {
-            TFileInfo entity = await _context.ReadByKeyAsync<TFileInfo, Service<TFileInfo>>(_logger, id);
+            TFileInfo entity = await Context.ReadByKeyAsync<TFileInfo, Service<TFileInfo>>(Logger, id);
             if (entity == null) { return null; }
             return GetStream(entity);
         }
@@ -67,7 +67,7 @@ namespace Infrastructure.Services
             catch (IOException exception)
             {
                 string message = $"Error reading file {entity.FullPath} from FileInfo {nameof(TFileInfo)} Id = {entity.Id}";
-                _logger.Warn(exception, message);
+                Logger.Warn(exception, message);
                 throw new IOException(message, exception);
             }
         }
@@ -81,7 +81,7 @@ namespace Infrastructure.Services
             catch (IOException exception)
             {
                 string message = $"Error deleting file {entity.FullPath} from FileInfo {nameof(TFileInfo)} Id = {entity.Id}";
-                _logger.Warn(exception, message);
+                Logger.Warn(exception, message);
                 throw new IOException(message, exception);
             }
             await base.DeleteRelatedEntitiesAsync(entity);
@@ -104,7 +104,7 @@ namespace Infrastructure.Services
 
         protected async Task<bool> ValidateRelatedEntityAsync(TFileInfo fileInfo)
         {
-            if (!await _context.ExistsBySpecAsync(_logger, new EntitySpecification<TEntity>(fileInfo.RelatedId)))
+            if (!await Context.ExistsBySpecAsync(Logger, new EntitySpecification<TEntity>(fileInfo.RelatedId)))
                 throw new EntityValidationException($"Error saving image: related entity with Id {fileInfo.RelatedId} does not exist");
             return true;
         }

@@ -16,8 +16,8 @@ namespace OctopusStore.Controllers
     [Route("api/[controller]")]
     public class IdentityController: Controller
     {
-        private IAppLogger<IdentityController> _logger { get; }
-        protected IIdentityService _service { get; }
+        protected IAppLogger<IdentityController> Logger { get; }
+        protected IIdentityService Service { get; }
         //protected IConfiguration _configuration { get;  }
         //private readonly int _tokenLifetimeSeconds;
 
@@ -26,8 +26,8 @@ namespace OctopusStore.Controllers
             TokenValidationParameters tokenValidationParameters,
             IAppLogger<IdentityController> logger)
         {
-            _logger = logger;
-            _service = identityService;
+            Logger = logger;
+            Service = identityService;
         }
 
         [AllowAnonymous]
@@ -35,14 +35,14 @@ namespace OctopusStore.Controllers
         public async Task<TokenPair> CreateIdentity([FromBody]Credentials credentials)
         {
             if (credentials == null) throw new BadRequestException("Credentials not provided");
-            return await _service.CreateIdentityAsync(credentials);
+            return await Service.CreateIdentityAsync(credentials);
         }
         [AllowAnonymous]
         [HttpPost("signIn")]
         public async Task<TokenPair> SignInAsync([FromBody]Credentials credentials)
         {
             if (credentials == null) throw new BadRequestException("Credentials not provided");
-            return await _service.CheckAndSignInAsync(credentials);
+            return await Service.CheckAndSignInAsync(credentials);
         }
         [AllowAnonymous]
         [HttpPost("refreshToken")]
@@ -51,7 +51,7 @@ namespace OctopusStore.Controllers
             if (authorization == null) throw new AuthenticationException("Authorization token not provided");
             if (refreshToken == null) throw new AuthenticationException("Refresh token not provided");
             string expiredToken = GetTokenFromAuthorizationString(authorization);
-            return await _service.RefreshTokenAsync(expiredToken, refreshToken);
+            return await Service.RefreshTokenAsync(expiredToken, refreshToken);
         }
         
         [HttpGet]

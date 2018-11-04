@@ -1,6 +1,7 @@
 ﻿using ApplicationCore.Entities;
 using ApplicationCore.Interfaces.Services;
 using ApplicationCore.Specifications;
+using Infrastructure.Data.SampleData;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,8 +21,8 @@ namespace UnitTests.Services
         [Fact]
         public async Task EnumerateByItemHierarchy()
         {
-            int storeId = _data.Stores.Johns.Id;
-            var categories = await _context.Items
+            int storeId = Data.Stores.Johns.Id;
+            var categories = await Context.Items
                 .Include(i => i.Category)
                 .Where(i => i.StoreId == storeId)
                 .Select(i => i.Category)
@@ -33,48 +34,48 @@ namespace UnitTests.Services
                 await GetCategoryHierarchyAsync(category.Id, expected);
             /// enumerating by items by store
 
-            var actual = await _service.EnumerateHierarchyAsync(new Specification<Item>((i => i.StoreId == storeId)));
+            var actual = await Service.EnumerateHierarchyAsync(new Specification<Item>((i => i.StoreId == storeId)));
             Equal(expected, actual);
         }
 
         [Fact]
         public async Task EnumeratHierarchy()
         {
-            var electronics = _data.Categories.Electronics;
+            var electronics = Data.Categories.Electronics;
 
             HashSet<Category> expected = new HashSet<Category>();
             await GetCategoryHierarchyAsync(electronics.Id, expected);
             /// enumerating by items by store
 
-            var actual = await _service.EnumerateHierarchyAsync(new EntitySpecification<Category>(electronics.Id));
+            var actual = await Service.EnumerateHierarchyAsync(new EntitySpecification<Category>(electronics.Id));
             Equal(expected, actual);
         }
 
         [Fact]
         public async Task EnumerateSubcategoriesAsync()
         {
-            var clothesCategory = _data.Categories.Clothes;
+            var clothesCategory = Data.Categories.Clothes;
             HashSet<Category> expected = new HashSet<Category>();
             await GetCategorySubcategoriesAsync(clothesCategory.Id, expected);
 
-            var actual = await _service.EnumerateSubcategoriesAsync(new EntitySpecification<Category>(clothesCategory.Id));
+            var actual = await Service.EnumerateSubcategoriesAsync(new EntitySpecification<Category>(clothesCategory.Id));
             Equal(expected, actual);
         }
 
         [Fact]
         public async Task EnumerateParentCategoriesAsync()
         {
-            var clothesCategory = _data.Categories.Clothes;
+            var clothesCategory = Data.Categories.Clothes;
             HashSet<Category> expected = new HashSet<Category>();
             await GetCategoryParentsAsync(clothesCategory.Id, expected);
 
-            var actual = await _service.EnumerateParentCategoriesAsync(new EntitySpecification<Category>(clothesCategory.Id));
+            var actual = await Service.EnumerateParentCategoriesAsync(new EntitySpecification<Category>(clothesCategory.Id));
             Equal(expected, actual);
         }
         [Fact]
         public async Task EnumerateSubcategoriesByItemAsync()
         {
-            var items = _data.Items.Entities;
+            var items = Data.Items.Entities;
             var categories = items
                 .Select(i => i.CategoryId)
                 .GroupBy(i => i)
@@ -83,14 +84,14 @@ namespace UnitTests.Services
             HashSet<Category> expected = new HashSet<Category>();
             categories.ForEach(async c => await GetCategorySubcategoriesAsync(c, expected));
 
-            var actual = await _service.EnumerateSubcategoriesAsync(new EntitySpecification<Item>(i => items.Contains(i)));
+            var actual = await Service.EnumerateSubcategoriesAsync(new EntitySpecification<Item>(i => items.Contains(i)));
             Equal(expected, actual);
         }
 
         [Fact]
         public async Task EnumerateParentCategoriesByItemAsync()
         {
-            var items = _data.Items.Entities;
+            var items = Data.Items.Entities;
             var categories = items
                 .Select(i => i.CategoryId)
                 .GroupBy(i => i)
@@ -99,50 +100,50 @@ namespace UnitTests.Services
             HashSet<Category> expected = new HashSet<Category>();
             categories.ForEach(async c => await GetCategoryParentsAsync(c, expected));
 
-            var actual = await _service.EnumerateParentCategoriesAsync(new EntitySpecification<Category>(c => categories.Contains(c.Id)));
+            var actual = await Service.EnumerateParentCategoriesAsync(new EntitySpecification<Category>(c => categories.Contains(c.Id)));
             Equal(expected, actual);
         }
 
         protected override IEnumerable<Category> GetCorrectNewEntites()
         {
-            var parentId = _data.Categories.Root.Id;
+            var parentId = Data.Categories.Root.Id;
             return new List<Category>()
             {
-                new Category() { OwnerId = adminId, Description = "Category 2", Title = "Category 2", ParentCategoryId = parentId },
-                new Category() { OwnerId = adminId, Description = "Category 3", Title = "Category 3", ParentCategoryId = parentId + 1 },
+                new Category() { OwnerId = Users.AdminId, Description = "Category 2", Title = "Category 2", ParentCategoryId = parentId },
+                new Category() { OwnerId = Users.AdminId, Description = "Category 3", Title = "Category 3", ParentCategoryId = parentId + 1 },
             };
         }
 
         protected override IEnumerable<Category> GetIncorrectNewEntites()
         {
-            var parentId = _data.Categories.Clothes.Id;
+            var parentId = Data.Categories.Clothes.Id;
             return new List<Category>()
             {
                 //new Category() { OwnerId = null, Description = "Category 2", Title = "Category 2", ParentCategoryId = 1 },
-                new Category() { OwnerId = adminId, Description = " ", Title = "Category 3", ParentCategoryId = parentId },
-                new Category() { OwnerId = adminId, Description = "Category 3", Title = "Category 3", ParentCategoryId = 99 },
-                new Category() { OwnerId = adminId, Description = "Category 3", Title = "", ParentCategoryId = parentId },
+                new Category() { OwnerId = Users.AdminId, Description = " ", Title = "Category 3", ParentCategoryId = parentId },
+                new Category() { OwnerId = Users.AdminId, Description = "Category 3", Title = "Category 3", ParentCategoryId = 99 },
+                new Category() { OwnerId = Users.AdminId, Description = "Category 3", Title = "", ParentCategoryId = parentId },
             };
         }
 
         protected override IEnumerable<Category> GetCorrectEntitesForUpdate()
         {
-            _data.Categories.Shoes.Title = "Tit1";
-            _data.Categories.Shoes.Description = "Desc1";
+            Data.Categories.Shoes.Title = "Tit1";
+            Data.Categories.Shoes.Description = "Desc1";
             return new List<Category>()
             {
-                _data.Categories.Shoes
+                Data.Categories.Shoes
             };
         }
 
         protected override IEnumerable<Category> GetIncorrectEntitesForUpdate()
         {
-            _data.Categories.Electronics.Description = " ";
-            _data.Categories.Jackets.Title = "";
+            Data.Categories.Electronics.Description = " ";
+            Data.Categories.Jackets.Title = "";
             return new List<Category>()
             {
-                _data.Categories.Electronics,
-                _data.Categories.Jackets
+                Data.Categories.Electronics,
+                Data.Categories.Jackets
             };
         }
 

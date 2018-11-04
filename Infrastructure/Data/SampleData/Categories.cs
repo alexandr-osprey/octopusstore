@@ -52,7 +52,7 @@ namespace Infrastructure.Data.SampleData
             categories[5].ParentCategoryId = categories[4].Id;
             categories[6].ParentCategoryId = categories[4].Id;
             //_storeContext.UpdateRange(categories);
-            _storeContext.SaveChanges();
+            StoreContext.SaveChanges();
             base.AfterSeed(categories);
         }
     }

@@ -30,13 +30,13 @@ namespace UnitTests.Services
 
         protected override IEnumerable<Brand> GetCorrectEntitesForUpdate()
         {
-            _data.Brands.Apple.Title = "Updated";
-            return new List<Brand>() { _data.Brands.Apple };
+            Data.Brands.Apple.Title = "Updated";
+            return new List<Brand>() { Data.Brands.Apple };
         }
 
         protected override IEnumerable<Brand> GetIncorrectEntitesForUpdate()
         {
-            int id = _data.Brands.Armani.Id;
+            int id = Data.Brands.Armani.Id;
             return new List<Brand>() { new Brand() { Id = id, Title = null}, new Brand() { Id = id, Title = "" }, new Brand() { Id = id, Title = " "}, };
         }
     }

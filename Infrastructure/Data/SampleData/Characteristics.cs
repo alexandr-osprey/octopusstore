@@ -5,7 +5,7 @@ namespace Infrastructure.Data.SampleData
 {
     public class Characteristics: SampleDataEntities<Characteristic>
     {
-        public Categories Categories { get; }
+        protected Categories Categories { get; }
 
         public Characteristic Storage { get; }
         public Characteristic Resolution { get; }

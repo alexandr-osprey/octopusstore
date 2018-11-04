@@ -20,22 +20,23 @@ namespace UnitTests.Controllers
         [Fact]
         public async Task IndexAsync()
         {
-            var entities = await _context.Set<Brand>().ToListAsync();
+            var entities = Data.Brands.Entities;
             var expected = IndexViewModel<BrandViewModel>.FromEnumerableNotPaged(from e in entities select ToViewModel(e));
-            var actual = await _controller.IndexAsync();
+            var actual = await Controller.IndexAsync();
             Equal(expected, actual);
         }
 
-        protected override async Task<IEnumerable<Brand>> GetCorrectEntitiesToCreateAsync()
+        protected override IEnumerable<Brand> GetCorrectEntitiesToCreate()
         {
-            var entities = await _context.Set<Brand>().Take(3).ToListAsync();
-            entities.ForEach(e => e.Id = 0);
-            return entities;
+            return new List<Brand>()
+            {
+                new Brand() { Title = "created"}
+            };
         }
 
-        protected override async Task<IEnumerable<Brand>> GetCorrectEntitiesToUpdateAsync()
+        protected override IEnumerable<Brand> GetCorrectEntitiesToUpdate()
         {
-            var entities = await _context.Set<Brand>().Skip(1).Take(3).ToListAsync();
+            var entities = Data.Brands.Entities;
             entities.ForEach(e => e.Title = "updated");
             return entities;
         }

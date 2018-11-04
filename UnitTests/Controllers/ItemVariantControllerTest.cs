@@ -1,91 +1,79 @@
-﻿//using ApplicationCore.Entities;
-//using ApplicationCore.Interfaces;
-//using Microsoft.EntityFrameworkCore;
-//using OctopusStore.Controllers;
-//using ApplicationCore.ViewModels;
-//using System.Linq;
-//using System.Threading.Tasks;
-//using Xunit;
-//using Xunit.Abstractions;
+﻿using ApplicationCore.Entities;
+using Microsoft.EntityFrameworkCore;
+using ApplicationCore.ViewModels;
+using System.Linq;
+using System.Threading.Tasks;
+using Xunit;
+using Xunit.Abstractions;
+using ApplicationCore.Interfaces.Services;
+using ApplicationCore.Interfaces.Controllers;
+using System.Collections.Generic;
 
-//namespace UnitTests.Controllers
-//{
-//    public class ItemVariantControllerTest : ControllerTestBase<ItemVariant, ItemVariantsController, IItemVariantService>
-//    {
-//        public ItemVariantControllerTest(ITestOutputHelper output) : base(output)
-//        {
-//        }
+namespace UnitTests.Controllers
+{
+    public class ItemVariantControllerTest : ControllerTests<ItemVariant, ItemVariantViewModel, IItemVariantsController, IItemVariantService>
+    {
+        public ItemVariantControllerTest(ITestOutputHelper output) : base(output)
+        {
+        }
 
-//        [Fact]
-//        public async Task IndexByItem()
-//        {
-//            int itemId = 1;
-//            var variants = await GetQueryable().Where(v => v.ItemId == itemId).ToListAsync();
-//            var expected = new IndexViewModel<ItemVariantViewModel>(1, 1, variants.Count, from v in variants select new ItemVariantViewModel(v));
-//            var actual = await controller.Index(itemId);
-//            Equal(expected, actual);
-//        }
-//        [Fact]
-//        public async Task Post()
-//        {
-//            var variant = await GetQueryable().FirstOrDefaultAsync();
-//            foreach (var property in variant.ItemProperties)
-//            {
-//                property.ItemVariantId = 0;
-//            }
-//            variant.Id = 0;
-//            var viewModel = new ItemVariantViewModel(variant);
-//            var actual = await controller.Post(viewModel);
-//            var expected = new ItemVariantViewModel(await GetQueryable().FirstOrDefaultAsync(v => v.Id == actual.Id));
-//            Equal(expected, actual);
-//        }
-//        [Fact]
-//        public async Task GetDetail()
-//        {
-//            var expected = new ItemVariantDetailViewModel(await GetQueryable().FirstOrDefaultAsync());
-//            var actual = await controller.GetDetail(expected.Id);
-//            Equal(expected, actual);
-//        }
-//        [Fact]
-//        public async Task Get()
-//        {
-//            var expected = new ItemVariantViewModel(await GetQueryable().FirstOrDefaultAsync());
-//            var actual = await controller.Get(expected.Id);
-//            Equal(expected, actual);
-//        }
+        [Fact]
+        public async Task IndexByItemAsync()
+        {
+            int itemId = Data.Items.IPhone6.Id;
+            var variants = Data.ItemVariants.Entities.Where(i => i.ItemId == itemId);
+            var expected = new IndexViewModel<ItemVariantViewModel>(1, 1, variants.Count(), from v in variants select new ItemVariantViewModel(v));
+            var actual = await Controller.IndexAsync(itemId);
+            Equal(expected, actual);
+        }
 
-//        [Fact]
-//        public async Task Put()
-//        {
-//            var item = await _context.Items.LastOrDefaultAsync();
-//            var itemVariantViewModel = new ItemVariantViewModel(await GetQueryable().FirstOrDefaultAsync(v => v.ItemId == v.Id));
-//            var categoryProperties = await _context
-//                .Characteristics
-//                .AsNoTracking()
-//                .Include(c => c.CharacteristicValues)
-//                .Where(c => c.CategoryId == item.CategoryId)
-//                .ToListAsync();
-//            var actual = await controller.Put(itemVariantViewModel.Id, itemVariantViewModel);
-//            var expected = new ItemVariantViewModel(await GetQueryable().FirstOrDefaultAsync(v => v.Id == actual.Id));
-//            Equal(expected, actual);
-//        }
-//        [Fact]
-//        public async Task Delete()
-//        {
-//            var variant = await GetQueryable().FirstOrDefaultAsync();
-//            await controller.Delete(variant.Id);
-//            foreach (var property in variant.ItemProperties)
-//            {
-//                Assert.False(await _context.ItemProperties.ContainsAsync(property));
-//            }
-//            Assert.False(await _context.ItemVariants.ContainsAsync(variant));
-//        }
-//        protected override IQueryable<ItemVariant> GetQueryable()
-//        {
-//            return _context
-//                    .Set<ItemVariant>()
-//                    .AsNoTracking()
-//                    .Include(j => j.ItemProperties);
-//        }
-//    }
-//}
+        [Fact]
+        public async Task GetDetail()
+        {
+            var expected = new ItemVariantDetailViewModel(GetQueryable().Where(i => i == Data.ItemVariants.IPhone664GB).First());
+            var actual = await Controller.ReadDetailAsync(expected.Id);
+            Equal(expected, actual);
+        }
+
+        protected override IQueryable<ItemVariant> GetQueryable()
+        {
+            return Context
+                    .Set<ItemVariant>()
+                    .AsNoTracking()
+                    .Include(j => j.ItemProperties);
+        }
+
+        protected override void AssertUpdateSuccess(ItemVariant beforeUpdate, ItemVariantViewModel expected, ItemVariantViewModel actual)
+        {
+            Assert.Equal(beforeUpdate.ItemId, actual.ItemId);
+            Assert.Equal(expected.Id, actual.Id);
+            Assert.Equal(expected.Title, actual.Title);
+            Assert.Equal(expected.Price, actual.Price);
+        }
+
+        protected override IEnumerable<ItemVariant> GetCorrectEntitiesToCreate()
+        {
+            return new List<ItemVariant>() { new ItemVariant() { ItemId = Data.Items.Jacket.Id, Price = 505, Title = "title" } };
+        }
+
+        protected override ItemVariantViewModel ToViewModel(ItemVariant entity)
+        {
+            return new ItemVariantViewModel()
+            {
+                Id = entity.Id,
+                ItemId = entity.ItemId,
+                Price = entity.Price,
+                Title = entity.Title
+            };
+        }
+
+        protected override IEnumerable<ItemVariant> GetCorrectEntitiesToUpdate()
+        {
+            var variant = Data.ItemVariants.Pebble1000mAh;
+            variant.Price = 999;
+            variant.ItemId = 9999;
+            variant.Title = "updated";
+            return new List<ItemVariant>() { variant };
+        }
+    }
+}

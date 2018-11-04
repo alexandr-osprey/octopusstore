@@ -25,6 +25,7 @@ namespace ApplicationCore.Entities
         public Item(): base()
         {
         }
+
         protected Item(Item item): base(item)
         {
             Title = item.Title;

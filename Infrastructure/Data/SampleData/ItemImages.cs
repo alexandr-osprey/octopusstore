@@ -10,7 +10,7 @@ namespace Infrastructure.Data.SampleData
         public static string PathToFiles { get; } = @"C:\files\";
         public static string PathToBackup { get; } = @"C:\files\backup";
 
-        public Items Items { get; }
+        protected Items Items { get; }
 
         public ItemImage IPhone61 { get; }
         public ItemImage IPhone62 { get; }

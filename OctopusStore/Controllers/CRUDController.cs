@@ -20,27 +20,27 @@ namespace OctopusStore.Controllers
         where TEntity: Entity
         where TViewModel: EntityViewModel<TEntity>
     {
-        protected readonly TService _service;
-        protected readonly IAppLogger<IController<TEntity, TViewModel>> _logger;
-        protected readonly string _entityName = typeof(TEntity).Name;
-        protected readonly int _maxTake = 200;
-        protected readonly int _defaultTake = 50;
-        protected readonly IScopedParameters _scopedParameters;
+        protected TService Service { get; }
+        protected IAppLogger<IController<TEntity, TViewModel>> Logger { get; }
+        protected string EntityName { get; } = typeof(TEntity).Name;
+        protected int MaxTake { get; } = 200;
+        protected int DefaultTake { get; } = 50;
+        protected IScopedParameters ScopedParameters { get; }
 
         public CRUDController(
             TService service,
             IScopedParameters scopedParameters,
             IAppLogger<IController<TEntity, TViewModel>> logger)
         {
-            _service = service;
-            _scopedParameters = scopedParameters;
-            _logger = logger;
-            _logger.Name = _entityName + "Controller";
+            Service = service;
+            ScopedParameters = scopedParameters;
+            Logger = logger;
+            Logger.Name = EntityName + "Controller";
         }
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             base.OnActionExecuting(filterContext);
-            _scopedParameters.ClaimsPrincipal = User;
+            ScopedParameters.ClaimsPrincipal = User;
         }
 
         public virtual async Task<TViewModel> CreateAsync(TViewModel viewModel)
@@ -48,7 +48,7 @@ namespace OctopusStore.Controllers
             if (viewModel == null)
                 throw new BadRequestException("Empty body");
             viewModel.Id = 0;
-            var entity = await _service.CreateAsync(viewModel.ToModel());
+            var entity = await Service.CreateAsync(viewModel.ToModel());
             return GetViewModel<TViewModel>(entity);
         }
 
@@ -61,8 +61,8 @@ namespace OctopusStore.Controllers
         {
             if (viewModel == null)
                 throw new BadRequestException("Empty body");
-            var entityToUpdate = await _service.ReadSingleAsync(viewModel.ToModel());
-            var entitiy = await _service.UpdateAsync(viewModel.UpdateModel(entityToUpdate));
+            var entityToUpdate = await Service.ReadSingleAsync(viewModel.ToModel());
+            var entitiy = await Service.UpdateAsync(viewModel.UpdateModel(entityToUpdate));
             return GetViewModel<TViewModel>(entitiy);
         }
 
@@ -73,8 +73,8 @@ namespace OctopusStore.Controllers
 
         public virtual async Task<Response> CheckUpdateAuthorizationAsync(int id)
         {
-            var entity = await _service.ReadSingleAsync(new EntitySpecification<TEntity>(id));
-            await _service.IdentityService.AuthorizeAsync(User, entity, OperationAuthorizationRequirements.Update, true);
+            var entity = await Service.ReadSingleAsync(new EntitySpecification<TEntity>(id));
+            await Service.IdentityService.AuthorizeAsync(User, entity, OperationAuthorizationRequirements.Update, true);
             return new Response("You are authorized to update");
         }
 
@@ -82,14 +82,14 @@ namespace OctopusStore.Controllers
             //where TCustomIndexViewModel: EntityIndexViewModel<TCustomViewModel, TEntity>
             where TCustomViewModel : EntityViewModel<TEntity>
         {
-            if (spec.Take > _maxTake || spec.Skip < 0)
+            if (spec.Take > MaxTake || spec.Skip < 0)
             {
-                string message = $"Wrong page or page size parameter. Max page size: {_maxTake}";
+                string message = $"Wrong page or page size parameter. Max page size: {MaxTake}";
                 throw new BadRequestException(message);
             }
-            var entities = await _service.EnumerateAsync(spec);
-            int totalCount = await _service.CountTotalAsync(spec);
-            int totalPages = await _service.PageCountAsync(spec);
+            var entities = await Service.EnumerateAsync(spec);
+            int totalCount = await Service.CountTotalAsync(spec);
+            int totalPages = await Service.PageCountAsync(spec);
             return GetIndexViewModel<TCustomViewModel>(spec.Page, totalPages, totalCount, entities);
         }
 
@@ -114,18 +114,18 @@ namespace OctopusStore.Controllers
 
         protected async Task<IndexViewModel<TViewModel>> IndexNotPagedAsync(Specification<TEntity> spec)
         {
-            spec.SetPaging(1, _maxTake);
-            return GetNotPagedIndexViewModel(await _service.EnumerateAsync(spec));
+            spec.SetPaging(1, MaxTake);
+            return GetNotPagedIndexViewModel(await Service.EnumerateAsync(spec));
         }
 
         protected async Task<TDetailViewModel> ReadDetailAsync<TDetailViewModel>(Specification<TEntity> spec) where TDetailViewModel: EntityViewModel<TEntity>
         {
-            return GetViewModel<TDetailViewModel>(await _service.ReadSingleAsync(spec));
+            return GetViewModel<TDetailViewModel>(await Service.ReadSingleAsync(spec));
         }
 
         protected async Task<TViewModel> ReadAsync(Specification<TEntity> spec)
         {
-            return GetViewModel<TViewModel>(await _service.ReadSingleAsync(spec));
+            return GetViewModel<TViewModel>(await Service.ReadSingleAsync(spec));
         }
 
         protected IndexViewModel<TViewModel> GetNotPagedIndexViewModel(IEnumerable<TEntity> entities)
@@ -154,16 +154,16 @@ namespace OctopusStore.Controllers
         {
             if (spec == null)
                 throw new ArgumentNullException(nameof(spec));
-            await _service.DeleteSingleAsync(spec);
-            return new Response($"Deleted {_entityName}(s) according to spec {spec}");
+            await Service.DeleteSingleAsync(spec);
+            return new Response($"Deleted {EntityName}(s) according to spec {spec}");
         }
 
         protected virtual async Task<Response> DeleteAsync(Specification<TEntity> spec)
         {
             if (spec == null)
                 throw new ArgumentNullException(nameof(spec));
-            int deleted = await _service.DeleteAsync(spec);
-            return new Response($"Deleted {deleted} {_entityName}(s)");
+            int deleted = await Service.DeleteAsync(spec);
+            return new Response($"Deleted {deleted} {EntityName}(s)");
         }
     }
 }

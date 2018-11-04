@@ -16,10 +16,12 @@ namespace ApplicationCore.Entities
            : base(title, contentType, relatedId, inputStream)
         {
         }
+
         public ItemImage(string title, string contentType, int relatedId)
            : this(title, contentType, relatedId, null)
         {
         }
+
         protected ItemImage(ItemImage itemImage): base(itemImage)
         {
         }

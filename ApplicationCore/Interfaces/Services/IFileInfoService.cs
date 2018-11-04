@@ -14,7 +14,7 @@ namespace ApplicationCore.Interfaces.Services
         /// <summary>
         /// Max allowed file zise
         /// </summary>
-        int MaxAllowedFileSize { get; set; }
+        int MaxAllowedFileSize { get; }
         /// <summary>
         /// Retrieves file stream based on Id
         /// </summary>

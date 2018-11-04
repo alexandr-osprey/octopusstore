@@ -18,6 +18,7 @@ namespace ApplicationCore.Entities
         public ItemVariant(): base()
         {
         }
+
         protected ItemVariant(ItemVariant itemVariant): base(itemVariant)
         {
             Title = itemVariant.Title;

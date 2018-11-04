@@ -34,7 +34,7 @@ namespace OctopusStore.Controllers
         [HttpGet("/api/categories/{categoryId:int}/characteristicValues")]
         public async Task<IndexViewModel<CharacteristicValueViewModel>> IndexAsync(int categoryId)
         {
-            return await base.IndexByFunctionNotPagedAsync(_service.EnumerateByCategoryAsync, new EntitySpecification<Category>(categoryId));
+            return await base.IndexByFunctionNotPagedAsync(Service.EnumerateByCategoryAsync, new EntitySpecification<Category>(categoryId));
         }
 
         [HttpPut("{id:int}")]

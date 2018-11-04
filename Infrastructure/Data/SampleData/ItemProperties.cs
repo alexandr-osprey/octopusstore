@@ -5,8 +5,8 @@ namespace Infrastructure.Data.SampleData
 {
     public class ItemProperties : SampleDataEntities<ItemProperty>
     {
-        public ItemVariants ItemVariants { get; }
-        public CharacteristicValues CharacteristicValues { get; }
+        protected ItemVariants ItemVariants { get; }
+        protected CharacteristicValues CharacteristicValues { get; }
 
         public ItemProperty IPhone632GB32 { get; }
         public ItemProperty IPhone632HD { get; }

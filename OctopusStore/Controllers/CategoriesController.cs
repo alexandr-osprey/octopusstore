@@ -16,7 +16,6 @@ namespace OctopusStore.Controllers
     [Route("api/[controller]")]
     public class CategoriesController: CRUDController<ICategoryService, Category, CategoryViewModel>, ICategoriesController
     {
-        public int RootCategoryId = 1;
         public CategoriesController(
             ICategoryService service,
             IScopedParameters scopedParameters,
@@ -32,8 +31,8 @@ namespace OctopusStore.Controllers
             [FromQuery(Name = "categoryId")]int? categoryId,
             [FromQuery(Name = "storeId")]int? storeId)
         {
-            categoryId = categoryId ?? _service.RootCategoryId;
-            var categories = await _service.EnumerateHierarchyAsync(new EntitySpecification<Category>(c => c.Id == categoryId.Value));
+            categoryId = categoryId ?? Service.RootCategoryId;
+            var categories = await Service.EnumerateHierarchyAsync(new EntitySpecification<Category>(c => c.Id == categoryId.Value));
             if (storeId.HasValue)
             {
                 var storeCategories = await IndexByStoreIdAsync(storeId.Value);
@@ -58,7 +57,7 @@ namespace OctopusStore.Controllers
             {
                 Description = $"Items with StoreId={storeId} includes Category"
             };
-            return await _service.EnumerateParentCategoriesAsync(spec);
+            return await Service.EnumerateParentCategoriesAsync(spec);
         }
     }
 }

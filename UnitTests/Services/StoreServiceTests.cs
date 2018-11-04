@@ -18,7 +18,7 @@ namespace UnitTests.Services
 
         protected override IEnumerable<Store> GetCorrectEntitesForUpdate()
         {
-            var store = _data.Stores.Jennifers;
+            var store = Data.Stores.Jennifers;
             store.Title = "Upd 1";
             store.Description = "Upd 1";
             store.Address = "Upd 1";
@@ -43,7 +43,7 @@ namespace UnitTests.Services
 
         protected override IEnumerable<Store> GetIncorrectEntitesForUpdate()
         {
-            var first = _data.Stores.Jennifers;
+            var first = Data.Stores.Jennifers;
             first.Title = null;
             first.Description = "Upd 1";
             first.Address = "Upd 1";
@@ -55,7 +55,7 @@ namespace UnitTests.Services
 
         protected override IEnumerable<Store> GetIncorrectNewEntites()
         {
-            var first = _data.Stores.Johns;
+            var first = Data.Stores.Johns;
             first.Title = null;
             first.Description = "Upd 1";
             first.Address = "Upd 1";

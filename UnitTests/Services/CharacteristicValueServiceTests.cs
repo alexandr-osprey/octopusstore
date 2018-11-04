@@ -17,8 +17,8 @@ namespace UnitTests.Services
         {
             return new List<CharacteristicValue>()
             {
-                new CharacteristicValue() { Title = "title 1",  CharacteristicId = _data.Characteristics.Fashion.Id },
-                new CharacteristicValue() { Title = "title 2", CharacteristicId =  _data.Characteristics.Storage.Id },
+                new CharacteristicValue() { Title = "title 1",  CharacteristicId = Data.Characteristics.Fashion.Id },
+                new CharacteristicValue() { Title = "title 2", CharacteristicId =  Data.Characteristics.Storage.Id },
             };
         }
 
@@ -26,26 +26,26 @@ namespace UnitTests.Services
         {
             return new List<CharacteristicValue>()
             {
-                new CharacteristicValue() { Title = null, CharacteristicId = _data.Characteristics.Fashion.Id },
+                new CharacteristicValue() { Title = null, CharacteristicId = Data.Characteristics.Fashion.Id },
                 new CharacteristicValue() { Title = "new2", CharacteristicId = 0 },
             };
         }
 
         protected override Specification<CharacteristicValue> GetEntitiesToDeleteSpecification()
         {
-            return new EntitySpecification<CharacteristicValue>(c => c == _data.CharacteristicValues.GB16);
+            return new EntitySpecification<CharacteristicValue>(c => c == Data.CharacteristicValues.GB16);
         }
 
         protected override IEnumerable<CharacteristicValue> GetCorrectEntitesForUpdate()
         {
-            _data.CharacteristicValues.GB16.Title = "Updated storage";
-            return new List<CharacteristicValue>() { _data.CharacteristicValues.GB16 };
+            Data.CharacteristicValues.GB16.Title = "Updated storage";
+            return new List<CharacteristicValue>() { Data.CharacteristicValues.GB16 };
         }
 
         protected override IEnumerable<CharacteristicValue> GetIncorrectEntitesForUpdate()
         {
-            _data.CharacteristicValues.GB32.Title = null;
-            return new List<CharacteristicValue>() { _data.CharacteristicValues.GB32 };
+            Data.CharacteristicValues.GB32.Title = null;
+            return new List<CharacteristicValue>() { Data.CharacteristicValues.GB32 };
         }
     }
 }

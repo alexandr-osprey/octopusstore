@@ -12,8 +12,8 @@ namespace Infrastructure.Services
 {
     public class ItemService: Service<Item>, IItemService
     {
-        protected readonly IItemImageService _itemImageService;
-        protected readonly ICategoryService _categoryService;
+        protected IItemImageService ItemImageService { get; }
+        protected ICategoryService CategoryService { get; }
 
         public ItemService(
             StoreContext context,
@@ -25,8 +25,8 @@ namespace Infrastructure.Services
             IAppLogger<Service<Item>> logger)
            : base(context, identityService, scopedParameters, authoriationParameters, logger)
         {
-            _itemImageService = itemImageService;
-            _categoryService = categoryService;
+            this.ItemImageService = itemImageService;
+            this.CategoryService = categoryService;
         }
 
         public async Task<ItemIndexSpecification> GetIndexSpecificationByParameters(int page, int pageSize, string title, int? categoryId, int? storeId, int? brandId)
@@ -40,29 +40,29 @@ namespace Infrastructure.Services
             {
                 Description = $"ItemImage with item id={item.Id}"
             };
-            await _itemImageService.DeleteAsync(imageDeleteSpec);
+            await ItemImageService.DeleteAsync(imageDeleteSpec);
             await base.DeleteRelatedEntitiesAsync(item);
         }
 
         private async Task<IEnumerable<Category>> GetCategoriesAsync(int? categoryId)
         {
             return categoryId.HasValue
-                ? await _categoryService.EnumerateSubcategoriesAsync(new EntitySpecification<Category>(categoryId.Value))
+                ? await CategoryService.EnumerateSubcategoriesAsync(new EntitySpecification<Category>(categoryId.Value))
                : new List<Category>();
         }
 
         protected override async Task ValidateCreateWithExceptionAsync(Item item)
         {
             await ValidateUpdateWithExceptionAsync(item);
-            var category = await _context.ReadByKeyAsync<Category, Service<Item>>(_logger, item.CategoryId, false)
+            var category = await Context.ReadByKeyAsync<Category, Service<Item>>(Logger, item.CategoryId, false)
                 ?? throw new EntityValidationException($"Category with Id {item.CategoryId} does not exist. ");
             if (!category.CanHaveItems)
                 throw new EntityValidationException($"Category with Id {item.CategoryId} can't have items. ");
-            if (!await _context.ExistsBySpecAsync(_logger, new EntitySpecification<Store>(item.StoreId)))
+            if (!await Context.ExistsBySpecAsync(Logger, new EntitySpecification<Store>(item.StoreId)))
                 throw new EntityValidationException($"Store with Id {item.StoreId}  does not exist. ");
-            if (!await _context.ExistsBySpecAsync(_logger, new EntitySpecification<Brand>(item.BrandId)))
+            if (!await Context.ExistsBySpecAsync(Logger, new EntitySpecification<Brand>(item.BrandId)))
                 throw new EntityValidationException($"Brand with Id {item.BrandId}  does not exist. ");
-            if (!await _context.ExistsBySpecAsync(_logger, new EntitySpecification<MeasurementUnit>(item.MeasurementUnitId)))
+            if (!await Context.ExistsBySpecAsync(Logger, new EntitySpecification<MeasurementUnit>(item.MeasurementUnitId)))
                 throw new EntityValidationException($"MeasurementUnit with Id {item.MeasurementUnitId}  does not exist. ");
             await base.ValidateCreateWithExceptionAsync(item);
         }

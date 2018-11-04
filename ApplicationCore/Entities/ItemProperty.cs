@@ -16,11 +16,13 @@ namespace ApplicationCore.Entities
         public ItemProperty()
         {
         }
+
         public ItemProperty(int itemVariantId, int characteristicValueId)
         {
             ItemVariantId = itemVariantId;
             CharacteristicValueId = characteristicValueId;
         }
+
         protected ItemProperty(ItemProperty itemProperty): base(itemProperty)
         {
             ItemVariantId = itemProperty.ItemVariantId;

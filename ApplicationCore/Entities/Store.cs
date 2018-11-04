@@ -19,6 +19,7 @@ namespace ApplicationCore.Entities
         public Store(): base()
         {
         }
+
         protected Store(Store store): base(store)
         {
             Title = store.Title;

@@ -25,6 +25,7 @@ namespace ApplicationCore.Specifications
         public EntitySpecification(Expression<Func<T, bool>> criteria): base(criteria)
         {
         }
+
         public EntitySpecification(Expression<Func<T, bool>> criteria, params Expression<Func<T, object>>[] includeExpressions): base(criteria, includeExpressions)
         {
         }

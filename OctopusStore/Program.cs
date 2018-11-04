@@ -27,7 +27,7 @@ namespace OctopusStore
 
                     var storeContext = services.GetRequiredService<StoreContext>();
                     //StoreContextSeed.SeedStoreAsync(storeContext, logger).Wait();
-                    var sampleData = new SampleData(storeContext);
+                    var sampleData = new TestSampleData(storeContext);
                 }
                 catch (Exception ex)
                 {

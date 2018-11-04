@@ -18,7 +18,7 @@ namespace UnitTests.Services
 
         protected override IEnumerable<ItemVariant> GetCorrectEntitesForUpdate()
         {
-            var itemVariant = _data.ItemVariants.IPhone664GB;
+            var itemVariant = Data.ItemVariants.IPhone664GB;
             itemVariant.Title = "Updated";
             itemVariant.Price = 999;
             return new List<ItemVariant>()
@@ -31,7 +31,7 @@ namespace UnitTests.Services
         {
             return new List<ItemVariant>()
             {
-                new ItemVariant() { ItemId = _data.Items.IPhone6.Id, Title = "title 1", Price = 500 },
+                new ItemVariant() { ItemId = Data.Items.IPhone6.Id, Title = "title 1", Price = 500 },
             };
         }
 
@@ -42,7 +42,7 @@ namespace UnitTests.Services
 
         protected override IEnumerable<ItemVariant> GetIncorrectEntitesForUpdate()
         {
-            var itemVariant = _data.ItemVariants.JacketBlack;
+            var itemVariant = Data.ItemVariants.JacketBlack;
             return new List<ItemVariant>()
             {
                 new ItemVariant() { Id = itemVariant.Id, Title = "", ItemId = itemVariant.ItemId, OwnerId = itemVariant.OwnerId, Price = itemVariant.Price },
@@ -52,7 +52,7 @@ namespace UnitTests.Services
 
         protected override IEnumerable<ItemVariant> GetIncorrectNewEntites()
         {
-            var itemVariant = _data.ItemVariants.JacketBlack;
+            var itemVariant = Data.ItemVariants.JacketBlack;
             return new List<ItemVariant>()
             {
                 new ItemVariant() { ItemId = 0, Title = "title 1", Price = 500 },

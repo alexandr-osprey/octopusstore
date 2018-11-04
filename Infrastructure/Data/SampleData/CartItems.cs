@@ -5,7 +5,7 @@ namespace Infrastructure.Data.SampleData
 {
     public class CartItems: SampleDataEntities<CartItem>
     {
-        public ItemVariants ItemVariants { get; }
+        protected ItemVariants ItemVariants { get; }
 
         public CartItem JohnIphone32 { get; }
         public CartItem JohnIphone64 { get; }

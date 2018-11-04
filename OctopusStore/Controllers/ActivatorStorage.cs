@@ -8,7 +8,7 @@ namespace OctopusStore.Controllers
     public class ActivatorsStorage
     {
         public delegate object ObjectActivator(params object[] args);
-        protected readonly static Dictionary<Type, ObjectActivator> activators = new Dictionary<Type, ObjectActivator>();
+        protected static Dictionary<Type, ObjectActivator> Activators { get; } = new Dictionary<Type, ObjectActivator>();
 
         private ObjectActivator CreateActivator(Type type, params Type[] argTypes)
         {
@@ -39,12 +39,12 @@ namespace OctopusStore.Controllers
         public ObjectActivator GetActivator(Type type, params Type[] argTypes)
         {
 
-            if (activators.TryGetValue(type, out ObjectActivator activator))
+            if (Activators.TryGetValue(type, out ObjectActivator activator))
             {
                 return activator;
             }
             activator = CreateActivator(type, argTypes);
-            activators[type] = activator;
+            Activators[type] = activator;
             return activator;
         }
     }

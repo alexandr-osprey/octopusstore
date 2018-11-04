@@ -10,6 +10,7 @@ namespace ApplicationCore.Interfaces.Services
     /// </summary>
     public interface ICategoryService: IService<Category>
     {
+        string RootCategoryName { get; }
         /// <summary>
         /// Id of primal Category
         /// </summary>

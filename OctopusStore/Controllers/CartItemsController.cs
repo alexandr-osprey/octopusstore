@@ -31,8 +31,8 @@ namespace OctopusStore.Controllers
             if (cartItemViewModel == null)
                 throw new BadRequestException("Cart item not provided");
             return base.GetViewModel<CartItemViewModel>(
-                await _service.AddToCartAsync(
-                    _scopedParameters.ClaimsPrincipal.Identity.Name, 
+                await Service.AddToCartAsync(
+                    ScopedParameters.ClaimsPrincipal.Identity.Name, 
                     cartItemViewModel.ItemVariantId, cartItemViewModel.Number));
         }
 
@@ -41,15 +41,15 @@ namespace OctopusStore.Controllers
         {
             if (cartItemViewModel == null)
                 throw new BadRequestException("Cart item not provided");
-            await _service.RemoveFromCartAsync(
-                _scopedParameters.ClaimsPrincipal.Identity.Name, 
+            await Service.RemoveFromCartAsync(
+                ScopedParameters.ClaimsPrincipal.Identity.Name, 
                 cartItemViewModel.ItemVariantId, cartItemViewModel.Number);
             return new Response($"{cartItemViewModel.Number} of item variant {cartItemViewModel.ItemVariantId} removed from a cart");
         }
 
         [HttpGet]
         public async Task<IndexViewModel<CartItemViewModel>> Index() => await base.IndexNotPagedAsync(
-            new CartItemSpecification(_scopedParameters.ClaimsPrincipal.Identity.Name));
+            new CartItemSpecification(ScopedParameters.ClaimsPrincipal.Identity.Name));
 
         [HttpGet("{id:int}")]
         public override async Task<CartItemViewModel> ReadAsync(int id) => await base.ReadAsync(id);
@@ -61,7 +61,7 @@ namespace OctopusStore.Controllers
         public override async Task<Response> DeleteAsync(int id) => await base.DeleteSingleAsync(new EntitySpecification<CartItem>(id));
 
         [HttpDelete]
-        public async Task<Response> DeleteAsync() => await base.DeleteAsync(new CartItemSpecification(_scopedParameters.ClaimsPrincipal.Identity.Name));
+        public async Task<Response> DeleteAsync() => await base.DeleteAsync(new CartItemSpecification(ScopedParameters.ClaimsPrincipal.Identity.Name));
 
         [HttpGet("{id:int}/checkUpdateAuthorization")]
         public override async Task<Response> CheckUpdateAuthorizationAsync(int id) => await base.CheckUpdateAuthorizationAsync(id);

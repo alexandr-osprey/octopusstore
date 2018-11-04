@@ -2,6 +2,7 @@
 using ApplicationCore.Exceptions;
 using ApplicationCore.Interfaces.Services;
 using ApplicationCore.Specifications;
+using Infrastructure.Data.SampleData;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,60 +23,60 @@ namespace UnitTests.Services
         public async Task AddToCartExistingAsync()
         {
             int numberBeforeAdd = 0;
-            var cartItemBeforeAdd = _data.CartItems.JohnIphone32;
+            var cartItemBeforeAdd = Data.CartItems.JohnIphone32;
             int itemVariantId = cartItemBeforeAdd.ItemVariantId;
             numberBeforeAdd = cartItemBeforeAdd.Number;
             int q = 10;
             int expected = q + numberBeforeAdd;
-            await _service.AddToCartAsync(johnId, itemVariantId, q);
+            await Service.AddToCartAsync(Users.JohnId, itemVariantId, q);
             int actual = (await GetQueryable().SingleAsync(c => c.Id == cartItemBeforeAdd.Id)).Number;
             Assert.Equal(expected, actual);
         }
         [Fact]
         public async Task AddToCartNotExistingAsync()
         {
-            int itemVariantId = _data.ItemVariants.ShoesXMuchFashion.Id;
+            int itemVariantId = Data.ItemVariants.ShoesXMuchFashion.Id;
             int numberBeforeAdd = 0;
             int q = 10;
             int expected = q + numberBeforeAdd;
-            await _service.AddToCartAsync(johnId, itemVariantId, q);
-            int actual = (await GetQueryable().SingleAsync(c => c.ItemVariantId == itemVariantId && c.OwnerId == johnId)).Number;
+            await Service.AddToCartAsync(Users.JohnId, itemVariantId, q);
+            int actual = (await GetQueryable().SingleAsync(c => c.ItemVariantId == itemVariantId && c.OwnerId == Users.JohnId)).Number;
             Assert.Equal(expected, actual);
         }
 
         [Fact]
         public async Task RemoveFromCartExistingAsync()
         {
-            var cartItem = _data.CartItems.JohnIphone64;
+            var cartItem = Data.CartItems.JohnIphone64;
             int cartId = cartItem.Id;
             int itemVariantId = cartItem.ItemVariantId;
-            var beforeRemove = await GetQueryable().Where(i => i.OwnerId == johnId).ToListAsync();
+            var beforeRemove = await GetQueryable().Where(i => i.OwnerId == Users.JohnId).ToListAsync();
             int numberBeforeRemove = 0;
             numberBeforeRemove = cartItem.Number;
             int q = numberBeforeRemove - 1;
             int numberAfterRemoveExpected = numberBeforeRemove - q;
-            await _service.RemoveFromCartAsync(johnId, itemVariantId, q);
+            await Service.RemoveFromCartAsync(Users.JohnId, itemVariantId, q);
             Assert.Equal(numberAfterRemoveExpected, (await GetQueryable().FirstAsync(i => i == cartItem)).Number);
-            await _service.RemoveFromCartAsync(johnId, itemVariantId, 2);
+            await Service.RemoveFromCartAsync(Users.JohnId, itemVariantId, 2);
             Assert.False(await GetQueryable().AnyAsync(c => c == cartItem));
         }
         [Fact]
         public async Task RemoveFromCartNotExistingAsync()
         {
-            int itemVariantId = _data.ItemVariants.ShoesXMuchFashion.Id;
+            int itemVariantId = Data.ItemVariants.ShoesXMuchFashion.Id;
             int numberBeforeAdd = 0;
             int q = 10;
             int expected = q + numberBeforeAdd;
-            await _service.RemoveFromCartAsync(johnId, itemVariantId, q);
-            Assert.False(await GetQueryable().AnyAsync(c => c.ItemVariantId == itemVariantId && c.OwnerId == johnId));
+            await Service.RemoveFromCartAsync(Users.JohnId, itemVariantId, q);
+            Assert.False(await GetQueryable().AnyAsync(c => c.ItemVariantId == itemVariantId && c.OwnerId == Users.JohnId));
         }
 
         protected override IEnumerable<CartItem> GetCorrectNewEntites()
         {
             return new List<CartItem>
             {
-                new CartItem() { OwnerId = johnId, ItemVariantId = _data.ItemVariants.JacketBlack.Id, Number = 7 },
-                new CartItem() { OwnerId = johnId, ItemVariantId = _data.ItemVariants.Pebble1000mAh.Id, Number = 8 }
+                new CartItem() { OwnerId = Users.JohnId, ItemVariantId = Data.ItemVariants.JacketBlack.Id, Number = 7 },
+                new CartItem() { OwnerId = Users.JohnId, ItemVariantId = Data.ItemVariants.Pebble1000mAh.Id, Number = 8 }
             };
         }
 
@@ -86,8 +87,8 @@ namespace UnitTests.Services
             //await _context.SaveChangesAsync();
             return new List<CartItem>
             {
-                new CartItem() { OwnerId = johnId, ItemVariantId = _data.ItemVariants.JacketBlack.Id, Number = 0 },
-                new CartItem() { OwnerId = johnId, ItemVariantId = 999, Number = 8 },
+                new CartItem() { OwnerId = Users.JohnId, ItemVariantId = Data.ItemVariants.JacketBlack.Id, Number = 0 },
+                new CartItem() { OwnerId = Users.JohnId, ItemVariantId = 999, Number = 8 },
                 new CartItem() { OwnerId = "", ItemVariantId = 999, Number = 8 }
             };
         }
@@ -97,7 +98,7 @@ namespace UnitTests.Services
         {
             foreach (var duplicateEntity in await GetDuplicateEntitiesAsync())
             {
-                await Assert.ThrowsAsync<EntityAlreadyExistsException>(() => _service.CreateAsync(duplicateEntity));
+                await Assert.ThrowsAsync<EntityAlreadyExistsException>(() => Service.CreateAsync(duplicateEntity));
             }
         }
         protected async Task<IEnumerable<CartItem>> GetDuplicateEntitiesAsync()
@@ -105,36 +106,36 @@ namespace UnitTests.Services
             return await Task.FromResult(new List<CartItem>
             {
                 // first two already exist
-                new CartItem() { OwnerId = johnId, ItemVariantId = _data.ItemVariants.IPhone632GB.Id, Number = 7 },
-                new CartItem() { OwnerId = johnId, ItemVariantId = _data.ItemVariants.IPhone664GB.Id, Number = 8 },
+                new CartItem() { OwnerId = Users.JohnId, ItemVariantId = Data.ItemVariants.IPhone632GB.Id, Number = 7 },
+                new CartItem() { OwnerId = Users.JohnId, ItemVariantId = Data.ItemVariants.IPhone664GB.Id, Number = 8 },
             });
         }
 
         protected override IEnumerable<CartItem> GetCorrectEntitesForUpdate()
         {
-            _data.CartItems.JohnIphone32.Number = 77;
-            _data.CartItems.JohnIphone64.Number = 88;
+            Data.CartItems.JohnIphone32.Number = 77;
+            Data.CartItems.JohnIphone64.Number = 88;
             return new List<CartItem>
             {
-                _data.CartItems.JohnIphone32,
-                _data.CartItems.JohnIphone64
+                Data.CartItems.JohnIphone32,
+                Data.CartItems.JohnIphone64
             };
         }
 
         protected override IEnumerable<CartItem> GetIncorrectEntitesForUpdate()
         {
-            _data.CartItems.JohnIphone32.Number = 0;
-            _data.CartItems.JohnIphone64.Number = -1;
+            Data.CartItems.JohnIphone32.Number = 0;
+            Data.CartItems.JohnIphone64.Number = -1;
             return new List<CartItem>
             {
-                _data.CartItems.JohnIphone32,
-                _data.CartItems.JohnIphone64
+                Data.CartItems.JohnIphone32,
+                Data.CartItems.JohnIphone64
             };
         }
 
         protected override Specification<CartItem> GetEntitiesToDeleteSpecification()
         {
-            return new Specification<CartItem>(c => c.OwnerId == _data.CartItems.JohnIphone32.OwnerId);
+            return new Specification<CartItem>(c => c.OwnerId == Data.CartItems.JohnIphone32.OwnerId);
         }
     }
 }

@@ -37,8 +37,8 @@ namespace OctopusStore.Controllers
             [FromQuery(Name = "brandId")]int? brandId)
         {
             page = page ?? 1;
-            pageSize = pageSize ?? _defaultTake;
-            var spec = await _service.GetIndexSpecificationByParameters(page.Value, pageSize.Value, title, categoryId, storeId, brandId);
+            pageSize = pageSize ?? DefaultTake;
+            var spec = await Service.GetIndexSpecificationByParameters(page.Value, pageSize.Value, title, categoryId, storeId, brandId);
             return await base.IndexAsync<ItemThumbnailViewModel>(new ItemThumbnailIndexSpecification(spec));
         }
 
@@ -53,8 +53,8 @@ namespace OctopusStore.Controllers
             [FromQuery(Name = "brandId")]int? brandId)
         {
             page = page ?? 1;
-            pageSize = pageSize ?? _defaultTake;
-            return await base.IndexAsync(await _service.GetIndexSpecificationByParameters(page.Value, pageSize.Value, title, categoryId, storeId, brandId));
+            pageSize = pageSize ?? DefaultTake;
+            return await base.IndexAsync(await Service.GetIndexSpecificationByParameters(page.Value, pageSize.Value, title, categoryId, storeId, brandId));
         }
 
         //[AllowAnonymous]

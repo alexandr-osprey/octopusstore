@@ -12,6 +12,7 @@ namespace ApplicationCore.Entities
         public MeasurementUnit(): base()
         {
         }
+
         protected MeasurementUnit(MeasurementUnit measurementUnit): base(measurementUnit)
         {
             Title = measurementUnit.Title;

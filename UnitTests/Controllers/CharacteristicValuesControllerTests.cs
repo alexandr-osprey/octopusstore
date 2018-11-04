@@ -1,6 +1,5 @@
 ﻿using ApplicationCore.Entities;
 using ApplicationCore.Specifications;
-using Microsoft.EntityFrameworkCore;
 using ApplicationCore.ViewModels;
 using System.Linq;
 using System.Threading.Tasks;
@@ -26,42 +25,41 @@ namespace UnitTests.Controllers
         [Fact]
         public async Task IndexAsync()
         {
-            var category = await _context.Categories.FirstOrDefaultAsync(c => c.Title == "Smartphones");
+            var category = Data.Categories.Smartphones;
             var categories = await _categoryService.EnumerateParentCategoriesAsync(new EntitySpecification<Category>(category.Id));
             var categoryIds = from c in categories select c.Id;
             var spec = new CharacteristicByCategoryIdsSpecification(categoryIds);
             var characteristics = await _characteristicService.EnumerateAsync(spec);
             var characteristicIds = from c in characteristics select c.Id;
             var spec2 = new CharacteristicValueByCharacteristicIdsSpecification(characteristicIds);
-            var characteristicValues = await _service.EnumerateAsync(spec2);
+            var characteristicValues = await Service.EnumerateAsync(spec2);
             var expected = new IndexViewModel<CharacteristicValueViewModel>(1, 1, characteristicValues.Count(), from c in characteristicValues select new CharacteristicValueViewModel(c));
-            var actual = await _controller.IndexAsync(category.Id);
+            var actual = await Controller.IndexAsync(category.Id);
             Equal(expected, actual);
         }
 
-        protected override async Task<IEnumerable<CharacteristicValue>> GetCorrectEntitiesToCreateAsync()
+        protected override IEnumerable<CharacteristicValue> GetCorrectEntitiesToCreate()
         {
-            return await Task.FromResult(new List<CharacteristicValue>()
+            return new List<CharacteristicValue>()
             {
                 new CharacteristicValue()
                 {
                     Title = "new",
-                    CharacteristicId = 2
+                    CharacteristicId = Data.Characteristics.Colour.Id
                 }
-            });
+            };
         }
 
-        protected override Task AssertUpdateSuccessAsync(CharacteristicValue beforeUpdate, CharacteristicValueViewModel expected, CharacteristicValueViewModel actual)
+        protected override void AssertUpdateSuccess(CharacteristicValue beforeUpdate, CharacteristicValueViewModel expected, CharacteristicValueViewModel actual)
         {
             Assert.Equal(expected.Title, actual.Title);
             Assert.Equal(beforeUpdate.CharacteristicId, actual.CharacteristicId);
             Assert.Equal(beforeUpdate.Id, actual.Id);
-            return Task.CompletedTask;
         }
 
-        protected override async Task<IEnumerable<CharacteristicValue>> GetCorrectEntitiesToUpdateAsync()
+        protected override IEnumerable<CharacteristicValue> GetCorrectEntitiesToUpdate()
         {
-            var entities = await _context.Set<CharacteristicValue>().AsNoTracking().Take(3).ToListAsync();
+            var entities = Data.CharacteristicValues.Entities.Take(3).ToList();
             entities.ForEach(e => e.Title = "updated");
             entities.ForEach(e => e.CharacteristicId = 999);
             return entities;

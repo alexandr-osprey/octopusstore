@@ -5,7 +5,7 @@ namespace Infrastructure.Data.SampleData
 {
     public class CharacteristicValues: SampleDataEntities<CharacteristicValue>
     {
-        public Characteristics Characteristics { get; }
+        protected Characteristics Characteristics { get; }
 
         public CharacteristicValue GB16 { get; } 
         public CharacteristicValue GB32 { get; }

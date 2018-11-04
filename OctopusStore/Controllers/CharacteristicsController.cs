@@ -27,7 +27,7 @@ namespace OctopusStore.Controllers
         [HttpGet("/api/categories/{categoryId:int}/characteristics")]
         public async Task<IndexViewModel<CharacteristicViewModel>> IndexAsync([FromQuery(Name = "categoryId")]int categoryId)
         {
-            return await base.IndexByFunctionNotPagedAsync(_service.EnumerateByCategoryAsync, new EntitySpecification<Category>(categoryId));
+            return await base.IndexByFunctionNotPagedAsync(Service.EnumerateByCategoryAsync, new EntitySpecification<Category>(categoryId));
         }
 
         [HttpGet("{id:int}/checkUpdateAuthorization")]

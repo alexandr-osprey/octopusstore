@@ -13,7 +13,7 @@ namespace Infrastructure.Services
 {
     public class CharacteristicValueService: Service<CharacteristicValue>, ICharacteristicValueService
     {
-        protected readonly ICharacteristicService _сharacteristicService;
+        protected ICharacteristicService СharacteristicService { get; }
 
         public CharacteristicValueService(
             StoreContext context,
@@ -24,18 +24,18 @@ namespace Infrastructure.Services
             IAppLogger<Service<CharacteristicValue>> logger)
            : base(context, identityService, scopedParameters, authoriationParameters, logger)
         {
-            _сharacteristicService = characteristicService;
+            this.СharacteristicService = characteristicService;
         }
 
         public async Task<IEnumerable<CharacteristicValue>> EnumerateByCategoryAsync(Specification<Category> spec)
         {
-            var characteristics = await _сharacteristicService.EnumerateByCategoryAsync(spec);
+            var characteristics = await СharacteristicService.EnumerateByCategoryAsync(spec);
             return await EnumerateAsync(new CharacteristicValueByCharacteristicIdsSpecification(from c in characteristics select c.Id));
         }
 
         public async Task<IEnumerable<CharacteristicValue>> EnumerateByItemAsync(Specification<Item> spec)
         {
-            var characteristics = await _сharacteristicService.EnumerateAsync(spec);
+            var characteristics = await СharacteristicService.EnumerateAsync(spec);
             return await EnumerateAsync(new CharacteristicValueByCharacteristicIdsSpecification(from c in characteristics select c.Id));
         }
 
@@ -43,7 +43,7 @@ namespace Infrastructure.Services
         {
             await base.ValidateCreateWithExceptionAsync(characteristicValue);
             await ValidateUpdateWithExceptionAsync(characteristicValue);
-            if (!await _context.ExistsBySpecAsync(_logger, new EntitySpecification<Characteristic>(characteristicValue.CharacteristicId)))
+            if (!await Context.ExistsBySpecAsync(Logger, new EntitySpecification<Characteristic>(characteristicValue.CharacteristicId)))
                 throw new EntityValidationException("Characteristic does not exist");
         }
 

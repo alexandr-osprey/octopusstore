@@ -8,36 +8,35 @@ namespace Infrastructure.Data.SampleData
 {
     public abstract class SampleDataEntities<T> where T: Entity, IGenericMemberwiseClonable<T>
     {
-        protected readonly StoreContext _storeContext;
+        protected StoreContext StoreContext { get; }
         protected abstract IEnumerable<T> GetSourceEntities();
 
-        protected List<T> _entities = new List<T>();
-        public List<T> Entities { get => _entities; }
+        protected List<T> entities = new List<T>();
+        public List<T> Entities { get => entities; }
 
         public SampleDataEntities(StoreContext storeContext)
         {
-            _storeContext = storeContext;
+            StoreContext = storeContext;
         }
 
         protected void Seed()
         {
-            BeforeSeed();
-            _storeContext.Set<T>().RemoveRange(_storeContext.Set<T>());
-            _storeContext.SaveChanges();
-            var savingEntities = GetSourceEntities();
-            _storeContext.AddRange(savingEntities);
-            _storeContext.SaveChanges();
-            AfterSeed(savingEntities.ToList());
-            _entities = _storeContext.Set<T>().AsNoTracking().ToList();
+            if (!StoreContext.Set<T>().Any())
+            {
+                BeforeSeed();
+                var savingEntities = GetSourceEntities();
+                StoreContext.AddRange(savingEntities);
+                StoreContext.SaveChanges();
+                AfterSeed(savingEntities.ToList());
+            }
+            entities = StoreContext.Set<T>().AsNoTracking().ToList();
         }
 
         protected virtual void BeforeSeed()
         {
-
         }
         protected virtual void AfterSeed(List<T> entities)
         {
-            
         }
     }
 }

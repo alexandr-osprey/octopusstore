@@ -13,7 +13,7 @@ namespace Infrastructure.Services
 {
     public class CharacteristicService: Service<Characteristic>, ICharacteristicService
     {
-        protected readonly ICategoryService _сategoryService;
+        protected ICategoryService CategoryService { get; }
 
         public CharacteristicService(
             StoreContext context,
@@ -24,18 +24,18 @@ namespace Infrastructure.Services
             IAppLogger<Service<Characteristic>> logger)
            : base(context, identityService, scopedParameters, authoriationParameters, logger)
         {
-            _сategoryService = categoryService;
+            CategoryService = categoryService;
         }
 
         public async Task<IEnumerable<Characteristic>> EnumerateAsync(Specification<Item> spec)
         {
-            var categories = await _сategoryService.EnumerateParentCategoriesAsync(spec);
+            var categories = await CategoryService.EnumerateParentCategoriesAsync(spec);
             return await EnumerateAsync(new CharacteristicByCategoryIdsSpecification(from c in categories select c.Id));
         }
 
         public async Task<IEnumerable<Characteristic>> EnumerateByCategoryAsync(Specification<Category> spec)
         {
-            var categories = await _сategoryService.EnumerateParentCategoriesAsync(spec);
+            var categories = await CategoryService.EnumerateParentCategoriesAsync(spec);
             return await EnumerateAsync(new CharacteristicByCategoryIdsSpecification(from c in categories select c.Id));
         }
 
@@ -43,7 +43,7 @@ namespace Infrastructure.Services
         {
             await base.ValidateCreateWithExceptionAsync(characteristic);
             await ValidateUpdateWithExceptionAsync(characteristic);
-            if (!await _context.ExistsBySpecAsync(_logger, new EntitySpecification<Category>(characteristic.CategoryId)))
+            if (!await Context.ExistsBySpecAsync(Logger, new EntitySpecification<Category>(characteristic.CategoryId)))
                 throw new EntityValidationException("Category does not exist");
         }
 

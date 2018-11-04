@@ -17,10 +17,10 @@ namespace Infrastructure.Services
 {
     public abstract class Service<TEntity>: IService<TEntity> where TEntity: Entity
     {
-        protected readonly DbContext _context;
-        protected readonly IAppLogger<Service<TEntity>> _logger;
-        protected readonly IScopedParameters _scopedParameters;
-        protected readonly IAuthorizationParameters<TEntity> _authoriationParameters;
+        protected DbContext Context { get; }
+        protected IAppLogger<Service<TEntity>> Logger { get; }
+        protected IScopedParameters ScopedParameters { get; }
+        protected IAuthorizationParameters<TEntity> AuthoriationParameters { get; }
 
         public IIdentityService IdentityService { get; }
         public string Name { get; set; }
@@ -32,72 +32,72 @@ namespace Infrastructure.Services
             IAuthorizationParameters<TEntity> authoriationParameters,
             IAppLogger<Service<TEntity>> logger)
         {
-            _context = context;
-            _scopedParameters = scopedParameters;
-            _authoriationParameters = authoriationParameters;
+            Context = context;
+            ScopedParameters = scopedParameters;
+            AuthoriationParameters = authoriationParameters;
             IdentityService = identityService;
-            _logger = logger;
+            Logger = logger;
             Name = typeof(TEntity).Name + "Service";
         }
 
         public virtual async Task<TEntity> CreateAsync(TEntity entity)
         {
-            entity.OwnerId = _scopedParameters.ClaimsPrincipal.Identity.Name;
+            entity.OwnerId = ScopedParameters.ClaimsPrincipal.Identity.Name;
             await ValidateCreateWithExceptionAsync(entity);
             await ValidateCustomUniquinessWithException(entity);
-            if (_authoriationParameters.CreateAuthorizationRequired)
+            if (AuthoriationParameters.CreateAuthorizationRequired)
             {
-                await AuthorizeWithException(entity, _authoriationParameters.CreateOperationRequirement);
+                await AuthorizeWithException(entity, AuthoriationParameters.CreateOperationRequirement);
             }
             //await ValidateUniquiness
-            var result = await _context.CreateAsync(_logger, entity);
-            _logger.Trace("{Name} added entity {entity}", Name, result);
+            var result = await Context.CreateAsync(Logger, entity);
+            Logger.Trace("{Name} added entity {entity}", Name, result);
             return result;
         }
 
         public virtual async Task<TEntity> ReadSingleAsync(Specification<TEntity> spec)
         {
-            var entity = await _context.ReadSingleBySpecAsync(_logger, spec);
-            if (_authoriationParameters.ReadAuthorizationRequired)
-                await AuthorizeWithException(entity, _authoriationParameters.ReadOperationRequirement);
-            _logger.Trace("{Name} retreived single entity {entity} by spec: {spec}", Name, entity, spec);
+            var entity = await Context.ReadSingleBySpecAsync(Logger, spec);
+            if (AuthoriationParameters.ReadAuthorizationRequired)
+                await AuthorizeWithException(entity, AuthoriationParameters.ReadOperationRequirement);
+            Logger.Trace("{Name} retreived single entity {entity} by spec: {spec}", Name, entity, spec);
             return entity;
         }
 
         public virtual async Task<TEntity> ReadSingleAsync(TEntity entity)
         {
-            entity = await _context.ReadSingleAsync(_logger, entity);
-            if (_authoriationParameters.ReadAuthorizationRequired)
-                await AuthorizeWithException(entity, _authoriationParameters.ReadOperationRequirement);
-            _logger.Trace("{Name} retreived single entity {entity}", Name, entity);
+            entity = await Context.ReadSingleAsync(Logger, entity);
+            if (AuthoriationParameters.ReadAuthorizationRequired)
+                await AuthorizeWithException(entity, AuthoriationParameters.ReadOperationRequirement);
+            Logger.Trace("{Name} retreived single entity {entity}", Name, entity);
             return entity;
         }
 
         public virtual async Task<TEntity> UpdateAsync(TEntity entity)
         {
             await ValidateUpdateWithExceptionAsync(entity);
-            if (_authoriationParameters.UpdateAuthorizationRequired)
-                await AuthorizeWithException(entity, _authoriationParameters.UpdateOperationRequirement);
-            var result = await _context.UpdateAsync(_logger, entity);
-            _logger.Trace("{Name} updated entity {entity}", Name, result);
+            if (AuthoriationParameters.UpdateAuthorizationRequired)
+                await AuthorizeWithException(entity, AuthoriationParameters.UpdateOperationRequirement);
+            var result = await Context.UpdateAsync(Logger, entity);
+            Logger.Trace("{Name} updated entity {entity}", Name, result);
             return result;
         }
 
         public virtual async Task<IEnumerable<TEntity>> EnumerateAsync(Specification<TEntity> spec)
         {
-            var entities = await _context.EnumerateAsync(_logger, spec);
-            if (_authoriationParameters.ReadAuthorizationRequired)
+            var entities = await Context.EnumerateAsync(Logger, spec);
+            if (AuthoriationParameters.ReadAuthorizationRequired)
                 entities = await ReadAuthorizedOnlyFilter(entities);
-            _logger.Trace("{Name} listed: {resultCount} entities by spec: {spec}", Name, entities.Count(), spec);
+            Logger.Trace("{Name} listed: {resultCount} entities by spec: {spec}", Name, entities.Count(), spec);
             return entities;
         }
 
         public virtual async Task<IEnumerable<TRelated>> EnumerateRelatedAsync<TRelated>(Specification<TEntity> spec, Expression<Func<TEntity, TRelated>> relatedSelect) where TRelated: class
         {
-            var relatedEntities = await _context.EnumerateRelatedAsync(_logger, spec, relatedSelect);
-            if (_authoriationParameters.ReadAuthorizationRequired)
+            var relatedEntities = await Context.EnumerateRelatedAsync(Logger, spec, relatedSelect);
+            if (AuthoriationParameters.ReadAuthorizationRequired)
                 relatedEntities = await ReadAuthorizedOnlyFilter(relatedEntities);
-            _logger.Trace("{Name} listed related: {resultCount} entities by spec: {spec}", Name, relatedEntities.Count(), spec);
+            Logger.Trace("{Name} listed related: {resultCount} entities by spec: {spec}", Name, relatedEntities.Count(), spec);
             return relatedEntities;
         }
 
@@ -105,41 +105,41 @@ namespace Infrastructure.Services
            Specification<TEntity> listRelatedSpec,
            Expression<Func<TEntity, IEnumerable<TRelated>>> relatedEnumSelect) where TRelated: class
         {
-            var relatedEntities = await _context.EnumerateRelatedEnumAsync(_logger, listRelatedSpec, relatedEnumSelect);
-            if (_authoriationParameters.ReadAuthorizationRequired)
+            var relatedEntities = await Context.EnumerateRelatedEnumAsync(Logger, listRelatedSpec, relatedEnumSelect);
+            if (AuthoriationParameters.ReadAuthorizationRequired)
                 relatedEntities = await ReadAuthorizedOnlyFilter(relatedEntities);
-            _logger.Trace("{Name} listed related enum: {resultCount} entities by spec: {spec}", Name, relatedEntities.Count(), listRelatedSpec);
+            Logger.Trace("{Name} listed related enum: {resultCount} entities by spec: {spec}", Name, relatedEntities.Count(), listRelatedSpec);
             return relatedEntities;
         }
 
         public virtual async Task DeleteSingleAsync(Specification<TEntity> spec)
         {
-            var entity = await _context.ReadSingleBySpecAsync(_logger, spec);
+            var entity = await Context.ReadSingleBySpecAsync(Logger, spec);
             await DeleteSingleAsync(entity);
-            _logger.Trace("{Name} deleted: {entity} by spec: {spec}", Name, entity, spec);
+            Logger.Trace("{Name} deleted: {entity} by spec: {spec}", Name, entity, spec);
         }
 
         public virtual async Task<int> DeleteAsync(Specification<TEntity> spec)
         {
-            var entities = await _context.EnumerateAsync(_logger, spec);
+            var entities = await Context.EnumerateAsync(Logger, spec);
             foreach (var entity in entities)
                 await DeleteSingleAsync(entity);
-            _logger.Trace("{Name} deleted: {resultCount} by spec: {spec}", Name, entities.Count(), spec);
+            Logger.Trace("{Name} deleted: {resultCount} by spec: {spec}", Name, entities.Count(), spec);
             return entities.Count();
         }
 
         protected virtual async Task DeleteSingleAsync(TEntity entity)
         {
-            if (_authoriationParameters.DeleteAuthorizationRequired)
-                await AuthorizeWithException(entity, _authoriationParameters.DeleteOperationRequirement);
+            if (AuthoriationParameters.DeleteAuthorizationRequired)
+                await AuthorizeWithException(entity, AuthoriationParameters.DeleteOperationRequirement);
             await DeleteRelatedEntitiesAsync(entity);
-            await _context.DeleteAsync(_logger, entity, false);
-            _logger.Trace("{Name} deleted {entity}", Name, entity);
+            await Context.DeleteAsync(Logger, entity, false);
+            Logger.Trace("{Name} deleted {entity}", Name, entity);
         }
 
         public virtual async Task DeleteRelatedEntitiesAsync(TEntity entity)
         {
-            _logger.Trace("{Name} deleted entity related to {entity} (if such existed)", Name, entity);
+            Logger.Trace("{Name} deleted entity related to {entity} (if such existed)", Name, entity);
             await Task.CompletedTask;
         }
 
@@ -163,30 +163,30 @@ namespace Infrastructure.Services
 
         public virtual async Task<int> PageCountAsync(Specification<TEntity> spec)
         {
-            int totalCount = await _context.CountAsync(_logger, spec);
+            int totalCount = await Context.CountAsync(Logger, spec);
             int result = (int)Math.Ceiling(((decimal)totalCount / spec.Take));
-            _logger.Trace("{Name} got page count {count} by spec: {spec}", Name, result, spec);
+            Logger.Trace("{Name} got page count {count} by spec: {spec}", Name, result, spec);
             return result;
         }
 
         public virtual async Task<int> CountTotalAsync(Specification<TEntity> spec)
         {
-            int result = await _context.CountAsync(_logger, spec);
-            _logger.Trace("{Name} got entities count {count} by spec: {spec}", Name, result, spec);
+            int result = await Context.CountAsync(Logger, spec);
+            Logger.Trace("{Name} got entities count {count} by spec: {spec}", Name, result, spec);
             return result;
         }
 
         public virtual async Task<bool> ExistsAsync(Specification<TEntity> spec)
         {
-            bool result = await _context.ExistsBySpecAsync(_logger, spec);
-            _logger.Trace("{Name} checked existance ({result}) by spec: {spec}", Name, result, spec);
+            bool result = await Context.ExistsBySpecAsync(Logger, spec);
+            Logger.Trace("{Name} checked existance ({result}) by spec: {spec}", Name, result, spec);
             return result;
         }
 
         public virtual async Task<bool> ExistsAsync(TEntity entity)
         {
-            bool result = await _context.ExistsAsync(_logger, entity);
-            _logger.Trace("{Name} checked existance ({result})", Name, result, entity);
+            bool result = await Context.ExistsAsync(Logger, entity);
+            Logger.Trace("{Name} checked existance ({result})", Name, result, entity);
             return result;
         }
 
@@ -194,7 +194,7 @@ namespace Infrastructure.Services
         {
             var authorizedEntities = new List<TCustom>();
             foreach (var entity in entities)
-                if (await Authorize(entity, _authoriationParameters.ReadOperationRequirement))
+                if (await Authorize(entity, AuthoriationParameters.ReadOperationRequirement))
                     authorizedEntities.Add(entity);
             return authorizedEntities;
         }
@@ -204,20 +204,20 @@ namespace Infrastructure.Services
             if (!await Authorize(entity, requirement))
             {
                 string message = $"{entity} {requirement.Name} authorization failure";
-                _logger.Trace(message);
+                Logger.Trace(message);
                 throw new AuthorizationException(message);
             }
         }
 
         protected async Task AuthorizeWithException<TCustom>(object key, OperationAuthorizationRequirement requirement) where TCustom: class
         {
-            var entity = _context.ReadByKeyAsync<TCustom, Service<TEntity>>(_logger, key, true);
+            var entity = Context.ReadByKeyAsync<TCustom, Service<TEntity>>(Logger, key, true);
             await AuthorizeWithException(entity, requirement);
         }
 
         protected async Task<bool> Authorize(object obj, OperationAuthorizationRequirement requirement)
         {
-            return await IdentityService.AuthorizeAsync(_scopedParameters.ClaimsPrincipal, obj, requirement);
+            return await IdentityService.AuthorizeAsync(ScopedParameters.ClaimsPrincipal, obj, requirement);
         }
     }
 }

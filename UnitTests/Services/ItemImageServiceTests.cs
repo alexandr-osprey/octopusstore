@@ -17,7 +17,7 @@ namespace UnitTests.Services
         public ItemImageServiceTests(ITestOutputHelper output)
            : base(output)
         {
-            _imageToCreateFrom = _data.ItemImages.Samsung71;
+            _imageToCreateFrom = Data.ItemImages.Samsung71;
         }
 
         protected ItemImage _imageToCreateFrom;
@@ -26,19 +26,19 @@ namespace UnitTests.Services
         {
             return new List<ItemImage>()
             {
-                new ItemImage("testImage1", _imageToCreateFrom.ContentType, _imageToCreateFrom.RelatedId, _service.GetStream(_imageToCreateFrom))
+                new ItemImage("testImage1", _imageToCreateFrom.ContentType, _imageToCreateFrom.RelatedId, Service.GetStream(_imageToCreateFrom))
             };
         }
 
         protected override IEnumerable<ItemImage> GetIncorrectNewEntites()
         {
-            var itemImage = _data.ItemImages.IPhone63;
+            var itemImage = Data.ItemImages.IPhone63;
             return new List<ItemImage>()
             {
-                new ItemImage("", @"image/jpg", itemImage.RelatedId, _service.GetStream(itemImage)),
-                new ItemImage("test", @"image/jpg", 999, _service.GetStream(itemImage)),
+                new ItemImage("", @"image/jpg", itemImage.RelatedId, Service.GetStream(itemImage)),
+                new ItemImage("test", @"image/jpg", 999, Service.GetStream(itemImage)),
                 new ItemImage("test", @"image/jpg", itemImage.RelatedId, null),
-                new ItemImage("test",  @"image/exe", itemImage.RelatedId, _service.GetStream(itemImage)),
+                new ItemImage("test",  @"image/exe", itemImage.RelatedId, Service.GetStream(itemImage)),
             };
         }
 
@@ -46,19 +46,21 @@ namespace UnitTests.Services
         protected override async Task AssertCreateSuccessAsync(ItemImage itemImage)
         {
             await base.AssertCreateSuccessAsync(itemImage);
-            Assert.True(_context.ItemImages.Contains(itemImage));
-            var fileDest = File.Open(itemImage.FullPath, FileMode.Open);
-            var fileInit = File.Open(_imageToCreateFrom.FullPath, FileMode.Open);
-            Assert.Equal(fileInit.Length, fileDest.Length);
-            fileDest.Close();
-            fileInit.Close();
+            Assert.True(Context.ItemImages.Contains(itemImage));
+            using (var fileDest = File.Open(itemImage.FullPath, FileMode.Open))
+            {
+                using (var fileInit = File.Open(_imageToCreateFrom.FullPath, FileMode.Open))
+                {
+                    Assert.Equal(fileInit.Length, fileDest.Length);
+                }
+            }
             Directory.Delete(itemImage.DirectoryPath, true);
         }
 
         [Fact]
         public async Task GetStream()
         {
-            using (var stream = _service.GetStream(_data.ItemImages.Jacket1))
+            using (var stream = Service.GetStream(Data.ItemImages.Jacket1))
             {
                 byte[] readBytes = new byte[stream.Length];
                 int bytesCount = await stream.ReadAsync(readBytes, 0, (int)stream.Length);
@@ -91,16 +93,16 @@ namespace UnitTests.Services
 
         protected override IEnumerable<ItemImage> GetCorrectEntitesForUpdate()
         {
-            _data.ItemImages.Samsung81.Title = "Updated 1";
-            return new List<ItemImage>() { _data.ItemImages.Samsung81 };
+            Data.ItemImages.Samsung81.Title = "Updated 1";
+            return new List<ItemImage>() { Data.ItemImages.Samsung81 };
         }
 
         protected override IEnumerable<ItemImage> GetIncorrectEntitesForUpdate()
         {
-            _data.ItemImages.Samsung81.Title = "";
+            Data.ItemImages.Samsung81.Title = "";
             return new List<ItemImage>()
             {
-                _data.ItemImages.Samsung81
+                Data.ItemImages.Samsung81
             };
         }
 

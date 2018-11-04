@@ -17,10 +17,10 @@ namespace UnitTests.Services
 
         protected override IEnumerable<MeasurementUnit> GetCorrectEntitesForUpdate()
         {
-            _data.MeasurementUnits.Kg.Title = "Updated";
+            Data.MeasurementUnits.Kg.Title = "Updated";
             return new List<MeasurementUnit>()
             {
-                _data.MeasurementUnits.Kg
+                Data.MeasurementUnits.Kg
             };
         }
 
@@ -39,10 +39,10 @@ namespace UnitTests.Services
 
         protected override IEnumerable<MeasurementUnit> GetIncorrectEntitesForUpdate()
         {
-            _data.MeasurementUnits.Kg.Title = null;
+            Data.MeasurementUnits.Kg.Title = null;
             return new List<MeasurementUnit>()
             {
-                _data.MeasurementUnits.Kg
+                Data.MeasurementUnits.Kg
             };
         }
 

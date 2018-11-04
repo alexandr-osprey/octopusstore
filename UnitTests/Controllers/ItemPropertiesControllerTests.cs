@@ -20,42 +20,39 @@ namespace UnitTests.Controllers
         [Fact]
         public async Task IndexByVariantAsync()
         {
-            var item = await _context.Items.Include(i => i.ItemVariants).FirstOrDefaultAsync();
-            int variantId = item.ItemVariants.ElementAt(0).Id;
+            int variantId = Data.ItemVariants.IPhone664GB.Id;
             var values = await GetQueryable().Where(v => v.ItemVariantId == variantId).ToListAsync();
             var expected = new IndexViewModel<ItemPropertyViewModel>(1, 1, values.Count(), from v in values select new ItemPropertyViewModel(v));
-            var actual = await _controller.IndexAsync(variantId, null);
+            var actual = await Controller.IndexAsync(variantId, null);
             Equal(expected, actual);
         }
 
         [Fact]
         public async Task IndexByItemAsync()
         {
-            var item = await _context.Items.Include(i => i.ItemVariants).FirstOrDefaultAsync();
-            var values = await GetQueryable().Where(v => item.ItemVariants.Contains(v.ItemVariant)).ToListAsync();
+            var item = Data.Items.IPhone6;
+            var itemVariants = Data.ItemVariants.Entities.Where(i => i.ItemId == item.Id);
+            var values = Data.ItemProperties.Entities.Where(i => (from iv in itemVariants select iv.Id).Contains(i.ItemVariantId));
             var expected = new IndexViewModel<ItemPropertyViewModel>(1, 1, values.Count(), from v in values select new ItemPropertyViewModel(v));
-            var actual = await _controller.IndexAsync(null, item.Id);
+            var actual = await Controller.IndexAsync(null, item.Id);
             Equal(expected, actual);
         }
 
         protected override IQueryable<ItemProperty> GetQueryable()
         {
-            return _context
+            return Context
                 .Set<ItemProperty>()
                 .Include(i => i.CharacteristicValue)
                     .ThenInclude(i => i.Characteristic);
         }
 
-        protected override async Task<IEnumerable<ItemProperty>> GetCorrectEntitiesToCreateAsync()
+        protected override IEnumerable<ItemProperty> GetCorrectEntitiesToCreate()
         {
-            var newVariant = (await _context.Set<ItemVariant>().AddAsync(new ItemVariant() { ItemId = 1, OwnerId = johnId, Price = 500, Title = "title" })).Entity;
-            await _context.SaveChangesAsync();
-            return await Task.FromResult(new List<ItemProperty>()
+            return new List<ItemProperty>()
             {
-                new ItemProperty() { ItemVariantId = newVariant.Id, CharacteristicValueId = 5 },
-                new ItemProperty() { ItemVariantId = newVariant.Id, CharacteristicValueId = 1 },
-                //new ItemProperty() { ItemVariantId = 9, CharacteristicValueId = 11 }
-            });
+                new ItemProperty() { ItemVariantId = Data.ItemVariants.JacketBlack.Id, CharacteristicValueId = Data.CharacteristicValues.MuchFashion.Id },
+                new ItemProperty() { ItemVariantId = Data.ItemVariants.Pebble1000mAh.Id, CharacteristicValueId = Data.CharacteristicValues.GB16.Id },
+            };
         }
 
         protected override ItemPropertyViewModel ToViewModel(ItemProperty entity)
@@ -68,9 +65,9 @@ namespace UnitTests.Controllers
             };
         }
 
-        protected override async Task<IEnumerable<ItemProperty>> GetCorrectEntitiesToUpdateAsync()
+        protected override IEnumerable<ItemProperty> GetCorrectEntitiesToUpdate()
         {
-            var entities = await _context.Set<ItemProperty>().AsNoTracking().Take(10).ToListAsync();
+            var entities = Data.ItemProperties.Entities.Take(5).ToList();
             entities.ForEach(e => 
             {
                 e.CharacteristicValueId = 999;
@@ -79,12 +76,11 @@ namespace UnitTests.Controllers
             return entities;
         }
 
-        protected override Task AssertUpdateSuccessAsync(ItemProperty beforeUpdate, ItemPropertyViewModel expected, ItemPropertyViewModel actual)
+        protected override void AssertUpdateSuccess(ItemProperty beforeUpdate, ItemPropertyViewModel expected, ItemPropertyViewModel actual)
         {
             Assert.Equal(beforeUpdate.Id, actual.Id);
             Assert.Equal(beforeUpdate.ItemVariantId, actual.ItemVariantId);
             Assert.Equal(beforeUpdate.CharacteristicValueId, actual.CharacteristicValueId);
-            return Task.CompletedTask;
         }
     }
 }

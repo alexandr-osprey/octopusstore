@@ -13,7 +13,19 @@ namespace Infrastructure.Services
 {
     public class CategoryService: Service<Category>, ICategoryService
     {
-        public int RootCategoryId { get;  } = 1;
+        public string RootCategoryName { get; } = "Categories";
+        protected int rootCategoryId = 0;
+        public int RootCategoryId
+        {
+            get
+            {
+                if (rootCategoryId == 0)
+                {
+                    rootCategoryId = Context.ReadSingleBySpec(Logger, new Specification<Category>(c => c.Title == RootCategoryName), true).Id;
+                }
+                return rootCategoryId;
+            }
+        }
 
         public CategoryService(
             StoreContext context,
@@ -27,7 +39,7 @@ namespace Infrastructure.Services
 
         public async Task<IEnumerable<Category>> EnumerateHierarchyAsync(Specification<Item> spec)
         {
-            var categories = await _context.EnumerateRelatedAsync(_logger, spec, (i => i.Category));
+            var categories = await Context.EnumerateRelatedAsync(Logger, spec, (i => i.Category));
             return await EnumerateHierarchyAsync(new EntitySpecification<Category>(c => categories.Contains(c)));
         }
 
@@ -49,7 +61,7 @@ namespace Infrastructure.Services
         public async Task<IEnumerable<Category>> EnumerateSubcategoriesAsync(Specification<Category> spec)
         {
             var flatCategories = new HashSet<Category>();
-            var categories = await _context.EnumerateAsync(_logger, spec);
+            var categories = await Context.EnumerateAsync(Logger, spec);
             foreach (var category in categories)
             {
                 var categorySpec = new Specification<Category>((s => s.Id == category.Id), (s => s.Subcategories))
@@ -63,7 +75,7 @@ namespace Infrastructure.Services
 
         public async Task<IEnumerable<Category>> EnumerateParentCategoriesAsync(Specification<Item> itemSpec)
         {
-            var categories = (await _context.EnumerateRelatedAsync(_logger, itemSpec, (i => i.Category))).Distinct();
+            var categories = (await Context.EnumerateRelatedAsync(Logger, itemSpec, (i => i.Category))).Distinct();
             var flatCategories = new HashSet<Category>();
             foreach (var category in categories)
                 await GetParentCategoriesAsync(category, flatCategories);
@@ -72,7 +84,7 @@ namespace Infrastructure.Services
 
         public async Task<IEnumerable<Category>> EnumerateSubcategoriesAsync(Specification<Item> itemSpec)
         {
-            var categories = await _context.EnumerateRelatedAsync(_logger, itemSpec, (i => i.Category));
+            var categories = await Context.EnumerateRelatedAsync(Logger, itemSpec, (i => i.Category));
             var flatCategories = new HashSet<Category>();
             foreach (var category in categories)
                 await GetSubcategoriesAsync(category, flatCategories);
@@ -81,7 +93,7 @@ namespace Infrastructure.Services
 
         public async Task GetParentCategoriesAsync(Specification<Category> spec, HashSet<Category> hierarchy)
         {
-            var categories = await _context.EnumerateAsync(_logger, spec);
+            var categories = await Context.EnumerateAsync(Logger, spec);
             foreach (var c in categories)
                 await GetParentCategoriesAsync(c, hierarchy);
         }
@@ -108,7 +120,7 @@ namespace Infrastructure.Services
                 throw new EntityValidationException("Title not specified");
             if (string.IsNullOrWhiteSpace(category.Description))
                 throw new EntityValidationException("Description not specified");
-            if (category.Id != 1 && !await _context.ExistsBySpecAsync(_logger, new EntitySpecification<Category>(category.ParentCategoryId)))
+            if (category.Id != RootCategoryId && !await Context.ExistsBySpecAsync(Logger, new EntitySpecification<Category>(category.ParentCategoryId)))
                 throw new EntityValidationException("Parent category does not exist");
         }
         protected override async Task ValidateUpdateWithExceptionAsync(Category category)
@@ -132,7 +144,7 @@ namespace Infrastructure.Services
         }
         protected async Task GetSubcategoriesAsync(Specification<Category> spec, HashSet<Category> subcategories)
         {
-            var category = await _context.ReadSingleBySpecAsync(_logger, spec, false);
+            var category = await Context.ReadSingleBySpecAsync(Logger, spec, false);
             await GetSubcategoriesAsync(category, subcategories);
         }
     }

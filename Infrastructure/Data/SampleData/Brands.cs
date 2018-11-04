@@ -5,6 +5,12 @@ namespace Infrastructure.Data.SampleData
 {
     public class Brands: SampleDataEntities<Brand>
     {
+        public Brand Apple { get; protected set; }
+        public Brand Samsung { get; protected set; }
+        public Brand Pebble { get; protected set; }
+        public Brand CK { get; protected set; }
+        public Brand Armani { get; protected set; }
+
         public Brands(StoreContext storeContext): base(storeContext)
         {
             Seed();
@@ -14,12 +20,6 @@ namespace Infrastructure.Data.SampleData
             CK = Entities[3];
             Armani = Entities[4];
         }
-
-        public Brand Apple { get; protected set; }
-        public Brand Samsung { get; protected set; }
-        public Brand Pebble { get; protected set; }
-        public Brand CK { get; protected set; }
-        public Brand Armani { get; protected set; }
 
         protected override IEnumerable<Brand> GetSourceEntities()
         {

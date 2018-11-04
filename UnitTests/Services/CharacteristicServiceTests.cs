@@ -17,8 +17,8 @@ namespace UnitTests.Services
         {
             return new List<Characteristic>()
             {
-                new Characteristic() { Title = "title 1", CategoryId = _data.Categories.Jackets.Id },
-                new Characteristic() { Title = "title 2", CategoryId = _data.Categories.Smartphones.Id },
+                new Characteristic() { Title = "title 1", CategoryId = Data.Categories.Jackets.Id },
+                new Characteristic() { Title = "title 2", CategoryId = Data.Categories.Smartphones.Id },
             };
         }
 
@@ -26,29 +26,29 @@ namespace UnitTests.Services
         {
             return new List<Characteristic>()
             {
-                new Characteristic() { Title = null, CategoryId = _data.Categories.Jackets.Id },
+                new Characteristic() { Title = null, CategoryId = Data.Categories.Jackets.Id },
                 new Characteristic() { Title = "new2", CategoryId = 0 },
             };
         }
 
         protected override Specification<Characteristic> GetEntitiesToDeleteSpecification()
         {
-            return new EntitySpecification<Characteristic>(c => c == _data.Characteristics.Fashion);
+            return new EntitySpecification<Characteristic>(c => c == Data.Characteristics.Fashion);
         }
 
         protected override IEnumerable<Characteristic> GetCorrectEntitesForUpdate()
         {
-            _data.Characteristics.Storage.Title = "Updated storage";
-            return new List<Characteristic>() { _data.Characteristics.Storage };
+            Data.Characteristics.Storage.Title = "Updated storage";
+            return new List<Characteristic>() { Data.Characteristics.Storage };
         }
 
         protected override IEnumerable<Characteristic> GetIncorrectEntitesForUpdate()
         {
-            _data.Characteristics.Size.Title = "";
+            Data.Characteristics.Size.Title = "";
             return new List<Characteristic>()
             {
                 //   new Characteristic() { Id = first.Id, Title = first.Title, CategoryId = first.CategoryId, OwnerId = first.OwnerId },
-                _data.Characteristics.Size
+                Data.Characteristics.Size
             };
         }
     }

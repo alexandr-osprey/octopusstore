@@ -3,6 +3,7 @@
     public class SampleData
     {
         protected readonly StoreContext _storeContext;
+        protected virtual bool DropBeforeSeed { get; } = false;
 
         public Brands Brands { get; }
         public MeasurementUnits MeasurementUnits { get; }
@@ -20,6 +21,8 @@
         public SampleData(StoreContext context)
         {
             _storeContext = context;
+            if (DropBeforeSeed)
+                _storeContext.Database.EnsureDeleted();
             Brands = new Brands(_storeContext);
             MeasurementUnits = new MeasurementUnits(_storeContext);
             Stores = new Stores(_storeContext);

@@ -20,13 +20,10 @@ namespace UnitTests.Services
 
         protected override IEnumerable<Item> GetCorrectEntitesForUpdate()
         {
-            var item = _data.Items.Jacket;
+            var item = Data.Items.Jacket;
             item.Title = "Updated title";
             item.Description = "Updated Description";
-            return new List<Item>()
-            {
-                item
-            };
+            return new List<Item>() { item };
         }
 
         protected override IEnumerable<Item> GetCorrectNewEntites()
@@ -35,10 +32,10 @@ namespace UnitTests.Services
             {
                 new Item()
                 {
-                    BrandId = _data.Brands.CK.Id,
-                    CategoryId = _data.Categories.Shoes.Id,
-                    MeasurementUnitId = _data.MeasurementUnits.Pcs.Id,
-                    StoreId = _data.Stores.Jennifers.Id,
+                    BrandId = Data.Brands.CK.Id,
+                    CategoryId = Data.Categories.Shoes.Id,
+                    MeasurementUnitId = Data.MeasurementUnits.Pcs.Id,
+                    StoreId = Data.Stores.Jennifers.Id,
                     Description = "Desc",
                     Title = "title",
                 }
@@ -47,7 +44,7 @@ namespace UnitTests.Services
 
         protected override async Task AssertRelatedDeleted(Item entity)
         {
-            Assert.False(await _context.Set<ItemImage>().AnyAsync(i => i.RelatedId == entity.Id));
+            Assert.False(await Context.Set<ItemImage>().AnyAsync(i => i.RelatedId == entity.Id));
         }
         protected override Specification<Item> GetEntitiesToDeleteSpecification()
         {
@@ -56,16 +53,13 @@ namespace UnitTests.Services
 
         protected override IEnumerable<Item> GetIncorrectEntitesForUpdate()
         {
-            _data.Items.PebbleWatch.Title = null;
-            return new List<Item>()
-            {
-                _data.Items.PebbleWatch
-            };
+            Data.Items.PebbleWatch.Title = null;
+            return new List<Item>() { Data.Items.PebbleWatch };
         }
 
         protected override IEnumerable<Item> GetIncorrectNewEntites()
         {
-            var item = _data.Items.Samsung8;
+            var item = Data.Items.Samsung8;
             return new List<Item>()
             {
                 new Item()

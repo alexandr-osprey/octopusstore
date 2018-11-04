@@ -1,11 +1,7 @@
 ﻿using OctopusStore;
 using ApplicationCore.Entities;
-using ApplicationCore.Interfaces;
 using ApplicationCore.Specifications;
-using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
-using OctopusStore.Controllers;
 using ApplicationCore.ViewModels;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,24 +22,23 @@ namespace UnitTests.Controllers
         [Fact]
         public async Task IndexAllAsync()
         {
-            var actual = await _controller.IndexAsync(null, null);
-            var rootCategories = await GetQueryable()
-                .ToListAsync();
+            var actual = await Controller.IndexAsync(null, null);
+            var allCategories = Data.Categories.Entities;
             var expected = new IndexViewModel<CategoryViewModel>(1,
-                GetPageCount(rootCategories.Count(),
+                GetPageCount(allCategories.Count(),
                 DefaultSettings.DefaultTake),
-                rootCategories.Count(),
-                from c in rootCategories select new CategoryViewModel(c));
+                allCategories.Count(),
+                from c in allCategories select new CategoryViewModel(c));
             Equal(expected, actual);
         }
+
         [Fact]
         public async Task IndexClothesAsync()
         {
-            var clothes = await GetQueryable()
-            .FirstOrDefaultAsync(c => c.Title == "Clothes");
-            var actual = await _controller.IndexAsync(clothes.Id, null);
+            var clothes = Data.Categories.Clothes;
+            var actual = await Controller.IndexAsync(clothes.Id, null);
             var spec = new EntitySpecification<Category>(clothes.Id);
-            var flatCategories = await _service.EnumerateHierarchyAsync(spec);
+            var flatCategories = await Service.EnumerateHierarchyAsync(spec);
             var expected = new IndexViewModel<CategoryViewModel>(1,
                 GetPageCount(flatCategories.Count(), DefaultSettings.DefaultTake),
                 flatCategories.Count(),
@@ -54,8 +49,8 @@ namespace UnitTests.Controllers
         [Fact]
         public async Task IndexByStoreAsync()
         {
-            int storeId = 1;
-            var categories = await _context.Items
+            int storeId = Data.Stores.Johns.Id;
+            var categories = await Context.Items
                 .Include(i => i.Category)
                 .Where(i => i.StoreId == storeId)
                 .Select(i => i.Category)
@@ -66,13 +61,13 @@ namespace UnitTests.Controllers
             foreach (var category in categories)
                 await GetCategoryHierarchyAsync(category.Id, expectedCategories);
             var expected = new IndexViewModel<CategoryViewModel>(1, 1, expectedCategories.Count, (from e in expectedCategories select new CategoryViewModel(e)).OrderBy(c => c.Id));
-            var actual = await _controller.IndexAsync(categoryId: null, storeId: storeId);
+            var actual = await Controller.IndexAsync(categoryId: null, storeId: storeId);
             Equal(expected, actual);
         }
         [Fact]
         public async Task IndexWrongCategoryAsync()
         {
-            var actual = await _controller.IndexAsync(99696, null);
+            var actual = await Controller.IndexAsync(99696, null);
             var expected = new IndexViewModel<CategoryViewModel>(0, 0, 0, new List<CategoryViewModel>());
             Equal(expected, actual);
         }
@@ -81,13 +76,13 @@ namespace UnitTests.Controllers
             return base.GetQueryable().Include(c => c.Subcategories).ThenInclude(c => c.Subcategories);
         }
 
-        protected override async Task<IEnumerable<Category>> GetCorrectEntitiesToCreateAsync()
+        protected override IEnumerable<Category> GetCorrectEntitiesToCreate()
         {
-            return await Task.FromResult(new List<Category>()
+            return new List<Category>()
             {
-                new Category() { ParentCategoryId = 1, Title = "Cat 1", CanHaveItems = false, Description = "desc" },
-                new Category() { ParentCategoryId = 2, Title = "Cat 2", CanHaveItems = true, Description = "desc" },
-            });
+                new Category() { ParentCategoryId = Data.Categories.Root.Id, Title = "Cat 1", CanHaveItems = false, Description = "desc" },
+                new Category() { ParentCategoryId = Data.Categories.Clothes.Id, Title = "Cat 2", CanHaveItems = true, Description = "desc" },
+            };
         }
 
         protected override CategoryViewModel ToViewModel(Category entity)
@@ -101,9 +96,9 @@ namespace UnitTests.Controllers
             };
         }
 
-        protected override async Task<IEnumerable<Category>> GetCorrectEntitiesToUpdateAsync()
+        protected override IEnumerable<Category> GetCorrectEntitiesToUpdate()
         {
-            var categories = await _context.Set<Category>().Take(3).ToListAsync();
+            var categories = Data.Categories.Entities;
             categories.ForEach(c => c.Title = "updated");
             categories.ForEach(c => c.Description = "updated");
             return categories;

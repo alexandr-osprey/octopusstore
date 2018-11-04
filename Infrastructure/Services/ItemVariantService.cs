@@ -25,7 +25,7 @@ namespace Infrastructure.Services
         {
             await base.ValidateCreateWithExceptionAsync(itemVariant);
             await ValidateUpdateWithExceptionAsync(itemVariant);
-            if (!await _context.ExistsBySpecAsync(_logger, new EntitySpecification<Item>(itemVariant.ItemId)))
+            if (!await Context.ExistsBySpecAsync(Logger, new EntitySpecification<Item>(itemVariant.ItemId)))
                 throw new EntityValidationException($"Item with Id {itemVariant.ItemId} does not exist. ");
         }
 

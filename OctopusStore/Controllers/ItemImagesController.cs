@@ -33,12 +33,12 @@ namespace OctopusStore.Controllers
                 {
                     await formFile.CopyToAsync(stream);
                     var itemImage = new ItemImage(formFile.FileName, formFile.ContentType, relatedId, stream);
-                    return GetViewModel<ItemImageViewModel>(await _service.CreateAsync(itemImage));
+                    return GetViewModel<ItemImageViewModel>(await Service.CreateAsync(itemImage));
                 }
                 catch (Exception exception)
                 {
                     string message = $"Error saving item image.";
-                    _logger.Warn(exception, message);
+                    Logger.Warn(exception, message);
                     throw new Exception(message);
                 }
             }
@@ -62,13 +62,13 @@ namespace OctopusStore.Controllers
         {
             try
             {
-                var image = await _service.ReadSingleAsync(new EntitySpecification<ItemImage>(id));
-                return new FileStreamResult(_service.GetStream(image), image.ContentType);
+                var image = await Service.ReadSingleAsync(new EntitySpecification<ItemImage>(id));
+                return new FileStreamResult(Service.GetStream(image), image.ContentType);
             }
             catch (Exception exception)
             {
                 string message = $"Error retrieving item image id = {id}.";
-                _logger.Warn(exception, message);
+                Logger.Warn(exception, message);
                 throw new Exception(message);
             }
         }

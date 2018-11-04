@@ -18,7 +18,7 @@ namespace Infrastructure.Data
     public static class DbContextExtensions
     {
         /// <summary>
-        /// Retrieves a single entity based on specification. May throw exception if a requested entity does not exist.
+        /// Retrieves a single entity based on specification asynchronously. May throw exception if a requested entity does not exist.
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <typeparam name="TService"></typeparam>
@@ -35,6 +35,33 @@ namespace Infrastructure.Data
             try
             {
                 entity = await context.GetQueryBySpecWithIncludes(spec).FirstOrDefaultAsync();
+            }
+            catch (Exception readException)
+            {
+                throw readException.LogAndGetDbReadException(logger, $"Function: {nameof(ReadSingleAsync)}, {nameof(spec)}: {spec}");
+            }
+            if (checkExistence && entity == null)
+                throw new EntityNotFoundException($"{typeof(TEntity).Name} with spec {spec} not found");
+            return entity;
+        }
+        /// <summary>
+        /// Retrieves a single entity based on specification synchronously. May throw exception if a requested entity does not exist.
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <typeparam name="TService"></typeparam>
+        /// <param name="context"></param>
+        /// <param name="logger"></param>
+        /// <param name="spec"></param>
+        /// <param name="checkExistence"></param>
+        /// <returns></returns>
+        public static TEntity ReadSingleBySpec<TEntity, TService>(this DbContext context, IAppLogger<TService> logger, Specification<TEntity> spec, bool checkExistence = true) where TEntity : class
+        {
+            if (spec == null)
+                throw new ArgumentNullException(nameof(spec));
+            TEntity entity = null;
+            try
+            {
+                entity = context.GetQueryBySpecWithIncludes(spec).FirstOrDefault();
             }
             catch (Exception readException)
             {

@@ -15,7 +15,8 @@ namespace UnitTests.Controllers
 {
     public class CharacteristicsControllerTests: ControllerTests<Characteristic, CharacteristicViewModel, ICharacteristicsController, ICharacteristicService>
     {
-        private readonly ICategoryService _categoryService;
+        protected readonly ICategoryService _categoryService;
+
         public CharacteristicsControllerTests(ITestOutputHelper output) : base(output)
         {
             _categoryService = Resolve<ICategoryService>();
@@ -24,51 +25,51 @@ namespace UnitTests.Controllers
         [Fact]
         public async Task IndexAsync()
         {
-            var category = await _context.Categories.FirstOrDefaultAsync(c => c.Title == "Smartphones");
+            var category = Data.Categories.Smartphones;
             var categories = await _categoryService.EnumerateParentCategoriesAsync(new EntitySpecification<Category>(category.Id));
             var categoryIds = from c in categories select c.Id;
             var spec = new CharacteristicByCategoryIdsSpecification(categoryIds);
-            spec.SetPaging(1, _maxTake);
-            var characteristics = await _service.EnumerateAsync(spec);
+            spec.SetPaging(1, MaxTake);
+            var characteristics = await Service.EnumerateAsync(spec);
             var expected = new IndexViewModel<CharacteristicViewModel>(1, 1, characteristics.Count(), from c in characteristics select new CharacteristicViewModel(c));
-            var actual = await _controller.IndexAsync(category.Id);
+            var actual = await Controller.IndexAsync(category.Id);
             Equal(expected, actual);
         }
+
         [Fact]
         public async Task IndexShoes()
         {
-            var category = await _context.Categories.FirstOrDefaultAsync(c => c.Title == "Shoes");
+            var category = Data.Categories.Shoes;
             var categories = await _categoryService.EnumerateParentCategoriesAsync(new EntitySpecification<Category>(category.Id));
             var categoryIds = from c in categories select c.Id;
             var characteristics = await GetQueryable().Where(c => categoryIds.Contains(c.CategoryId)).ToListAsync();
             var expected = new IndexViewModel<CharacteristicViewModel>(1, 1, characteristics.Count(), from c in characteristics select new CharacteristicViewModel(c));
-            var actual = await _controller.IndexAsync(category.Id);
+            var actual = await Controller.IndexAsync(category.Id);
             Equal(expected, actual);
         }
 
-        protected override Task AssertUpdateSuccessAsync(Characteristic beforeUpdate, CharacteristicViewModel expected, CharacteristicViewModel actual)
+        protected override void AssertUpdateSuccess(Characteristic beforeUpdate, CharacteristicViewModel expected, CharacteristicViewModel actual)
         {
             Assert.Equal(expected.Title, actual.Title);
             Assert.Equal(beforeUpdate.CategoryId, actual.CategoryId);
             Assert.Equal(beforeUpdate.Id, actual.Id);
-            return Task.CompletedTask;
         }
 
-        protected override async Task<IEnumerable<Characteristic>> GetCorrectEntitiesToCreateAsync()
+        protected override IEnumerable<Characteristic> GetCorrectEntitiesToCreate()
         {
-            return await Task.FromResult(new List<Characteristic>()
+            return new List<Characteristic>()
             {
                 new Characteristic()
                 {
-                    CategoryId = 1,
+                    CategoryId = Data.Categories.Root.Id,
                     Title = "New"
                 }
-            });
+            };
         }
 
-        protected override async Task<IEnumerable<Characteristic>> GetCorrectEntitiesToUpdateAsync()
+        protected override IEnumerable<Characteristic> GetCorrectEntitiesToUpdate()
         {
-            var characteristics = await _context.Set<Characteristic>().AsNoTracking().Take(3).ToListAsync();
+            var characteristics = Data.Characteristics.Entities.Take(4).ToList();
             characteristics.ForEach(c => c.Title = "updated");
             characteristics.ForEach(c => c.CategoryId = 99);
             return characteristics;

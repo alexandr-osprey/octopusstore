@@ -13,7 +13,7 @@ namespace Infrastructure.Services
 {
     public class StoreService: Service<Store>, IStoreService
     {
-        protected readonly IItemService _itemService;
+        protected IItemService ItemService { get; }
 
         public StoreService(
            StoreContext context,
@@ -24,7 +24,7 @@ namespace Infrastructure.Services
             IAppLogger<Service<Store>> logger)
            : base(context, identityService, scopedParameters, authoriationParameters, logger)
         {
-            _itemService = itemService;
+            ItemService = itemService;
         }
 
         public override async Task<Store> CreateAsync(Store entity)
@@ -53,7 +53,7 @@ namespace Infrastructure.Services
             {
                 Description = $"Item with StoreId={store.Id}"
             };
-            await _itemService.DeleteAsync(spec);
+            await ItemService.DeleteAsync(spec);
             await base.DeleteRelatedEntitiesAsync(store);
         }
 
