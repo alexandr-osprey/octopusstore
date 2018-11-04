@@ -67,12 +67,16 @@ namespace UnitTests.Controllers
             };
         }
 
-        protected override IEnumerable<Characteristic> GetCorrectEntitiesToUpdate()
+        protected override IEnumerable<CharacteristicViewModel> GetCorrectViewModelsToUpdate()
         {
-            var characteristics = Data.Characteristics.Entities.Take(4).ToList();
-            characteristics.ForEach(c => c.Title = "updated");
-            characteristics.ForEach(c => c.CategoryId = 99);
-            return characteristics;
+            return new List<CharacteristicViewModel>()
+            {
+                new CharacteristicViewModel()
+                {
+                    Id = Data.Characteristics.Storage.Id,
+                    Title = "UPDATED"
+                }
+            };
         }
 
         protected override CharacteristicViewModel ToViewModel(Characteristic entity)

@@ -34,10 +34,16 @@ namespace UnitTests.Controllers
             return new List<MeasurementUnit>() { new MeasurementUnit() { Title = "new" } };
         }
 
-        protected override IEnumerable<MeasurementUnit> GetCorrectEntitiesToUpdate()
+        protected override IEnumerable<MeasurementUnitViewModel> GetCorrectViewModelsToUpdate()
         {
-            Data.MeasurementUnits.Kg.Title = "KGB";
-            return new List<MeasurementUnit>() { Data.MeasurementUnits.Kg };
+            return new List<MeasurementUnitViewModel>()
+            {
+                new MeasurementUnitViewModel()
+                {
+                    Id = Data.MeasurementUnits.Kg.Id,
+                    Title = "UDp"
+                }
+            };
         }
 
         protected override MeasurementUnitViewModel ToViewModel(MeasurementUnit entity)

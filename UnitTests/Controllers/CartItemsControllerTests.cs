@@ -68,12 +68,9 @@ namespace UnitTests.Controllers
             };
         }
 
-        protected override IEnumerable<CartItem> GetCorrectEntitiesToUpdate()
+        protected override IEnumerable<CartItemViewModel> GetCorrectViewModelsToUpdate()
         {
-            var cartItems = Data.CartItems.Entities;
-            cartItems.ForEach(c => c.Number = 99);
-            cartItems.ForEach(c => c.ItemVariantId = 999);
-            return cartItems;
+            return new List<CartItemViewModel>() { new CartItemViewModel() { Id = Data.CartItems.JohnIphone64.Id, ItemVariantId = 999, Number = 50 } };
         }
 
         protected override CartItemViewModel ToViewModel(CartItem entity)

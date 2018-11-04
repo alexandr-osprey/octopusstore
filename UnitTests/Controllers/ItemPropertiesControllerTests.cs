@@ -65,9 +65,17 @@ namespace UnitTests.Controllers
             };
         }
 
-        protected override IEnumerable<ItemProperty> GetCorrectEntitiesToUpdate()
+        protected override IEnumerable<ItemPropertyViewModel> GetCorrectViewModelsToUpdate()
         {
-            return new List<ItemProperty>();
+            return new List<ItemPropertyViewModel>()
+            {
+                new ItemPropertyViewModel()
+                {
+                    Id = Data.ItemProperties.IPhone632HD.Id,
+                    CharacteristicValueId = 999,
+                    ItemVariantId = 999
+                }
+            };
         }
 
         protected override void AssertUpdateSuccess(ItemProperty beforeUpdate, ItemPropertyViewModel expected, ItemPropertyViewModel actual)

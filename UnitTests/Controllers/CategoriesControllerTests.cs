@@ -90,18 +90,26 @@ namespace UnitTests.Controllers
             return new CategoryViewModel()
             {
                 Id = entity.Id,
+                IsRoot = entity.IsRoot,
                 Description = entity.Description,
                 Title = entity.Title,
                 ParentCategoryId = entity.ParentCategoryId
             };
         }
 
-        protected override IEnumerable<Category> GetCorrectEntitiesToUpdate()
+        protected override IEnumerable<CategoryViewModel> GetCorrectViewModelsToUpdate()
         {
-            var categories = Data.Categories.Entities;
-            categories.ForEach(c => c.Title = "updated");
-            categories.ForEach(c => c.Description = "updated");
-            return categories;
+            return new List<CategoryViewModel>()
+            {
+                new CategoryViewModel()
+                {
+                    Id = Data.Categories.Shoes.Id,
+                    Description = "UPDATED",
+                    IsRoot = false,
+                    ParentCategoryId = Data.Categories.Root.Id,
+                    Title ="UPDATED"
+                }
+            };
         }
     }
 }

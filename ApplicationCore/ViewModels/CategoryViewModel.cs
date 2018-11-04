@@ -8,15 +8,18 @@ namespace ApplicationCore.ViewModels
         public string Title { get; set; }
         public int ParentCategoryId { get; set; }
         public string Description { get; set; }
+        public bool IsRoot { get; set; }
 
         public CategoryViewModel(): base()
         {
         }
+
         public CategoryViewModel(Category category): base(category)
         {
             Title = category.Title;
             ParentCategoryId = category.ParentCategoryId;
             Description = category.Description;
+            IsRoot = category.IsRoot;
         }
 
         public override Category ToModel()
@@ -26,7 +29,8 @@ namespace ApplicationCore.ViewModels
                 Id = Id,
                 Title = Title,
                 ParentCategoryId = ParentCategoryId,
-                Description = Description
+                Description = Description,
+                IsRoot = IsRoot
             };
         }
         public override Category UpdateModel(Category modelToUpdate)

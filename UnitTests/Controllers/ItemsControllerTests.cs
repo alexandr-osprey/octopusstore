@@ -191,19 +191,21 @@ namespace UnitTests.Controllers
             };
         }
 
-        protected override IEnumerable<Item> GetCorrectEntitiesToUpdate()
+        protected override IEnumerable<ItemViewModel> GetCorrectViewModelsToUpdate()
         {
-            var items = Data.Items.Entities.Take(5).ToList();
-            items.ForEach(i => 
+            return new List<ItemViewModel>()
             {
-                i.BrandId = 999;
-                i.CategoryId = 999;
-                i.Description = "UPDATED";
-                i.StoreId = 999;
-                i.Title = "UPDATED TITLE";
-                i.MeasurementUnitId = 999;
-            });
-            return items;
+                new ItemViewModel()
+                {
+                    Id = Data.Items.Samsung8.Id,
+                    BrandId = 9999,
+                    CategoryId = 898,
+                    MeasurementUnitId = 32,
+                    StoreId = 89,
+                    Description = "UPDATED",
+                    Title = "UPDATED"
+                }
+            };
         }
 
         protected override void AssertUpdateSuccess(Item beforeUpdate, ItemViewModel expected, ItemViewModel actual)

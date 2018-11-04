@@ -41,10 +41,7 @@ namespace UnitTests.Controllers
 
         protected override IQueryable<Store> GetQueryable()
         {
-            return Context
-                .Set<Store>()
-                
-                .Include(s => s.Items);
+            return Context.Set<Store>().Include(s => s.Items);
         }
 
         protected override IEnumerable<Store> GetCorrectEntitiesToCreate()
@@ -65,14 +62,19 @@ namespace UnitTests.Controllers
             };
         }
 
-        protected override IEnumerable<Store> GetCorrectEntitiesToUpdate()
+        protected override IEnumerable<StoreViewModel> GetCorrectViewModelsToUpdate()
         {
-            var store = Data.Stores.Jennifers;
-            store.Title = "Updated";
-            store.Description = "Description";
-            store.Address = "Address";
-            store.OwnerId = "incorrect owner";
-            return new List<Store>() { store };
+            return new List<StoreViewModel>()
+            {
+                new StoreViewModel()
+                {
+                    Id = Data.Stores.Johns.Id,
+                    Title = "Updated",
+                    Description = "Description",
+                    Address = "Address",
+                    OwnerId = "incorrect owner",
+                }
+            };
         }
 
         protected override void AssertUpdateSuccess(Store beforeUpdate, StoreViewModel expected, StoreViewModel actual)

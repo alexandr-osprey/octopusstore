@@ -34,11 +34,9 @@ namespace UnitTests.Controllers
             };
         }
 
-        protected override IEnumerable<Brand> GetCorrectEntitiesToUpdate()
+        protected override IEnumerable<BrandViewModel> GetCorrectViewModelsToUpdate()
         {
-            var entities = Data.Brands.Entities;
-            entities.ForEach(e => e.Title = "updated");
-            return entities;
+            return new List<BrandViewModel>() { new BrandViewModel() { Id = Data.Brands.Pebble.Id, Title = "UPDATED" } };
         }
 
         protected override BrandViewModel ToViewModel(Brand entity)

@@ -57,12 +57,17 @@ namespace UnitTests.Controllers
             Assert.Equal(beforeUpdate.Id, actual.Id);
         }
 
-        protected override IEnumerable<CharacteristicValue> GetCorrectEntitiesToUpdate()
+        protected override IEnumerable<CharacteristicValueViewModel> GetCorrectViewModelsToUpdate()
         {
-            var entities = Data.CharacteristicValues.Entities.Take(3).ToList();
-            entities.ForEach(e => e.Title = "updated");
-            entities.ForEach(e => e.CharacteristicId = 999);
-            return entities;
+            return new List<CharacteristicValueViewModel>()
+            {
+                new CharacteristicValueViewModel()
+                {
+                    Id = Data.CharacteristicValues.GB64.Id,
+                    CharacteristicId = 999,
+                    Title = "UPDATED"
+                }
+            };
         }
 
         protected override CharacteristicValueViewModel ToViewModel(CharacteristicValue entity)

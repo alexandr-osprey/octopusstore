@@ -67,13 +67,18 @@ namespace UnitTests.Controllers
             };
         }
 
-        protected override IEnumerable<ItemVariant> GetCorrectEntitiesToUpdate()
+        protected override IEnumerable<ItemVariantViewModel> GetCorrectViewModelsToUpdate()
         {
-            var variant = Data.ItemVariants.Pebble1000mAh;
-            variant.Price = 999;
-            variant.ItemId = 9999;
-            variant.Title = "updated";
-            return new List<ItemVariant>() { variant };
+            return new List<ItemVariantViewModel>()
+            {
+                new ItemVariantViewModel()
+                {
+                    Id = Data.ItemVariants.IPhone664GB.Id,
+                    ItemId = 999,
+                    Price = 500,
+                    Title = "UPD"
+                }
+            };
         }
     }
 }

@@ -145,16 +145,18 @@ namespace UnitTests.Controllers
             };
         }
 
-        protected override IEnumerable<ItemImage> GetCorrectEntitiesToUpdate()
+        protected override IEnumerable<ItemImageViewModel> GetCorrectViewModelsToUpdate()
         {
-            var images = Data.ItemImages.Entities.Take(5).ToList();
-            images.ForEach(i => 
+            return new List<ItemImageViewModel>()
             {
-                i.Title = "Updated";
-                i.RelatedId = 999;
-                i.ContentType = "asfsd";
-            });
-            return images;
+                new ItemImageViewModel()
+                {
+                    Id = Data.ItemImages.IPhone61.Id,
+                    RelatedId = 999,
+                    ContentType = "ADFF",
+                    Title = "UPDATED"
+                }
+            };
         }
     }
 }
