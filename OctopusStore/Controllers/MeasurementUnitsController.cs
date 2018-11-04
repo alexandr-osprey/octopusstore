@@ -1,37 +1,42 @@
-﻿//using System.Threading.Tasks;
-//using ApplicationCore.Entities;
-//using ApplicationCore.Specifications;
-//using Microsoft.AspNetCore.Authorization;
-//using Microsoft.AspNetCore.Mvc;
-//using ApplicationCore.ViewModels;
-//using ApplicationCore.Interfaces;
-//using ApplicationCore.Interfaces.Services;
+﻿using System.Threading.Tasks;
+using ApplicationCore.Entities;
+using ApplicationCore.Specifications;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using ApplicationCore.ViewModels;
+using ApplicationCore.Interfaces;
+using ApplicationCore.Interfaces.Services;
+using ApplicationCore.Interfaces.Controllers;
 
-//// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+namespace OctopusStore.Controllers
+{
+    [Produces("application/json")]
+    [Route("api/[controller]")]
+    public class MeasurementUnitsController : CRUDController<IMeasurementUnitService, MeasurementUnit, MeasurementUnitViewModel>, IMeasurementUnitsController
+    {
+        public MeasurementUnitsController(
+            IMeasurementUnitService measurementUnitService,
+            IAuthorizationService authorizationService,
+            IScopedParameters scopedParameters,
+            IAppLogger<IController<MeasurementUnit, MeasurementUnitViewModel>> logger)
+           : base(measurementUnitService, scopedParameters, logger)
+        {
+        }
 
-//namespace OctopusStore.Controllers
-//{
-//    [Produces("application/json")]
-//    [Route("api/[controller]")]
-//    public class MeasurementUnitsController: CRUDController<IMeasurementUnitService, MeasurementUnit, MeasurementUnitViewModel>
-//    {
-//        public MeasurementUnitsController(
-//            IMeasurementUnitService measurementUnitService,
-//            IAuthorizationService authorizationService,
-//            IScopedParameters scopedParameters,
-//            IAppLogger<ICRUDController<MeasurementUnit>> logger)
-//           : base(measurementUnitService, scopedParameters, logger)
-//        {
-//        }
+        [HttpPost]
+        public override async Task<MeasurementUnitViewModel> CreateAsync([FromBody]MeasurementUnitViewModel measurementUnitViewModel) => await base.CreateAsync(measurementUnitViewModel);
 
-//        // GET: api/<controller>
-//        [AllowAnonymous]
-//        [HttpGet]
-//        public async Task<IndexViewModel<MeasurementUnitViewModel>> Index()
-//        {
-//            return await base.IndexNotPagedAsync(new EntitySpecification<MeasurementUnit>());
-//        }
-//        [HttpGet("{id:int}/checkUpdateAuthorization")]
-//        public async Task<ActionResult> CheckUpdateAuthorization(int id) => await base.CheckUpdateAuthorizationAsync(id);
-//    }
-//}
+        [HttpGet("{id:int}")]
+        public override async Task<MeasurementUnitViewModel> ReadAsync(int id) => await base.ReadAsync(id);
+
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<IndexViewModel<MeasurementUnitViewModel>> IndexAsync() => await base.IndexNotPagedAsync(new Specification<MeasurementUnit>());
+
+        [HttpPut]
+        public override async Task<MeasurementUnitViewModel> UpdateAsync([FromBody]MeasurementUnitViewModel measurementUnitViewModel) => await base.UpdateAsync(measurementUnitViewModel);
+
+        [HttpGet("{id:int}/checkUpdateAuthorization")]
+        public override async Task<Response> CheckUpdateAuthorizationAsync(int id) => await base.CheckUpdateAuthorizationAsync(id);
+    }
+}

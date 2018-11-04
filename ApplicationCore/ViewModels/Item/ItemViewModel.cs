@@ -15,6 +15,7 @@ namespace ApplicationCore.ViewModels
         public ItemViewModel(): base()
         {
         }
+
         public ItemViewModel(Item item): base(item)
         {
             Title = item.Title;

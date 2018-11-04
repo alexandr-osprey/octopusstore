@@ -24,15 +24,18 @@ namespace OctopusStore.Controllers
         {
         }
 
-        // GET: api/<controller>
+        [HttpPost]
+        public override async Task<BrandViewModel> CreateAsync([FromBody]BrandViewModel brandViewModel) => await base.CreateAsync(brandViewModel);
+
+        [HttpGet("{id:int}")]
+        public override async Task<BrandViewModel> ReadAsync(int id) => await base.ReadAsync(id);
+
         [AllowAnonymous]
         [HttpGet]
         public async Task<IndexViewModel<BrandViewModel>> IndexAsync() => await base.IndexNotPagedAsync(new EntitySpecification<Brand>());
 
-        // GET api/<controller>/5
-        [AllowAnonymous]
-        [HttpGet("{id:int}")]
-        public override async Task<BrandViewModel> ReadAsync(int id) => await base.ReadAsync(id);
+        [HttpPut("{id:int}")]
+        public override async Task<BrandViewModel> UpdateAsync([FromBody]BrandViewModel brandViewModel) => await base.UpdateAsync(brandViewModel);
 
         [HttpGet("{id:int}/checkUpdateAuthorization")]
         public async Task<Response> CheckUpdateAuthorization(int id) => await base.CheckUpdateAuthorizationAsync(id);

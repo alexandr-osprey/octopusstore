@@ -24,6 +24,12 @@ namespace OctopusStore.Controllers
         {
         }
 
+        [HttpPost]
+        public override async Task<CategoryViewModel> CreateAsync([FromBody]CategoryViewModel categoryViewModel) => await base.CreateAsync(categoryViewModel);
+
+        [HttpGet("{id:int}")]
+        public override async Task<CategoryViewModel> ReadAsync(int id) => await base.ReadAsync(id);
+
         // GET: api/<controller>
         [AllowAnonymous]
         [HttpGet]
@@ -48,6 +54,10 @@ namespace OctopusStore.Controllers
         //    spec.Description = $"Items with StoreId={id} includes Category";
         //    return await base.IndexByRelatedNotPagedAsync(_service.EnumerateByItemAsync, spec);
         //}
+
+        [HttpPut("{id:int}")]
+        public override async Task<CategoryViewModel> UpdateAsync([FromBody]CategoryViewModel categoryViewModel) => await base.UpdateAsync(categoryViewModel);
+
         [HttpGet("{id:int}/checkUpdateAuthorization")]
         public override async Task<Response> CheckUpdateAuthorizationAsync(int id) => await base.CheckUpdateAuthorizationAsync(id);
 

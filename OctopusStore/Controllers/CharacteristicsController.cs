@@ -22,13 +22,19 @@ namespace OctopusStore.Controllers
         {
         }
 
+        [HttpPost]
+        public override async Task<CharacteristicViewModel> CreateAsync([FromBody]CharacteristicViewModel characteristicViewModel) => await base.CreateAsync(characteristicViewModel);
+
+        [HttpGet("{id:int}")]
+        public override async Task<CharacteristicViewModel> ReadAsync(int id) => await base.ReadAsync(id);
+
         [AllowAnonymous]
         [HttpGet]
         [HttpGet("/api/categories/{categoryId:int}/characteristics")]
-        public async Task<IndexViewModel<CharacteristicViewModel>> IndexAsync([FromQuery(Name = "categoryId")]int categoryId)
-        {
-            return await base.IndexByFunctionNotPagedAsync(Service.EnumerateByCategoryAsync, new EntitySpecification<Category>(categoryId));
-        }
+        public async Task<IndexViewModel<CharacteristicViewModel>> IndexAsync([FromQuery(Name = "categoryId")]int categoryId) => await base.IndexByFunctionNotPagedAsync(Service.EnumerateByCategoryAsync, new EntitySpecification<Category>(categoryId));
+
+        [HttpPut]
+        public override async Task<CharacteristicViewModel> UpdateAsync([FromBody]CharacteristicViewModel characteristicViewModel) => await base.UpdateAsync(characteristicViewModel);
 
         [HttpGet("{id:int}/checkUpdateAuthorization")]
         public override async Task<Response> CheckUpdateAuthorizationAsync(int id) => await base.CheckUpdateAuthorizationAsync(id);

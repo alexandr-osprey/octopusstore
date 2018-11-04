@@ -5,6 +5,7 @@ using ApplicationCore.Interfaces;
 using ApplicationCore.Interfaces.Services;
 using ApplicationCore.Specifications;
 using Infrastructure.Data;
+using System;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -29,6 +30,7 @@ namespace Infrastructure.Services
 
         public override async Task<Store> CreateAsync(Store entity)
         {
+            entity.RegistrationDate = DateTime.Now;
             var store = await base.CreateAsync(entity);
             await IdentityService.AddClaim(entity.OwnerId, new Claim(entity.OwnerId, entity.Id.ToString()));
             return store;

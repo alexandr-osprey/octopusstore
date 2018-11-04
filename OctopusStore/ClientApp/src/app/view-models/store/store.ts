@@ -2,7 +2,7 @@ import { Entity } from "../entity";
 
 export class Store extends Entity {
   title: string;
-  OwnerId: string;
+  ownerId: string;
   description: string;
   address: string;
   registrationDate: string;

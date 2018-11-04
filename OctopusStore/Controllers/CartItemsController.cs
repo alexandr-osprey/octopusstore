@@ -23,7 +23,7 @@ namespace OctopusStore.Controllers
         }
 
         [HttpPost]
-        public async Task<CartItemViewModel> Post([FromBody]CartItemViewModel cartItemViewModel) => await base.CreateAsync(cartItemViewModel);
+        public override async Task<CartItemViewModel> CreateAsync([FromBody]CartItemViewModel cartItemViewModel) => await base.CreateAsync(cartItemViewModel);
 
         [HttpPost("addToCart")]
         public async Task<CartItemViewModel> AddToCartAsync([FromBody]CartItemViewModel cartItemViewModel)

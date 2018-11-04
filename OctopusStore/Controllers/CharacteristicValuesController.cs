@@ -22,6 +22,12 @@ namespace OctopusStore.Controllers
         {
         }
 
+        [HttpPost]
+        public override async Task<CharacteristicValueViewModel> CreateAsync([FromBody]CharacteristicValueViewModel characteristicValueViewModel) => await base.CreateAsync(characteristicValueViewModel);
+
+        [HttpGet("{id:int}")]
+        public override async Task<CharacteristicValueViewModel> ReadAsync(int id) => await base.ReadAsync(id);
+
         //[AllowAnonymous]
         //[HttpGet]
         //public async Task<IndexViewModel<CharacteristicValueViewModel>> Index([FromQuery(Name = "categoryId")]int categoryId)
@@ -32,16 +38,10 @@ namespace OctopusStore.Controllers
         [AllowAnonymous]
         [HttpGet]
         [HttpGet("/api/categories/{categoryId:int}/characteristicValues")]
-        public async Task<IndexViewModel<CharacteristicValueViewModel>> IndexAsync(int categoryId)
-        {
-            return await base.IndexByFunctionNotPagedAsync(Service.EnumerateByCategoryAsync, new EntitySpecification<Category>(categoryId));
-        }
+        public async Task<IndexViewModel<CharacteristicValueViewModel>> IndexAsync(int categoryId) => await base.IndexByFunctionNotPagedAsync(Service.EnumerateByCategoryAsync, new EntitySpecification<Category>(categoryId));
 
         [HttpPut("{id:int}")]
-        public override async Task<CharacteristicValueViewModel> UpdateAsync([FromBody]CharacteristicValueViewModel characteristicValueViewModel)
-        {
-            return await base.UpdateAsync(characteristicValueViewModel);
-        }
+        public override async Task<CharacteristicValueViewModel> UpdateAsync([FromBody]CharacteristicValueViewModel characteristicValueViewModel) => await base.UpdateAsync(characteristicValueViewModel);
 
         [HttpGet("{id:int}/checkUpdateAuthorization")]
         public override async Task<Response> CheckUpdateAuthorizationAsync(int id) => await base.CheckUpdateAuthorizationAsync(id);
