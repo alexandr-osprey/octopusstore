@@ -78,7 +78,7 @@ namespace Infrastructure.Services
             await ValidateUpdateWithExceptionAsync(entity);
             if (AuthoriationParameters.UpdateAuthorizationRequired)
                 await AuthorizeWithException(entity, AuthoriationParameters.UpdateOperationRequirement);
-            var result = await Context.UpdateAsync(Logger, entity);
+            var result = await Context.UpdateSingleAsync(Logger, entity);
             Logger.Trace("{Name} updated entity {entity}", Name, result);
             return result;
         }
@@ -127,6 +127,23 @@ namespace Infrastructure.Services
             Logger.Trace("{Name} deleted: {resultCount} by spec: {spec}", Name, entities.Count(), spec);
             return entities.Count();
         }
+
+        public virtual async Task DeleteSingleWithRelatedRelink(int id, int idToRelinkTo)
+        {
+            await RelinkRelatedAsync(id, idToRelinkTo);
+            Logger.Trace("{Name} relinked entity from {id} to {idToRelinkTo} before delete", Name, id, idToRelinkTo);
+            await DeleteSingleAsync(new EntitySpecification<TEntity>(id));
+        }
+
+        /// <summary>
+        /// Relinks slave entities to another entity
+        /// Checking update rights for linked entities is not mandatory, since entity being deleted is supposed to be master, and related entities are slaves, 
+        /// therefore delete rights for master entity already include update right for entities being deleted
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="idToRelinkTo"></param>
+        /// <returns></returns>
+        public abstract Task RelinkRelatedAsync(int id, int idToRelinkTo);
 
         protected virtual async Task DeleteSingleAsync(TEntity entity)
         {

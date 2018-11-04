@@ -27,15 +27,16 @@ namespace Infrastructure.Data.SampleData
                 var savingEntities = GetSourceEntities();
                 StoreContext.AddRange(savingEntities);
                 StoreContext.SaveChanges();
-                AfterSeed(savingEntities.ToList());
+                AfterSeed(savingEntities);
             }
-            entities = StoreContext.Set<T>().AsNoTracking().ToList();
+            entities = StoreContext.Set<T>().ToList();
         }
 
         protected virtual void BeforeSeed()
         {
         }
-        protected virtual void AfterSeed(List<T> entities)
+
+        protected virtual void AfterSeed(IEnumerable<T> entities)
         {
         }
     }

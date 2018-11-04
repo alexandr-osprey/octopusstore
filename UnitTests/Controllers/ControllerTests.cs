@@ -54,7 +54,7 @@ namespace UnitTests.Controllers
         [Fact]
         public async Task ReadAsync()
         {
-            var entity = await Context.Set<TEntity>().AsNoTracking().FirstOrDefaultAsync();
+            var entity = await Context.Set<TEntity>().FirstOrDefaultAsync();
             var expected = ToViewModel(entity);
             var actual = await Controller.ReadAsync(entity.Id);
             Equal(expected, actual);
@@ -65,7 +65,7 @@ namespace UnitTests.Controllers
         {
             foreach(var entity in GetCorrectEntitiesToUpdate())
             {
-                var beforeUpdate = await Context.Set<TEntity>().AsNoTracking().FirstAsync(e => e == entity);
+                var beforeUpdate = await Context.Set<TEntity>().FirstAsync(e => e == entity);
                 var expected = ToViewModel(entity);
                 var actual = await Controller.UpdateAsync(expected);
                 AssertUpdateSuccess(beforeUpdate, expected, actual);

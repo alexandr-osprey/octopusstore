@@ -19,7 +19,7 @@ namespace Infrastructure.Identity
         protected override async Task<Store> GetStoreEntityAsync(ItemProperty entity)
         {
             var itemVariant = await _storeContext
-                .NoTrackingSet<ItemVariant>()
+                .Set<ItemVariant>()
                 .Where(v => v.Id == entity.ItemVariantId)
                 .Include(v => v.Item)
                         .ThenInclude(i => i.Store)

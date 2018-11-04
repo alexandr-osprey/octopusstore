@@ -52,13 +52,13 @@ namespace Infrastructure.Data.SampleData
             };
         }
 
-        protected override void AfterSeed(List<ItemImage> entities)
+        protected override void AfterSeed(IEnumerable<ItemImage> entities)
         {
             EnsureFilesAreInPlace(entities);
             base.AfterSeed(entities);
         }
 
-        public void EnsureFilesAreInPlace(List<ItemImage> entities)
+        public void EnsureFilesAreInPlace(IEnumerable<ItemImage> entities)
         {
             foreach (var itemImage in entities)
             {

@@ -31,7 +31,7 @@ namespace Infrastructure.Data.SampleData
         {
             var catetories = new List<Category>
             {
-                new Category { Title = "Categories", CanHaveItems = true, OwnerId = Users.AdminId },
+                new Category { Title = "Categories", CanHaveItems = false, OwnerId = Users.AdminId, IsRoot = true },
                 new Category { Title = "Electronics",  CanHaveItems = false, OwnerId = Users.AdminId }, //1
                 new Category { Title = "Smartphones",  CanHaveItems = true, OwnerId = Users.AdminId}, //2
                 new Category { Title = "Smartwatches", CanHaveItems = true, OwnerId = Users.AdminId}, //3
@@ -43,15 +43,14 @@ namespace Infrastructure.Data.SampleData
             return catetories;
         }
 
-        protected override void AfterSeed(List<Category> categories)
+        protected override void AfterSeed(IEnumerable<Category> categories)
         {
-            categories[1].ParentCategoryId = categories[0].Id;
-            categories[4].ParentCategoryId = categories[0].Id;
-            categories[2].ParentCategoryId = categories[1].Id;
-            categories[3].ParentCategoryId = categories[1].Id;
-            categories[5].ParentCategoryId = categories[4].Id;
-            categories[6].ParentCategoryId = categories[4].Id;
-            //_storeContext.UpdateRange(categories);
+            categories.ElementAt(1).ParentCategoryId = categories.ElementAt(0).Id;
+            categories.ElementAt(4).ParentCategoryId = categories.ElementAt(0).Id;
+            categories.ElementAt(2).ParentCategoryId = categories.ElementAt(1).Id;
+            categories.ElementAt(3).ParentCategoryId = categories.ElementAt(1).Id;
+            categories.ElementAt(5).ParentCategoryId = categories.ElementAt(4).Id;
+            categories.ElementAt(6).ParentCategoryId = categories.ElementAt(4).Id;
             StoreContext.SaveChanges();
             base.AfterSeed(categories);
         }

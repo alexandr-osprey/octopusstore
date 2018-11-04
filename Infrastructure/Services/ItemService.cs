@@ -29,10 +29,8 @@ namespace Infrastructure.Services
             this.CategoryService = categoryService;
         }
 
-        public async Task<ItemIndexSpecification> GetIndexSpecificationByParameters(int page, int pageSize, string title, int? categoryId, int? storeId, int? brandId)
-        {
-            return new ItemIndexSpecification(page, pageSize, title, await GetCategoriesAsync(categoryId), storeId, brandId);
-        }
+        public async Task<ItemIndexSpecification> GetIndexSpecificationByParameters(int page, int pageSize, string title, int? categoryId, int? storeId, int? brandId) 
+            => new ItemIndexSpecification(page, pageSize, title, await GetCategoriesAsync(categoryId ?? CategoryService.RootCategoryId), storeId, brandId);
 
         public override async Task DeleteRelatedEntitiesAsync(Item item)
         {
@@ -44,11 +42,20 @@ namespace Infrastructure.Services
             await base.DeleteRelatedEntitiesAsync(item);
         }
 
-        private async Task<IEnumerable<Category>> GetCategoriesAsync(int? categoryId)
+        public override async Task RelinkRelatedAsync(int id, int idToRelinkTo)
         {
-            return categoryId.HasValue
-                ? await CategoryService.EnumerateSubcategoriesAsync(new EntitySpecification<Category>(categoryId.Value))
-               : new List<Category>();
+            var itemVariants = await Context.EnumerateRelatedEnumAsync(Logger, new EntitySpecification<Item>(id), b => b.ItemVariants);
+            foreach (var variant in itemVariants)
+                variant.ItemId = idToRelinkTo;
+            var itemImages = await Context.EnumerateRelatedEnumAsync(Logger, new EntitySpecification<Item>(id), b => b.Images);
+            foreach (var image in itemImages)
+                image.RelatedId = idToRelinkTo;
+            await Context.UpdateEntities(Logger, "Relink Item");
+        }
+
+        protected async Task<IEnumerable<Category>> GetCategoriesAsync(int categoryId)
+        {
+            return await CategoryService.EnumerateSubcategoriesAsync(new EntitySpecification<Category>(categoryId));
         }
 
         protected override async Task ValidateCreateWithExceptionAsync(Item item)

@@ -39,7 +39,7 @@ namespace UnitTests.Controllers
         {
             return Context
                     .Set<ItemVariant>()
-                    .AsNoTracking()
+                    
                     .Include(j => j.ItemProperties);
         }
 

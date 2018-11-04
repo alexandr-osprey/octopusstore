@@ -72,6 +72,7 @@ namespace UnitTests.Services
             var actual = await Service.EnumerateParentCategoriesAsync(new EntitySpecification<Category>(clothesCategory.Id));
             Equal(expected, actual);
         }
+
         [Fact]
         public async Task EnumerateSubcategoriesByItemAsync()
         {
@@ -130,10 +131,7 @@ namespace UnitTests.Services
         {
             Data.Categories.Shoes.Title = "Tit1";
             Data.Categories.Shoes.Description = "Desc1";
-            return new List<Category>()
-            {
-                Data.Categories.Shoes
-            };
+            return new List<Category>() { Data.Categories.Shoes };
         }
 
         protected override IEnumerable<Category> GetIncorrectEntitesForUpdate()

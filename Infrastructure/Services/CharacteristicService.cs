@@ -39,6 +39,14 @@ namespace Infrastructure.Services
             return await EnumerateAsync(new CharacteristicByCategoryIdsSpecification(from c in categories select c.Id));
         }
 
+        public override async Task RelinkRelatedAsync(int id, int idToRelinkTo)
+        {
+            var categoryCharacteristicValues = await Context.EnumerateRelatedEnumAsync(Logger, new EntitySpecification<Characteristic>(id), b => b.CharacteristicValues);
+            foreach (var value in categoryCharacteristicValues)
+                value.CharacteristicId = idToRelinkTo;
+            await Context.UpdateEntities(Logger, "Relink Characteristic");
+        }
+
         protected override async Task ValidateCreateWithExceptionAsync(Characteristic characteristic)
         {
             await base.ValidateCreateWithExceptionAsync(characteristic);

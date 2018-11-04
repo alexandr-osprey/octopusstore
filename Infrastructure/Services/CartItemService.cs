@@ -41,6 +41,11 @@ namespace Infrastructure.Services
                 await UpdateAsync(cartItem);
         }
 
+        public override Task RelinkRelatedAsync(int id, int idToRelinkTo)
+        {
+            return Task.CompletedTask;
+        }
+
         protected override async Task ValidateCustomUniquinessWithException(CartItem cartItem)
         {
             await base.ValidateCustomUniquinessWithException(cartItem);

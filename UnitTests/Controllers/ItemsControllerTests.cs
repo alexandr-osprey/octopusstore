@@ -149,7 +149,7 @@ namespace UnitTests.Controllers
         {
             return Context
                 .Set<Item>()
-                .AsNoTracking()
+                
                 .Include(i => i.Brand)
                 .Include(i => i.Store)
                 .Include(i => i.MeasurementUnit)

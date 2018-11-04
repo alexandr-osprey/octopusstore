@@ -12,10 +12,12 @@ namespace ApplicationCore.Entities
         public int ParentCategoryId { get; set; }
         public string Description { get; set; }
         public bool CanHaveItems { get; set; }
+        public bool IsRoot { get; set; } = false;
 
         public Category ParentCategory { get; set; }
         public ICollection<Characteristic> Characteristics { get; set; } = new List<Characteristic>();
         public ICollection<Category> Subcategories { get; set; } = new List<Category>();
+        public IEnumerable<Item> Items { get; set; } = new List<Item>();
 
         public Category(): base()
         {

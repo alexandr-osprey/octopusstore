@@ -18,18 +18,12 @@ namespace UnitTests.Services
         protected override IEnumerable<MeasurementUnit> GetCorrectEntitesForUpdate()
         {
             Data.MeasurementUnits.Kg.Title = "Updated";
-            return new List<MeasurementUnit>()
-            {
-                Data.MeasurementUnits.Kg
-            };
+            return new List<MeasurementUnit>() { Data.MeasurementUnits.Kg };
         }
 
         protected override IEnumerable<MeasurementUnit> GetCorrectNewEntites()
         {
-            return new List<MeasurementUnit>()
-            {
-                new MeasurementUnit() { Title = "Title 1" }
-            };
+            return new List<MeasurementUnit>() { new MeasurementUnit() { Title = "Title 1" } };
         }
 
         protected override Specification<MeasurementUnit> GetEntitiesToDeleteSpecification()
@@ -40,18 +34,12 @@ namespace UnitTests.Services
         protected override IEnumerable<MeasurementUnit> GetIncorrectEntitesForUpdate()
         {
             Data.MeasurementUnits.Kg.Title = null;
-            return new List<MeasurementUnit>()
-            {
-                Data.MeasurementUnits.Kg
-            };
+            return new List<MeasurementUnit>() { Data.MeasurementUnits.Kg };
         }
 
         protected override IEnumerable<MeasurementUnit> GetIncorrectNewEntites()
         {
-            return new List<MeasurementUnit>()
-            {
-                new MeasurementUnit() { Title = "" }
-            };
+            return new List<MeasurementUnit>() { new MeasurementUnit() { Title = "" } };
         }
     }
 }

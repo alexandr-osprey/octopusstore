@@ -67,13 +67,7 @@ namespace UnitTests.Controllers
 
         protected override IEnumerable<ItemProperty> GetCorrectEntitiesToUpdate()
         {
-            var entities = Data.ItemProperties.Entities.Take(5).ToList();
-            entities.ForEach(e => 
-            {
-                e.CharacteristicValueId = 999;
-                e.ItemVariantId = 999;
-            });
-            return entities;
+            return new List<ItemProperty>();
         }
 
         protected override void AssertUpdateSuccess(ItemProperty beforeUpdate, ItemPropertyViewModel expected, ItemPropertyViewModel actual)

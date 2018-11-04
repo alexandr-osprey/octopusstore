@@ -72,7 +72,7 @@ namespace UnitTests
         [Fact]
         public async Task EnumerateAsync()
         {
-            var expected = await Context.Set<TEntity>().AsNoTracking().ToListAsync();
+            var expected = await Context.Set<TEntity>().ToListAsync();
             var actual = await Service.EnumerateAsync(new Specification<TEntity>(e => true));
             Equal(expected, actual);
         }
@@ -88,7 +88,7 @@ namespace UnitTests
             var spec = new Specification<TEntity>(e => true);
             spec.SetPaging(page, pageSize);
             var actual = await Service.EnumerateAsync(spec);
-            var expected = await Context.Set<TEntity>().AsNoTracking().Skip(pageSize * (page - 1)).Take(pageSize).ToListAsync();
+            var expected = await Context.Set<TEntity>().Skip(pageSize * (page - 1)).Take(pageSize).ToListAsync();
             Equal(actual, expected);
         }
         [Fact]

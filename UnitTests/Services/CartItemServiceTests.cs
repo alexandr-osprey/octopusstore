@@ -32,6 +32,7 @@ namespace UnitTests.Services
             int actual = (await GetQueryable().SingleAsync(c => c.Id == cartItemBeforeAdd.Id)).Number;
             Assert.Equal(expected, actual);
         }
+
         [Fact]
         public async Task AddToCartNotExistingAsync()
         {
@@ -54,12 +55,15 @@ namespace UnitTests.Services
             int numberBeforeRemove = 0;
             numberBeforeRemove = cartItem.Number;
             int q = numberBeforeRemove - 1;
-            int numberAfterRemoveExpected = numberBeforeRemove - q;
+            int numberAfterRemove = numberBeforeRemove - q;
+            //Assert.True(Context != Data.Context);
             await Service.RemoveFromCartAsync(Users.JohnId, itemVariantId, q);
-            Assert.Equal(numberAfterRemoveExpected, (await GetQueryable().FirstAsync(i => i == cartItem)).Number);
+            var updated = await GetQueryable().FirstAsync(i => i == cartItem);
+            Assert.Equal(numberAfterRemove, updated.Number);
             await Service.RemoveFromCartAsync(Users.JohnId, itemVariantId, 2);
             Assert.False(await GetQueryable().AnyAsync(c => c == cartItem));
         }
+
         [Fact]
         public async Task RemoveFromCartNotExistingAsync()
         {
@@ -101,6 +105,7 @@ namespace UnitTests.Services
                 await Assert.ThrowsAsync<EntityAlreadyExistsException>(() => Service.CreateAsync(duplicateEntity));
             }
         }
+
         protected async Task<IEnumerable<CartItem>> GetDuplicateEntitiesAsync()
         {
             return await Task.FromResult(new List<CartItem>

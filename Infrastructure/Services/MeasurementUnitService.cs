@@ -4,6 +4,7 @@ using ApplicationCore.Exceptions;
 using ApplicationCore.Identity;
 using ApplicationCore.Interfaces;
 using ApplicationCore.Interfaces.Services;
+using ApplicationCore.Specifications;
 using Infrastructure.Data;
 
 namespace Infrastructure.Services
@@ -18,6 +19,14 @@ namespace Infrastructure.Services
             IAppLogger<Service<MeasurementUnit>> logger)
            : base(context, identityService, scopedParameters, authoriationParameters, logger)
         {
+        }
+
+        public override async Task RelinkRelatedAsync(int id, int idToRelinkTo)
+        {
+            var muItems = await Context.EnumerateRelatedEnumAsync(Logger, new EntitySpecification<MeasurementUnit>(id), b => b.Items);
+            foreach (var item in muItems)
+                item.MeasurementUnitId = idToRelinkTo;
+            await Context.UpdateEntities(Logger, "Relink MeasurementUnit");
         }
 
         protected override async Task ValidateCreateWithExceptionAsync(MeasurementUnit measurementUnit)

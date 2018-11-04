@@ -29,13 +29,19 @@ using Xunit.Abstractions;
 
 namespace UnitTests
 {
-    public abstract class TestBase<TEntity> where TEntity: Entity
+    public abstract class TestBase<TEntity> where TEntity : Entity
     {
         public static JsonSerializerSettings jsonSettings = new JsonSerializerSettings()
         {
             ReferenceLoopHandling = ReferenceLoopHandling.Ignore
         };
         protected static ServiceCollection Services { get; } = new ServiceCollection();
+        protected ServiceProvider ServiceProvider { get; }
+
+        static TestBase()
+        {
+            ConfigureDI();
+        }
 
 
         protected static DbContextOptions<StoreContext> StoreContextOptions { get; } =
@@ -44,12 +50,6 @@ namespace UnitTests
         protected static DbContextOptions<AppIdentityDbContext> IdentityContextOptions { get; } =
             new DbContextOptionsBuilder<AppIdentityDbContext>()
                 .UseInMemoryDatabase(Guid.NewGuid().ToString()).Options;
-
-        static TestBase()
-        {
-            ConfigureDI();
-        }
-
 
         protected IAppLogger<TestBase<TEntity>> Logger { get; }
         protected UserManager<ApplicationUser> UserManager { get; }
@@ -61,20 +61,39 @@ namespace UnitTests
 
         public TestBase(ITestOutputHelper output)
         {
-            var logger = Resolve<IAppLogger<StoreContext>>();
-            Logger = Resolve<IAppLogger<TestBase<TEntity>>>();
-            Context = Resolve<StoreContext>();
-            
-            Data = new TestSampleData(Resolve<StoreContext>());
-            //Thread.Sleep(1000);
-            //_context.DetachAllEntities();
+            this.ServiceProvider = Services.BuildServiceProvider();
+            SeedIdentity();
+                //var logger = Resolve<IAppLogger<StoreContext>>();
+                //Logger = Resolve<IAppLogger<TestBase<TEntity>>>();
+
+                //ServiceProvider ServiceProvider = Services.BuildServiceProvider();
+                //using (var scope = ServiceProvider.CreateScope())
+                //{
+                //Context = Resolve<StoreContext>();
+                //Data = new TestSampleData(Resolve<StoreContext>());
+                //Data = new TestSampleData(Context);
+                Context = Resolve<StoreContext>();
+                Data = new TestSampleData(Resolve<StoreContext>());
+            //var um = Resolve<UserManager<ApplicationUser>>();
+            //}
             NLog.LogManager.Configuration = new NLog.Config.XmlLoggingConfiguration("NLog.config", false);
             Output = output;
-            IdentityContext = Resolve<AppIdentityDbContext>();
-            UserManager = Resolve<UserManager<ApplicationUser>>();
+            //IdentityContext = Resolve<AppIdentityDbContext>();
+            //UserManager = Resolve<UserManager<ApplicationUser>>();
+            //Thread.Sleep(1000);
+            //_context.DetachAllEntities();
         }
 
-        protected static async Task ConfigureIdentity()
+        protected void SeedIdentity()
+        {
+            AppIdentityDbContextSeed.SeedAsync(ServiceProvider, Resolve<UserManager<ApplicationUser>>()).Wait();
+            AppIdentityDbContextSeed.AddClaim(Resolve<UserManager<ApplicationUser>>(),
+                new Claim(CustomClaimTypes.Administrator, CustomClaimValues.Content), Users.AdminId).Wait();
+            var signInManager = Resolve<SignInManager<ApplicationUser>>();
+            signInManager.Context = new DefaultHttpContext();
+        }
+
+        protected static void ConfigureIdentity()
         {
             Services.AddSingleton(IdentityContextOptions);
             //IdentityConfiguration.ConfigureTesting(services, configuration);
@@ -85,22 +104,13 @@ namespace UnitTests
                 .AddEntityFrameworkStores<AppIdentityDbContext>()
                 .AddDefaultTokenProviders();
             Services.AddScoped<IIdentityService, IdentityService>();
-            Services.AddScoped<SignInManager<ApplicationUser>>();
+            Services.AddScoped<UserManager<ApplicationUser>, UserManager<ApplicationUser>>();
+            Services.AddScoped<SignInManager<ApplicationUser>, SignInManager<ApplicationUser>>();
             Services.AddScoped<IAuthorizationService, DefaultAuthorizationService>();
             Services.AddScoped<IAuthorizationPolicyProvider, DefaultAuthorizationPolicyProvider>();
             Services.AddScoped<IAuthorizationHandlerProvider, DefaultAuthorizationHandlerProvider>();
             Services.AddScoped<IAuthorizationHandlerContextFactory, DefaultAuthorizationHandlerContextFactory>();
             Services.AddScoped<IAuthorizationEvaluator, DefaultAuthorizationEvaluator>();
-
-            var serviceProvider = Services.BuildServiceProvider();
-
-            AppIdentityDbContextSeed.SeedAsync(serviceProvider, Resolve<UserManager<ApplicationUser>>()).Wait();
-            await AppIdentityDbContextSeed.AddClaim(Resolve<UserManager<ApplicationUser>>(),
-                new Claim(CustomClaimTypes.Administrator, CustomClaimValues.Content),
-                Users.AdminId);
-            var signInManager = Resolve<SignInManager<ApplicationUser>>();
-            signInManager.Context = new DefaultHttpContext();
-
             var scopedParameters = new ScopedParameters()
             {
                 ClaimsPrincipal = new ClaimsPrincipal(
@@ -109,15 +119,14 @@ namespace UnitTests
                         {
                             new Claim(ClaimTypes.NameIdentifier, Users.JohnId),
                             new Claim(ClaimTypes.Name, Users.JohnId)
-                        }
-                   )
-                )
+                        }))
             };
             Services.AddSingleton<IScopedParameters>(scopedParameters);
 
             //await signInManager.SignInAsync(
             //    await Resolve<UserManager<ApplicationUser>>().FindByIdAsync(adminId), false);
         }
+
         protected static void ConfigureDI()
         {
             // db options
@@ -126,7 +135,7 @@ namespace UnitTests
 
             Startup.ConfigureDI(Services);
             Services.AddSingleton(typeof(IAuthorizationParameters<>), typeof(AuthoriationParametersWithoutAuthorization<>));
-            Services.AddSingleton<IAuthorizationParameters<CartItem>, AuthoriationParametersWithoutAuthorization<CartItem>>();
+            Services.AddScoped<IAuthorizationParameters<CartItem>, AuthoriationParametersWithoutAuthorization<CartItem>>();
 
             var conf = new Mock<IConfiguration>();
             Services.AddSingleton(conf.Object);
@@ -143,16 +152,17 @@ namespace UnitTests
             Services.AddScoped<ICharacteristicsController, CharacteristicsController>();
             Services.AddScoped<ICharacteristicValuesController, CharacteristicValuesController>();
 
-            ConfigureIdentity().Wait();
+            ConfigureIdentity();
         }
-        protected static T Resolve<T>()
+
+        protected T Resolve<T>()
         {
-            ServiceProvider serviceProvider = Services.BuildServiceProvider();
-            return serviceProvider.GetRequiredService<T>();
+            return ServiceProvider.GetRequiredService<T>();
         }
+
         protected virtual IQueryable<TEntity> GetQueryable()
         {
-            return Context.Set<TEntity>().AsNoTracking();
+            return Context.Set<TEntity>();
         }
 
         protected async Task GetCategoryHierarchyAsync(int id, HashSet<Category> hierarchy)
@@ -160,11 +170,12 @@ namespace UnitTests
             await GetCategoryParentsAsync(id, hierarchy);
             await GetCategorySubcategoriesAsync(id, hierarchy);
         }
+
         protected async Task GetCategoryParentsAsync(int categoryId, HashSet<Category> hierarchy)
         {
             var category = await Context
                 .Set<Category>()
-                .AsNoTracking()
+                
                 .Where(c => c.Id == categoryId)
                 .FirstOrDefaultAsync();
             if (category != null)
@@ -174,11 +185,11 @@ namespace UnitTests
                     await GetCategoryParentsAsync(category.ParentCategoryId, hierarchy);
             }
         }
+
         public async Task GetCategorySubcategoriesAsync(int categoryId, HashSet<Category> hierarchy)
         {
             var category = await Context
                 .Set<Category>()
-                .AsNoTracking()
                 .Where(c => c.Id == categoryId)
                 .Include(c => c.Subcategories)
                 .FirstOrDefaultAsync();
@@ -203,14 +214,15 @@ namespace UnitTests
                 JsonConvert.SerializeObject(expected, Formatting.None, jsonSettings),
                 JsonConvert.SerializeObject(actual, Formatting.None, jsonSettings));
         }
-        protected async Task CreateItemImageCopy(ItemImage itemImage)
-        {
-            string fileCopy = itemImage.FullPath + "_copy";
-            if (!File.Exists(fileCopy))
-                File.Copy(itemImage.FullPath, fileCopy);
-            itemImage.FullPath = fileCopy;
-            Context.Set<ItemImage>().Update(itemImage);
-            await Context.SaveChangesAsync();
-        }
+
+        //protected async Task CreateItemImageCopy(ItemImage itemImage)
+        //{
+        //    string fileCopy = itemImage.FullPath + "_copy";
+        //    if (!File.Exists(fileCopy))
+        //        File.Copy(itemImage.FullPath, fileCopy);
+        //    itemImage.FullPath = fileCopy;
+        //    Context.Set<ItemImage>().Update(itemImage);
+        //    await Context.SaveChangesAsync();
+        //}
     }
 }

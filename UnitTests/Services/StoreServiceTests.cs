@@ -22,10 +22,7 @@ namespace UnitTests.Services
             store.Title = "Upd 1";
             store.Description = "Upd 1";
             store.Address = "Upd 1";
-            return new List<Store>()
-            {
-                store
-            };
+            return new List<Store>() { store };
         }
 
         protected override IEnumerable<Store> GetCorrectNewEntites()
@@ -47,10 +44,7 @@ namespace UnitTests.Services
             first.Title = null;
             first.Description = "Upd 1";
             first.Address = "Upd 1";
-            return new List<Store>()
-            {
-                first
-            };
+            return new List<Store>() { first };
         }
 
         protected override IEnumerable<Store> GetIncorrectNewEntites()

@@ -12,9 +12,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Services
 {
-    public class ItemPropertyService
-       : Service<ItemProperty>,
-        IItemPropertyService
+    public class ItemPropertyService : Service<ItemProperty>, IItemPropertyService
     {
         protected IItemVariantService ItemVariantService { get; }
         protected ICharacteristicValueService CharacteristicValueService { get; }
@@ -49,17 +47,22 @@ namespace Infrastructure.Services
             return await ItemVariantService.EnumerateRelatedEnumAsync(itemVariantSpec, (v => v.ItemProperties));
         }
 
+        public override Task RelinkRelatedAsync(int id, int idToRelinkTo)
+        {
+            return Task.CompletedTask;
+        }
+
         protected override async Task ValidateCreateWithExceptionAsync(ItemProperty itemProperty)
         {
             await base.ValidateCreateWithExceptionAsync(itemProperty);
             var itemVariant = await Context
-                .NoTrackingSet<ItemVariant>()
+                .Set<ItemVariant>()
                 .Include(v => v.Item)
                 .FirstOrDefaultAsync(v => v.Id == itemProperty.ItemVariantId) 
                     ?? throw new EntityValidationException($"Item variant {itemProperty.ItemVariantId} does not exist");
             var possibleCharacteristicValues = await CharacteristicValueService.EnumerateByCategoryAsync(new EntitySpecification<Category>(itemVariant.Item.CategoryId));
             var characteristicValue = await Context
-                .NoTrackingSet<CharacteristicValue>()
+                .Set<CharacteristicValue>()
                 .FirstOrDefaultAsync(v => v.Id == itemProperty.CharacteristicValueId) 
                     ?? throw new EntityValidationException($"Characteristic value {itemProperty.CharacteristicValueId} does not exist");
             if (!possibleCharacteristicValues.Contains(characteristicValue))

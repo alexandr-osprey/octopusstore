@@ -13,16 +13,13 @@ namespace Infrastructure.Services
 {
     public class CategoryService: Service<Category>, ICategoryService
     {
-        public string RootCategoryName { get; } = "Categories";
         protected int rootCategoryId = 0;
         public int RootCategoryId
         {
             get
             {
                 if (rootCategoryId == 0)
-                {
-                    rootCategoryId = Context.ReadSingleBySpec(Logger, new Specification<Category>(c => c.Title == RootCategoryName), true).Id;
-                }
+                    rootCategoryId = Context.ReadSingleBySpec(Logger, new Specification<Category>(c => c.IsRoot), true).Id;
                 return rootCategoryId;
             }
         }
@@ -113,6 +110,17 @@ namespace Infrastructure.Services
             }
         }
 
+        public override async Task RelinkRelatedAsync(int id, int idToRelinkTo)
+        {
+            var categoryItems = await Context.EnumerateRelatedEnumAsync(Logger, new EntitySpecification<Category>(id), b => b.Items);
+            foreach (var item in categoryItems)
+                item.CategoryId = idToRelinkTo;
+            var categoryCharacteristics = await Context.EnumerateRelatedEnumAsync(Logger, new EntitySpecification<Category>(id), b => b.Characteristics);
+            foreach (var characteristic in categoryCharacteristics)
+                characteristic.CategoryId = idToRelinkTo;
+            await Context.UpdateEntities(Logger, "Relink Category");
+        }
+
         protected override async Task ValidateCreateWithExceptionAsync(Category category)
         {
             await base.ValidateCreateWithExceptionAsync(category);
@@ -120,8 +128,16 @@ namespace Infrastructure.Services
                 throw new EntityValidationException("Title not specified");
             if (string.IsNullOrWhiteSpace(category.Description))
                 throw new EntityValidationException("Description not specified");
-            if (category.Id != RootCategoryId && !await Context.ExistsBySpecAsync(Logger, new EntitySpecification<Category>(category.ParentCategoryId)))
+            if (!category.IsRoot && !await Context.ExistsBySpecAsync(Logger, new EntitySpecification<Category>(category.ParentCategoryId)))
                 throw new EntityValidationException("Parent category does not exist");
+            
+        }
+
+        protected override async Task ValidateCustomUniquinessWithException(Category category)
+        {
+            await base.ValidateCustomUniquinessWithException(category);
+            if (category.IsRoot && await Context.ExistsBySpecAsync(Logger, new Specification<Category>(c => c.IsRoot)))
+                throw new EntityAlreadyExistsException("Root category already exists");
         }
         protected override async Task ValidateUpdateWithExceptionAsync(Category category)
         {

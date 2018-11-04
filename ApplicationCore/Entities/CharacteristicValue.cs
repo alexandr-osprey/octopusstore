@@ -1,4 +1,5 @@
 ﻿using ApplicationCore.Interfaces;
+using System.Collections.Generic;
 
 namespace ApplicationCore.Entities
 {
@@ -11,6 +12,7 @@ namespace ApplicationCore.Entities
         public int CharacteristicId { get; set; }
 
         public Characteristic Characteristic { get; set; }
+        public IEnumerable<ItemProperty> ItemProperties { get; set; } = new List<ItemProperty>();
 
         public CharacteristicValue(): base()
         {

@@ -6,11 +6,13 @@ namespace ApplicationCore.Entities
     {
         public int ItemVariantId { get; set; }
         public int Number { get; set; }
+
         public ItemVariant ItemVariant { get; set; }
 
         public CartItem(): base()
         {
         }
+
         protected CartItem(CartItem cartItem): base(cartItem)
         {
             ItemVariantId = cartItem.ItemVariantId;

@@ -2,7 +2,7 @@
 {
     public class SampleData
     {
-        protected readonly StoreContext _storeContext;
+        public StoreContext Context { get; }
         protected virtual bool DropBeforeSeed { get; } = false;
 
         public Brands Brands { get; }
@@ -20,20 +20,20 @@
 
         public SampleData(StoreContext context)
         {
-            _storeContext = context;
+            Context = context;
             if (DropBeforeSeed)
-                _storeContext.Database.EnsureDeleted();
-            Brands = new Brands(_storeContext);
-            MeasurementUnits = new MeasurementUnits(_storeContext);
-            Stores = new Stores(_storeContext);
-            Categories = new Categories(_storeContext);
-            Characteristics = new Characteristics(_storeContext, Categories);
-            CharacteristicValues = new CharacteristicValues(_storeContext, Characteristics);
-            Items = new Items(_storeContext, Brands, Stores, Categories, MeasurementUnits);
-            ItemVariants = new ItemVariants(_storeContext, Items);
-            CartItems = new CartItems(_storeContext, ItemVariants);
-            ItemProperties = new ItemProperties(_storeContext, ItemVariants, CharacteristicValues);
-            ItemImages = new ItemImages(_storeContext, Items);
+                Context.Database.EnsureDeleted();
+            Brands = new Brands(Context);
+            MeasurementUnits = new MeasurementUnits(Context);
+            Stores = new Stores(Context);
+            Categories = new Categories(Context);
+            Characteristics = new Characteristics(Context, Categories);
+            CharacteristicValues = new CharacteristicValues(Context, Characteristics);
+            Items = new Items(Context, Brands, Stores, Categories, MeasurementUnits);
+            ItemVariants = new ItemVariants(Context, Items);
+            CartItems = new CartItems(Context, ItemVariants);
+            ItemProperties = new ItemProperties(Context, ItemVariants, CharacteristicValues);
+            ItemImages = new ItemImages(Context, Items);
         }
     }
 }

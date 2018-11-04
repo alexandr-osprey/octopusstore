@@ -1,4 +1,5 @@
 ﻿using ApplicationCore.Interfaces;
+using System.Collections.Generic;
 
 namespace ApplicationCore.Entities
 {
@@ -8,6 +9,8 @@ namespace ApplicationCore.Entities
     public class MeasurementUnit: Entity, IGenericMemberwiseClonable<MeasurementUnit>
     {
         public string Title { get; set; }
+
+        public IEnumerable<Item> Items { get; set; } = new List<Item>();
 
         public MeasurementUnit(): base()
         {

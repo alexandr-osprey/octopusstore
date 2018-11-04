@@ -38,12 +38,13 @@ namespace Infrastructure.Data
             }
             catch (Exception readException)
             {
-                throw readException.LogAndGetDbReadException(logger, $"Function: {nameof(ReadSingleAsync)}, {nameof(spec)}: {spec}");
+                throw readException.LogAndGetDbException(logger, $"Function: {nameof(ReadSingleAsync)}, {nameof(spec)}: {spec}");
             }
             if (checkExistence && entity == null)
                 throw new EntityNotFoundException($"{typeof(TEntity).Name} with spec {spec} not found");
             return entity;
         }
+
         /// <summary>
         /// Retrieves a single entity based on specification synchronously. May throw exception if a requested entity does not exist.
         /// </summary>
@@ -65,12 +66,13 @@ namespace Infrastructure.Data
             }
             catch (Exception readException)
             {
-                throw readException.LogAndGetDbReadException(logger, $"Function: {nameof(ReadSingleAsync)}, {nameof(spec)}: {spec}");
+                throw readException.LogAndGetDbException(logger, $"Function: {nameof(ReadSingleAsync)}, {nameof(spec)}: {spec}");
             }
             if (checkExistence && entity == null)
                 throw new EntityNotFoundException($"{typeof(TEntity).Name} with spec {spec} not found");
             return entity;
         }
+
         /// <summary>
         /// Adds a single entity into database. May check existence before adding and throw an exception if it already exists.
         /// </summary>
@@ -92,10 +94,6 @@ namespace Infrastructure.Data
             {
                 created = context.Set<TEntity>().Add(entityToAdd).Entity;
                 await context.SaveChangesAsync();
-            }
-            catch (DbUpdateException updateException)
-            {
-                throw updateException.LogAndGetDbCreateException(entityToAdd, logger, nameof(CreateAsync));
             }
             catch (Exception exception)
             {
@@ -123,16 +121,17 @@ namespace Infrastructure.Data
             try
             {
                 entity = await context.Set<TEntity>().FindAsync(keys);
-                context.Entry(entity).State = EntityState.Detached;
+                //context.Entry(entity).State = EntityState.Detached;
             }
             catch (Exception readException)
             {
-                throw readException.LogAndGetDbReadException(logger, $"Function: {nameof(ReadByKeysAsync)}, keys: {keysRepresentaion}");
+                throw readException.LogAndGetDbException(logger, $"Function: {nameof(ReadByKeysAsync)}, keys: {keysRepresentaion}");
             }
             if (checkExistence && entity == null)
                 throw new EntityNotFoundException($"{typeof(TEntity).Name} with key(s) {keysRepresentaion} not found");
             return entity;
         }
+
         /// <summary>
         /// Retrives a single entity by a key. May throw exception if entity not found.
         /// </summary>
@@ -147,6 +146,7 @@ namespace Infrastructure.Data
         {
             return await context.ReadByKeysAsync<TEntity, TService>(logger, checkExistence, key);
         }
+
         /// <summary>
         /// Retrieves a single entity based on a passed one. Requires overriding of Equals and GetHashCode. May throw exception if entity not found.
         /// </summary>
@@ -164,16 +164,17 @@ namespace Infrastructure.Data
             TEntity retrieved = null;
             try
             {
-                retrieved = await context.Set<TEntity>().AsNoTracking().Where(e => e == entity).FirstOrDefaultAsync();
+                retrieved = await context.Set<TEntity>().FirstOrDefaultAsync(e => e == entity);
             }
             catch (Exception readException)
             {
-                throw readException.LogAndGetDbReadException(logger, $"Function: {nameof(ReadSingleAsync)}, {nameof(entity)}: {entity}");
+                throw readException.LogAndGetDbException(logger, $"Function: {nameof(ReadSingleAsync)}, {nameof(entity)}: {entity}");
             }
             if (checkExistence && retrieved == null)
                 throw new EntityNotFoundException($"{typeof(TEntity).Name} {entity} not found");
             return retrieved;
         }
+
         /// <summary>
         /// Updates a single entity. May throw exception if entity not found.
         /// </summary>
@@ -184,7 +185,7 @@ namespace Infrastructure.Data
         /// <param name="entityToUpdate"></param>
         /// <param name="checkExistence"></param>
         /// <returns></returns>
-        public static async Task<TEntity> UpdateAsync<TEntity, TService>(this DbContext context, IAppLogger<TService> logger, TEntity entityToUpdate, bool checkExistence = true) where TEntity: class
+        public static async Task<TEntity> UpdateSingleAsync<TEntity, TService>(this DbContext context, IAppLogger<TService> logger, TEntity entityToUpdate, bool checkExistence = true) where TEntity : class
         {
             if (entityToUpdate == null)
                 throw new ArgumentNullException(nameof(entityToUpdate));
@@ -192,22 +193,33 @@ namespace Infrastructure.Data
                 throw new EntityNotFoundException($"{typeof(TEntity).Name} {entityToUpdate} does not exist");
             try
             {
-                context.Entry(entityToUpdate).State = EntityState.Modified;
                 await context.SaveChangesAsync();
-                context.Entry(entityToUpdate).State = EntityState.Detached;
                 return entityToUpdate;
-            }
-            catch (DbUpdateConcurrencyException concurrencyUpdateException)
-            {
-                throw concurrencyUpdateException.LogAndGetDbUpdateConcurrencyException(entityToUpdate, logger, $"Function: {nameof(UpdateAsync)}");
-            }
-            catch (DbUpdateException updateException)
-            {
-                throw updateException.LogAndGetDbUpdateException(entityToUpdate, logger, $"Function: {nameof(UpdateAsync)}");
             }
             catch (Exception exception)
             {
-                throw exception.LogAndGetDbException(logger, $"Function: {nameof(UpdateAsync)}, entity: {entityToUpdate}");
+                throw exception.LogAndGetDbException(logger, $"Function: {nameof(UpdateSingleAsync)}, entity: {entityToUpdate}");
+            }
+        }
+
+        /// <summary>
+        /// Updates a database
+        /// </summary>
+        /// <typeparam name="TService"></typeparam>
+        /// <param name="context"></param>
+        /// <param name="logger"></param>
+        /// <param name="entityToUpdate"></param>
+        /// <param name="checkExistence"></param>
+        /// <returns></returns>
+        public static async Task UpdateEntities<TService>(this DbContext context, IAppLogger<TService> logger, string saveDescription)
+        {
+            try
+            {
+                await context.SaveChangesAsync();
+            }
+            catch (Exception exception)
+            {
+                throw exception.LogAndGetDbException(logger, $"Function: {nameof(UpdateEntities)}, description: {saveDescription}");
             }
         }
 
@@ -222,15 +234,12 @@ namespace Infrastructure.Data
                 context.Set<TEntity>().Remove(entityToDelete);
                 await context.SaveChangesAsync();
             }
-            catch (DbUpdateConcurrencyException concurrencyUpdateException)
+            catch (Exception deleteException)
             {
-                throw concurrencyUpdateException.LogAndGetDbUpdateConcurrencyException(entityToDelete, logger, $"Function: {nameof(DeleteAsync)}");
-            }
-            catch (DbUpdateException updateException)
-            {
-                throw updateException.LogAndGetDbUpdateException(entityToDelete, logger, $"Function: {nameof(DeleteAsync)}");
+                throw deleteException.LogAndGetDbException(logger, $"Function: {nameof(DeleteAsync)}");
             }
         }
+
         public static async Task<int> DeleteAsync<TEntity, TService>(this DbContext context, IAppLogger<TService> logger, Specification<TEntity> spec) where TEntity: class
         {
             if (spec == null)
@@ -258,9 +267,10 @@ namespace Infrastructure.Data
             }
             catch (Exception readException)
             {
-                throw readException.LogAndGetDbReadException(logger, $"Function: {nameof(CountAsync)}, {nameof(countSpec)}: {countSpec}");
+                throw readException.LogAndGetDbException(logger, $"Function: {nameof(CountAsync)}, {nameof(countSpec)}: {countSpec}");
             }
         }
+
         public static async Task<bool> ExistsBySpecAsync<TEntity, TService>(this DbContext context, IAppLogger<TService> logger, Specification<TEntity> specToCheck, bool throwNotFound = false) where TEntity: class
         {
             if (specToCheck == null)
@@ -272,16 +282,13 @@ namespace Infrastructure.Data
             }
             catch (Exception readException)
             {
-                throw readException.LogAndGetDbReadException(logger, $"Function: {nameof(ExistsAsync)}, {nameof(specToCheck)}: {specToCheck}");
+                throw readException.LogAndGetDbException(logger, $"Function: {nameof(ExistsAsync)}, {nameof(specToCheck)}: {specToCheck}");
             }
             if (!exists && throwNotFound)
                 throw new EntityNotFoundException($"{typeof(TEntity).Name} with spec {specToCheck} not found");
             return exists;
         }
-        public static IQueryable<T> NoTrackingSet<T>(this DbContext context) where T: class
-        {
-            return context.Set<T>().AsNoTracking();
-        }
+
         public static async Task<bool> ExistsAsync<TEntity, TService>(this DbContext context, IAppLogger<TService> logger, TEntity entityToCheck, bool throwNotFound = false) where TEntity: class
         {
             if (entityToCheck == null)
@@ -293,7 +300,7 @@ namespace Infrastructure.Data
             }
             catch (Exception readException)
             {
-                throw readException.LogAndGetDbReadException(logger, $"Function: {nameof(ExistsAsync)}, {nameof(entityToCheck)}: {entityToCheck}");
+                throw readException.LogAndGetDbException(logger, $"Function: {nameof(ExistsAsync)}, {nameof(entityToCheck)}: {entityToCheck}");
             }
             if (!exists && throwNotFound)
                 throw new EntityNotFoundException($"{typeof(TEntity).Name} {entityToCheck} not found");
@@ -310,7 +317,7 @@ namespace Infrastructure.Data
             }
             catch (Exception readException)
             {
-                throw readException.LogAndGetDbReadException(logger, $"Function: {nameof(EnumerateAllAsync)}");
+                throw readException.LogAndGetDbException(logger, $"Function: {nameof(EnumerateAllAsync)}");
             }
         }
 
@@ -326,7 +333,7 @@ namespace Infrastructure.Data
             }
             catch (Exception readException)
             {
-                throw readException.LogAndGetDbReadException(logger, $"Function: {nameof(EnumerateAsync)}, {nameof(listSpec)}: {listSpec}");
+                throw readException.LogAndGetDbException(logger, $"Function: {nameof(EnumerateAsync)}, {nameof(listSpec)}: {listSpec}");
             }
         }
 
@@ -341,13 +348,17 @@ namespace Infrastructure.Data
                 throw new ArgumentNullException(nameof(relatedSelect));
             try
             {
-                var relatedEntities = await context.GetQueryBySpecWithIncludes(listRelatedSpec).Select(relatedSelect).Distinct().ToListAsync();
+                var relatedEntities = await context.GetQueryBySpecWithIncludes(listRelatedSpec)
+                    .Include(relatedSelect)
+                    .Select(relatedSelect)
+                    .Distinct()
+                    .ToListAsync();
                 //await relatedEntities.LoadAsync();
                 return relatedEntities;
             }
             catch (Exception readException)
             {
-                throw readException.LogAndGetDbReadException(logger, $"Function: {nameof(EnumerateRelatedAsync)}, {nameof(listRelatedSpec)}: {listRelatedSpec}, {nameof(relatedSelect)}: {relatedSelect}");
+                throw readException.LogAndGetDbException(logger, $"Function: {nameof(EnumerateRelatedAsync)}, {nameof(listRelatedSpec)}: {listRelatedSpec}, {nameof(relatedSelect)}: {relatedSelect}");
             }
         }
 
@@ -360,15 +371,17 @@ namespace Infrastructure.Data
                 throw new ArgumentNullException(nameof(listRelatedSpec));
             try
             {
-                var  relatedEntities = await context.GetQueryBySpecWithIncludes(listRelatedSpec)
+                var relatedEntities = await context.GetQueryBySpecWithIncludes(listRelatedSpec)
+                    .Include(relatedEnumSelect)
                     .SelectMany(relatedEnumSelect)
-                    .Distinct().ToListAsync();
+                    .Distinct()
+                    .ToListAsync();
                 //await relatedEntities.LoadAsync();
                 return relatedEntities;
             }
             catch (Exception readException)
             {
-                throw readException.LogAndGetDbReadException(logger, $"Function: {nameof(EnumerateRelatedEnumAsync)}, {nameof(listRelatedSpec)}: {listRelatedSpec}, {nameof(relatedEnumSelect)}: {relatedEnumSelect}");
+                throw readException.LogAndGetDbException(logger, $"Function: {nameof(EnumerateRelatedEnumAsync)}, {nameof(listRelatedSpec)}: {listRelatedSpec}, {nameof(relatedEnumSelect)}: {relatedEnumSelect}");
             }
         }
 
@@ -382,7 +395,7 @@ namespace Infrastructure.Data
         {
             // fetch a Queryable that includes all expression-based includes
             var queryableResultWithIncludes = spec.Includes
-                .Aggregate(context.Set<T>().AsNoTracking().AsQueryable(),
+                .Aggregate(context.Set<T>().AsQueryable(),
                     (current, include) => current.Include(include));
             // modify the IQueryable to include any string-based include statements
             var secondaryResult = spec.IncludeStrings

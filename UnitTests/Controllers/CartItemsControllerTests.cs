@@ -21,7 +21,7 @@ namespace UnitTests.Controllers
         [Fact]
         public async Task IndexAsync()
         {
-            var cartItems = await Context.Set<CartItem>().AsNoTracking().Where(i => i.OwnerId == Users.JohnId).ToListAsync();
+            var cartItems = await Context.Set<CartItem>().Where(i => i.OwnerId == Users.JohnId).ToListAsync();
             var expected = IndexViewModel<CartItemViewModel>.FromEnumerableNotPaged(from c in cartItems select ToViewModel(c));
             var actual = await Controller.Index();
             Equal(expected, actual);

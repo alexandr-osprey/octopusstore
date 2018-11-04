@@ -43,7 +43,7 @@ namespace UnitTests.Controllers
         {
             return Context
                 .Set<Store>()
-                .AsNoTracking()
+                
                 .Include(s => s.Items);
         }
 

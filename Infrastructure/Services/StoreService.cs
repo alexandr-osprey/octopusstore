@@ -43,12 +43,6 @@ namespace Infrastructure.Services
             return await base.DeleteAsync(spec);
         }
 
-        protected override async Task DeleteSingleAsync(Store entity)
-        {
-            await base.DeleteSingleAsync(entity);
-            await IdentityService.RemoveFromUsersAsync(new Claim(entity.OwnerId, entity.Id.ToString()));
-        }
-
         public override async Task DeleteRelatedEntitiesAsync(Store store)
         {
             var spec = new Specification<Item>(i => store.Items.Contains(i))
@@ -56,6 +50,7 @@ namespace Infrastructure.Services
                 Description = $"Item with StoreId={store.Id}"
             };
             await ItemService.DeleteAsync(spec);
+            await IdentityService.RemoveFromUsersAsync(new Claim(store.OwnerId, store.Id.ToString()));
             await base.DeleteRelatedEntitiesAsync(store);
         }
 
@@ -74,6 +69,14 @@ namespace Infrastructure.Services
                 throw new EntityValidationException("Incorrect description");
             if (string.IsNullOrWhiteSpace(store.Address))
                 throw new EntityValidationException("Incorrect address");
+        }
+
+        public override async Task RelinkRelatedAsync(int id, int idToRelinkTo)
+        {
+            var items = await Context.EnumerateRelatedEnumAsync(Logger, new EntitySpecification<Store>(id), b => b.Items);
+            foreach (var item in items)
+                item.StoreId = idToRelinkTo;
+            await Context.UpdateEntities(Logger, "Relink Store");
         }
     }
 }

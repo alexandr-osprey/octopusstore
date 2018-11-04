@@ -87,6 +87,11 @@ namespace Infrastructure.Services
             await base.DeleteRelatedEntitiesAsync(entity);
         }
 
+        public override Task RelinkRelatedAsync(int id, int idToRelinkTo)
+        {
+            return Task.CompletedTask;
+        }
+
         protected override async Task ValidateCreateWithExceptionAsync(TFileInfo fileInfo)
         {
             await ValidateUpdateWithExceptionAsync(fileInfo);
