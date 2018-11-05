@@ -25,9 +25,9 @@ export class MessagesComponent implements OnInit {
       console.log('befor push message array length: ' + this.messages.length);
       this.delay(100).then(() => this.messages.push(message));
       console.log('after push message array length: ' + this.messages.length);
-      this.delay(2 * this.messageTimeout).then(() => {
+      this.delay(this.messageTimeout).then(() => {
         //this.messages.push(message);
-        //this.dismiss(message)
+        this.dismiss(message)
         console.log('after dismiss message array length: ' + this.messages.length);
       });
     });

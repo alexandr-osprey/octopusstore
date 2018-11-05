@@ -55,7 +55,7 @@ namespace OctopusStore.Controllers
         //    return await base.IndexByRelatedNotPagedAsync(_service.EnumerateByItemAsync, spec);
         //}
 
-        [HttpPut("{id:int}")]
+        [HttpPut]
         public override async Task<CategoryViewModel> UpdateAsync([FromBody]CategoryViewModel categoryViewModel) => await base.UpdateAsync(categoryViewModel);
 
         [HttpGet("{id:int}/checkUpdateAuthorization")]

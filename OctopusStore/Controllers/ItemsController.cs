@@ -65,7 +65,7 @@ namespace OctopusStore.Controllers
         [HttpGet("{id:int}/detail")]
         public async Task<ItemDetailViewModel> ReadDetailAsync(int id) => await base.ReadDetailAsync<ItemDetailViewModel>(new ItemDetailSpecification(id));
         
-        [HttpPut("{id:int}")]
+        [HttpPut]
         public override async Task<ItemViewModel> UpdateAsync([FromBody]ItemViewModel itemViewModel) => await base.UpdateAsync(itemViewModel);
 
         [HttpDelete("{id:int}")]

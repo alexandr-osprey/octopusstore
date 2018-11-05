@@ -34,7 +34,7 @@ namespace OctopusStore.Controllers
         [HttpGet]
         public async Task<IndexViewModel<BrandViewModel>> IndexAsync() => await base.IndexNotPagedAsync(new EntitySpecification<Brand>());
 
-        [HttpPut("{id:int}")]
+        [HttpPut]
         public override async Task<BrandViewModel> UpdateAsync([FromBody]BrandViewModel brandViewModel) => await base.UpdateAsync(brandViewModel);
 
         [HttpGet("{id:int}/checkUpdateAuthorization")]

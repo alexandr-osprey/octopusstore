@@ -20,7 +20,8 @@ import { ItemProperty } from '../../view-models/item-property/item-property';
 export class ItemPropertyCreateUpdateComponent implements OnInit, OnChanges {
   @Input() itemVariant: ItemVariant;
   @Input() item: Item;
-  public characteristicValuesDisplayed: CharacteristicValueDisplayed[] = [];
+  public itemPropertiesSaved: CharacteristicValueDisplayed[] = [];
+  public itemPropertiesUnsaved: CharacteristicValueDisplayed[] = [];
   public itemCharacteristicValues: CharacteristicValueDisplayed[] = [];
 
   public characteristics: Characteristic[] = [];
@@ -57,35 +58,41 @@ export class ItemPropertyCreateUpdateComponent implements OnInit, OnChanges {
     }
   }
   protected currentVariantChanged() {
-    this.characteristicValuesDisplayed = this.itemCharacteristicValues.filter(v => v.itemVariantId == this.itemVariant.id);
+    this.itemPropertiesSaved = this.itemCharacteristicValues.filter(v => v.itemVariantId == this.itemVariant.id && v.id != 0);
+    this.itemPropertiesUnsaved = this.itemCharacteristicValues.filter(v => v.itemVariantId == this.itemVariant.id && v.id == 0);
   }
   protected addItemProperty() {
     let addedItemVariant = new CharacteristicValueDisplayed(this.characteristics, this.characteristicValues, { id: 0, itemVariantId: this.itemVariant.id });
     this.itemCharacteristicValues.push(addedItemVariant);
-    this.characteristicValuesDisplayed.push(addedItemVariant);
+    this.itemPropertiesUnsaved.push(addedItemVariant);
   }
-  protected removeItemProperty(characteristicValueDisplayed: CharacteristicValueDisplayed) {
-    if (characteristicValueDisplayed.id != 0) {
-      this.itemPropertyService.delete(characteristicValueDisplayed.id).subscribe(data => {
+  protected removeItemProperty(itemPropertyDisplayed: CharacteristicValueDisplayed) {
+    if (itemPropertyDisplayed.id != 0) {
+      this.itemPropertyService.delete(itemPropertyDisplayed.id).subscribe(data => {
         if (data) {
-          this.characteristicValuesDisplayed = this.characteristicValuesDisplayed.filter(c => c.id != characteristicValueDisplayed.id);
+          this.itemPropertiesSaved = this.itemPropertiesSaved.filter(c => c.id != itemPropertyDisplayed.id);
           this.messageService.sendSuccess("Item variant characteristic value deleted");
         }
       });
     }
-    this.characteristicValuesDisplayed = this.characteristicValuesDisplayed.filter(v => v != characteristicValueDisplayed);
-    this.itemCharacteristicValues = this.itemCharacteristicValues.filter(v => v != characteristicValueDisplayed)
+    this.itemPropertiesSaved = this.itemPropertiesSaved.filter(v => v != itemPropertyDisplayed);
+    this.itemPropertiesUnsaved = this.itemPropertiesUnsaved.filter(v => v != itemPropertyDisplayed);
+    this.itemCharacteristicValues = this.itemCharacteristicValues.filter(v => v != itemPropertyDisplayed)
   }
   protected saveItemProperties() {
-    this.characteristicValuesDisplayed.forEach(value => this.saveItemProperty(value));
-    this.messageService.sendSuccess("Item variant characteristic values saved");
+    this.itemPropertiesUnsaved.forEach(value => this.saveItemProperty(value));
+    //this.messageService.sendSuccess("Item variant characteristic values saved");
   }
   protected saveItemProperty(value: CharacteristicValueDisplayed) {
-    let index = this.characteristicValuesDisplayed.indexOf(value);
+    let index = this.itemPropertiesUnsaved.indexOf(value);
     if (~index) {
       this.itemPropertyService.postOrPut(value).subscribe((data: ItemProperty) => {
         if (data) {
-          this.characteristicValuesDisplayed[index].updateValues(data);
+          this.itemPropertiesUnsaved = this.itemPropertiesUnsaved.filter(v => v != value);
+          this.itemCharacteristicValues = this.itemCharacteristicValues.filter(v => v != value);
+          let savedValue = new CharacteristicValueDisplayed(this.characteristics, this.characteristicValues, data);
+          this.itemPropertiesSaved.push(savedValue);
+          this.itemCharacteristicValues.push(savedValue);
         }
       });
     }

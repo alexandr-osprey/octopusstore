@@ -43,7 +43,8 @@ namespace OctopusStore.Controllers
                 }
             }
         }
-        [HttpPut("{id:int}")]
+
+        [HttpPut]
         public override async Task<ItemImageViewModel> UpdateAsync([FromBody]ItemImageViewModel itemImageViewModel) => await base.UpdateAsync(itemImageViewModel);
 
         [AllowAnonymous]

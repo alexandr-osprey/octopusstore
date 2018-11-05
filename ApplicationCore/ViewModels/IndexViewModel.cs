@@ -14,7 +14,11 @@ namespace ApplicationCore.ViewModels
         public int TotalPages { get; set; }
         public int TotalCount { get; set; }
 
-        public IEnumerable<TViewModel> Entities { get; set; }
+        public IEnumerable<TViewModel> Entities { get; set; } = new List<TViewModel>();
+
+        public IndexViewModel()
+        {
+        }
 
         public IndexViewModel(int page, int totalPages, int totalCount, IEnumerable<TViewModel> viewModels)
         {

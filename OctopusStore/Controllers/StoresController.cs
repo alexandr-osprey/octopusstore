@@ -58,7 +58,7 @@ namespace OctopusStore.Controllers
             return await base.IndexAsync(new StoreIndexSpecification(page.Value, pageSize.Value, title));
         }
 
-        [HttpPut("{id:int}")]
+        [HttpPut]
         public override async Task<StoreViewModel> UpdateAsync([FromBody]StoreViewModel storeViewModel) => await base.UpdateAsync(storeViewModel);
 
         [HttpDelete("{id:int}")]

@@ -42,7 +42,7 @@ namespace OctopusStore.Controllers
         [HttpGet("/api/items/{itemId:int}/itemVariants")]
         public async Task<IndexViewModel<ItemVariantViewModel>> IndexByItemAsync(int itemId) => await base.IndexNotPagedAsync(new ItemVariantByItemSpecification(itemId));
 
-        [HttpPut("{id:int}")]
+        [HttpPut]
         public override async Task<ItemVariantViewModel> UpdateAsync([FromBody]ItemVariantViewModel itemVariantViewModel) => await base.UpdateAsync(itemVariantViewModel);
 
         [HttpDelete("{id}", Name = "ItemVariantDelete")]

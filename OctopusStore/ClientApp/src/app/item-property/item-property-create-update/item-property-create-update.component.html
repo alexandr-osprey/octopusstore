@@ -1,25 +1,42 @@
 <div *ngIf="itemVariant.id" class="row">
   <div class="col-12 col-md-12">
-    <div *ngIf="characteristicValuesDisplayed">
-      <div class="row item-variant-characteristic" *ngFor="let characteristicValueDisplayed of characteristicValuesDisplayed; index as i" [attr.data.index]="i">
+    <div *ngIf="itemPropertiesSaved">
+      <table class="table col-12 col-md-12">
+        <tbody>
+          <tr *ngFor="let itemProperty of itemPropertiesSaved">
+            <td>{{itemProperty.characteristic.title}}</td>
+            <td>{{itemProperty.characteristicValue.title}}</td>
+            <td>
+            <button class="btn btn-light" (click)="removeItemProperty(itemProperty)">Remove</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div *ngIf="itemPropertiesUnsaved">
+      <div class="row item-variant-characteristic" *ngFor="let itemPropertyDisplayed of itemPropertiesUnsaved; index as i" [attr.data.index]="i">
         <div class="col-12 col-md-5">
+          <div *ngIf="itemPropertyDisplayed.id">
+            <div>
+              <p></p>
+            </div>
+          </div>
           <select class="form-control" id="characteristic_{{i}}" required
-                  name="characteristic_{{i}}" [(ngModel)]="characteristicValueDisplayed.characteristicId">
-            <option *ngFor="let characteristic of characteristicValueDisplayed.getCharacteristics()" [value]="characteristic.id">
+                  name="characteristic_{{i}}" [(ngModel)]="itemPropertyDisplayed.characteristicId">
+            <option *ngFor="let characteristic of itemPropertyDisplayed.getCharacteristics()" [value]="characteristic.id">
               {{ characteristic.title }}
             </option>
           </select>
         </div>
         <div class="col-12 col-md-5">
           <select class="form-control" id="characteristicValue_{{i}}" required
-                  name="characteristicValue_{{i}}" [(ngModel)]="characteristicValueDisplayed.characteristicValueId">
-            <option *ngFor="let characteristicValue of characteristicValueDisplayed.getCharacteristicValues()" [ngValue]="characteristicValue.id">
+                  name="characteristicValue_{{i}}" [(ngModel)]="itemPropertyDisplayed.characteristicValueId">
+            <option *ngFor="let characteristicValue of itemPropertyDisplayed.getCharacteristicValues()" [ngValue]="characteristicValue.id">
               {{ characteristicValue.title }}
             </option>
           </select>
         </div>
         <div class="col-12 col-md-2">
-          <button class="btn btn-light" (click)="removeItemProperty(characteristicValueDisplayed)">
+          <button class="btn btn-light" (click)="removeItemProperty(itemPropertyDisplayed)">
             Remove
           </button>
         </div>

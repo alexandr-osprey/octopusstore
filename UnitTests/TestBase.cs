@@ -18,10 +18,8 @@ using OctopusStore;
 using OctopusStore.Controllers;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Security.Claims;
-using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
@@ -58,25 +56,10 @@ namespace UnitTests
         {
             this.ServiceProvider = Services.BuildServiceProvider();
             SeedIdentity();
-                //var logger = Resolve<IAppLogger<StoreContext>>();
-                //Logger = Resolve<IAppLogger<TestBase<TEntity>>>();
-
-                //ServiceProvider ServiceProvider = Services.BuildServiceProvider();
-                //using (var scope = ServiceProvider.CreateScope())
-                //{
-                //Context = Resolve<StoreContext>();
-                //Data = new TestSampleData(Resolve<StoreContext>());
-                //Data = new TestSampleData(Context);
-                Context = Resolve<StoreContext>();
-                Data = new TestSampleData(Resolve<StoreContext>());
-            //var um = Resolve<UserManager<ApplicationUser>>();
-            //}
+            Context = Resolve<StoreContext>();
+            Data = new TestSampleData(Resolve<StoreContext>());
             NLog.LogManager.Configuration = new NLog.Config.XmlLoggingConfiguration("NLog.config", false);
             Output = output;
-            //IdentityContext = Resolve<AppIdentityDbContext>();
-            //UserManager = Resolve<UserManager<ApplicationUser>>();
-            //Thread.Sleep(1000);
-            //_context.DetachAllEntities();
         }
 
         protected void SeedIdentity()
@@ -170,7 +153,7 @@ namespace UnitTests
         {
             var category = await Context
                 .Set<Category>()
-                
+
                 .Where(c => c.Id == categoryId)
                 .FirstOrDefaultAsync();
             if (category != null)

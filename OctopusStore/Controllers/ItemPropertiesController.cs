@@ -48,7 +48,7 @@ namespace OctopusStore.Controllers
         [HttpGet("/api/items/{itemId:int}/characteristicValues")]
         public async Task<IndexViewModel<ItemPropertyViewModel>> IndexByItemAsync(int itemId) => await base.IndexByRelatedNotPagedAsync(Service.EnumerateByItemVariantAsync, new ItemVariantByItemSpecification(itemId));
 
-        [HttpPut("{id:int}")]
+        [HttpPut]
         public override async Task<ItemPropertyViewModel> UpdateAsync([FromBody]ItemPropertyViewModel itemPropertyViewModel) => await base.UpdateAsync(itemPropertyViewModel ?? throw new BadRequestException("Item variant characteristic value not provided"));
 
         [HttpDelete("{id}")]

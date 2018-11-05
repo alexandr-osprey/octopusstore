@@ -34,18 +34,18 @@ namespace Infrastructure.Data.SampleData
             return new List<Item>()
             {
                 new Item { Title = "iPhone 6", BrandId = Brands.Apple.Id, CategoryId = Categories.Smartphones.Id,
-                    MeasurementUnitId = MeasurementUnits.Pcs.Id, StoreId = Stores.Johns.Id, OwnerId = Stores.Johns.OwnerId },
+                    MeasurementUnitId = MeasurementUnits.Pcs.Id, StoreId = Stores.Johns.Id, OwnerId = Stores.Johns.OwnerId, Description = "desc" },
                 new Item { Title = "Samsung 7", BrandId = Brands.Samsung.Id, CategoryId = Categories.Smartphones.Id,
-                    MeasurementUnitId = MeasurementUnits.Pcs.Id,StoreId = Stores.Johns.Id, OwnerId = Stores.Johns.OwnerId },
+                    MeasurementUnitId = MeasurementUnits.Pcs.Id,StoreId = Stores.Johns.Id, OwnerId = Stores.Johns.OwnerId, Description = "desc" },
                 new Item { Title = "Samsung 8", BrandId = Brands.Samsung.Id, CategoryId = Categories.Smartphones.Id,
-                    MeasurementUnitId = MeasurementUnits.Pcs.Id, StoreId = Stores.Johns.Id, OwnerId = Stores.Johns.OwnerId },
+                    MeasurementUnitId = MeasurementUnits.Pcs.Id, StoreId = Stores.Johns.Id, OwnerId = Stores.Johns.OwnerId, Description = "desc" },
                 new Item { Title = "Pebble Watch", BrandId = Brands.Pebble.Id, CategoryId = Categories.Smartwatches.Id,
-                    MeasurementUnitId = MeasurementUnits.Pcs.Id, StoreId = Stores.Johns.Id, OwnerId = Stores.Johns.OwnerId },
+                    MeasurementUnitId = MeasurementUnits.Pcs.Id, StoreId = Stores.Johns.Id, OwnerId = Stores.Johns.OwnerId, Description = "desc" },
 
                 new Item { Title = "Shoes", BrandId = Brands.CK.Id, CategoryId = Categories.Shoes.Id,
-                    MeasurementUnitId = MeasurementUnits.Pcs.Id, StoreId = Stores.Jennifers.Id, OwnerId = Stores.Jennifers.OwnerId },
+                    MeasurementUnitId = MeasurementUnits.Pcs.Id, StoreId = Stores.Jennifers.Id, OwnerId = Stores.Jennifers.OwnerId, Description = "desc" },
                 new Item { Title = "Jacket", BrandId = Brands.Armani.Id, CategoryId = Categories.Jackets.Id,
-                    MeasurementUnitId = MeasurementUnits.Pcs.Id, StoreId = Stores.Jennifers.Id, OwnerId = Stores.Jennifers.OwnerId },
+                    MeasurementUnitId = MeasurementUnits.Pcs.Id, StoreId = Stores.Jennifers.Id, OwnerId = Stores.Jennifers.OwnerId, Description = "desc" },
             };
         }
 

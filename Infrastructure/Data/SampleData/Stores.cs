@@ -34,7 +34,7 @@ namespace Infrastructure.Data.SampleData
         {
             base.Init();
             Johns = Entities[0];
-            Jennifers = Entities[0];
+            Jennifers = Entities[1];
         }
     }
 }
