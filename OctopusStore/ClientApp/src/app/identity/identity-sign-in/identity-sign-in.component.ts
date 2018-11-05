@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Credentials } from '../../view-models/identity/credentials';
 import { IdentityService } from '../../services/identity-service';
 import 'rxjs/add/operator/catch';
-import { TokenPair } from '../../view-models/token-pair';
 import { MessageService } from '../../services/message.service';
 import { Router } from '@angular/router';
+import { TokenPair } from '../../view-models/identity/token-pair';
 
 
 @Component({

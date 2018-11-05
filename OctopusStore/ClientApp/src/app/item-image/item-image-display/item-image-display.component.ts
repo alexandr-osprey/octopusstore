@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, OnChanges } from '@angular/core';
 import { ItemImageService } from '../../services/item-image-service';
-import { ItemImage } from '../../view-models/item-image/item-image';
+import { ItemImage } from '../../view-models/item-image';
 
 @Component({
   selector: 'app-item-image-display',
@@ -12,7 +12,8 @@ export class ItemImageDisplayComponent implements OnInit, OnChanges {
   @Input() itemImage: ItemImage;
   itemImageUrl: string;
 
-  constructor(private itemImageService: ItemImageService) { }
+  constructor(private itemImageService: ItemImageService) {
+  }
 
   ngOnInit() {
   }

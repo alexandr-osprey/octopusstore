@@ -1,11 +1,10 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
-import { ItemImage } from '../../view-models/item-image/item-image';
-import { ActivatedRoute } from '@angular/router';
+import { ItemImage } from '../../view-models/item-image';
 import { ItemImageService } from '../../services/item-image-service';
-import { ItemImageIndex } from '../../view-models/item-image/item-image-index';
-import { Item } from '../../view-models/item/item';
+import { Item } from '../../view-models/item';
 import { Subscription } from 'rxjs';
 import { MessageService } from '../../services/message.service';
+import { EntityIndex } from '../../view-models/entity-index';
 
 @Component({
   selector: 'app-item-image-create-update',
@@ -32,7 +31,7 @@ export class ItemImageCreateUpdateComponent implements OnInit {
 
   initializeComponent() {
     if (this.item.id) {
-      this.itemImageService.index({ itemId: this.item.id }).subscribe((itemImageIndex: ItemImageIndex) => {
+      this.itemImageService.index({ itemId: this.item.id }).subscribe((itemImageIndex: EntityIndex<ItemImage>) => {
         itemImageIndex.entities.forEach(i => this.itemImages.push(new ItemImage(i)));
       });
     }

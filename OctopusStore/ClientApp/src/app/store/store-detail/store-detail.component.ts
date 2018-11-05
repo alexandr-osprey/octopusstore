@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { StoreDetail } from '../../view-models/store/store-detail';
 import { StoreService } from '../../services/store.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { ParameterService } from '../../services/parameter-service';
 import { ParameterNames } from '../../services/parameter-names';
 import { IdentityService } from '../../services/identity-service';
+import { Store } from '../../view-models/store';
 
 @Component({
   selector: 'app-store-detail',
@@ -13,7 +13,7 @@ import { IdentityService } from '../../services/identity-service';
   styleUrls: ['./store-detail.component.css']
 })
 export class StoreDetailComponent implements OnInit {
-  storeDetail: StoreDetail;
+  storeDetail: Store;
   authorizedToUpdate: boolean = false;
   constructor(
     private storeService: StoreService,
@@ -32,8 +32,8 @@ export class StoreDetailComponent implements OnInit {
     let storeId = +this.route.snapshot.paramMap.get('id');
     this.parameterService.navigateWithUpdatedParam([ParameterNames.storeId, storeId]);
     if (storeId) {
-      this.storeService.getDetail(storeId).subscribe((storeDetail: StoreDetail) => {
-        this.storeDetail = new StoreDetail(storeDetail);
+      this.storeService.getDetail(storeId).subscribe((storeDetail: Store) => {
+        this.storeDetail = new Store(storeDetail);
       });
       this.identityService.checkCreateUpdateAuthorization(this.getUpdateLink(storeId)).subscribe(result => {
         if (result)

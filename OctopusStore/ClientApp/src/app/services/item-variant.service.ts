@@ -1,20 +1,15 @@
 import { Injectable } from '@angular/core';
 import { DataReadWriteService } from './data-read-write-service';
-import { ItemVariantIndex } from '../view-models/item-variant/item-variant-index';
-import { ItemVariantDetail } from '../view-models/item-variant/item-variant-detail';
 import { HttpClient } from '@angular/common/http';
 import { MessageService } from './message.service';
-import { ItemVariant } from '../view-models/item-variant/item-variant';
+import { ItemVariant } from '../view-models/item-variant';
 import { IdentityService } from './identity-service';
 import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ItemVariantService extends DataReadWriteService<
-  ItemVariant,
-  ItemVariantIndex,
-  ItemVariantDetail> {
+export class ItemVariantService extends DataReadWriteService<ItemVariant> {
 
   constructor(
     protected http: HttpClient,

@@ -1,10 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
-import { ItemDetail } from '../../view-models/item/item-detail';
+import { ItemDetail } from '../../view-models/item-detail';
 import { ItemService } from '../../services/item.service';
-import { ItemVariant } from '../../view-models/item-variant/item-variant';
-import { ItemImage } from '../../view-models/item-image/item-image';
+import { ItemVariant } from '../../view-models/item-variant';
+import { ItemImage } from '../../view-models/item-image';
 import { IdentityService } from '../../services/identity-service';
 
 @Component({

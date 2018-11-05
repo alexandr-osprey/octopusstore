@@ -1,5 +1,5 @@
-import { Entity } from "../entity";
-import { FileInfo } from "../file-info/file-info";
+import { Entity } from "./entity";
+import { FileInfo } from "./file-info";
 
 export abstract class Image<T extends Entity> extends FileInfo<T> {
 

@@ -1,18 +1,17 @@
 import { Injectable } from '@angular/core';
-import { Image } from '../view-models/image/image';
 import { MessageService } from './message.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ImageService } from './image.service';
-import { Item } from '../view-models/item/item';
+import { Item } from '../view-models/item';
 import { IdentityService } from './identity-service';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { ItemImage } from '../view-models/item-image/item-image';
+import { ItemImage } from '../view-models/item-image';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ItemImageService extends ImageService<Item, Image<Item>> {
+export class ItemImageService extends ImageService<Item> {
   public postFilePrefix = '/api/items/';
   public postFileSuffix = 'itemImage';
 

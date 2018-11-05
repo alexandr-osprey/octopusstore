@@ -12,10 +12,7 @@ import 'rxjs/add/operator/take';
 import { Router } from '@angular/router';
 import { ParameterNames } from './parameter-names';
 
-export abstract class DataReadWriteService
-  <TEntity extends Entity,
-  TIndex extends EntityIndex<TEntity>,
-  TDetail extends EntityDetail<TEntity>> {
+export abstract class DataReadWriteService <TEntity extends Entity> {
   protected remoteUrl: string;
   protected serviceName: string = "Data service";
   protected get defaultHttpHeaders(): HttpHeaders {
@@ -50,15 +47,15 @@ export abstract class DataReadWriteService
     else
       return this.post(model, url, params, headers);
   }
-  public index(params: any = {}): Observable<TIndex> {
+  public index(params: any = {}): Observable<EntityIndex<TEntity>> {
     if (params && params[ParameterNames.updateAuthorizationFilter])
       this.getAuthenticationRequired = true;
-    return this.getCustom<TIndex>(this.remoteUrl, params, this.defaultHttpHeaders, this.getAuthenticationRequired);
+    return this.getCustom<EntityIndex<TEntity>>(this.remoteUrl, params, this.defaultHttpHeaders, this.getAuthenticationRequired);
   }
   public get(id: number, params: any = {}): Observable<TEntity> {
     return this.getCustom(this.getUrlWithId(id), params, this.defaultHttpHeaders, this.getAuthenticationRequired);
   }
-  public getDetail(id: number, params: any = {}): Observable<TDetail> {
+  public getDetail<TDetail>(id: number, params: any = {}): Observable<TDetail> {
     return this.getCustom(this.getUrlWithIdWithSuffix(id, "detail"), params, this.defaultHttpHeaders, this.getAuthenticationRequired);
   }
   public delete(id: number): Observable<string> {

@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BrandIndex } from '../view-models/brand/brand-index';
 import { MessageService } from './message.service';
-import { BrandDetail } from '../view-models/brand/brand-detail';
-import { Brand } from '../view-models/brand/brand';
+import { Brand } from '../view-models/brand';
 import { IdentityService } from './identity-service';
 import { DataReadWriteService } from './data-read-write-service';
 import { Router } from '@angular/router';
@@ -11,7 +9,7 @@ import { Router } from '@angular/router';
 @Injectable({
   providedIn: 'root'
 })
-export class BrandService extends DataReadWriteService<Brand, BrandIndex, BrandDetail> {
+export class BrandService extends DataReadWriteService<Brand> {
 
   constructor(
     protected http: HttpClient,

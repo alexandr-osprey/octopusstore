@@ -1,6 +1,5 @@
-import { Entity } from "../entity";
-import { Item } from "../item/item";
-import { Image } from "../image/image";
+import { Item } from "./item";
+import { Image } from "./image";
 
 export class ItemImage extends Image<Item>{
 

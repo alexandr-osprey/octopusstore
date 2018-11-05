@@ -1,4 +1,4 @@
-import { Entity } from "../entity";
+import { Entity } from "./entity";
 
 export abstract class FileInfo<T extends Entity> extends Entity {
   title: string;

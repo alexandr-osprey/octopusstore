@@ -5,9 +5,10 @@ import { Credentials } from "../view-models/identity/credentials";
 import { tap } from "rxjs/operators";
 import { Injectable } from "@angular/core";
 import 'rxjs/add/operator/retry';
-import { TokenPair, TokenManager } from "../view-models/token-pair";
 import { Router } from "@angular/router";
 import { Subject } from "rxjs";
+import { TokenService } from "./token-service";
+import { TokenPair } from "../view-models/identity/token-pair";
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,7 @@ export class IdentityService {
   protected AUTH_PREFIX: string = 'Bearer';
   protected EMAIL_NAME: string = 'email';
   protected PASSWORD_NAME: string = 'password';
-  protected tokenManager: TokenManager;
+  protected tokenManager: TokenService;
   protected get defaultHttpHeaders(): HttpHeaders {
     return new HttpHeaders({ 'Content-Type': 'application/json' });
   }
@@ -41,7 +42,7 @@ export class IdentityService {
     protected http: HttpClient,
     protected router: Router,
     protected messageService: MessageService) {
-    this.tokenManager = new TokenManager(this.http, this.messageService, this.remoteUrl, this.defaultHttpHeaders);
+    this.tokenManager = new TokenService(this.http, this.messageService, this.remoteUrl, this.defaultHttpHeaders);
     this._signedIn = !this.tokenManager.isTokenInvalid();
   }
   public signUp(credentials: Credentials): Observable<TokenPair> {

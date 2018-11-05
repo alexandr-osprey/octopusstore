@@ -1,4 +1,4 @@
-import { EntityIndex } from '../entity-index';
+import { EntityIndex } from './entity-index';
 import { ItemThumbnail } from './item-thumbnail';
 
 export class ItemThumbnailIndex extends EntityIndex<ItemThumbnail> {

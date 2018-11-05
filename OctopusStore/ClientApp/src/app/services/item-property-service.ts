@@ -4,17 +4,12 @@ import { MessageService } from './message.service';
 import { DataReadWriteService } from './data-read-write-service';
 import { IdentityService } from './identity-service';
 import { Router } from '@angular/router';
-import { ItemProperty } from '../view-models/item-property/item-property';
-import { ItemPropertyIndex } from '../view-models/item-property/item-property-index';
-import { ItemPropertyDetail } from '../view-models/item-property/item-property-detail';
+import { ItemProperty } from '../view-models/item-property';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ItemPropertyService extends DataReadWriteService<
-  ItemProperty,
-  ItemPropertyIndex,
-  ItemPropertyDetail> {
+export class ItemPropertyService extends DataReadWriteService<ItemProperty> {
 
   constructor(
     protected http: HttpClient,

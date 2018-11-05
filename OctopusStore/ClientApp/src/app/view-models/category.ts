@@ -1,8 +1,7 @@
-import { Entity } from "../entity";
-import { EntityDetail } from "../entity-detail";
-import { Category } from "./category";
+import { Entity } from "./entity";
 
-export class CategoryDetail extends EntityDetail<Category> {
+export class Category extends Entity {
+  title: string;
   parentCategoryId: number;
   description: string;
   subcategories: Category[];

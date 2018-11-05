@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter, OnChanges } from '@angular/core';
-import { ItemVariant } from '../../view-models/item-variant/item-variant';
-import { ItemDetail } from '../../view-models/item/item-detail';
+import { ItemVariant } from '../../view-models/item-variant';
+import { ItemDetail } from '../../view-models/item-detail';
 
 @Component({
   selector: 'app-item-variant-detail',

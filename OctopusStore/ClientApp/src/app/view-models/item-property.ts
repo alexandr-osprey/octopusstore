@@ -1,4 +1,4 @@
-import { Entity } from "../entity";
+import { Entity } from "./entity";
 
 export class ItemProperty extends Entity {
   itemVariantId: number;

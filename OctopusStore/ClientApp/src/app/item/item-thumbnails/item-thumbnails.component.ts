@@ -1,9 +1,10 @@
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { ItemService } from '../../services/item.service';
-import { ItemThumbnailIndex } from '../../view-models/item/item-thumbnail-index';
 import { ParameterService } from '../../services/parameter-service';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { debounceTime } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
+import { EntityIndex } from '../../view-models/entity-index';
+import { ItemThumbnail } from '../../view-models/item-thumbnail';
 
 @Component({
   selector: 'app-item-thumbnails',
@@ -12,7 +13,7 @@ import { Subscription } from 'rxjs';
   providers: [ItemService]
 })
 export class ItemThumbnailsComponent implements OnInit, OnDestroy {
-  itemThumbnailIndex: ItemThumbnailIndex;
+  itemThumbnailIndex: EntityIndex<ItemThumbnail>;
   parametersSubsription: Subscription;
   itemThumbnailsSubsription: Subscription;
 
@@ -42,7 +43,7 @@ export class ItemThumbnailsComponent implements OnInit, OnDestroy {
   }
 
   getItems(): void {
-    this.itemService.indexItemThumbnails().subscribe(data => {
+    this.itemService.indexItemThumbnails().subscribe((data: EntityIndex<ItemThumbnail>) => {
       this.itemThumbnailIndex = data;
     }
     );

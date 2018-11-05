@@ -1,6 +1,6 @@
 import { ItemVariant } from "./item-variant";
-import { EntityDetail } from "../entity-detail";
-import { ItemProperty } from "../item-property/item-property";
+import { EntityDetail } from "./entity-detail";
+import { ItemProperty } from "./item-property";
 
 export class ItemVariantDetail extends EntityDetail<ItemVariant> {
   itemId: number;

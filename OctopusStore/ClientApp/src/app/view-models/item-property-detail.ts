@@ -1,6 +1,6 @@
-import { Characteristic } from "../characteristic/characteristic";
-import { CharacteristicValue } from "../characteristic-value/characteristic-value";
-import { EntityDetail } from "../entity-detail";
+import { Characteristic } from "./characteristic";
+import { CharacteristicValue } from "./characteristic-value";
+import { EntityDetail } from "./entity-detail";
 import { ItemProperty } from "./item-property";
 
 export class ItemPropertyDetail extends EntityDetail<ItemProperty> {

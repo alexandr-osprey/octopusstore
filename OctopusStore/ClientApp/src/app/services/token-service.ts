@@ -2,18 +2,10 @@ import * as jwt_decode from 'jwt-decode';
 import { HttpHeaders, HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { MessageService } from '../services/message.service';
+import { MessageService } from './message.service';
+import { TokenPair } from '../view-models/identity/token-pair';
 
-export class TokenPair {
-  public token: string;
-  public refreshToken: string;
-
-  public constructor(init?: Partial<TokenPair>) {
-    Object.assign(this, init);
-  }
-}
-
-export class TokenManager {
+export class TokenService {
   public TOKEN_NAME: string = 'token';
   public REFRESH_TOKEN_NAME: string = 'refreshToken';
   //public EXPIRATION_NAME: string = 'expiresAt';
@@ -66,12 +58,7 @@ export class TokenManager {
     localStorage.removeItem(this.TOKEN_NAME);
     localStorage.removeItem(this.REFRESH_TOKEN_NAME);
   }
-  //public setTokenPairExpirationDate() {
-  //  console.log("token exp date: " + this.getExpirationDate(this.token).toUTCString());
-  //  localStorage.setItem(this.EXPIRATION_NAME, this.getExpirationDate(this.token).toUTCString());
-  //  console.log("refreshToken exp date: " + this.getExpirationDate(this.refreshToken).toUTCString());
-  //  localStorage.setItem(this.REFRESH_EXPIRATION_NAME, this.getExpirationDate(this.refreshToken).toUTCString());
-  //}
+
   protected getExpirationDate(token: string): Date {
     let decoded = jwt_decode(token);
     if (decoded.exp == null)
@@ -85,16 +72,9 @@ export class TokenManager {
       headers = new HttpHeaders();
     return headers.set(this.AUTH_HEADER_KEY, `${this.AUTH_PREFIX} ${this.getToken()}`);
   }
-  //public setTokenPair(tokenPair: TokenPair) {
-  //  localStorage.setItem(this.TOKEN_NAME, tokenPair.token);
-  //  localStorage.setItem(this.REFRESH_TOKEN_NAME, tokenPair.refreshToken);
-  //  //this.setSignInState(true);
-  //}
 
 
   public refresh(): Observable<TokenPair> {
-    //console.log("refresh enter");
-    //console.log("refreshToken date: " + this.getExpirationDate(this.getRefreshToken()));
     let headers = { headers: this.getHeadersWithTokenPair(this.defaultHttpHeaders) };
     if (this.getRefreshToken()) {
       return this.http.post<TokenPair>(this.remoteUrl + '/refreshToken', null, headers).pipe(
@@ -105,10 +85,8 @@ export class TokenManager {
     } else {
       let sub = new Subject<TokenPair>();
       this.delay(5).then(() => {
-    //    console.log("refresh delay enter");
         sub.error(new HttpErrorResponse({ status: 401, statusText: "no saved refreshToken" }))
       });
-  //    console.log("refresh leave");
       return sub.asObservable();
     }
   }

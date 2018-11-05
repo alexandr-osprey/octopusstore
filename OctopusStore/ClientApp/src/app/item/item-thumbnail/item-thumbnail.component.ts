@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ItemThumbnail } from '../../view-models/item/item-thumbnail';
+import { ItemThumbnail } from '../../view-models/item-thumbnail';
 import { ParameterNames } from '../../services/parameter-names';
 import { ItemService } from '../../services/item.service';
 

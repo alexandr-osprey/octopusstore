@@ -1,5 +1,4 @@
-import { Entity } from '../entity';
-import { ItemImage } from '../item-image/item-image';
+import { ItemImage } from './item-image';
 import { Item } from './item';
 
 export class ItemThumbnail extends Item {

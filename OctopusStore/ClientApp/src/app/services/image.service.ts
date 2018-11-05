@@ -1,19 +1,12 @@
-import { Injectable } from '@angular/core';
-import { Image } from '../view-models/image/image';
+import { Image } from '../view-models/image';
 import { Entity } from '../view-models/entity';
-import { ImageIndex } from '../view-models/image/image-index';
-import { ImageDetail } from '../view-models/image/image-detail';
 import { MessageService } from './message.service';
 import { HttpClient } from '@angular/common/http';
 import { FileInfoService } from './file-info.service';
 import { IdentityService } from './identity-service';
 import { Router } from '@angular/router';
 
-export abstract class ImageService<
-  TEntity extends Entity, TImage extends
-  Image<TEntity>> extends FileInfoService<Image<TEntity>,
-  ImageIndex<Image<TEntity>>,
-  ImageDetail<Image<TEntity>>> {
+export abstract class ImageService<TEntity extends Entity> extends FileInfoService<Image<TEntity>> {
 
   constructor(
     protected http: HttpClient,

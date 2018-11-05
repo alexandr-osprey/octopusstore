@@ -1,10 +1,10 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
-import { Item } from '../../view-models/item/item';
-import { ItemVariant } from '../../view-models/item-variant/item-variant';
+import { Component, OnInit, Input } from '@angular/core';
+import { Item } from '../../view-models/item';
+import { ItemVariant } from '../../view-models/item-variant';
 import { ItemVariantService } from '../../services/item-variant.service';
-import { ItemVariantIndex } from '../../view-models/item-variant/item-variant-index';
 import { MessageService } from '../../services/message.service';
 import { Subscription } from 'rxjs';
+import { EntityIndex } from '../../view-models/entity-index';
 
 
 @Component({
@@ -34,7 +34,7 @@ export class ItemVariantCreateUpdateComponent implements OnInit {
       this.isUpdating = true;
       this.itemVariants = [];
       this.currentVariant = this.itemVariants[0];
-      this.itemVariantService.index({ itemId: this.item.id }).subscribe((itemVariantIndex: ItemVariantIndex) => {
+      this.itemVariantService.index({ itemId: this.item.id }).subscribe((itemVariantIndex: EntityIndex<ItemVariant>) => {
         itemVariantIndex.entities.forEach(v => this.itemVariants.push(new ItemVariant(v)));
         this.selectItemVariant(this.itemVariants[0]);
       });

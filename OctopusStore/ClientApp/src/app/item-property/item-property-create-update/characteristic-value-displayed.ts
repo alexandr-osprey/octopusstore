@@ -1,7 +1,7 @@
-import { Characteristic } from "../../view-models/characteristic/characteristic";
-import { CharacteristicValue } from "../../view-models/characteristic-value/characteristic-value";
-import { ItemVariant } from "../../view-models/item-variant/item-variant";
-import { ItemProperty } from "../../view-models/item-property/item-property";
+import { Characteristic } from "../../view-models/characteristic";
+import { CharacteristicValue } from "../../view-models/characteristic-value";
+import { ItemVariant } from "../../view-models/item-variant";
+import { ItemProperty } from "../../view-models/item-property";
 
 export class CharacteristicValueDisplayed extends ItemProperty {
   public characteristics: Characteristic[];

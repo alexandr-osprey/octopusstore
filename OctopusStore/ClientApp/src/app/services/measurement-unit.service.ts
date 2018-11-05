@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { MessageService } from './message.service';
-import { MeasurementUnitDetail } from '../view-models/measurement-unit/measurement-unit-detail';
-import { MeasurementUnitIndex } from '../view-models/measurement-unit/measurement-unit-index';
-import { MeasurementUnit } from '../view-models/measurement-unit/measurement-unit';
+import { MeasurementUnit } from '../view-models/measurement-unit';
 import { IdentityService } from './identity-service';
 import { DataReadWriteService } from './data-read-write-service';
 import { Router } from '@angular/router';
@@ -12,10 +10,7 @@ import { Router } from '@angular/router';
 @Injectable({
   providedIn: 'root'
 })
-export class MeasurementUnitService extends DataReadWriteService<
-MeasurementUnit,
-MeasurementUnitIndex,
-MeasurementUnitDetail> {
+export class MeasurementUnitService extends DataReadWriteService<MeasurementUnit> {
 
   constructor(
     protected http: HttpClient,

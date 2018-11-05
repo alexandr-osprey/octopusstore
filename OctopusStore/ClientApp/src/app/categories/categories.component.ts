@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { Category } from '../view-models/category/category';
+import { Category } from '../view-models/category';
 import { CategoryService } from '../services/category.service';
-import { CategoryIndex } from '../view-models/category/category-index';
 import { CategoryHierarchy } from './category-hierarchy';
 import { ParameterService } from '../services/parameter-service';
 import { ParameterNames } from '../services/parameter-names';
 import { Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+import { EntityIndex } from '../view-models/entity-index';
 
 @Component({
   selector: 'app-categories',
@@ -44,7 +44,7 @@ export class CategoriesComponent implements OnInit {
     let categoryId = this.parameterService.getParam(ParameterNames.categoryId);
     if (!categoryId)
       categoryId = CategoryService.rootCategoryId;
-    this.categoryService.index(this.parameterService.getParams()).subscribe((categoryIndex: CategoryIndex) => {
+    this.categoryService.index(this.parameterService.getParams()).subscribe((categoryIndex: EntityIndex<Category>) => {
       categoryIndex.entities.forEach(c => this.allCategories.push(new Category(c)));
       this.currentCategory = this.allCategories.find(c => c.id == categoryId);
       this.categoryHierarchy = new CategoryHierarchy(this.currentCategory, this.allCategories);

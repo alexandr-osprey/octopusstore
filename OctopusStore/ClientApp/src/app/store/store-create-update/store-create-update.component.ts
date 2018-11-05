@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Store } from '../../view-models/store/store';
+import { Store } from '../../view-models/store';
 import { StoreService } from '../../services/store.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';

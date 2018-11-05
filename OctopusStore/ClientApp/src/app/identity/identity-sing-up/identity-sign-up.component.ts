@@ -4,8 +4,8 @@ import { IdentityService } from '../../services/identity-service';
 import 'rxjs/add/operator/catch';
 import { Router } from '@angular/router';
 import 'rxjs/add/operator/retryWhen';
-import { TokenPair } from '../../view-models/token-pair';
 import { MessageService } from '../../services/message.service';
+import { TokenPair } from '../../view-models/identity/token-pair';
 
 
 @Component({
