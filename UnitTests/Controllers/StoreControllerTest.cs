@@ -1,9 +1,5 @@
 ﻿using ApplicationCore.Entities;
-using ApplicationCore.Interfaces;
-using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
-using OctopusStore.Controllers;
 using ApplicationCore.ViewModels;
 using System.Linq;
 using System.Threading.Tasks;

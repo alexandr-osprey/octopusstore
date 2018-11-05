@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Moq;
-using Newtonsoft.Json;
 using ApplicationCore.ViewModels;
 using System.IO;
 using System.Linq;
@@ -82,9 +81,7 @@ namespace UnitTests.Controllers
             imageExpected.Title = "UPDATED";
             var expected = new ItemImageViewModel(imageExpected);
             var actual = await Controller.UpdateAsync(new ItemImageViewModel(imageExpected));
-            Assert.Equal(
-                JsonConvert.SerializeObject(expected, Formatting.None, jsonSettings),
-                JsonConvert.SerializeObject(actual, Formatting.None, jsonSettings));
+            Equal(expected, actual);
             var imageActual = await GetQueryable().FirstOrDefaultAsync(i => i.Id == imageExpected.Id);
             imageExpected.RelatedEntity = null;
             Equal(imageExpected, imageActual);

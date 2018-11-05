@@ -1,4 +1,5 @@
-﻿using ApplicationCore.Interfaces;
+﻿using ApplicationCore.Extensions;
+using ApplicationCore.Interfaces;
 using System.Collections.Generic;
 
 namespace ApplicationCore.Entities
@@ -6,7 +7,7 @@ namespace ApplicationCore.Entities
     /// <summary>
     /// Variant of an Item containing it's Characteristic Values, price and title
     /// </summary>
-    public class ItemVariant: Entity, IGenericMemberwiseClonable<ItemVariant>
+    public class ItemVariant : Entity, IGenericMemberwiseClonable<ItemVariant>
     {
         public string Title { get; set; }
         public decimal Price { get; set; }
@@ -15,11 +16,18 @@ namespace ApplicationCore.Entities
         public Item Item { get; set; }
         public ICollection<ItemProperty> ItemProperties { get; set; } = new List<ItemProperty>();
 
-        public ItemVariant(): base()
+        public ItemVariant() : base()
         {
         }
 
-        protected ItemVariant(ItemVariant itemVariant): base(itemVariant)
+        public bool Equals(ItemVariant other) => base.Equals(other)
+            && Title.EqualsCI(other.Title)
+            && Price == other.Price
+            && ItemId == other.ItemId;
+        public override bool Equals(object obj) => Equals(obj as ItemVariant);
+        public override int GetHashCode() => base.GetHashCode();
+
+        protected ItemVariant(ItemVariant itemVariant) : base(itemVariant)
         {
             Title = itemVariant.Title;
             Price = itemVariant.Price;

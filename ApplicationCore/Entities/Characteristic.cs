@@ -1,4 +1,5 @@
-﻿using ApplicationCore.Interfaces;
+﻿using ApplicationCore.Extensions;
+using ApplicationCore.Interfaces;
 using System.Collections.Generic;
 
 namespace ApplicationCore.Entities
@@ -17,6 +18,13 @@ namespace ApplicationCore.Entities
         public Characteristic(): base()
         {
         }
+
+        public bool Equals(Characteristic other) => base.Equals(other)
+            && Title.EqualsCI(other.Title)
+            && CategoryId == other.CategoryId;
+        public override bool Equals(object obj) => Equals(obj as Characteristic);
+        public override int GetHashCode() => base.GetHashCode();
+
         protected Characteristic(Characteristic characteristic): base(characteristic)
         {
             Title = characteristic.Title;

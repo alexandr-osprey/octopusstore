@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ApplicationCore.Extensions;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.IO;
@@ -29,6 +30,16 @@ namespace ApplicationCore.Entities
         public FileInfo()
         {
         }
+
+        public bool Equals(FileInfo<T> other) => base.Equals(other)
+            && Title.EqualsCI(other.Title)
+            && ContentType == other.ContentType
+            && RelatedId == other.RelatedId
+            && FullPath.EqualsCI(other.FullPath)
+            && DirectoryPath.EqualsCI(other.DirectoryPath);
+        public override bool Equals(object obj) => Equals(obj as FileInfo<T>);
+        public override int GetHashCode() => base.GetHashCode();
+
         public FileInfo(string title, string contentType, int relatedId, Stream inputStream)
         {
             Title = title;
@@ -36,6 +47,7 @@ namespace ApplicationCore.Entities
             RelatedId = relatedId;
             InputStream = inputStream;
         }
+
         protected FileInfo(FileInfo<T> fileInfo): base(fileInfo)
         {
             Title = fileInfo.Title;

@@ -1,4 +1,5 @@
-﻿using ApplicationCore.Interfaces;
+﻿using ApplicationCore.Extensions;
+using ApplicationCore.Interfaces;
 using System.Collections.Generic;
 
 namespace ApplicationCore.Entities
@@ -22,6 +23,16 @@ namespace ApplicationCore.Entities
         public Category(): base()
         {
         }
+
+        public bool Equals(Category other) => base.Equals(other) 
+            && Title.EqualsCI(other.Title) 
+            && ParentCategoryId == other.ParentCategoryId 
+            && Description.EqualsCI(other.Description)
+            && CanHaveItems == other.CanHaveItems 
+            && IsRoot == other.IsRoot;
+        public override bool Equals(object obj) => Equals(obj as Category);
+        public override int GetHashCode() => base.GetHashCode();
+
         protected Category(Category category): base(category)
         {
             Title = category.Title;

@@ -12,6 +12,7 @@ namespace ApplicationCore.Entities
         public Entity()
         {
         }
+
         protected Entity(Entity entity)
         {
             Id = entity.Id;

@@ -102,7 +102,8 @@ namespace UnitTests.Services
             categories.ForEach(async c => await GetCategoryParentsAsync(c, expected));
 
             var actual = await Service.EnumerateParentCategoriesAsync(new EntitySpecification<Category>(c => categories.Contains(c.Id)));
-            Equal(expected, actual);
+            expected.SequenceEqual(actual);
+            //Equal(expected, actual);
         }
 
         [Fact]

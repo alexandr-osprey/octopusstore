@@ -25,14 +25,14 @@ namespace Infrastructure.Data.SampleData
         {
             var catetories = new List<Category>
             {
-                new Category { Title = "Categories", CanHaveItems = false, OwnerId = Users.AdminId, IsRoot = true },
-                new Category { Title = "Electronics",  CanHaveItems = false, OwnerId = Users.AdminId }, //1
-                new Category { Title = "Smartphones",  CanHaveItems = true, OwnerId = Users.AdminId}, //2
-                new Category { Title = "Smartwatches", CanHaveItems = true, OwnerId = Users.AdminId}, //3
+                new Category { Title = "Categories", CanHaveItems = false, OwnerId = Users.AdminId, IsRoot = true, Description = "desc" },
+                new Category { Title = "Electronics",  CanHaveItems = false, OwnerId = Users.AdminId, Description = "desc" }, //1
+                new Category { Title = "Smartphones",  CanHaveItems = true, OwnerId = Users.AdminId, Description = "desc"}, //2
+                new Category { Title = "Smartwatches", CanHaveItems = true, OwnerId = Users.AdminId, Description = "desc"}, //3
 
-                new Category { Title = "Clothes", CanHaveItems = false, OwnerId = Users.AdminId}, //4
-                new Category { Title = "Shoes", CanHaveItems = true, OwnerId = Users.AdminId}, //5
-                new Category { Title = "Jackets", CanHaveItems = true, OwnerId = Users.AdminId}, //6
+                new Category { Title = "Clothes", CanHaveItems = false, OwnerId = Users.AdminId, Description = "desc"}, //4
+                new Category { Title = "Shoes", CanHaveItems = true, OwnerId = Users.AdminId, Description = "desc" }, //5
+                new Category { Title = "Jackets", CanHaveItems = true, OwnerId = Users.AdminId, Description = "desc" }, //6
             };
             return catetories;
         }

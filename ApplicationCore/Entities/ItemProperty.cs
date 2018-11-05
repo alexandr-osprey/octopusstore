@@ -17,6 +17,12 @@ namespace ApplicationCore.Entities
         {
         }
 
+        public bool Equals(ItemProperty other) => base.Equals(other)
+           && ItemVariantId == other.ItemVariantId
+           && CharacteristicValueId == other.CharacteristicValueId;
+        public override bool Equals(object obj) => Equals(obj as ItemProperty);
+        public override int GetHashCode() => base.GetHashCode();
+
         public ItemProperty(int itemVariantId, int characteristicValueId)
         {
             ItemVariantId = itemVariantId;

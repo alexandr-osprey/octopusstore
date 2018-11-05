@@ -16,10 +16,15 @@ namespace ApplicationCore.ViewModels
         public EntityViewModel()
         {
         }
+
         public EntityViewModel(T entity)
         {
             Id = entity.Id;
         }
+
+        public bool Equals(EntityViewModel<T> other) => null != other && ToModel().Equals(other.ToModel());
+        public override bool Equals(object obj) => Equals(obj as EntityViewModel<T>);
+        public override int GetHashCode() => Id;
 
 
         /// <summary>

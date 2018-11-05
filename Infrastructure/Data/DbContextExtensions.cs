@@ -164,7 +164,7 @@ namespace Infrastructure.Data
             TEntity retrieved = null;
             try
             {
-                retrieved = await context.Set<TEntity>().FirstOrDefaultAsync(e => e == entity);
+                retrieved = await context.Set<TEntity>().FirstOrDefaultAsync(e => e.GetHashCode() == entity.GetHashCode());
             }
             catch (Exception readException)
             {
@@ -391,6 +391,7 @@ namespace Infrastructure.Data
             result = result.Skip(spec.Skip);
             return spec.Take > 0 ? result.Take(spec.Take): result;
         }
+
         public static IQueryable<T> GetQueryBySpecWithIncludes<T>(this DbContext context, Specification<T> spec) where T: class
         {
             // fetch a Queryable that includes all expression-based includes

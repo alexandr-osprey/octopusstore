@@ -1,5 +1,4 @@
 ﻿using ApplicationCore.Entities;
-using Newtonsoft.Json;
 
 namespace ApplicationCore.ViewModels
 {

@@ -13,6 +13,12 @@ namespace ApplicationCore.Entities
         {
         }
 
+        public bool Equals(CartItem other) => base.Equals(other) 
+            && ItemVariantId == other.ItemVariantId 
+            && Number == other.Number;
+        public override bool Equals(object obj) => Equals(obj as CartItem);
+        public override int GetHashCode() => base.GetHashCode();
+
         protected CartItem(CartItem cartItem): base(cartItem)
         {
             ItemVariantId = cartItem.ItemVariantId;

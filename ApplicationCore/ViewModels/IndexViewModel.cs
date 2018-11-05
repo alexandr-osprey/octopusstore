@@ -25,6 +25,27 @@ namespace ApplicationCore.ViewModels
             Entities = viewModels;
         }
 
+        public bool Equals(IndexViewModel<TViewModel> other)
+        {
+            bool result = null != other
+            && Page == other.Page
+            && PageSize == other.PageSize
+            && TotalPages == other.TotalPages
+            && TotalCount == other.TotalCount
+            && Entities.Count() == other.Entities.Count();
+            if (result)
+            {
+                int count = Entities.Count();
+                for (int i = 0; i < count; i++)
+                    if (!(result &= Entities.ElementAt(i).Equals(other.Entities.ElementAt(i))))
+                        break;
+            }
+            return result;
+        }
+
+        public override bool Equals(object obj) => Equals(obj as IndexViewModel<TViewModel>);
+        public override int GetHashCode() => Page * 111 + PageSize * 97 + TotalPages * 199 + TotalCount * 911 + (from e in Entities select e.GetHashCode()^2).Sum();
+
         public static IndexViewModel<TViewModel> FromEnumerableNotPaged(IEnumerable<TViewModel> viewModels)
         {
             bool isEmpty = !viewModels.Any();

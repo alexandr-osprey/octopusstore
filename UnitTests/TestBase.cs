@@ -14,7 +14,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Moq;
-using Newtonsoft.Json;
 using OctopusStore;
 using OctopusStore.Controllers;
 using System;
@@ -31,10 +30,6 @@ namespace UnitTests
 {
     public abstract class TestBase<TEntity> where TEntity : Entity
     {
-        public static JsonSerializerSettings jsonSettings = new JsonSerializerSettings()
-        {
-            ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-        };
         protected static ServiceCollection Services { get; } = new ServiceCollection();
         protected ServiceProvider ServiceProvider { get; }
 
@@ -203,16 +198,22 @@ namespace UnitTests
 
         protected void Equal<T>(IEnumerable<T> expected, IEnumerable<T> actual)
         {
-            Assert.Equal(
-                JsonConvert.SerializeObject(expected, Formatting.None, jsonSettings),
-                JsonConvert.SerializeObject(actual, Formatting.None, jsonSettings));
+            if (expected.Count() == actual.Count())
+            {
+                int count = expected.Count();
+                for (int i = 0; i < count; i++)
+                    Equal(expected.ElementAt(i), actual.ElementAt(i));
+            }
+            else
+                Assert.True(false);
         }
 
         protected void Equal<T>(T expected, T actual)
         {
-            Assert.Equal(
-                JsonConvert.SerializeObject(expected, Formatting.None, jsonSettings),
-                JsonConvert.SerializeObject(actual, Formatting.None, jsonSettings));
+            Assert.True(expected.Equals(actual));
+            //Assert.Equal(
+            //    JsonConvert.SerializeObject(expected, Formatting.None, jsonSettings),
+            //    JsonConvert.SerializeObject(actual, Formatting.None, jsonSettings));
         }
 
         //protected async Task CreateItemImageCopy(ItemImage itemImage)

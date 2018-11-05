@@ -91,6 +91,7 @@ namespace UnitTests
             var expected = await Context.Set<TEntity>().Skip(pageSize * (page - 1)).Take(pageSize).ToListAsync();
             Equal(actual, expected);
         }
+
         [Fact]
         public async Task EnumerateAsyncEmpty()
         {
@@ -151,10 +152,12 @@ namespace UnitTests
                 await AfterDeleteAsync(entity);
             }
         }
+
         protected virtual async Task BeforeDeleteAsync(TEntity entity)
         {
             await Task.CompletedTask;
         }
+
         protected virtual async Task AfterDeleteAsync(TEntity entity)
         {
             await Task.CompletedTask;

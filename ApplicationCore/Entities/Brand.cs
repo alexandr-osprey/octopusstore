@@ -1,4 +1,5 @@
-﻿using ApplicationCore.Interfaces;
+﻿using ApplicationCore.Extensions;
+using ApplicationCore.Interfaces;
 using System.Collections.Generic;
 
 namespace ApplicationCore.Entities
@@ -15,6 +16,11 @@ namespace ApplicationCore.Entities
         public Brand(): base()
         {
         }
+
+        public bool Equals(Brand other) => base.Equals(other) 
+            && Title.EqualsCI(other.Title);
+        public override bool Equals(object obj) => Equals(obj as Brand);
+        public override int GetHashCode() => base.GetHashCode();
 
         protected Brand(Brand brand): base(brand)
         {
