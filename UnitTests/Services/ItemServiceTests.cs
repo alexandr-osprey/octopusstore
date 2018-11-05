@@ -57,6 +57,19 @@ namespace UnitTests.Services
             return new List<Item>() { Data.Items.PebbleWatch };
         }
 
+        [Fact]
+        public async Task DeleteSingleWithRelatedRelinkAsync()
+        {
+            var entity = Data.Items.Samsung7;
+            int idToRelinkTo = Data.Items.Samsung8.Id;
+            var itemImages = Data.ItemImages.Entities.Where(i => i.RelatedEntity == entity).ToList();
+            var itemVariants = Data.ItemVariants.Entities.Where(i => i.Item == entity).ToList();
+            await Service.DeleteSingleWithRelatedRelink(entity.Id, idToRelinkTo);
+            itemImages.ForEach(i => Assert.Equal(i.RelatedId, idToRelinkTo));
+            itemVariants.ForEach(i => Assert.Equal(i.ItemId, idToRelinkTo));
+            Assert.False(Context.Set<Item>().Any(c => c == entity));
+        }
+
         protected override IEnumerable<Item> GetIncorrectNewEntites()
         {
             var item = Data.Items.Samsung8;

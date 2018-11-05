@@ -17,6 +17,7 @@ namespace ApplicationCore.Entities
         public CharacteristicValue(): base()
         {
         }
+
         protected CharacteristicValue(CharacteristicValue characteristicValue): base(characteristicValue)
         {
             Title = characteristicValue.Title;

@@ -104,23 +104,23 @@ namespace Infrastructure.Data
             builder.Property(ci => ci.Title)
                 .IsRequired(true)
                 .HasMaxLength(50);
-            builder.HasOne(ci => ci.MeasurementUnit)
-                .WithMany()
-                .HasForeignKey(ci => ci.MeasurementUnitId);
-            builder.HasOne(ci => ci.Brand)
-                .WithMany()
-                .HasForeignKey(ci => ci.BrandId);
-            builder.HasOne(ci => ci.Category)
-                .WithMany()
-                .HasForeignKey(ci => ci.CategoryId);
-            builder.HasOne(ci => ci.Store)
-                .WithMany()
-                .HasForeignKey(ci => ci.StoreId);
+            //builder.HasOne(ci => ci.MeasurementUnit)
+            //    .WithMany()
+            //    .HasForeignKey(ci => ci.MeasurementUnitId);
+            //builder.HasOne(ci => ci.Brand)
+            //    .WithMany()
+            //    .HasForeignKey(ci => ci.BrandId);
+            //builder.HasOne(ci => ci.Category)
+            //    .WithMany()
+            //    .HasForeignKey(ci => ci.CategoryId);
+            //builder.HasOne(ci => ci.Store)
+            //    .WithMany()
+            //    .HasForeignKey(ci => ci.StoreId);
             builder.HasMany(i => i.Images)
                 .WithOne(i => i.RelatedEntity)
                 .HasForeignKey(i => i.RelatedId)
                 .IsRequired(true)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
             //builder.Property(i => i.In)
         }
         private void ConfigureItemImage(EntityTypeBuilder<ItemImage> builder)

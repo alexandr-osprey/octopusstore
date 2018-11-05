@@ -7,24 +7,18 @@ namespace Infrastructure.Data.SampleData
 {
     public class Categories: SampleDataEntities<Category>
     {
-        public Category Root { get; }
-        public Category Electronics { get; }
-        public Category Smartphones { get; }
-        public Category Smartwatches { get; }
-        public Category Clothes { get; }
-        public Category Shoes { get; }
-        public Category Jackets { get; }
+        public Category Root { get; protected set; }
+        public Category Electronics { get; protected set; }
+        public Category Smartphones { get; protected set; }
+        public Category Smartwatches { get; protected set; }
+        public Category Clothes { get; protected set; }
+        public Category Shoes { get; protected set; }
+        public Category Jackets { get; protected set; }
 
         public Categories(StoreContext storeContext): base(storeContext)
         {
             Seed();
-            Root = Entities[0];
-            Electronics = Entities[1];
-            Smartphones = Entities[2];
-            Smartwatches = Entities[3];
-            Clothes = Entities[4];
-            Shoes = Entities[5];
-            Jackets = Entities[6];
+            Init();
         }
 
         protected override IEnumerable<Category> GetSourceEntities()
@@ -53,6 +47,23 @@ namespace Infrastructure.Data.SampleData
             categories.ElementAt(6).ParentCategoryId = categories.ElementAt(4).Id;
             StoreContext.SaveChanges();
             base.AfterSeed(categories);
+        }
+
+        protected override IQueryable<Category> GetQueryable()
+        {
+            return base.GetQueryable().Include(c => c.Items).Include(c => c.Subcategories);
+        }
+
+        public override void Init()
+        {
+            base.Init();
+            Root = Entities[0];
+            Electronics = Entities[1];
+            Smartphones = Entities[2];
+            Smartwatches = Entities[3];
+            Clothes = Entities[4];
+            Shoes = Entities[5];
+            Jackets = Entities[6];
         }
     }
 }

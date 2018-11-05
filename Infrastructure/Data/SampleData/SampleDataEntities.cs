@@ -29,7 +29,11 @@ namespace Infrastructure.Data.SampleData
                 StoreContext.SaveChanges();
                 AfterSeed(savingEntities);
             }
-            entities = StoreContext.Set<T>().ToList();
+        }
+
+        public virtual void Init()
+        {
+            entities = GetQueryable().ToList();
         }
 
         protected virtual void BeforeSeed()
@@ -38,6 +42,11 @@ namespace Infrastructure.Data.SampleData
 
         protected virtual void AfterSeed(IEnumerable<T> entities)
         {
+        }
+
+        protected virtual IQueryable<T> GetQueryable()
+        {
+            return StoreContext.Set<T>();
         }
     }
 }

@@ -9,7 +9,8 @@ namespace ApplicationCore.Entities
     public class Brand: Entity, IGenericMemberwiseClonable<Brand>
     {
         public string Title { get; set; }
-        public IEnumerable<Item> Items = new List<Item>();
+
+        public IEnumerable<Item> Items { get; set; } = new List<Item>();
 
         public Brand(): base()
         {

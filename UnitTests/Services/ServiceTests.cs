@@ -159,7 +159,9 @@ namespace UnitTests
         {
             await Task.CompletedTask;
         }
+
         protected abstract Specification<TEntity> GetEntitiesToDeleteSpecification();
+
         protected virtual async Task AssertRelatedDeleted(TEntity entity)
         {
             await Task.CompletedTask;

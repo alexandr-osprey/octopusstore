@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using ApplicationCore.Interfaces.Services;
+using Xunit;
+using System.Linq;
 
 namespace UnitTests.Services
 {
@@ -36,6 +38,17 @@ namespace UnitTests.Services
         protected override Specification<Store> GetEntitiesToDeleteSpecification()
         {
             return new Specification<Store>(s => s.Title.Contains("Jennifer"));
+        }
+
+        [Fact]
+        public async Task DeleteSingleWithRelatedRelinkAsync()
+        {
+            var entity = Data.Stores.Johns;
+            int idToRelinkTo = Data.Stores.Jennifers.Id;
+            var entitiesToRelink = Data.Items.Entities.Where(i => i.Store == entity).ToList();
+            await Service.DeleteSingleWithRelatedRelink(entity.Id, idToRelinkTo);
+            entitiesToRelink.ForEach(i => Assert.Equal(i.StoreId, idToRelinkTo));
+            Assert.False(Context.Set<Store>().Any(c => c == entity));
         }
 
         protected override IEnumerable<Store> GetIncorrectEntitesForUpdate()

@@ -2,6 +2,9 @@
 using ApplicationCore.Interfaces.Services;
 using ApplicationCore.Specifications;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Xunit;
 using Xunit.Abstractions;
 
 namespace UnitTests.Services
@@ -43,6 +46,17 @@ namespace UnitTests.Services
                 new Brand() { Id = id, Title = "" },
                 new Brand() { Id = id, Title = " "},
             };
+        }
+
+        [Fact]
+        public async Task DeleteSingleWithRelatedRelinkAsync()
+        {
+            var brand = Data.Brands.Apple;
+            int idToRelinkTo = Data.Brands.Pebble.Id;
+            var items = Data.Items.Entities.Where(i => i.Brand == brand).ToList();
+            await Service.DeleteSingleWithRelatedRelink(brand.Id, idToRelinkTo);
+            items.ForEach(i => Assert.Equal(i.BrandId, idToRelinkTo));
+            Assert.False(Context.Set<Brand>().Any(b => b == brand));
         }
     }
 }

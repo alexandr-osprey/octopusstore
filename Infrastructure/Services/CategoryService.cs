@@ -139,10 +139,12 @@ namespace Infrastructure.Services
             if (category.IsRoot && await Context.ExistsBySpecAsync(Logger, new Specification<Category>(c => c.IsRoot)))
                 throw new EntityAlreadyExistsException("Root category already exists");
         }
+
         protected override async Task ValidateUpdateWithExceptionAsync(Category category)
         {
             await ValidateCreateWithExceptionAsync(category);
         }
+
         protected async Task GetSubcategoriesAsync(Category category, HashSet<Category> subcategories)
         {
             if (category != null)

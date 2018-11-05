@@ -1,6 +1,8 @@
 ﻿using ApplicationCore.Entities;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace Infrastructure.Data.SampleData
 {
@@ -12,28 +14,20 @@ namespace Infrastructure.Data.SampleData
 
         protected Items Items { get; }
 
-        public ItemImage IPhone61 { get; }
-        public ItemImage IPhone62 { get; }
-        public ItemImage IPhone63 { get; }
-        public ItemImage Samsung71 { get; }
-        public ItemImage Samsung81 { get; }
-        public ItemImage Pebble1 { get; }
-        public ItemImage Shoes1 { get; }
-        public ItemImage Jacket1 { get; }
+        public ItemImage IPhone61 { get; protected set; }
+        public ItemImage IPhone62 { get; protected set; }
+        public ItemImage IPhone63 { get; protected set; }
+        public ItemImage Samsung71 { get; protected set; }
+        public ItemImage Samsung81 { get; protected set; }
+        public ItemImage Pebble1 { get; protected set; }
+        public ItemImage Shoes1 { get; protected set; }
+        public ItemImage Jacket1 { get; protected set; }
 
         public ItemImages(StoreContext storeContext, Items items): base(storeContext)
         {
             Items = items;
             Seed();
-
-            IPhone61 = Entities[0];
-            IPhone62 = Entities[1];
-            IPhone63 = Entities[2];
-            Samsung71 = Entities[3];
-            Samsung81 = Entities[4];
-            Pebble1 = Entities[5];
-            Shoes1 = Entities[6];
-            Jacket1 = Entities[7];
+            Init();
         }
 
         protected override IEnumerable<ItemImage> GetSourceEntities()
@@ -70,6 +64,24 @@ namespace Infrastructure.Data.SampleData
                     File.Copy(fullBackupPath, itemImage.FullPath);
                 }
             }
+        }
+
+        protected override IQueryable<ItemImage> GetQueryable()
+        {
+            return base.GetQueryable().Include(i => i.RelatedEntity);
+        }
+
+        public override void Init()
+        {
+            base.Init();
+            IPhone61 = Entities[0];
+            IPhone62 = Entities[1];
+            IPhone63 = Entities[2];
+            Samsung71 = Entities[3];
+            Samsung81 = Entities[4];
+            Pebble1 = Entities[5];
+            Shoes1 = Entities[6];
+            Jacket1 = Entities[7];
         }
     }
 }

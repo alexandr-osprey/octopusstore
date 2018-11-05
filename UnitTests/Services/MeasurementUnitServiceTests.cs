@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using ApplicationCore.Entities;
 using ApplicationCore.Interfaces.Services;
 using ApplicationCore.Specifications;
 using Microsoft.EntityFrameworkCore;
+using Xunit;
 using Xunit.Abstractions;
 
 namespace UnitTests.Services
@@ -24,6 +26,17 @@ namespace UnitTests.Services
         protected override IEnumerable<MeasurementUnit> GetCorrectNewEntites()
         {
             return new List<MeasurementUnit>() { new MeasurementUnit() { Title = "Title 1" } };
+        }
+
+        [Fact]
+        public async Task DeleteSingleWithRelatedRelinkAsync()
+        {
+            var entity = Data.MeasurementUnits.Pcs;
+            int idToRelinkTo = Data.MeasurementUnits.Kg.Id;
+            var entitiesToRelink = Data.Items.Entities.Where(i => i.MeasurementUnit == entity).ToList();
+            await Service.DeleteSingleWithRelatedRelink(entity.Id, idToRelinkTo);
+            entitiesToRelink.ForEach(i => Assert.Equal(i.MeasurementUnitId, idToRelinkTo));
+            Assert.False(Context.Set<MeasurementUnit>().Any(c => c == entity));
         }
 
         protected override Specification<MeasurementUnit> GetEntitiesToDeleteSpecification()

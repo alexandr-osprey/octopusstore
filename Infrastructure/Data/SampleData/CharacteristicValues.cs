@@ -1,5 +1,7 @@
 ﻿using ApplicationCore.Entities;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Infrastructure.Data.SampleData
 {
@@ -7,40 +9,26 @@ namespace Infrastructure.Data.SampleData
     {
         protected Characteristics Characteristics { get; }
 
-        public CharacteristicValue GB16 { get; } 
-        public CharacteristicValue GB32 { get; }
-        public CharacteristicValue GB64 { get; }
-        public CharacteristicValue HD { get; }
-        public CharacteristicValue FullHD { get; }
-        public CharacteristicValue MAh1000 { get; }
-        public CharacteristicValue MAh2000 { get; }
-        public CharacteristicValue X { get; }
-        public CharacteristicValue XL { get; }
-        public CharacteristicValue XXL { get; }
-        public CharacteristicValue MuchFashion { get; }
-        public CharacteristicValue NotSoFashion { get; }
-        public CharacteristicValue Black { get; }
-        public CharacteristicValue White { get; }
+        public CharacteristicValue GB16 { get; protected set; } 
+        public CharacteristicValue GB32 { get; protected set; }
+        public CharacteristicValue GB64 { get; protected set; }
+        public CharacteristicValue HD { get; protected set; }
+        public CharacteristicValue FullHD { get; protected set; }
+        public CharacteristicValue MAh1000 { get; protected set; }
+        public CharacteristicValue MAh2000 { get; protected set; }
+        public CharacteristicValue X { get; protected set; }
+        public CharacteristicValue XL { get; protected set; }
+        public CharacteristicValue XXL { get; protected set; }
+        public CharacteristicValue MuchFashion { get; protected set; }
+        public CharacteristicValue NotSoFashion { get; protected set; }
+        public CharacteristicValue Black { get; protected set; }
+        public CharacteristicValue White { get; protected set; }
 
         public CharacteristicValues(StoreContext storeContext, Characteristics characteristics) : base(storeContext)
         {
             Characteristics = characteristics;
             Seed();
-
-            GB16 = Entities[0];
-            GB32 = Entities[1];
-            GB64 = Entities[2];
-            HD = Entities[3];
-            FullHD = Entities[4];
-            MAh1000 = Entities[5];
-            MAh2000 = Entities[6];
-            X = Entities[7];
-            XL = Entities[8];
-            XXL = Entities[9];
-            MuchFashion = Entities[10];
-            NotSoFashion = Entities[11];
-            Black = Entities[12];
-            White = Entities[13];
+            Init();
         }
 
         protected override IEnumerable<CharacteristicValue> GetSourceEntities()
@@ -63,6 +51,30 @@ namespace Infrastructure.Data.SampleData
                 new CharacteristicValue { Title = "Black", CharacteristicId = Characteristics.Colour.Id, OwnerId = Users.AdminId }, //12
                 new CharacteristicValue { Title = "White", CharacteristicId = Characteristics.Colour.Id, OwnerId = Users.AdminId }, //13
             };
+        }
+
+        protected override IQueryable<CharacteristicValue> GetQueryable()
+        {
+            return base.GetQueryable().Include(c => c.Characteristic).Include(c => c.ItemProperties);
+        }
+
+        public override void Init()
+        {
+            base.Init();
+            GB16 = Entities[0];
+            GB32 = Entities[1];
+            GB64 = Entities[2];
+            HD = Entities[3];
+            FullHD = Entities[4];
+            MAh1000 = Entities[5];
+            MAh2000 = Entities[6];
+            X = Entities[7];
+            XL = Entities[8];
+            XXL = Entities[9];
+            MuchFashion = Entities[10];
+            NotSoFashion = Entities[11];
+            Black = Entities[12];
+            White = Entities[13];
         }
     }
 }

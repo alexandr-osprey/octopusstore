@@ -1,5 +1,7 @@
 ﻿using ApplicationCore.Entities;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Infrastructure.Data.SampleData
 {
@@ -8,52 +10,33 @@ namespace Infrastructure.Data.SampleData
         protected ItemVariants ItemVariants { get; }
         protected CharacteristicValues CharacteristicValues { get; }
 
-        public ItemProperty IPhone632GB32 { get; }
-        public ItemProperty IPhone632HD { get; }
-        public ItemProperty IPhone664GB32 { get; }
-        public ItemProperty IPhone664HD { get; }
-        public ItemProperty Samsung732HDGB32 { get; }
-        public ItemProperty Samsung732HDHD { get; }
-        public ItemProperty Samsung732GB32FHDGB32 { get; }
-        public ItemProperty Samsung732GB32FHDFullHD { get; }
-        public ItemProperty Samsung832HDGB32 { get; }
-        public ItemProperty Samsung832HDHD { get; }
-        public ItemProperty Samsung832GB32FHDGB32 { get; }
-        public ItemProperty Samsung832GB32FHDFullHD { get; }
-        public ItemProperty Pebble1000mAhMAh1000 { get; }
+        public ItemProperty IPhone632GB32 { get; protected set; }
+        public ItemProperty IPhone632HD { get; protected set; }
+        public ItemProperty IPhone664GB32 { get; protected set; }
+        public ItemProperty IPhone664HD { get; protected set; }
+        public ItemProperty Samsung732HDGB32 { get; protected set; }
+        public ItemProperty Samsung732HDHD { get; protected set; }
+        public ItemProperty Samsung732GB32FHDGB32 { get; protected set; }
+        public ItemProperty Samsung732GB32FHDFullHD { get; protected set; }
+        public ItemProperty Samsung832HDGB32 { get; protected set; }
+        public ItemProperty Samsung832HDHD { get; protected set; }
+        public ItemProperty Samsung832GB32FHDGB32 { get; protected set; }
+        public ItemProperty Samsung832GB32FHDFullHD { get; protected set; }
+        public ItemProperty Pebble1000mAhMAh1000 { get; protected set; }
 
-        public ItemProperty ShoesXMuchFashionX { get; }
-        public ItemProperty ShoesXMuchFashionMuchFashion { get; }
-        public ItemProperty ShoesXXLMuchFashionXXL { get; }
-        public ItemProperty ShoesXXLMuchFashionMuchFashion { get; }
-        public ItemProperty JacketBlackBlack { get; }
-        public ItemProperty JacketWhiteWhite { get; }
+        public ItemProperty ShoesXMuchFashionX { get; protected set; }
+        public ItemProperty ShoesXMuchFashionMuchFashion { get; protected set; }
+        public ItemProperty ShoesXXLMuchFashionXXL { get; protected set; }
+        public ItemProperty ShoesXXLMuchFashionMuchFashion { get; protected set; }
+        public ItemProperty JacketBlackBlack { get; protected set; }
+        public ItemProperty JacketWhiteWhite { get; protected set; }
 
         public ItemProperties(StoreContext storeContext, ItemVariants itemVariants, CharacteristicValues characteristicValues) : base(storeContext)
         {
             ItemVariants = itemVariants;
             CharacteristicValues = characteristicValues;
             Seed();
-
-            IPhone632GB32 = Entities[0];
-            IPhone632HD = Entities[1];
-            IPhone664GB32 = Entities[2];
-            IPhone664HD = Entities[3];
-            Samsung732HDGB32 = Entities[4];
-            Samsung732HDHD = Entities[5];
-            Samsung732GB32FHDGB32 = Entities[6];
-            Samsung732GB32FHDFullHD = Entities[7];
-            Samsung832HDGB32 = Entities[8];
-            Samsung832HDHD = Entities[9];
-            Samsung832GB32FHDGB32 = Entities[10];
-            Samsung832GB32FHDFullHD = Entities[11];
-            Pebble1000mAhMAh1000 = Entities[12];
-            ShoesXMuchFashionX = Entities[13];
-            ShoesXMuchFashionMuchFashion = Entities[14];
-            ShoesXXLMuchFashionXXL = Entities[15];
-            ShoesXXLMuchFashionMuchFashion = Entities[16];
-            JacketBlackBlack = Entities[17];
-            JacketWhiteWhite = Entities[18];
+            Init();
         }
 
         protected override IEnumerable<ItemProperty> GetSourceEntities()
@@ -92,6 +75,35 @@ namespace Infrastructure.Data.SampleData
                 //jacket white
                 new ItemProperty(ItemVariants.JacketWhite.Id, CharacteristicValues.White.Id) { OwnerId = Users.JenniferId },
             };
+        }
+
+        protected override IQueryable<ItemProperty> GetQueryable()
+        {
+            return base.GetQueryable().Include(i => i.CharacteristicValue).Include(i => i.ItemVariant);
+        }
+
+        public override void Init()
+        {
+            base.Init();
+            IPhone632GB32 = Entities[0];
+            IPhone632HD = Entities[1];
+            IPhone664GB32 = Entities[2];
+            IPhone664HD = Entities[3];
+            Samsung732HDGB32 = Entities[4];
+            Samsung732HDHD = Entities[5];
+            Samsung732GB32FHDGB32 = Entities[6];
+            Samsung732GB32FHDFullHD = Entities[7];
+            Samsung832HDGB32 = Entities[8];
+            Samsung832HDHD = Entities[9];
+            Samsung832GB32FHDGB32 = Entities[10];
+            Samsung832GB32FHDFullHD = Entities[11];
+            Pebble1000mAhMAh1000 = Entities[12];
+            ShoesXMuchFashionX = Entities[13];
+            ShoesXMuchFashionMuchFashion = Entities[14];
+            ShoesXXLMuchFashionXXL = Entities[15];
+            ShoesXXLMuchFashionMuchFashion = Entities[16];
+            JacketBlackBlack = Entities[17];
+            JacketWhiteWhite = Entities[18];
         }
     }
 }

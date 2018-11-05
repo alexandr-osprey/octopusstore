@@ -1,5 +1,7 @@
 ﻿using ApplicationCore.Entities;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Infrastructure.Data.SampleData
 {
@@ -7,25 +9,19 @@ namespace Infrastructure.Data.SampleData
     {
         protected Categories Categories { get; }
 
-        public Characteristic Storage { get; }
-        public Characteristic Resolution { get; }
-        public Characteristic Battery { get; }
-        public Characteristic Size { get; }
-        public Characteristic Fashion { get; }
-        public Characteristic Colour { get; }
-        public Characteristic Univercal { get; }
+        public Characteristic Storage { get; protected set; }
+        public Characteristic Resolution { get; protected set; }
+        public Characteristic Battery { get; protected set; }
+        public Characteristic Size { get; protected set; }
+        public Characteristic Fashion { get; protected set; }
+        public Characteristic Colour { get; protected set; }
+        public Characteristic Univercal { get; protected set; }
 
         public Characteristics(StoreContext storeContext, Categories categories): base(storeContext)
         {
             Categories = categories;
             Seed();
-            Storage = Entities[0];
-            Resolution = Entities[1];
-            Battery = Entities[2];
-            Size = Entities[3];
-            Fashion = Entities[4];
-            Colour = Entities[5];
-            Univercal = Entities[6];
+            Init();
         }
 
         protected override IEnumerable<Characteristic> GetSourceEntities()
@@ -41,6 +37,23 @@ namespace Infrastructure.Data.SampleData
                 new Characteristic { Title = "Colour", CategoryId = Categories.Jackets.Id, OwnerId = Users.AdminId }, //5
                 new Characteristic { Title = "Universal", CategoryId = Categories.Root.Id, OwnerId = Users.AdminId }, //5
             };
+        }
+
+        protected override IQueryable<Characteristic> GetQueryable()
+        {
+            return base.GetQueryable().Include(c => c.Category);
+        }
+
+        public override void Init()
+        {
+            base.Init();
+            Storage = Entities[0];
+            Resolution = Entities[1];
+            Battery = Entities[2];
+            Size = Entities[3];
+            Fashion = Entities[4];
+            Colour = Entities[5];
+            Univercal = Entities[6];
         }
     }
 }

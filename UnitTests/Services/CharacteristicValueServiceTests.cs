@@ -2,6 +2,9 @@
 using ApplicationCore.Interfaces.Services;
 using ApplicationCore.Specifications;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Xunit;
 using Xunit.Abstractions;
 
 namespace UnitTests.Services
@@ -29,6 +32,17 @@ namespace UnitTests.Services
                 new CharacteristicValue() { Title = null, CharacteristicId = Data.Characteristics.Fashion.Id },
                 new CharacteristicValue() { Title = "new2", CharacteristicId = 0 },
             };
+        }
+
+        [Fact]
+        public async Task DeleteSingleWithRelatedRelinkAsync()
+        {
+            var entity = Data.CharacteristicValues.GB32;
+            int idToRelinkTo = Data.CharacteristicValues.GB16.Id;
+            var characteristicValues = Data.ItemProperties.Entities.Where(i => i.CharacteristicValue == entity).ToList();
+            await Service.DeleteSingleWithRelatedRelink(entity.Id, idToRelinkTo);
+            characteristicValues.ForEach(i => Assert.Equal(i.CharacteristicValueId, idToRelinkTo));
+            Assert.False(Context.Set<CharacteristicValue>().Any(c => c == entity));
         }
 
         protected override Specification<CharacteristicValue> GetEntitiesToDeleteSpecification()

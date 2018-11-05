@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Xunit;
 using Xunit.Abstractions;
 
 namespace UnitTests.Services
@@ -33,6 +34,17 @@ namespace UnitTests.Services
             {
                 new ItemVariant() { ItemId = Data.Items.IPhone6.Id, Title = "title 1", Price = 500 },
             };
+        }
+
+        [Fact]
+        public async Task DeleteSingleWithRelatedRelinkAsync()
+        {
+            var entity = Data.ItemVariants.IPhone664GB;
+            int idToRelinkTo = Data.ItemVariants.IPhone632GB.Id;
+            var itemProperties = Data.ItemProperties.Entities.Where(i => i.ItemVariant == entity).ToList();
+            await Service.DeleteSingleWithRelatedRelink(entity.Id, idToRelinkTo);
+            itemProperties.ForEach(i => Assert.Equal(i.ItemVariantId, idToRelinkTo));
+            Assert.False(Context.Set<ItemVariant>().Any(c => c == entity));
         }
 
         protected override Specification<ItemVariant> GetEntitiesToDeleteSpecification()

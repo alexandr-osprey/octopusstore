@@ -1,4 +1,5 @@
 ﻿using ApplicationCore.Interfaces;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 
 namespace ApplicationCore.Entities
@@ -15,11 +16,17 @@ namespace ApplicationCore.Entities
         public int MeasurementUnitId { get; set; }
         public string Description { get; set; }
 
+        [JsonIgnore]
         public Category Category { get; set; }
+        [JsonIgnore]
         public Store Store { get; set; }
+        [JsonIgnore]
         public Brand Brand { get; set; }
+        [JsonIgnore]
         public MeasurementUnit MeasurementUnit { get; set; }
+        [JsonIgnore]
         public ICollection<ItemImage> Images { get; set; } = new List<ItemImage>();
+        [JsonIgnore]
         public ICollection<ItemVariant> ItemVariants { get; set; } = new List<ItemVariant>();
 
         public Item(): base()

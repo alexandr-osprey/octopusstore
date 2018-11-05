@@ -1,5 +1,7 @@
 ﻿using ApplicationCore.Entities;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Infrastructure.Data.SampleData
 {
@@ -14,11 +16,9 @@ namespace Infrastructure.Data.SampleData
         public Brands(StoreContext storeContext): base(storeContext)
         {
             Seed();
-            Apple = Entities[0];
-            Samsung = Entities[1];
-            Pebble = Entities[2];
-            CK = Entities[3];
-            Armani = Entities[4];
+            Init();
+            //entities = GetQueryable().ToList();
+            
         }
 
         protected override IEnumerable<Brand> GetSourceEntities()
@@ -31,6 +31,21 @@ namespace Infrastructure.Data.SampleData
                 new Brand { Title = "CK", OwnerId = Users.AdminId },
                 new Brand { Title = "Armani", OwnerId = Users.AdminId }
             };
+        }
+
+        protected override IQueryable<Brand> GetQueryable()
+        {
+            return base.GetQueryable().Include(b => b.Items);
+        }
+
+        public override void Init()
+        {
+            base.Init();
+            Apple = Entities[0];
+            Samsung = Entities[1];
+            Pebble = Entities[2];
+            CK = Entities[3];
+            Armani = Entities[4];
         }
     }
 }

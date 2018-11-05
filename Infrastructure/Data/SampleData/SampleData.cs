@@ -34,6 +34,18 @@
             CartItems = new CartItems(Context, ItemVariants);
             ItemProperties = new ItemProperties(Context, ItemVariants, CharacteristicValues);
             ItemImages = new ItemImages(Context, Items);
+
+            //Brands.Init();
+            //MeasurementUnits.Init();
+            //Stores.Init();
+            //Categories.Init();
+            //Characteristics.Init();
+            //CharacteristicValues.Init();
+            //Items.Init();
+            //ItemVariants.Init();
+            //CartItems.Init();
+            //ItemProperties.Init();
+            //ItemImages.Init();
         }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using ApplicationCore.Entities;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Infrastructure.Data.SampleData
 {
@@ -7,19 +9,16 @@ namespace Infrastructure.Data.SampleData
     {
         protected ItemVariants ItemVariants { get; }
 
-        public CartItem JohnIphone32 { get; }
-        public CartItem JohnIphone64 { get; }
-        public CartItem JenniferIphone32 { get; }
-        public CartItem JenniferIphone64 { get; }
+        public CartItem JohnIphone32 { get; protected set; }
+        public CartItem JohnIphone64 { get; protected set; }
+        public CartItem JenniferIphone32 { get; protected set; }
+        public CartItem JenniferIphone64 { get; protected set; }
 
         public CartItems(StoreContext storeContext, ItemVariants itemVariants): base(storeContext)
         {
             ItemVariants = itemVariants;
             Seed();
-            JohnIphone32 = Entities[0];
-            JohnIphone64 = Entities[1];
-            JenniferIphone32 = Entities[2];
-            JenniferIphone64 = Entities[3];
+            Init();
         }
 
         protected override IEnumerable<CartItem> GetSourceEntities()
@@ -31,6 +30,20 @@ namespace Infrastructure.Data.SampleData
                 new CartItem() { OwnerId = Users.JenniferId, ItemVariantId = ItemVariants.IPhone632GB.Id, Number = 3 },
                 new CartItem() { OwnerId = Users.JenniferId, ItemVariantId = ItemVariants.IPhone664GB.Id, Number = 4 },
             };
+        }
+
+        protected override IQueryable<CartItem> GetQueryable()
+        {
+            return base.GetQueryable().Include(i => i.ItemVariant);
+        }
+
+        public override void Init()
+        {
+            base.Init();
+            JohnIphone32 = Entities[0];
+            JohnIphone64 = Entities[1];
+            JenniferIphone32 = Entities[2];
+            JenniferIphone64 = Entities[3];
         }
     }
 }

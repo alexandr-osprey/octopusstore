@@ -64,6 +64,7 @@ namespace UnitTests.Controllers
             var actual = await Controller.IndexAsync(categoryId: null, storeId: storeId);
             Equal(expected, actual);
         }
+
         [Fact]
         public async Task IndexWrongCategoryAsync()
         {

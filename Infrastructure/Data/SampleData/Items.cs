@@ -1,5 +1,7 @@
 ﻿using ApplicationCore.Entities;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Infrastructure.Data.SampleData
 {
@@ -10,12 +12,12 @@ namespace Infrastructure.Data.SampleData
         protected Categories Categories { get; }
         protected MeasurementUnits MeasurementUnits { get; }
 
-        public Item IPhone6 { get; }
-        public Item Samsung7 { get; }
-        public Item Samsung8 { get; }
-        public Item PebbleWatch { get; }
-        public Item Shoes { get; }
-        public Item Jacket { get; }
+        public Item IPhone6  { get; protected set; }
+        public Item Samsung7  { get; protected set; }
+        public Item Samsung8  { get; protected set; }
+        public Item PebbleWatch  { get; protected set; }
+        public Item Shoes  { get; protected set; }
+        public Item Jacket  { get; protected set; }
 
         public Items(StoreContext storeContext, Brands brands, Stores stores, Categories categories, MeasurementUnits measurementUnits): base(storeContext)
         {
@@ -24,13 +26,7 @@ namespace Infrastructure.Data.SampleData
             Categories = categories;
             MeasurementUnits = measurementUnits;
             Seed();
-
-            IPhone6 = Entities[0];
-            Samsung7 = Entities[1];
-            Samsung8 = Entities[2];
-            PebbleWatch = Entities[3];
-            Shoes = Entities[4];
-            Jacket = Entities[5];
+            Init();
         }
 
         protected override IEnumerable<Item> GetSourceEntities()
@@ -51,6 +47,28 @@ namespace Infrastructure.Data.SampleData
                 new Item { Title = "Jacket", BrandId = Brands.Armani.Id, CategoryId = Categories.Jackets.Id,
                     MeasurementUnitId = MeasurementUnits.Pcs.Id, StoreId = Stores.Jennifers.Id, OwnerId = Stores.Jennifers.OwnerId },
             };
+        }
+
+        protected override IQueryable<Item> GetQueryable()
+        {
+            return base.GetQueryable()
+                .Include(i => i.Brand)
+                .Include(i => i.Category)
+                .Include(i => i.ItemVariants)
+                .Include(i => i.Images)
+                .Include(i => i.Store)
+                .Include(i => i.MeasurementUnit);
+        }
+
+        public override void Init()
+        {
+            base.Init();
+            IPhone6 = Entities[0];
+            Samsung7 = Entities[1];
+            Samsung8 = Entities[2];
+            PebbleWatch = Entities[3];
+            Shoes = Entities[4];
+            Jacket = Entities[5];
         }
     }
 }

@@ -105,6 +105,19 @@ namespace UnitTests.Services
             Equal(expected, actual);
         }
 
+        [Fact]
+        public async Task DeleteSingleWithRelatedRelinkAsync()
+        {
+            var category = Data.Categories.Electronics;
+            int idToRelinkTo = Data.Categories.Clothes.Id;
+            var items = Data.Items.Entities.Where(i => i.Category == category).ToList();
+            var characteristics = Data.Characteristics.Entities.Where(i => i.Category == category).ToList();
+            await Service.DeleteSingleWithRelatedRelink(category.Id, idToRelinkTo);
+            items.ForEach(i => Assert.Equal(i.CategoryId, idToRelinkTo));
+            characteristics.ForEach(c => Assert.Equal(c.CategoryId, idToRelinkTo));
+            Assert.False(Context.Set<Category>().Any(b => b == category));
+        }
+
         protected override IEnumerable<Category> GetCorrectNewEntites()
         {
             var parentId = Data.Categories.Root.Id;
