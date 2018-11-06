@@ -101,7 +101,7 @@ namespace OctopusStore.Controllers
         protected async Task<IndexViewModel<TViewModel>> IndexByFunctionNotPagedAsync<TCustom>(Func<Specification<TCustom>, Task<IEnumerable<TEntity>>> retrievingFunction, Specification<TCustom> spec)
             where TCustom : class
         {
-            return GetNotPagedIndexViewModel(await retrievingFunction(spec));
+            return GetNotPagedIndexViewModel<TViewModel>(await retrievingFunction(spec));
         }
 
         protected async Task<IndexViewModel<TViewModel>> IndexByRelatedNotPagedAsync<TRelated>
@@ -109,13 +109,18 @@ namespace OctopusStore.Controllers
             Specification<TRelated> relatedSpec)
             where TRelated : Entity
         {
-            return GetNotPagedIndexViewModel(await retrievingFunction(relatedSpec));
+            return GetNotPagedIndexViewModel<TViewModel>(await retrievingFunction(relatedSpec));
         }
 
         protected async Task<IndexViewModel<TViewModel>> IndexNotPagedAsync(Specification<TEntity> spec)
         {
+            return await IndexNotPagedAsync<TViewModel>(spec);
+        }
+
+        protected async Task<IndexViewModel<TCustomViewModel>> IndexNotPagedAsync<TCustomViewModel>(Specification<TEntity> spec) where TCustomViewModel : EntityViewModel<TEntity>
+        {
             spec.SetPaging(1, MaxTake);
-            return GetNotPagedIndexViewModel(await Service.EnumerateAsync(spec));
+            return GetNotPagedIndexViewModel<TCustomViewModel>(await Service.EnumerateAsync(spec));
         }
 
         protected async Task<TDetailViewModel> ReadDetailAsync<TDetailViewModel>(Specification<TEntity> spec) where TDetailViewModel: EntityViewModel<TEntity>
@@ -130,10 +135,15 @@ namespace OctopusStore.Controllers
 
         protected IndexViewModel<TViewModel> GetNotPagedIndexViewModel(IEnumerable<TEntity> entities)
         {
+            return GetNotPagedIndexViewModel<TViewModel>(entities);
+        }
+
+        protected IndexViewModel<TCustomViewModel> GetNotPagedIndexViewModel<TCustomViewModel>(IEnumerable<TEntity> entities) where TCustomViewModel : EntityViewModel<TEntity>
+        {
             int totalCount = entities.Count();
             int page = totalCount == 0 ? 0 : 1;
             int totalPages = page;
-            return GetIndexViewModel<TViewModel>(page, totalPages, totalCount, entities);
+            return GetIndexViewModel<TCustomViewModel>(page, totalPages, totalCount, entities);
         }
 
         protected IndexViewModel<TCustomViewModel> GetIndexViewModel<TCustomViewModel>(int page, int totalPages, int totalCount, IEnumerable<TEntity> entities)

@@ -1,10 +1,10 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
-import { ItemImage } from '../../view-models/item-image';
-import { ItemImageService } from '../../services/item-image-service';
-import { Item } from '../../view-models/item';
+import { ItemImage } from '../../view-models/item-image/item-image';
+import { ItemImageService } from '../../services/item-image.service';
+import { Item } from '../../view-models/item/item';
 import { Subscription } from 'rxjs';
 import { MessageService } from '../../services/message.service';
-import { EntityIndex } from '../../view-models/entity-index';
+import { EntityIndex } from '../../view-models/entity/entity-index';
 
 @Component({
   selector: 'app-item-image-create-update',

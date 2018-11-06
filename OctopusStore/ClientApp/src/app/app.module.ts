@@ -31,6 +31,9 @@ import { IdentitySignOutComponent } from './identity/identity-sign-out/identity-
 import { IdentitySignUpComponent } from './identity/identity-sing-up/identity-sign-up.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { StoreAdministratorsComponent } from './store/store-administrators/store-administrators.component';
+import { CartItemComponent } from './cart/cart-item/cart-item.component';
+import { CartComponent } from './cart/cart/cart.component';
+import { CartThumbnailComponent } from './cart/cart-thumbnail/cart-thumbnail.component';
 
 
 @NgModule({
@@ -62,6 +65,9 @@ import { StoreAdministratorsComponent } from './store/store-administrators/store
     IdentitySignOutComponent,
     PageNotFoundComponent,
     StoreAdministratorsComponent,
+    CartItemComponent,
+    CartComponent,
+    CartThumbnailComponent,
   ],
   imports: [
     BrowserModule,

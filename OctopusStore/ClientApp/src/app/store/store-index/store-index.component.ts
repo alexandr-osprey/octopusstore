@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { StoreService } from '../../services/store.service';
-import { Store } from '../../view-models/store';
+import { Store } from '../../view-models/store/store';
 import { ParameterNames } from '../../services/parameter-names';
-import { EntityIndex } from '../../view-models/entity-index';
+import { EntityIndex } from '../../view-models/entity/entity-index';
 
 @Component({
   selector: 'app-store-index',

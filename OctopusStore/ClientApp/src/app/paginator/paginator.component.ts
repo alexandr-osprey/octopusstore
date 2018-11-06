@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { EntityIndex } from '../view-models/entity-index';
-import { Entity } from '../view-models/entity';
-import { ParameterService } from '../services/parameter-service';
+import { EntityIndex } from '../view-models/entity/entity-index';
+import { Entity } from '../view-models/entity/entity';
+import { ParameterService } from '../services/parameter.service';
 import { ParameterNames } from '../services/parameter-names';
 
 @Component({

@@ -1,10 +1,10 @@
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { ItemService } from '../../services/item.service';
-import { ParameterService } from '../../services/parameter-service';
+import { ParameterService } from '../../services/parameter.service';
 import { debounceTime } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
-import { EntityIndex } from '../../view-models/entity-index';
-import { ItemThumbnail } from '../../view-models/item-thumbnail';
+import { EntityIndex } from '../../view-models/entity/entity-index';
+import { ItemThumbnail } from '../../view-models/item/item-thumbnail';
 
 @Component({
   selector: 'app-item-thumbnails',

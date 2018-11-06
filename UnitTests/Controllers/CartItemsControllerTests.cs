@@ -23,7 +23,7 @@ namespace UnitTests.Controllers
         {
             var cartItems = await Context.Set<CartItem>().Where(i => i.OwnerId == Users.JohnId).ToListAsync();
             var expected = IndexViewModel<CartItemViewModel>.FromEnumerableNotPaged(from c in cartItems select ToViewModel(c));
-            var actual = await Controller.Index();
+            var actual = await Controller.IndexAsync();
             Equal(expected, actual);
         }
 

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { IdentityService } from '../../services/identity-service';
+import { IdentityService } from '../../services/identity.service';
 
 @Component({
   selector: 'app-identity-sign-out',

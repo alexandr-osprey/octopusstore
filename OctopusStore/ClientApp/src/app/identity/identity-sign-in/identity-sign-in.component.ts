@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Credentials } from '../../view-models/identity/credentials';
-import { IdentityService } from '../../services/identity-service';
+import { IdentityService } from '../../services/identity.service';
 import 'rxjs/add/operator/catch';
 import { MessageService } from '../../services/message.service';
 import { Router } from '@angular/router';

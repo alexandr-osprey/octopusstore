@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { Category } from '../view-models/category';
+import { Category } from '../view-models/category/category';
 import { CategoryService } from '../services/category.service';
 import { CategoryHierarchy } from './category-hierarchy';
-import { ParameterService } from '../services/parameter-service';
+import { ParameterService } from '../services/parameter.service';
 import { ParameterNames } from '../services/parameter-names';
 import { Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
-import { EntityIndex } from '../view-models/entity-index';
+import { EntityIndex } from '../view-models/entity/entity-index';
 
 @Component({
   selector: 'app-categories',

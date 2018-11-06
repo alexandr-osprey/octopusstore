@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { MessageService } from './message.service';
-import { Store } from '../view-models/store';
-import { DataReadWriteService } from './data-read-write-service';
-import { IdentityService } from './identity-service';
+import { Store } from '../view-models/store/store';
+import { DataReadWriteService } from './data-read-write.service';
+import { IdentityService } from './identity.service';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Index } from '../view-models';

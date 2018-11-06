@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { MessageService } from './message.service';
-import { Brand } from '../view-models/brand';
-import { IdentityService } from './identity-service';
-import { DataReadWriteService } from './data-read-write-service';
+import { Brand } from '../view-models/brand/brand';
+import { IdentityService } from './identity.service';
+import { DataReadWriteService } from './data-read-write.service';
 import { Router } from '@angular/router';
 
 @Injectable({

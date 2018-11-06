@@ -48,8 +48,12 @@ namespace OctopusStore.Controllers
         }
 
         [HttpGet]
-        public async Task<IndexViewModel<CartItemViewModel>> Index() => await base.IndexNotPagedAsync(
+        public async Task<IndexViewModel<CartItemViewModel>> IndexAsync() => await base.IndexNotPagedAsync(
             new CartItemSpecification(ScopedParameters.ClaimsPrincipal.Identity.Name));
+
+        [HttpGet("thumbnails/")]
+        public async Task<IndexViewModel<CartItemThumbnailViewModel>> IndexThumbnailsAsync() => await base.IndexNotPagedAsync<CartItemThumbnailViewModel>(
+            new CartItemThumbnailSpecification(ScopedParameters.ClaimsPrincipal.Identity.Name));
 
         [HttpGet("{id:int}")]
         public override async Task<CartItemViewModel> ReadAsync(int id) => await base.ReadAsync(id);

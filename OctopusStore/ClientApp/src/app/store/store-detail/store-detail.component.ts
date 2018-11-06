@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { StoreService } from '../../services/store.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
-import { ParameterService } from '../../services/parameter-service';
+import { ParameterService } from '../../services/parameter.service';
 import { ParameterNames } from '../../services/parameter-names';
-import { IdentityService } from '../../services/identity-service';
-import { Store } from '../../view-models/store';
+import { IdentityService } from '../../services/identity.service';
+import { Store } from '../../view-models/store/store';
 
 @Component({
   selector: 'app-store-detail',

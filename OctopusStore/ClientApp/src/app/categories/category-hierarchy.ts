@@ -1,4 +1,4 @@
-import { Category } from "../view-models/category";
+import { Category } from "../view-models/category/category";
 import { CategoryService } from "../services/category.service";
 
 export class CategoryHierarchy extends Category {

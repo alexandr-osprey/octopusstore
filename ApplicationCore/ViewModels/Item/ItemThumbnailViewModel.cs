@@ -12,6 +12,7 @@ namespace ApplicationCore.ViewModels
         public ItemThumbnailViewModel(): base()
         {
         }
+
         public ItemThumbnailViewModel(Item item): base(item)
         {
             Images = from image in item.Images select new ItemImageViewModel(image);

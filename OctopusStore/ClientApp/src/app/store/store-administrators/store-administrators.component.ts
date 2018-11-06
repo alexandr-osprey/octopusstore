@@ -3,7 +3,7 @@ import { StoreService } from '../../services/store.service';
 import { ActivatedRoute } from '@angular/router';
 import { Index } from '../../view-models';
 import { Observable } from 'rxjs';
-import { Store } from '../../view-models/store';
+import { Store } from '../../view-models/store/store';
 
 @Component({
   selector: 'app-store-administrators',

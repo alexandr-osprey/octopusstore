@@ -1,9 +1,9 @@
-import { Entity } from '../view-models/entity';
-import { DataReadWriteService } from './data-read-write-service';
+import { Entity } from '../view-models/entity/entity';
+import { DataReadWriteService } from './data-read-write.service';
 import { MessageService } from './message.service';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { IdentityService } from './identity-service';
+import { IdentityService } from './identity.service';
 
 export abstract class FileInfoService<TEntity extends Entity> extends DataReadWriteService<TEntity> {
   public filePostUrl: string;
