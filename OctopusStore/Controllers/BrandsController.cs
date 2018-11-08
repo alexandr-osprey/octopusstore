@@ -18,9 +18,10 @@ namespace OctopusStore.Controllers
     {
         public BrandsController(
             IBrandService  brandService,
+            IActivatorService activatorService,
             IScopedParameters scopedParameters,
             IAppLogger<IController<Brand, BrandViewModel>> logger)
-           : base(brandService, scopedParameters, logger)
+           : base(brandService, activatorService, scopedParameters, logger)
         {
         }
 

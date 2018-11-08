@@ -21,6 +21,7 @@ namespace OctopusStore.Controllers
         where TViewModel: EntityViewModel<TEntity>
     {
         protected TService Service { get; }
+        protected IActivatorService ActivatorService { get; }
         protected IAppLogger<IController<TEntity, TViewModel>> Logger { get; }
         protected string EntityName { get; } = typeof(TEntity).Name;
         protected int MaxTake { get; } = 200;
@@ -29,10 +30,12 @@ namespace OctopusStore.Controllers
 
         public CRUDController(
             TService service,
+            IActivatorService activatorService,
             IScopedParameters scopedParameters,
             IAppLogger<IController<TEntity, TViewModel>> logger)
         {
             Service = service;
+            ActivatorService = activatorService;
             ScopedParameters = scopedParameters;
             Logger = logger;
             Logger.Name = EntityName + "Controller";
@@ -157,7 +160,8 @@ namespace OctopusStore.Controllers
 
         protected TCustomViewModel GetViewModel<TCustomViewModel>(TEntity entity) where TCustomViewModel: EntityViewModel<TEntity>
         {
-            return (TCustomViewModel)new ActivatorsStorage().GetActivator(typeof(TCustomViewModel), typeof(TEntity))(entity);
+            //return (TCustomViewModel)new ActivatorsStorage().GetActivator(typeof(TCustomViewModel), typeof(TEntity))(entity);
+            return ActivatorService.GetInstance<TCustomViewModel>(entity);
         }
 
         protected virtual async Task<Response> DeleteSingleAsync(Specification<TEntity> spec)

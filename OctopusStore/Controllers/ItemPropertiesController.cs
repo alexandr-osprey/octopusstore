@@ -18,9 +18,10 @@ namespace OctopusStore.Controllers
     {
         public ItemPropertiesController(
             IItemPropertyService itemPropertyService,
+            IActivatorService activatorService,
             IScopedParameters scopedParameters,
             IAppLogger<IController<ItemProperty, ItemPropertyViewModel>> logger)
-           : base(itemPropertyService, scopedParameters, logger)
+           : base(itemPropertyService, activatorService, scopedParameters, logger)
         {
         }
 

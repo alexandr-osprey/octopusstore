@@ -16,9 +16,10 @@ namespace OctopusStore.Controllers
     {
         public CartItemsController(
             ICartItemService cartItemService,
+            IActivatorService activatorService,
             IScopedParameters scopedParameters,
             IAppLogger<IController<CartItem, CartItemViewModel>> logger)
-           : base(cartItemService, scopedParameters, logger)
+           : base(cartItemService, activatorService, scopedParameters, logger)
         {
         }
 

@@ -16,10 +16,11 @@ namespace OctopusStore.Controllers
     {
         public ItemsController(
             IItemService service,
+            IActivatorService activatorService,
             IScopedParameters scopedParameters,
             IAuthorizationService authorizationService,
             IAppLogger<IController<Item, ItemViewModel>> logger)
-           : base(service, scopedParameters, logger)
+           : base(service, activatorService, scopedParameters, logger)
         {
         }
 

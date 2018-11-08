@@ -16,10 +16,11 @@ namespace OctopusStore.Controllers
     {
         public MeasurementUnitsController(
             IMeasurementUnitService measurementUnitService,
+            IActivatorService activatorService,
             IAuthorizationService authorizationService,
             IScopedParameters scopedParameters,
             IAppLogger<IController<MeasurementUnit, MeasurementUnitViewModel>> logger)
-           : base(measurementUnitService, scopedParameters, logger)
+           : base(measurementUnitService, activatorService, scopedParameters, logger)
         {
         }
 

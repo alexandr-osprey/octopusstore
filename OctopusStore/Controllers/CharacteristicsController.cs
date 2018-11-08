@@ -16,9 +16,10 @@ namespace OctopusStore.Controllers
     {
         public CharacteristicsController(
             ICharacteristicService service,
+            IActivatorService activatorService,
             IScopedParameters scopedParameters,
             IAppLogger<IController<Characteristic, CharacteristicViewModel>> logger)
-           : base(service, scopedParameters, logger)
+           : base(service, activatorService, scopedParameters, logger)
         {
         }
 
@@ -31,7 +32,7 @@ namespace OctopusStore.Controllers
         [AllowAnonymous]
         [HttpGet]
         [HttpGet("/api/categories/{categoryId:int}/characteristics")]
-        public async Task<IndexViewModel<CharacteristicViewModel>> IndexAsync([FromQuery(Name = "categoryId")]int categoryId) => await base.IndexByFunctionNotPagedAsync(Service.EnumerateByCategoryAsync, new EntitySpecification<Category>(categoryId));
+        public async Task<IndexViewModel<CharacteristicViewModel>> IndexAsync(int categoryId) => await base.IndexByFunctionNotPagedAsync(Service.EnumerateByCategoryAsync, new EntitySpecification<Category>(categoryId));
 
         [HttpPut]
         public override async Task<CharacteristicViewModel> UpdateAsync([FromBody]CharacteristicViewModel characteristicViewModel) => await base.UpdateAsync(characteristicViewModel);

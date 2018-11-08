@@ -18,9 +18,10 @@ namespace OctopusStore.Controllers
     {
         public CategoriesController(
             ICategoryService service,
+            IActivatorService activatorService,
             IScopedParameters scopedParameters,
             IAppLogger<IController<Category,CategoryViewModel>> logger)
-           : base(service, scopedParameters, logger)
+           : base(service, activatorService, scopedParameters, logger)
         {
         }
 

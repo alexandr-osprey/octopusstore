@@ -22,10 +22,11 @@ namespace OctopusStore.Controllers
 
         public StoresController(
             IStoreService storeService,
+            IActivatorService activatorService,
             IScopedParameters scopedParameters,
             IAuthorizationParameters<Store> authoriationParameters,
             IAppLogger<IController<Store, StoreViewModel>> logger)
-           : base(storeService, scopedParameters, logger)
+           : base(storeService, activatorService, scopedParameters, logger)
         {
             AuthorziationParameters = authoriationParameters;
         }

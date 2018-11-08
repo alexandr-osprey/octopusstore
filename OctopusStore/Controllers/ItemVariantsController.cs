@@ -17,9 +17,10 @@ namespace OctopusStore.Controllers
     {
         public ItemVariantsController(
             IItemVariantService itemVariantService,
+            IActivatorService activatorService,
             IScopedParameters scopedParameters,
             IAppLogger<IController<ItemVariant, ItemVariantViewModel>> logger)
-           : base(itemVariantService, scopedParameters, logger)
+           : base(itemVariantService, activatorService, scopedParameters, logger)
         {
         }
 

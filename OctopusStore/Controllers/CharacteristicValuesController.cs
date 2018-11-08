@@ -16,9 +16,10 @@ namespace OctopusStore.Controllers
     {
         public CharacteristicValuesController(
             ICharacteristicValueService service,
+            IActivatorService activatorService,
             IScopedParameters scopedParameters,
             IAppLogger<IController<CharacteristicValue, CharacteristicValueViewModel>> logger)
-           : base(service, scopedParameters, logger)
+           : base(service, activatorService, scopedParameters, logger)
         {
         }
 

@@ -18,9 +18,10 @@ namespace OctopusStore.Controllers
     {
         public ItemImagesController(
             IItemImageService service,
+            IActivatorService activatorService,
             IScopedParameters scopedParameters,
             IAppLogger<IController<ItemImage, ItemImageViewModel>> logger)
-           : base(service, scopedParameters, logger)
+           : base(service, activatorService, scopedParameters, logger)
         {
         }
 

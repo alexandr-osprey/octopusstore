@@ -94,6 +94,7 @@ namespace OctopusStore
         public static void ConfigureDI(IServiceCollection services)
         {
             services.AddDbContext<StoreContext>();
+            services.AddSingleton<IActivatorService, ActivatorService>();
             services.AddScoped(typeof(IAppLogger<>), typeof(AppLogger<>));
         
             services.AddScoped<IScopedParameters, ScopedParameters>();
