@@ -5,6 +5,7 @@ using ApplicationCore.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -89,6 +90,20 @@ namespace UnitTests.Controllers
         public int GetPageCount(int totalCount, int pageSize)
         {
             return (int)Math.Ceiling((decimal)totalCount / pageSize);
+        }
+
+        protected override void Equal<T>(IEnumerable<T> expected, IEnumerable<T> actual)
+        {
+            Assert.Equal(
+                JsonConvert.SerializeObject(expected, Formatting.None, jsonSettings),
+                JsonConvert.SerializeObject(actual, Formatting.None, jsonSettings));
+        }
+
+        protected override void Equal<T>(T expected, T actual)
+        {
+            Assert.Equal(
+                JsonConvert.SerializeObject(expected, Formatting.None, jsonSettings),
+                JsonConvert.SerializeObject(actual, Formatting.None, jsonSettings));
         }
     }
 }

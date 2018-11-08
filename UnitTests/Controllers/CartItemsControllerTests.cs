@@ -28,6 +28,15 @@ namespace UnitTests.Controllers
         }
 
         [Fact]
+        public async Task IndexThumbnailsAsync()
+        {
+            var cartItems = await Context.Set<CartItem>().Where(i => i.OwnerId == Users.JohnId).ToListAsync();
+            var expected = IndexViewModel<CartItemThumbnailViewModel>.FromEnumerableNotPaged(from c in cartItems select new CartItemThumbnailViewModel(c));
+            var actual = await Controller.IndexThumbnailsAsync();
+            Equal(expected, actual);
+        }
+
+        [Fact]
         public async Task AddToCartAsync()
         {
             var existing = Data.CartItems.JohnIphone32;

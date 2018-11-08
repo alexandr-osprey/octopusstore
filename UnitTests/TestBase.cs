@@ -14,6 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Moq;
+using Newtonsoft.Json;
 using OctopusStore;
 using OctopusStore.Controllers;
 using System;
@@ -28,6 +29,11 @@ namespace UnitTests
 {
     public abstract class TestBase<TEntity> where TEntity : Entity
     {
+        public static JsonSerializerSettings jsonSettings = new JsonSerializerSettings()
+        {
+            ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+        };
+
         protected static ServiceCollection Services { get; } = new ServiceCollection();
         protected ServiceProvider ServiceProvider { get; }
 
@@ -179,7 +185,7 @@ namespace UnitTests
             }
         }
 
-        protected void Equal<T>(IEnumerable<T> expected, IEnumerable<T> actual)
+        protected virtual void Equal<T>(IEnumerable<T> expected, IEnumerable<T> actual)
         {
             if (expected.Count() == actual.Count())
             {
@@ -191,7 +197,7 @@ namespace UnitTests
                 Assert.True(false);
         }
 
-        protected void Equal<T>(T expected, T actual)
+        protected virtual void Equal<T>(T expected, T actual)
         {
             Assert.True(expected.Equals(actual));
             //Assert.Equal(
