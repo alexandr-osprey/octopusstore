@@ -43,11 +43,16 @@ export class ParameterService {
     args.forEach(pair => params[pair[0]] = pair[1]);
     return params;
   }
-  // navigate to the same URL, but with updated parameters
+
   public navigateWithUpdatedParam(...args: [string, any][]): void {
     let params = this.getUpdatedParams(...args);
     this.router.navigate([ParameterService.getUrlWithoutParams(this.router)], { queryParams: params });
   }
+
+  public navigateWithParams(url: string, params: any = {}) {
+    this.router.navigate([url], { queryParams: params });
+  }
+
   public static getUrlWithoutParams(router: Router): string {
     let urlTree = router.parseUrl(router.url);
     let urlWithoutParams = urlTree.root.children['primary'].segments.map(it => it.path).join('/');

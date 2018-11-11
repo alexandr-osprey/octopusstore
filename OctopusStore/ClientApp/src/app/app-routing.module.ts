@@ -12,6 +12,7 @@ import { CreateUpdateAuthorizationGuard } from './guards/create-update-authoriza
 import { IdentitySignUpComponent } from './identity/identity-sing-up/identity-sign-up.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { StoreAdministratorsComponent } from './store/store-administrators/store-administrators.component';
+import { CartComponent } from './cart/cart/cart.component';
 
 
 const routes: Routes = [
@@ -20,7 +21,11 @@ const routes: Routes = [
     component: HomepageComponent,
     pathMatch: 'full',
   },
-
+  {
+    path: 'cart',
+    component: CartComponent,
+    pathMatch: 'full',
+  },
   {
     path: 'signUp',
     component: IdentitySignUpComponent,

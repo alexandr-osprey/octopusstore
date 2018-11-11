@@ -43,7 +43,9 @@ export class IdentityService {
     protected router: Router,
     protected messageService: MessageService) {
     this.tokenManager = new TokenService(this.http, this.messageService, this.remoteUrl, this.defaultHttpHeaders);
-    this._signedIn = !this.tokenManager.isTokenInvalid();
+    this._signedIn = this.hasSavedCredentials();
+    if (this.hasSavedCredentials())
+      this.ensureSignIn().subscribe();
   }
   public signUp(credentials: Credentials): Observable<TokenPair> {
     return this.post(credentials, this.remoteUrl);
@@ -140,18 +142,20 @@ export class IdentityService {
     }
     return resultSubject.asObservable();
   }
+
   public getHeadersWithAuthInfo(headers?: HttpHeaders): HttpHeaders {
     return this.tokenManager.getHeadersWithToken(headers);
   }
 
-  protected post(credentials: Credentials, url: string) {
+  protected post(credentials: Credentials, url: string): Observable<TokenPair> {
     return this.http.post<TokenPair>(url, credentials, { headers: this.defaultHttpHeaders })
       .retry(this.retryLimit)
       .pipe(
         tap(tokenPair => this.signInSucceded(tokenPair, credentials),
           signInErrorResponse => this.signInFailed(signInErrorResponse)));
   }
-  protected hasSavedCredentials(): boolean {
+
+  public hasSavedCredentials(): boolean {
     let email = localStorage.getItem(this.EMAIL_NAME);
     let password = localStorage.getItem(this.PASSWORD_NAME);
     return (email != null && password != null);
@@ -166,12 +170,12 @@ export class IdentityService {
     throw errorResponse;
   }
   protected setSignInState(state: boolean): void {
-    // if (state != this._signedIn) {
-    this._signedIn = state;
-    this.signedInSource.next(state);
-    //}
+    if (state != this._signedIn) {
+      this._signedIn = state;
+      this.signedInSource.next(state);
+    }
   }
-  protected signInSucceded(tokenPair: TokenPair, credentials?: Credentials) {
+  protected signInSucceded(tokenPair: TokenPair, credentials?: Credentials): void {
     this.tokenManager.setTokenPair(tokenPair);
     //this.setTokenPair(tokenPair);
     //this.setTokenPairExpirationDate(tokenPair);

@@ -57,7 +57,7 @@ namespace OctopusStore.Controllers
 
         public virtual async Task<TViewModel> ReadAsync(int id)
         {
-            return await ReadAsync(new EntitySpecification<TEntity>(id));
+            return await ReadAsync<TViewModel>(new EntitySpecification<TEntity>(id));
         }
 
         public virtual async Task<TViewModel> UpdateAsync(TViewModel viewModel)
@@ -131,9 +131,9 @@ namespace OctopusStore.Controllers
             return GetViewModel<TDetailViewModel>(await Service.ReadSingleAsync(spec));
         }
 
-        protected async Task<TViewModel> ReadAsync(Specification<TEntity> spec)
+        protected async Task<TCustomViewModel> ReadAsync<TCustomViewModel>(Specification<TEntity> spec) where TCustomViewModel : EntityViewModel<TEntity>
         {
-            return GetViewModel<TViewModel>(await Service.ReadSingleAsync(spec));
+            return GetViewModel<TCustomViewModel>(await Service.ReadSingleAsync(spec));
         }
 
         protected IndexViewModel<TViewModel> GetNotPagedIndexViewModel(IEnumerable<TEntity> entities)

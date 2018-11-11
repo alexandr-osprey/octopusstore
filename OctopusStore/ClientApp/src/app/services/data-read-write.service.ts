@@ -37,8 +37,11 @@ export abstract class DataReadWriteService <TEntity extends Entity> {
   public postCustom<T>(body: any, url: string, params: any, authenticationRequired: boolean, headers: HttpHeaders): Observable<T> {
     return this.customRequest("post", url, params, headers, authenticationRequired, body);
   }
-  public put(entity: Entity, url: string = this.remoteUrl, params: any = {}, headers: HttpHeaders = this.defaultHttpHeaders): Observable<TEntity> {
-    return this.customRequest("put", url, params, headers, this.putAuthenticationRequired, entity);
+  public put(body: Entity, url: string = this.remoteUrl, params: any = {}, headers: HttpHeaders = this.defaultHttpHeaders): Observable<TEntity> {
+    return this.putCustom(body, url, params, this.postAuthenticationRequired, headers);
+  }
+  public putCustom<T>(body: any, url: string, params: any, authenticationRequired: boolean, headers: HttpHeaders): Observable<T> {
+    return this.customRequest<T>("put", url, params, headers, authenticationRequired, body);
   }
   public postOrPut(model: TEntity, url: string = this.remoteUrl, params: any = {}, headers: HttpHeaders = this.defaultHttpHeaders): Observable<TEntity> {
     if (model.id)

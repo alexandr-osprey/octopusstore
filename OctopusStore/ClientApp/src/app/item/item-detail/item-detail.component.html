@@ -17,6 +17,10 @@
     <div [hidden]="!currentPrice" class="item-details__current-price">
       <p>Price: {{ currentPrice }}</p>
     </div>
+    <div>
+      <button (click)="addToCart()" class="btn">Add to cart</button>
+      <button (click)="removeFromCart()" class="btn">Remove From cart</button>
+    </div>
     <div class="item-details__store">{{ itemDetail.store.title }}</div>
     <div class="item-details__description">
       {{itemDetail.description}}

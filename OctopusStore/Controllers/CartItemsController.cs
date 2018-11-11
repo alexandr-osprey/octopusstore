@@ -1,18 +1,19 @@
-﻿using System.Threading.Tasks;
-using ApplicationCore.Entities;
-using ApplicationCore.Specifications;
-using Microsoft.AspNetCore.Mvc;
-using ApplicationCore.ViewModels;
-using ApplicationCore.Interfaces;
+﻿using ApplicationCore.Entities;
 using ApplicationCore.Exceptions;
-using ApplicationCore.Interfaces.Services;
+using ApplicationCore.Interfaces;
 using ApplicationCore.Interfaces.Controllers;
+using ApplicationCore.Interfaces.Services;
+using ApplicationCore.Specifications;
+using ApplicationCore.ViewModels;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace OctopusStore.Controllers
 {
     [Produces("application/json")]
     [Route("api/[controller]")]
-    public class CartItemsController: CRUDController<ICartItemService, CartItem, CartItemViewModel>, ICartItemsController
+    public class CartItemsController : CRUDController<ICartItemService, CartItem, CartItemViewModel>, ICartItemsController
     {
         public CartItemsController(
             ICartItemService cartItemService,
@@ -26,24 +27,25 @@ namespace OctopusStore.Controllers
         [HttpPost]
         public override async Task<CartItemViewModel> CreateAsync([FromBody]CartItemViewModel cartItemViewModel) => await base.CreateAsync(cartItemViewModel);
 
-        [HttpPost("addToCart")]
-        public async Task<CartItemViewModel> AddToCartAsync([FromBody]CartItemViewModel cartItemViewModel)
+        [HttpPut("addToCart")]
+        public async Task<CartItemThumbnailViewModel> AddToCartAsync([FromBody]CartItemViewModel cartItemViewModel)
         {
             if (cartItemViewModel == null)
                 throw new BadRequestException("Cart item not provided");
-            return base.GetViewModel<CartItemViewModel>(
-                await Service.AddToCartAsync(
-                    ScopedParameters.ClaimsPrincipal.Identity.Name, 
-                    cartItemViewModel.ItemVariantId, cartItemViewModel.Number));
+            var added = await Service.AddToCartAsync(
+                ScopedParameters.ClaimsPrincipal.Identity.Name,
+                cartItemViewModel.ItemVariantId, cartItemViewModel.Number);
+            //return new Response($"{cartItemViewModel.Number} of item variant {cartItemViewModel.ItemVariantId} added to a cart");
+            return await ReadAsync<CartItemThumbnailViewModel>(new CartItemThumbnailSpecification(added.Id));
         }
 
-        [HttpDelete("removeFromCart")]
+        [HttpPut("removeFromCart")]
         public async Task<Response> RemoveFromCartAsync([FromBody]CartItemViewModel cartItemViewModel)
         {
             if (cartItemViewModel == null)
                 throw new BadRequestException("Cart item not provided");
             await Service.RemoveFromCartAsync(
-                ScopedParameters.ClaimsPrincipal.Identity.Name, 
+                ScopedParameters.ClaimsPrincipal.Identity.Name,
                 cartItemViewModel.ItemVariantId, cartItemViewModel.Number);
             return new Response($"{cartItemViewModel.Number} of item variant {cartItemViewModel.ItemVariantId} removed from a cart");
         }

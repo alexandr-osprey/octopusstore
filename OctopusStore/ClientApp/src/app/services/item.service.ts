@@ -12,7 +12,9 @@ import { EntityIndex } from '../view-models/entity/entity-index';
 import { ItemThumbnail } from '../view-models/item/item-thumbnail';
 
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class ItemService extends DataReadWriteService<Item> {
 
   constructor(

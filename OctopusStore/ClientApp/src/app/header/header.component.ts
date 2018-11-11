@@ -10,25 +10,23 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent implements OnInit {
   signedInSubscription: Subscription;
-  signedIn: boolean = true;
+  signedIn: boolean;
   email: string;
   constructor(
     private identityService: IdentityService,
     private router: Router)
   {
-    
+    this.signedIn = this.identityService.signedIn;
     this.signedInSubscription = this.identityService.signedIn$.subscribe(
       signedIn => {
         this.signedIn = signedIn;
         this.email = this.identityService.currentUserEmail;
       });
-    this.identityService.ensureSignIn().subscribe(_ => {
-
-    });
   }
 
   ngOnInit() {
   }
+
   signOut() {
     this.identityService.signOut();
     this.router.navigate([""]);

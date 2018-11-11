@@ -1,3 +1,29 @@
-<p>
-  cart works!
-</p>
+<p>Shopping cart</p>
+<div class="row" *ngIf="cartItemThumbnails">
+  <table class="table col-12 col-md-12">
+    <tbody>
+      <tr *ngFor="let cartItemThumbnail of cartItemThumbnails">
+        <td>
+          <a [routerLink]="[getItemUrl(cartItemThumbnail.item)]" [queryParams]="getItemVariantParams(cartItemThumbnail.itemVariant)">{{ cartItemThumbnail.itemVariant.title }}</a>
+        </td>
+        <td>{{ cartItemThumbnail.itemVariant.price }}</td>
+        <td>
+          <div>
+            <button (click)="minusCartItem(cartItemThumbnail.itemVariant)" class="btn">-</button>
+            {{ cartItemThumbnail.number }}
+            <button (click)="plusCartItem(cartItemThumbnail.itemVariant)" class="btn">+</button>
+          </div>
+        </td>
+        <td>
+          <p>{{ cartItemThumbnail.measurementUnit.title }}</p>
+        </td>
+        <td>
+          {{ cartItemThumbnail.itemVariant.price * cartItemThumbnail.number }}
+        </td>
+        <td>
+          <button (click)="removeCartItem(cartItemThumbnail)" class="btn">Remove</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

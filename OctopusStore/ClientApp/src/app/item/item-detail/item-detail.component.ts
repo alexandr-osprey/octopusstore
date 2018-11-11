@@ -5,6 +5,9 @@ import { ItemService } from '../../services/item.service';
 import { IdentityService } from '../../services/identity.service';
 import { ItemImage } from '../../view-models/item-image/item-image';
 import { ItemVariant } from '../../view-models/item-variant/item-variant';
+import { CartItem } from '../../view-models/cart-item/cart-item';
+import { BrandService } from '../../services/brand.service';
+import { CartItemService } from '../../services/cart-item.service';
 
 @Component({
   selector: 'app-item-detail',
@@ -15,6 +18,7 @@ import { ItemVariant } from '../../view-models/item-variant/item-variant';
 export class ItemDetailComponent implements OnInit {
   public itemDetail: ItemDetail;
   public authorizedToUpdate: boolean = false;
+  public currentVariant: ItemVariant;
 
   public displayedImages: ItemImage[];
   public currentPrice: number;
@@ -22,8 +26,10 @@ export class ItemDetailComponent implements OnInit {
   constructor(
     private itemService: ItemService,
     private route: ActivatedRoute,
-    private identityService: IdentityService
-  ) { }
+    private identityService: IdentityService,
+    private cartItemService: CartItemService
+  ) {
+  }
 
   ngOnInit(): void {
     this.initializeComponent();
@@ -45,10 +51,19 @@ export class ItemDetailComponent implements OnInit {
     }
   }
 
+  addToCart() {
+    this.cartItemService.addToCart(new CartItem({ itemVariantId: this.currentVariant.id, number: 1 }));
+  }
+
+  removeFromCart() {
+    this.cartItemService.removeFromCart(new CartItem({ itemVariantId: this.currentVariant.id, number: 1 }));
+  }
+
   getUpdateLink(id: number): string {
     return this.itemService.getUrlWithIdWithSuffix(id, 'update', '/items');
   }
   itemVariantSelected(selectedItemVariant: ItemVariant) {
+    this.currentVariant = selectedItemVariant;
     this.currentPrice = selectedItemVariant.price;
   }
 }

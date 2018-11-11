@@ -6,7 +6,7 @@ namespace Infrastructure.Identity
     public class AuthorizationParameters<T>: IAuthorizationParameters<T> where T: class
     {
         public virtual bool CreateAuthorizationRequired { get; set; } = true;
-        public virtual bool ReadAuthorizationRequired { get; set; } = true;
+        public virtual bool ReadAuthorizationRequired { get; set; } = false;
         public virtual bool UpdateAuthorizationRequired { get; set; } = true;
         public virtual bool DeleteAuthorizationRequired { get; set; } = true;
         public OperationAuthorizationRequirement CreateOperationRequirement { get; set; } = OperationAuthorizationRequirements.Create;

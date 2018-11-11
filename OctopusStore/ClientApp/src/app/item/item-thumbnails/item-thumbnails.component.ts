@@ -22,7 +22,7 @@ export class ItemThumbnailsComponent implements OnInit, OnDestroy {
     private parameterService: ParameterService)
   {
     this.parametersSubsription = this.parameterService.params$.pipe(
-      debounceTime(50),
+      debounceTime(10),
       //distinctUntilChanged(),
     ).subscribe(
       params => {

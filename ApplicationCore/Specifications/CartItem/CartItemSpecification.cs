@@ -13,5 +13,8 @@ namespace ApplicationCore.Specifications
         {
             Description += $"{nameof(ownerId)}: {ownerId}, {nameof(itemVariantId)}: {itemVariantId}";
         }
+        public CartItemSpecification(int id) : base(id)
+        {
+        }
     }
 }

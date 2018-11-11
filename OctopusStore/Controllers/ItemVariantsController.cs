@@ -29,7 +29,7 @@ namespace OctopusStore.Controllers
 
         [AllowAnonymous]
         [HttpGet("{id:int}")]
-        public override async Task<ItemVariantViewModel> ReadAsync(int id) => await base.ReadAsync(new EntitySpecification<ItemVariant>(id));
+        public override async Task<ItemVariantViewModel> ReadAsync(int id) => await base.ReadAsync(id);
 
         [AllowAnonymous]
         [HttpGet("{id:int}/detail")]

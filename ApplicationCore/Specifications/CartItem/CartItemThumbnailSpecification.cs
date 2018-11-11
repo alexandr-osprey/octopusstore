@@ -4,11 +4,23 @@
     {
         public CartItemThumbnailSpecification(string ownerId): base(ownerId)
         {
-            AddInclude("ItemVariant.Item");
+            AddInclude();
         }
+
         public CartItemThumbnailSpecification(string ownerId, int itemVariantId)
            : base(ownerId, itemVariantId)
         {
+            AddInclude();
+        }
+
+        public CartItemThumbnailSpecification(int id): base(id)
+        {
+            AddInclude();
+        }
+
+        protected void AddInclude()
+        {
+            AddInclude("ItemVariant.Item.MeasurementUnit");
         }
     }
 }

@@ -28,6 +28,7 @@ namespace OctopusStore.Controllers
         [HttpPost]
         public override async Task<CategoryViewModel> CreateAsync([FromBody]CategoryViewModel categoryViewModel) => await base.CreateAsync(categoryViewModel);
 
+        [AllowAnonymous]
         [HttpGet("{id:int}")]
         public override async Task<CategoryViewModel> ReadAsync(int id) => await base.ReadAsync(id);
 

@@ -27,7 +27,7 @@ namespace OctopusStore.Controllers
         [HttpPost]
         public override async Task<ItemViewModel> CreateAsync([FromBody]ItemViewModel itemViewModel) => await base.CreateAsync(itemViewModel);
 
-        //[AllowAnonymous]
+        [AllowAnonymous]
         [HttpGet("thumbnails/")]
         public async Task<IndexViewModel<ItemThumbnailViewModel>> IndexThumbnailsAsync(
             [FromQuery(Name = "page")] int? page,
@@ -43,7 +43,7 @@ namespace OctopusStore.Controllers
             return await base.IndexAsync<ItemThumbnailViewModel>(new ItemThumbnailIndexSpecification(spec));
         }
 
-        //[AllowAnonymous]
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IndexViewModel<ItemViewModel>> IndexAsync(
             [FromQuery(Name = "page")] int? page,
@@ -58,11 +58,11 @@ namespace OctopusStore.Controllers
             return await base.IndexAsync(await Service.GetIndexSpecificationByParameters(page.Value, pageSize.Value, title, categoryId, storeId, brandId));
         }
 
-        //[AllowAnonymous]
+        [AllowAnonymous]
         [HttpGet("{id:int}")]
         public override async Task<ItemViewModel> ReadAsync(int id) => await base.ReadAsync(id);
 
-        //[AllowAnonymous]
+        [AllowAnonymous]
         [HttpGet("{id:int}/detail")]
         public async Task<ItemDetailViewModel> ReadDetailAsync(int id) => await base.ReadDetailAsync<ItemDetailViewModel>(new ItemDetailSpecification(id));
         

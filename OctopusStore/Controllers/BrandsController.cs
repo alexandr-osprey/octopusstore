@@ -28,6 +28,7 @@ namespace OctopusStore.Controllers
         [HttpPost]
         public override async Task<BrandViewModel> CreateAsync([FromBody]BrandViewModel brandViewModel) => await base.CreateAsync(brandViewModel);
 
+        [AllowAnonymous]
         [HttpGet("{id:int}")]
         public override async Task<BrandViewModel> ReadAsync(int id) => await base.ReadAsync(id);
 

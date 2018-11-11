@@ -8,7 +8,7 @@ namespace ApplicationCore.Interfaces.Controllers
     {
         Task<IndexViewModel<CartItemViewModel>> IndexAsync();
         Task<IndexViewModel<CartItemThumbnailViewModel>> IndexThumbnailsAsync();
-        Task<CartItemViewModel> AddToCartAsync(CartItemViewModel cartItemViewModel);
+        Task<CartItemThumbnailViewModel> AddToCartAsync(CartItemViewModel cartItemViewModel);
         Task<Response> RemoveFromCartAsync(CartItemViewModel cartItemViewModel);
     }
 }

@@ -20,9 +20,10 @@ export class ItemThumbnailComponent implements OnInit {
   }
 
   getDetailUrl(itemId: number): string {
-    let str = this.itemService.getUrlWithIdWithSuffix(itemId, ParameterNames.detail);
+    //let str = this.itemService.getUrlWithIdWithSuffix(itemId, ParameterNames.detail);
     return this.itemService.getUrlWithIdWithSuffix(itemId, ParameterNames.detail, '/items/');
   }
+
   setMinMaxPrices(itemThumbnail: ItemThumbnail) {
     itemThumbnail.minPrice = Math.max(Math.min(...itemThumbnail.prices), 0);
     itemThumbnail.maxPrice = Math.max(Math.max(...itemThumbnail.prices), 0);
