@@ -45,7 +45,7 @@ export class CartItemService extends DataReadWriteService<CartItem> {
         this.addLocalCartItemsToServer();
       } else {
         this.cartItemThumbnails = [];
-        this.cartItemThumbnailsSource.next(this.cartItemThumbnails);
+        this.cartItemThumbnailsSource.next(this.getCopy());
       }
     });
     this.updateCartItemThumbnails();
@@ -65,29 +65,29 @@ export class CartItemService extends DataReadWriteService<CartItem> {
       this.putCustom<CartItemThumbnail>(cartItemToAdd, this.getUrlWithParameter('addToCart'), {}, this.postAuthenticationRequired, this.defaultHttpHeaders)
         .subscribe((added: CartItemThumbnail) => {
           if (added) {
-            this.updateCartItem(new CartItemThumbnail(added));
-            cartItemSubject.next(this.cartItemThumbnails);
+            this.updateCartItemThumbnail(new CartItemThumbnail(added));
+            cartItemSubject.next(this.getCopy());
           }
         });
     } else {
       let existing = this.cartItemThumbnails.find(c => c.itemVariant.id == cartItemToAdd.itemVariantId);
       if (existing) {
         existing.number += cartItemToAdd.number;
-        this.updateCartItem(existing);
-        this.updateCartLocal(existing);
+        this.updateCartItemThumbnail(existing);
+        this.updateCartItemThumbnailLocal(existing);
       } else {
         this.itemVariantService.get(cartItemToAdd.itemVariantId)
           .subscribe((variant: ItemVariant) => {
             this.itemService.get(variant.itemId)
               .subscribe((item: Item) => {
                 let newCartItem = new CartItemThumbnail({ item: item, itemVariant: variant, number: cartItemToAdd.number });
-                this.updateCartItem(newCartItem);
-                this.updateCartLocal(newCartItem);
+                this.updateCartItemThumbnail(newCartItem);
+                this.updateCartItemThumbnailLocal(newCartItem);
               });
           })
       }
     };
-    cartItemSubject.next(this.cartItemThumbnails);
+    cartItemSubject.next(this.getCopy());
     return cartItemSubject.asObservable();
   }
 
@@ -100,19 +100,41 @@ export class CartItemService extends DataReadWriteService<CartItem> {
         this.putCustom<Response>(cartItem, this.getUrlWithParameter('removeFromCart'), {}, this.postAuthenticationRequired, this.defaultHttpHeaders)
           .subscribe((response: Response) => {
             if (response) {
-              this.updateCartItem(existing);
+              this.updateCartItemThumbnail(existing);
             }
           });
       } else {
-        this.updateCartLocal(existing);
-        this.updateCartItem(existing);
+        this.updateCartItemThumbnailLocal(existing);
+        this.updateCartItemThumbnail(existing);
       }
     }
-    cartItemSubject.next(this.cartItemThumbnails);
+    cartItemSubject.next(this.getCopy());
     return cartItemSubject.asObservable();
   }
 
-  protected updateCartItem(cartItemThumbnail: CartItemThumbnail): CartItemThumbnail {
+  public setCartItem(cartItem: CartItem): Observable<CartItemThumbnail[]> {
+    let existing = this.cartItemThumbnails.find(c => c.itemVariant.id == cartItem.itemVariantId);
+    let numberToAddRemove = cartItem.number;
+    if (existing) {
+      numberToAddRemove = cartItem.number - existing.number;
+    }
+    if (numberToAddRemove == 0) {
+      let cartItemSubject = new Subject<CartItemThumbnail[]>();
+      this.delay(5).then(() => {
+        cartItemSubject.next(this.getCopy());
+      });
+      return cartItemSubject.asObservable();
+    }
+    if (numberToAddRemove > 0) {
+      let item = new CartItem({ itemVariantId: cartItem.itemVariantId, number: numberToAddRemove });
+      return this.addToCart(item);
+    } else {
+      let item = new CartItem({ itemVariantId: cartItem.itemVariantId, number: numberToAddRemove * -1 });
+      return this.removeFromCart(item);
+    }
+  }
+
+  protected updateCartItemThumbnail(cartItemThumbnail: CartItemThumbnail): CartItemThumbnail {
     if (cartItemThumbnail.number <= 0) {
       this.cartItemThumbnails = this.cartItemThumbnails.filter(c => c.itemVariant.id != cartItemThumbnail.itemVariant.id);
     } else {
@@ -124,7 +146,7 @@ export class CartItemService extends DataReadWriteService<CartItem> {
         this.cartItemThumbnails.push(cartItemThumbnail);
       }
     }
-    this.cartItemThumbnailsSource.next(this.cartItemThumbnails);
+    this.cartItemThumbnailsSource.next(this.getCopy());
     return cartItemThumbnail;
   }
 
@@ -135,7 +157,7 @@ export class CartItemService extends DataReadWriteService<CartItem> {
   protected loadFromLocal() {
     let items = this.readLocalCartItems();
     items.forEach(i => this.addToCart(i));
-    this.cartItemThumbnailsSource.next(this.cartItemThumbnails);
+    this.cartItemThumbnailsSource.next(this.getCopy());
   }
 
   protected loadFromServer() {
@@ -143,14 +165,14 @@ export class CartItemService extends DataReadWriteService<CartItem> {
       .subscribe((index: EntityIndex<CartItemThumbnail>) => {
         if (index) {
           index.entities.forEach(i => {
-            this.updateCartItem(new CartItemThumbnail(i));
+            this.updateCartItemThumbnail(new CartItemThumbnail(i));
           });
         }
       });
-    this.cartItemThumbnailsSource.next(this.cartItemThumbnails);
+    this.cartItemThumbnailsSource.next(this.getCopy());
   }
 
-  protected updateCartLocal(cartItemThumbnail: CartItemThumbnail): void {
+  protected updateCartItemThumbnailLocal(cartItemThumbnail: CartItemThumbnail): void {
     let localItems = this.readLocalCartItems();
     let index = localItems.findIndex(c => c.itemVariantId == cartItemThumbnail.itemVariant.id);
     if (cartItemThumbnail.number > 0) {
@@ -186,5 +208,13 @@ export class CartItemService extends DataReadWriteService<CartItem> {
       this.addToCart(new CartItem({ itemVariantId: c.itemVariant.id, number: c.number }));
     });
     localStorage.removeItem(this.localStorageKey);
+  }
+
+  protected getCopy(): CartItemThumbnail[] {
+    let copy: CartItemThumbnail[] = [];
+    this.cartItemThumbnails.forEach(c => {
+      copy.push(new CartItemThumbnail(c));
+    });
+    return copy;
   }
 }

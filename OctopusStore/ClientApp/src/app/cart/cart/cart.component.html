@@ -8,11 +8,16 @@
         </td>
         <td>{{ cartItemThumbnail.itemVariant.price }}</td>
         <td>
-          <div>
-            <button (click)="minusCartItem(cartItemThumbnail.itemVariant)" class="btn">-</button>
-            {{ cartItemThumbnail.number }}
-            <button (click)="plusCartItem(cartItemThumbnail.itemVariant)" class="btn">+</button>
-          </div>
+          <form>
+            <div class="form-group">
+              <button (click)="minusCartItem(cartItemThumbnail.itemVariant)" class="btn">-</button>
+              <input type="number" class="form-control number" (change)="setCartItemThumbnail(cartItemThumbnail)"
+                     id="'itemVariant_'cartItemThumbnail.itemVariant.id" name="itemVariant_'cartItemThumbnail.itemVariant.id"
+                     [(ngModel)]="cartItemThumbnail.number"/>
+              <button (click)="plusCartItem(cartItemThumbnail.itemVariant)" class="btn">+</button>
+            </div>
+            
+          </form>
         </td>
         <td>
           <p>{{ cartItemThumbnail.measurementUnit.title }}</p>
@@ -26,4 +31,7 @@
       </tr>
     </tbody>
   </table>
+  <div>
+    <p>{{ sum }}</p>
+  </div>
 </div>

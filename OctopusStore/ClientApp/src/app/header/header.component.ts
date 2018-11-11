@@ -17,6 +17,7 @@ export class HeaderComponent implements OnInit {
     private router: Router)
   {
     this.signedIn = this.identityService.signedIn;
+    this.email = this.identityService.currentUserEmail;
     this.signedInSubscription = this.identityService.signedIn$.subscribe(
       signedIn => {
         this.signedIn = signedIn;

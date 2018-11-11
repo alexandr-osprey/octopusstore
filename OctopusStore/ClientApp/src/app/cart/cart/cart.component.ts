@@ -14,6 +14,7 @@ import { CartItem } from '../../view-models/cart-item/cart-item';
 })
 export class CartComponent implements OnInit {
   protected cartItemThumbnails: CartItemThumbnail[] = [];
+  protected sum: number = 0;
 
   constructor(
     private cartItemService: CartItemService,
@@ -28,6 +29,10 @@ export class CartComponent implements OnInit {
     this.cartItemService.cartItemThumbnails$.subscribe(
       (thumnails: CartItemThumbnail[]) => {
         this.cartItemThumbnails = thumnails;
+        this.sum = 0;
+        this.cartItemThumbnails.forEach(c => {
+          this.sum += c.number * c.itemVariant.price;
+        });
       }
     );
     this.cartItemService.updateCartItemThumbnails();
@@ -44,14 +49,22 @@ export class CartComponent implements OnInit {
   }
 
   plusCartItem(itemVariant: ItemVariant) {
-    this.cartItemService.addToCart(new CartItem({ itemVariantId: itemVariant.id, number: 1 }));
+    let item = new CartItem({ itemVariantId: itemVariant.id, number: 1 });
+    this.cartItemService.addToCart(item);
   }
 
   minusCartItem(itemVariant: ItemVariant) {
-    this.cartItemService.removeFromCart(new CartItem({ itemVariantId: itemVariant.id, number: 1 }));
+    let item = new CartItem({ itemVariantId: itemVariant.id, number: 1 });
+    this.cartItemService.removeFromCart(item);
+  }
+
+  setCartItemThumbnail(cartItemThumbnail: CartItemThumbnail) {
+    let item = new CartItem({ itemVariantId: cartItemThumbnail.itemVariant.id, number: cartItemThumbnail.number });
+    this.cartItemService.setCartItem(item);
   }
 
   removeCartItem(cartItemThumbnail: CartItemThumbnail) {
-    this.cartItemService.removeFromCart(new CartItem({ itemVariantId: cartItemThumbnail.itemVariant.id, number: cartItemThumbnail.number }));
+    let item = new CartItem({ itemVariantId: cartItemThumbnail.itemVariant.id, number: cartItemThumbnail.number });
+    this.cartItemService.removeFromCart(item);
   }
 }
