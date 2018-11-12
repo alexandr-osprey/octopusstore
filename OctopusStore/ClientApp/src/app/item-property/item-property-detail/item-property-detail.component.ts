@@ -1,8 +1,7 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { ItemPropertyService } from '../../services/item-property.service';
 import { ItemDetail } from '../../view-models/item/item-detail';
-import { Observable } from "rxjs/Observable";
-import "rxjs/add/observable/zip";
+import { Observable } from 'rxjs';
 import { MessageService } from '../../services/message.service';
 import { CharacteristicService } from '../../services/characteristic.service';
 import { CharacteristicValueService } from '../../services/characteristic-value.service';

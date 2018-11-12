@@ -14,6 +14,8 @@ import { ItemVariantService } from './item-variant.service';
 import { ItemVariant } from '../view-models/item-variant/item-variant';
 import { Item } from '../view-models/item/item';
 import { Response } from '../view-models/response';
+import { MeasurementUnit } from '../view-models/measurement-unit/measurement-unit';
+import { MeasurementUnitService } from './measurement-unit.service';
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +23,7 @@ import { Response } from '../view-models/response';
 export class CartItemService extends DataReadWriteService<CartItem> {
   protected localStorageKey: string = "cartItemLocalStorage";
   protected cartItemThumbnails: CartItemThumbnail[] = [];
+  protected measurementUnits: MeasurementUnit[] = [];
   protected cartItemThumbnailsSource = new Subject<any>();
   public cartItemThumbnails$ = this.cartItemThumbnailsSource.asObservable();
 
@@ -29,6 +32,7 @@ export class CartItemService extends DataReadWriteService<CartItem> {
     protected router: Router,
     protected identityService: IdentityService,
     protected itemService: ItemService,
+    protected measurementUnitService: MeasurementUnitService,
     protected itemVariantService: ItemVariantService,
     protected messageService: MessageService) {
     super(http, router, identityService, messageService);
@@ -49,9 +53,14 @@ export class CartItemService extends DataReadWriteService<CartItem> {
       }
     });
     this.updateCartItemThumbnails();
+    this.measurementUnitService.index()
+      .subscribe((index: EntityIndex<MeasurementUnit>) => {
+        this.measurementUnits = index.entities;
+      });
   }
 
   public updateCartItemThumbnails(): void {
+    this.cartItemThumbnails = [];
     if (this.identityService.signedIn) {
       this.loadFromServer();
     } else {
@@ -76,19 +85,33 @@ export class CartItemService extends DataReadWriteService<CartItem> {
         this.updateCartItemThumbnail(existing);
         this.updateCartItemThumbnailLocal(existing);
       } else {
-        this.itemVariantService.get(cartItemToAdd.itemVariantId)
-          .subscribe((variant: ItemVariant) => {
-            this.itemService.get(variant.itemId)
-              .subscribe((item: Item) => {
-                let newCartItem = new CartItemThumbnail({ item: item, itemVariant: variant, number: cartItemToAdd.number });
-                this.updateCartItemThumbnail(newCartItem);
-                this.updateCartItemThumbnailLocal(newCartItem);
-              });
-          })
+        this.getCartItemThumbnail(cartItemToAdd)
+          .subscribe((newCartItem: CartItemThumbnail) => {
+            this.updateCartItemThumbnail(newCartItem);
+            this.updateCartItemThumbnailLocal(newCartItem);
+          });
       }
     };
     cartItemSubject.next(this.getCopy());
     return cartItemSubject.asObservable();
+  }
+
+  protected getCartItemThumbnail(cartItemToAdd: CartItem): Observable<CartItemThumbnail> {
+    let result = new Subject<CartItemThumbnail>();
+    this.itemVariantService.get(cartItemToAdd.itemVariantId)
+      .subscribe((variant: ItemVariant) => {
+        if (variant) {
+          this.itemService.get(variant.itemId)
+            .subscribe((item: Item) => {
+              if (item) {
+                let unit = this.measurementUnits.find(u => u.id == item.measurementUnitId);
+                let newCartItem = new CartItemThumbnail({ item: item, itemVariant: variant, measurementUnit: unit, number: cartItemToAdd.number });
+                result.next(newCartItem);
+              }
+            });
+        }
+      })
+    return result.asObservable();
   }
 
   public removeFromCart(cartItem: CartItem): Observable<CartItemThumbnail[]> {
