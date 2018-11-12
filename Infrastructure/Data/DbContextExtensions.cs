@@ -401,8 +401,10 @@ namespace Infrastructure.Data
             var secondaryResult = spec.IncludeStrings
                 .Aggregate(queryableResultWithIncludes,
                     (current, include) => current.Include(include));
-            return secondaryResult.Where(spec.Criteria);
+            var filteredResult = secondaryResult.Where(spec.Criteria);
+            var orderedResult = filteredResult;
+            spec.OrderByValues.ForEach(v => orderedResult = spec.OrderByDesc ? orderedResult.OrderByDescending(i => v(i)) : orderedResult.OrderBy(i => v(i)));
+            return orderedResult;
         }
-
     }
 }

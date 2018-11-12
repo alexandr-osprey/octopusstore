@@ -13,7 +13,8 @@ namespace ApplicationCore.Specifications
         public Expression<Func<T, bool>> Criteria { get; }
         public List<Expression<Func<T, object>>> Includes { get; } = new List<Expression<Func<T, object>>>();
         public List<string> IncludeStrings { get; } = new List<string>();
-        public Func<T, int> OrderBy { get; set; } = o => o.GetHashCode();
+        public List<Func<T, int>> OrderByValues { get; set; } = new List<Func<T, int>>();
+        public bool OrderByDesc { get; set; } = false;
 
         public int Take { get; protected set; }
         public int Skip { get; protected set; }

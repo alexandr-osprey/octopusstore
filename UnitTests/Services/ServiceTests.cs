@@ -93,6 +93,27 @@ namespace UnitTests
         }
 
         [Fact]
+        public async Task EnumerateOrderedAsync()
+        {
+            var expected = await Context.Set<TEntity>().OrderBy(e => e.OwnerId.GetHashCode()).ToListAsync();
+            var spec = new Specification<TEntity>(e => true);
+            spec.OrderByValues.Add(e => e.OwnerId.GetHashCode());
+            var actual = await Service.EnumerateAsync(spec);
+            Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task EnumerateOrdereDescdAsync()
+        {
+            var expected = await Context.Set<TEntity>().OrderByDescending(e => e.Id).ToListAsync();
+            var spec = new Specification<TEntity>(e => true);
+            spec.OrderByValues.Add(e => e.Id);
+            spec.OrderByDesc = true;
+            var actual = await Service.EnumerateAsync(spec);
+            Equal(expected, actual);
+        }
+
+        [Fact]
         public async Task EnumerateAsyncEmpty()
         {
             var expected = new List<TEntity>();
