@@ -95,19 +95,25 @@ namespace UnitTests
         [Fact]
         public async Task EnumerateOrderedAsync()
         {
-            var expected = await Context.Set<TEntity>().OrderBy(e => e.OwnerId.GetHashCode()).ToListAsync();
+            var fields = GetFieldsForOrdered();
+            var expected = (await Context.Set<TEntity>().ToListAsync()).OrderBy(fields[0]);
+            foreach (var field in fields.Skip(1))
+                expected = expected.ThenBy(field);
             var spec = new Specification<TEntity>(e => true);
-            spec.OrderByValues.Add(e => e.OwnerId.GetHashCode());
+            spec.OrderByValues.AddRange(fields);
             var actual = await Service.EnumerateAsync(spec);
             Equal(expected, actual);
         }
 
         [Fact]
-        public async Task EnumerateOrdereDescdAsync()
+        public async Task EnumerateOrdereDescAsync()
         {
-            var expected = await Context.Set<TEntity>().OrderByDescending(e => e.Id).ToListAsync();
+            var fields = GetFieldsForOrderedByDesc();
+            var expected = (await Context.Set<TEntity>().ToListAsync()).OrderByDescending(fields[0]);
+            foreach (var field in fields.Skip(1))
+                expected = expected.ThenByDescending(field);
             var spec = new Specification<TEntity>(e => true);
-            spec.OrderByValues.Add(e => e.Id);
+            spec.OrderByValues.AddRange(fields);
             spec.OrderByDesc = true;
             var actual = await Service.EnumerateAsync(spec);
             Equal(expected, actual);
@@ -216,6 +222,20 @@ namespace UnitTests
             spec.SetPaging(1, pageSize);
             int actual = await Service.PageCountAsync(spec);
             Assert.Equal(expected, actual);
+        }
+
+        protected virtual List<Func<TEntity, IComparable>> GetFieldsForOrdered()
+        {
+            return new List<Func<TEntity, IComparable>>()
+            {
+                (e => e.OwnerId),
+                (e => e.Id)
+            };
+        }
+
+        protected virtual List<Func<TEntity, IComparable>> GetFieldsForOrderedByDesc()
+        {
+            return GetFieldsForOrdered();
         }
 
         protected int GetPageCount(int totalCount, int pageSize)

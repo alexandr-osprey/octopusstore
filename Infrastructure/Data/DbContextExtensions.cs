@@ -402,9 +402,16 @@ namespace Infrastructure.Data
                 .Aggregate(queryableResultWithIncludes,
                     (current, include) => current.Include(include));
             var filteredResult = secondaryResult.Where(spec.Criteria);
-            var orderedResult = filteredResult;
-            spec.OrderByValues.ForEach(v => orderedResult = spec.OrderByDesc ? orderedResult.OrderByDescending(i => v(i)) : orderedResult.OrderBy(i => v(i)));
-            return orderedResult;
+            var result = filteredResult;
+            if (spec.OrderByValues.Count > 0)
+            {
+                var firstField = spec.OrderByValues.First();
+                var orderedResult = spec.OrderByDesc ? result.OrderByDescending(i => firstField(i)) : result.OrderBy(i => firstField(i));
+                foreach(var field in spec.OrderByValues.Skip(1))
+                    orderedResult = spec.OrderByDesc ? orderedResult.ThenByDescending(i => field(i)) : orderedResult.ThenBy(i => field(i));
+                result = orderedResult;
+            }
+            return result;
         }
     }
 }
