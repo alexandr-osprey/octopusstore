@@ -28,7 +28,7 @@ namespace UnitTests.Controllers
         }
 
         [Fact]
-        public async Task GetDetail()
+        public async Task GetDetailAsync()
         {
             var expected = new ItemVariantDetailViewModel(GetQueryable().Where(i => i == Data.ItemVariants.IPhone664GB).First());
             var actual = await Controller.ReadDetailAsync(expected.Id);

@@ -17,7 +17,7 @@ namespace UnitTests.Controllers
         }
 
         [Fact]
-        public async Task Index()
+        public async Task IndexAsync()
         {
             var actual = await Controller.IndexAsync();
             var measurementUnits = Data.MeasurementUnits.Entities;

@@ -5,6 +5,7 @@ import { debounceTime } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { EntityIndex } from '../../view-models/entity/entity-index';
 import { ItemThumbnail } from '../../view-models/item/item-thumbnail';
+import { ParameterNames } from '../../services/parameter-names';
 
 @Component({
   selector: 'app-item-thumbnails',
@@ -16,6 +17,7 @@ export class ItemThumbnailsComponent implements OnInit, OnDestroy {
   itemThumbnailIndex: EntityIndex<ItemThumbnail>;
   parametersSubsription: Subscription;
   itemThumbnailsSubsription: Subscription;
+  orderByDescending: boolean = false;
 
   constructor(
     private itemService: ItemService,
@@ -36,17 +38,27 @@ export class ItemThumbnailsComponent implements OnInit, OnDestroy {
   initializeComponent() {
     //this.parameterService.clearParams();
     this.getItems();
+    let desc = this.parameterService.getParam(ParameterNames.orderByDescending);
+    if (desc)
+      this.orderByDescending = desc;
   }
 
   ngOnInit() {
     this.initializeComponent();
   }
 
+  getOrderByPriceQueryParams(): any {
+    let updatedParams = this.parameterService.getUpdatedParams([ParameterNames.orderBy, 'price']);
+    updatedParams[ParameterNames.page] = 1;
+    updatedParams[ParameterNames.orderByDescending] = this.orderByDescending;
+    return updatedParams;
+  }
+
+
   getItems(): void {
     this.itemService.indexItemThumbnails().subscribe((data: EntityIndex<ItemThumbnail>) => {
       this.itemThumbnailIndex = data;
-    }
-    );
+    });
   }
   ngOnDestroy() {
     // prevent memory leak when component destroyed

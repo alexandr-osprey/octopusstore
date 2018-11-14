@@ -42,7 +42,7 @@ namespace UnitTests.Controllers
             var expected = new IndexViewModel<CategoryViewModel>(1,
                 GetPageCount(flatCategories.Count(), DefaultSettings.DefaultTake),
                 flatCategories.Count(),
-                (from c in flatCategories select new CategoryViewModel(c)).OrderBy(c => c.Id));
+                (from c in flatCategories select new CategoryViewModel(c)));
             Equal(expected, actual);
         }
 

@@ -326,9 +326,11 @@ namespace Infrastructure.Data
                 throw new ArgumentNullException(nameof(listSpec));
             try
             {
-                var entities = await context.GetQueryBySpecSkipAndTake(listSpec).ToListAsync();
+                var entities = await context.GetQueryBySpecWithIncludes(listSpec).ToListAsync();
+                var ordered = ApplyOrdering(entities, listSpec);
+                var paged = ApplySkipAndTake(ordered, listSpec);
                 //await entities.LoadAsync();
-                return entities;
+                return paged;
             }
             catch (Exception readException)
             {
@@ -384,11 +386,25 @@ namespace Infrastructure.Data
             }
         }
 
-        public static IQueryable<T> GetQueryBySpecSkipAndTake<T>(this DbContext context, Specification<T> spec) where T: class
+        public static IEnumerable<T> ApplySkipAndTake<T>(IEnumerable<T> entities, Specification<T> spec) where T : class
         {
-            var result = context.GetQueryBySpecWithIncludes(spec);
+            var result = entities;
             result = result.Skip(spec.Skip);
-            return spec.Take > 0 ? result.Take(spec.Take): result;
+            return spec.Take > 0 ? result.Take(spec.Take) : result;
+        }
+
+        public static IEnumerable<T> ApplyOrdering<T>(IEnumerable<T> entities, Specification<T> spec) where T : class
+        {
+            var result = entities;
+            if (spec.OrderByValues.Count > 0)
+            {
+                var firstField = spec.OrderByValues.First();
+                var orderedResult = spec.OrderByDesc ? result.OrderByDescending(i => firstField(i)) : result.OrderBy(i => firstField(i));
+                foreach (var field in spec.OrderByValues.Skip(1))
+                    orderedResult = spec.OrderByDesc ? orderedResult.ThenByDescending(i => field(i)) : orderedResult.ThenBy(i => field(i));
+                result = orderedResult;
+            }
+            return result;
         }
 
         public static IQueryable<T> GetQueryBySpecWithIncludes<T>(this DbContext context, Specification<T> spec) where T: class
@@ -401,17 +417,10 @@ namespace Infrastructure.Data
             var secondaryResult = spec.IncludeStrings
                 .Aggregate(queryableResultWithIncludes,
                     (current, include) => current.Include(include));
+
+            var result = secondaryResult;
             var filteredResult = secondaryResult.Where(spec.Criteria);
-            var result = filteredResult;
-            if (spec.OrderByValues.Count > 0)
-            {
-                var firstField = spec.OrderByValues.First();
-                var orderedResult = spec.OrderByDesc ? result.OrderByDescending(i => firstField(i)) : result.OrderBy(i => firstField(i));
-                foreach(var field in spec.OrderByValues.Skip(1))
-                    orderedResult = spec.OrderByDesc ? orderedResult.ThenByDescending(i => field(i)) : orderedResult.ThenBy(i => field(i));
-                result = orderedResult;
-            }
-            return result;
+            return filteredResult;
         }
     }
 }

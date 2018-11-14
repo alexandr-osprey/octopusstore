@@ -17,4 +17,7 @@ export class ParameterNames {
   public static detail: string = "detail";
 
   public static updateAuthorizationFilter = "updateAuthorizationFilter";
+
+  public static orderBy: string = "orderBy";
+  public static orderByDescending = "orderByDescending";
 }

@@ -7,6 +7,8 @@ using ApplicationCore.ViewModels;
 using ApplicationCore.Interfaces;
 using ApplicationCore.Interfaces.Services;
 using ApplicationCore.Interfaces.Controllers;
+using ApplicationCore.Extensions;
+using System.Linq;
 
 namespace OctopusStore.Controllers
 {
@@ -35,11 +37,14 @@ namespace OctopusStore.Controllers
             [FromQuery(Name = "title")]string title,
             [FromQuery(Name = "categoryId")]int? categoryId,
             [FromQuery(Name = "storeId")]int? storeId,
-            [FromQuery(Name = "brandId")]int? brandId)
+            [FromQuery(Name = "brandId")]int? brandId,
+            [FromQuery(Name = "orderBy")]string orderBy,
+            [FromQuery(Name = "orderByDescending")]bool? orderByDescending)
         {
             page = page ?? 1;
             pageSize = pageSize ?? DefaultTake;
             var spec = await Service.GetIndexSpecificationByParameters(page.Value, pageSize.Value, title, categoryId, storeId, brandId);
+            ApplyOrdering(spec, orderBy, orderByDescending);
             return await base.IndexAsync<ItemThumbnailViewModel>(new ItemThumbnailIndexSpecification(spec));
         }
 
@@ -51,11 +56,15 @@ namespace OctopusStore.Controllers
             [FromQuery(Name = "title")]string title,
             [FromQuery(Name = "categoryId")]int? categoryId,
             [FromQuery(Name = "storeId")]int? storeId,
-            [FromQuery(Name = "brandId")]int? brandId)
+            [FromQuery(Name = "brandId")]int? brandId,
+            [FromQuery(Name = "orderBy")]string orderBy,
+            [FromQuery(Name = "orderByDescending")]bool? orderByDescending)
         {
             page = page ?? 1;
             pageSize = pageSize ?? DefaultTake;
-            return await base.IndexAsync(await Service.GetIndexSpecificationByParameters(page.Value, pageSize.Value, title, categoryId, storeId, brandId));
+            var spec = await Service.GetIndexSpecificationByParameters(page.Value, pageSize.Value, title, categoryId, storeId, brandId);
+            ApplyOrdering(spec, orderBy, orderByDescending);
+            return await base.IndexAsync(spec);
         }
 
         [AllowAnonymous]
@@ -74,5 +83,25 @@ namespace OctopusStore.Controllers
 
         [HttpGet("{id:int}/checkUpdateAuthorization")]
         public override async Task<Response> CheckUpdateAuthorizationAsync(int id) => await base.CheckUpdateAuthorizationAsync(id);
+
+        protected override void ApplyOrdering(Specification<Item> spec, string orderBy, bool? orderByDescending)
+        {
+            base.ApplyOrdering(spec, orderBy, orderByDescending);
+            if (orderBy.EqualsCI("Title"))
+                spec.OrderByValues.Add(i => i.Title);
+            else if (orderBy.EqualsCI("Price"))
+            {
+                spec.AddInclude(i => i.ItemVariants);
+                if (spec.OrderByDesc)
+                    spec.OrderByValues.Add(i => (from v in i.ItemVariants select v.Price).Max());
+                else
+                    spec.OrderByValues.Add(i => 
+                    (from v in i.ItemVariants select v.Price).Min());
+            }
+            else if (orderBy.EqualsCI("Title"))
+            {
+                spec.OrderByValues.Add(i => i.Title);
+            }
+        }
     }
 }

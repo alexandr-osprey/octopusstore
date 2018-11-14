@@ -37,7 +37,7 @@ namespace UnitTests.Controllers
         }
 
         [Fact]
-        public async Task IndexShoes()
+        public async Task IndexShoesAsync()
         {
             var category = Data.Categories.Shoes;
             var categories = await _categoryService.EnumerateParentCategoriesAsync(new EntitySpecification<Category>(category.Id));

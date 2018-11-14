@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using ApplicationCore.Entities;
+﻿using ApplicationCore.Entities;
 using ApplicationCore.Exceptions;
+using ApplicationCore.Extensions;
 using ApplicationCore.Identity;
 using ApplicationCore.Interfaces;
 using ApplicationCore.Interfaces.Controllers;
@@ -12,13 +9,17 @@ using ApplicationCore.Specifications;
 using ApplicationCore.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace OctopusStore.Controllers
 {
-    public class CRUDController<TService, TEntity, TViewModel>: Controller, IController<TEntity, TViewModel>
-        where TService: IService<TEntity>
-        where TEntity: Entity
-        where TViewModel: EntityViewModel<TEntity>
+    public class CRUDController<TService, TEntity, TViewModel> : Controller, IController<TEntity, TViewModel>
+        where TService : IService<TEntity>
+        where TEntity : Entity
+        where TViewModel : EntityViewModel<TEntity>
     {
         protected TService Service { get; }
         protected IActivatorService ActivatorService { get; }
@@ -126,7 +127,7 @@ namespace OctopusStore.Controllers
             return GetNotPagedIndexViewModel<TCustomViewModel>(await Service.EnumerateAsync(spec));
         }
 
-        protected async Task<TDetailViewModel> ReadDetailAsync<TDetailViewModel>(Specification<TEntity> spec) where TDetailViewModel: EntityViewModel<TEntity>
+        protected async Task<TDetailViewModel> ReadDetailAsync<TDetailViewModel>(Specification<TEntity> spec) where TDetailViewModel : EntityViewModel<TEntity>
         {
             return GetViewModel<TDetailViewModel>(await Service.ReadSingleAsync(spec));
         }
@@ -150,15 +151,15 @@ namespace OctopusStore.Controllers
         }
 
         protected IndexViewModel<TCustomViewModel> GetIndexViewModel<TCustomViewModel>(int page, int totalPages, int totalCount, IEnumerable<TEntity> entities)
-            where TCustomViewModel: EntityViewModel<TEntity>
+            where TCustomViewModel : EntityViewModel<TEntity>
         {
             var viewModels = from e in entities select GetViewModel<TCustomViewModel>(e);
-            return IndexViewModel<TCustomViewModel>.FromEnumerable(page, totalPages, totalCount, viewModels.OrderBy(v => v.Id));
+            return IndexViewModel<TCustomViewModel>.FromEnumerable(page, totalPages, totalCount, viewModels);
             //var types = new Type[] { typeof(int), typeof(int), typeof(int), typeof(IEnumerable<TEntity>) };
             //return (TCustomIndexViewModel)ast.GetActivator(typeof(TCustomIndexViewModel), types)(page, totalPages, totalCount, entities);
         }
 
-        protected TCustomViewModel GetViewModel<TCustomViewModel>(TEntity entity) where TCustomViewModel: EntityViewModel<TEntity>
+        protected TCustomViewModel GetViewModel<TCustomViewModel>(TEntity entity) where TCustomViewModel : EntityViewModel<TEntity>
         {
             //return (TCustomViewModel)new ActivatorsStorage().GetActivator(typeof(TCustomViewModel), typeof(TEntity))(entity);
             return ActivatorService.GetInstance<TCustomViewModel>(entity);
@@ -178,6 +179,27 @@ namespace OctopusStore.Controllers
                 throw new ArgumentNullException(nameof(spec));
             int deleted = await Service.DeleteAsync(spec);
             return new Response($"Deleted {deleted} {EntityName}(s)");
+        }
+
+        protected virtual void ApplyOrdering(Specification<TEntity> spec, string orderBy, bool? orderByDescending)
+        {
+            if (!string.IsNullOrWhiteSpace(orderBy))
+            {
+                spec.OrderByDesc = orderByDescending ?? false;
+                var values = orderBy.Split(',').Distinct();
+                foreach (string value in values)
+                {
+                    ParseOrderBy(spec, value);
+                }
+            }
+        }
+
+        protected virtual void ParseOrderBy(Specification<TEntity> spec, string value)
+        {
+            if (value.EqualsCI("Id"))
+            {
+                spec.OrderByValues.Add(e => e.Id);
+            }
         }
     }
 }

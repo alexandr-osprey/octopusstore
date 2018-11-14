@@ -46,6 +46,8 @@ namespace ApplicationCore.Specifications
             Take = specification.Take;
             Skip = specification.Skip;
             Description = specification.Description;
+            OrderByValues = specification.OrderByValues;
+            OrderByDesc = specification.OrderByDesc;
         }
         /// <summary>
         /// Select based on criteria with include expressions

@@ -70,6 +70,18 @@ namespace UnitTests.Services
             Assert.False(Context.Set<Item>().Any(c => c == entity));
         }
 
+        [Fact]
+        public async Task EnumerateByPriceAsync()
+        {
+            var spec = new Specification<Item>();
+            spec.OrderByValues.Add(i => (from v in i.ItemVariants select v.Price).Min());
+            var actual = await Service.EnumerateAsync(spec);
+            var expected = Context.Set<Item>()
+                .AsNoTracking()
+                .OrderBy(i => (from v in i.ItemVariants select v.Price).Min());
+            Equal(expected, actual);
+        }
+
         protected override IEnumerable<Item> GetIncorrectNewEntites()
         {
             var item = Data.Items.Samsung8;
