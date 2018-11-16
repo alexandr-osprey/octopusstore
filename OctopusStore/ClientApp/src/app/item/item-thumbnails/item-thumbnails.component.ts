@@ -17,7 +17,6 @@ export class ItemThumbnailsComponent implements OnInit, OnDestroy {
   itemThumbnailIndex: EntityIndex<ItemThumbnail>;
   parametersSubsription: Subscription;
   itemThumbnailsSubsription: Subscription;
-  orderByDescending: boolean = false;
 
   constructor(
     private itemService: ItemService,
@@ -38,9 +37,7 @@ export class ItemThumbnailsComponent implements OnInit, OnDestroy {
   initializeComponent() {
     //this.parameterService.clearParams();
     this.getItems();
-    let desc = this.parameterService.getParam(ParameterNames.orderByDescending);
-    if (desc)
-      this.orderByDescending = desc;
+    
   }
 
   ngOnInit() {
@@ -48,10 +45,33 @@ export class ItemThumbnailsComponent implements OnInit, OnDestroy {
   }
 
   getOrderByPriceQueryParams(): any {
-    let updatedParams = this.parameterService.getUpdatedParams([ParameterNames.orderBy, 'price']);
+    return this.getOrderByQueryParams('price');
+  }
+
+  getOrderByTitleQueryParams(): any {
+    return this.getOrderByQueryParams('title');
+  }
+
+  getOrderByQueryParams(paramName: string): any {
+    let updatedParams = this.parameterService.getUpdatedParams([ParameterNames.orderBy, paramName]);
     updatedParams[ParameterNames.page] = 1;
-    updatedParams[ParameterNames.orderByDescending] = this.orderByDescending;
+    updatedParams[ParameterNames.orderByDescending] = this.getOrderByDescending(paramName);
     return updatedParams;
+  }
+
+  
+
+  getOrderByDescending(paramName: string): boolean {
+    let param = this.parameterService.getParam(ParameterNames.orderBy) == paramName;
+    if (!param)
+      return false;
+    // desc is "false"
+    //let desc: boolean = this.parameterService.getParam(ParameterNames.orderByDescending);
+    // but orderByDesc is false! wtf
+    //let orderByDesc: boolean = !desc;
+    let desc: boolean = this.parameterService.getParam(ParameterNames.orderByDescending) == "true";
+    let orderByDesc: boolean = !desc;
+    return orderByDesc;
   }
 
 

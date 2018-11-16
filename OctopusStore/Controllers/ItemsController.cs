@@ -1,20 +1,20 @@
-﻿using System.Threading.Tasks;
-using ApplicationCore.Entities;
+﻿using ApplicationCore.Entities;
+using ApplicationCore.Extensions;
+using ApplicationCore.Interfaces;
+using ApplicationCore.Interfaces.Controllers;
+using ApplicationCore.Interfaces.Services;
 using ApplicationCore.Specifications;
+using ApplicationCore.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using ApplicationCore.ViewModels;
-using ApplicationCore.Interfaces;
-using ApplicationCore.Interfaces.Services;
-using ApplicationCore.Interfaces.Controllers;
-using ApplicationCore.Extensions;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace OctopusStore.Controllers
 {
     [Produces("application/json")]
     [Route("api/[controller]")]
-    public class ItemsController: CRUDController<IItemService, Item, ItemViewModel>, IItemsController
+    public class ItemsController : CRUDController<IItemService, Item, ItemViewModel>, IItemsController
     {
         public ItemsController(
             IItemService service,
@@ -74,7 +74,7 @@ namespace OctopusStore.Controllers
         [AllowAnonymous]
         [HttpGet("{id:int}/detail")]
         public async Task<ItemDetailViewModel> ReadDetailAsync(int id) => await base.ReadDetailAsync<ItemDetailViewModel>(new ItemDetailSpecification(id));
-        
+
         [HttpPut]
         public override async Task<ItemViewModel> UpdateAsync([FromBody]ItemViewModel itemViewModel) => await base.UpdateAsync(itemViewModel);
 
@@ -93,14 +93,19 @@ namespace OctopusStore.Controllers
             {
                 spec.AddInclude(i => i.ItemVariants);
                 if (spec.OrderByDesc)
-                    spec.OrderByValues.Add(i => (from v in i.ItemVariants select v.Price).Max());
+                    spec.OrderByValues.Add(i =>
+                    {
+                        if (i.ItemVariants.Any())
+                            return (from v in i.ItemVariants select v.Price).Max();
+                        return 0;
+                    });
                 else
-                    spec.OrderByValues.Add(i => 
-                    (from v in i.ItemVariants select v.Price).Min());
-            }
-            else if (orderBy.EqualsCI("Title"))
-            {
-                spec.OrderByValues.Add(i => i.Title);
+                    spec.OrderByValues.Add(i =>
+                    {
+                        if (i.ItemVariants.Any())
+                            return (from v in i.ItemVariants select v.Price).Min();
+                        return 0;
+                    });
             }
         }
     }

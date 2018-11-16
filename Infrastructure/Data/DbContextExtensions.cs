@@ -326,9 +326,9 @@ namespace Infrastructure.Data
                 throw new ArgumentNullException(nameof(listSpec));
             try
             {
-                var entities = await context.GetQueryBySpecWithIncludes(listSpec).ToListAsync();
+                var entities = context.GetQueryBySpecWithIncludes(listSpec);
                 var ordered = ApplyOrdering(entities, listSpec);
-                var paged = ApplySkipAndTake(ordered, listSpec);
+                var paged = await ApplySkipAndTake(ordered, listSpec).ToListAsync();
                 //await entities.LoadAsync();
                 return paged;
             }
@@ -386,14 +386,14 @@ namespace Infrastructure.Data
             }
         }
 
-        public static IEnumerable<T> ApplySkipAndTake<T>(IEnumerable<T> entities, Specification<T> spec) where T : class
+        public static IQueryable<T> ApplySkipAndTake<T>(IQueryable<T> entities, Specification<T> spec) where T : class
         {
             var result = entities;
             result = result.Skip(spec.Skip);
             return spec.Take > 0 ? result.Take(spec.Take) : result;
         }
 
-        public static IEnumerable<T> ApplyOrdering<T>(IEnumerable<T> entities, Specification<T> spec) where T : class
+        public static IQueryable<T> ApplyOrdering<T>(IQueryable<T> entities, Specification<T> spec) where T : class
         {
             var result = entities;
             if (spec.OrderByValues.Count > 0)
