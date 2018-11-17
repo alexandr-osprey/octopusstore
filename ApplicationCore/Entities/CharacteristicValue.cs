@@ -12,8 +12,8 @@ namespace ApplicationCore.Entities
         public string Title { get; set; }
         public int CharacteristicId { get; set; }
 
-        public Characteristic Characteristic { get; set; }
-        public IEnumerable<ItemProperty> ItemProperties { get; set; } = new List<ItemProperty>();
+        public virtual Characteristic Characteristic { get; set; }
+        public virtual IEnumerable<ItemProperty> ItemProperties { get; set; } = new List<ItemProperty>();
 
         public CharacteristicValue(): base()
         {

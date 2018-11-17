@@ -224,16 +224,16 @@ namespace UnitTests
             Assert.Equal(expected, actual);
         }
 
-        protected virtual List<Func<TEntity, IComparable>> GetFieldsForOrdered()
+        protected virtual List<Func<TEntity, int>> GetFieldsForOrdered()
         {
-            return new List<Func<TEntity, IComparable>>()
+            return new List<Func<TEntity, int>>()
             {
-                (e => e.OwnerId),
+                (e => e.OwnerId.GetHashCode()),
                 (e => e.Id)
             };
         }
 
-        protected virtual List<Func<TEntity, IComparable>> GetFieldsForOrderedByDesc()
+        protected virtual List<Func<TEntity, int>> GetFieldsForOrderedByDesc()
         {
             return GetFieldsForOrdered();
         }

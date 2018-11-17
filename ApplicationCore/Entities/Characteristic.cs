@@ -12,8 +12,8 @@ namespace ApplicationCore.Entities
         public string Title { get; set; }
         public int CategoryId { get; set; }
 
-        public Category Category { get; set; }
-        public ICollection<CharacteristicValue> CharacteristicValues { get; set; } = new List<CharacteristicValue>();
+        public virtual Category Category { get; set; }
+        public virtual ICollection<CharacteristicValue> CharacteristicValues { get; set; } = new List<CharacteristicValue>();
 
         public Characteristic(): base()
         {

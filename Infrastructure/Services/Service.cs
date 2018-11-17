@@ -17,7 +17,7 @@ namespace Infrastructure.Services
 {
     public abstract class Service<TEntity>: IService<TEntity> where TEntity: Entity
     {
-        protected DbContext Context { get; }
+        public DbContext Context { get; }
         protected IAppLogger<Service<TEntity>> Logger { get; }
         protected IScopedParameters ScopedParameters { get; }
         protected IAuthorizationParameters<TEntity> AuthoriationParameters { get; }

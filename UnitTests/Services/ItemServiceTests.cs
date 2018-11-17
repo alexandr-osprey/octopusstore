@@ -74,7 +74,7 @@ namespace UnitTests.Services
         public async Task EnumerateByPriceAsync()
         {
             var spec = new Specification<Item>();
-            spec.OrderByValues.Add(i => (from v in i.ItemVariants select v.Price).Min());
+            spec.OrderByExpressions.Add(i => (from v in i.ItemVariants select v.Price).Min());
             var actual = await Service.EnumerateAsync(spec);
             var expected = Context.Set<Item>()
                 .AsNoTracking()

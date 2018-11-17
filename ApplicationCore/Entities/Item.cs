@@ -16,12 +16,12 @@ namespace ApplicationCore.Entities
         public int MeasurementUnitId { get; set; }
         public string Description { get; set; }
 
-        public Category Category { get; set; }
-        public Store Store { get; set; }
-        public Brand Brand { get; set; }
-        public MeasurementUnit MeasurementUnit { get; set; }
-        public ICollection<ItemImage> Images { get; set; } = new List<ItemImage>();
-        public ICollection<ItemVariant> ItemVariants { get; set; } = new List<ItemVariant>();
+        public virtual Category Category { get; set; }
+        public virtual Store Store { get; set; }
+        public virtual Brand Brand { get; set; }
+        public virtual MeasurementUnit MeasurementUnit { get; set; }
+        public virtual ICollection<ItemImage> Images { get; set; } = new List<ItemImage>();
+        public virtual ICollection<ItemVariant> ItemVariants { get; set; } = new List<ItemVariant>();
 
         public Item(): base()
         {

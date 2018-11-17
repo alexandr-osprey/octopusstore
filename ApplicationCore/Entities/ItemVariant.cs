@@ -13,8 +13,8 @@ namespace ApplicationCore.Entities
         public decimal Price { get; set; }
         public int ItemId { get; set; }
 
-        public Item Item { get; set; }
-        public ICollection<ItemProperty> ItemProperties { get; set; } = new List<ItemProperty>();
+        public virtual Item Item { get; set; }
+        public virtual ICollection<ItemProperty> ItemProperties { get; set; } = new List<ItemProperty>();
 
         public ItemVariant() : base()
         {

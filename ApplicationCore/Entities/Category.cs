@@ -15,10 +15,10 @@ namespace ApplicationCore.Entities
         public bool CanHaveItems { get; set; }
         public bool IsRoot { get; set; } = false;
 
-        public Category ParentCategory { get; set; }
-        public ICollection<Characteristic> Characteristics { get; set; } = new List<Characteristic>();
-        public ICollection<Category> Subcategories { get; set; } = new List<Category>();
-        public IEnumerable<Item> Items { get; set; } = new List<Item>();
+        public virtual Category ParentCategory { get; set; }
+        public virtual ICollection<Characteristic> Characteristics { get; set; } = new List<Characteristic>();
+        public virtual ICollection<Category> Subcategories { get; set; } = new List<Category>();
+        public virtual IEnumerable<Item> Items { get; set; } = new List<Item>();
 
         public Category(): base()
         {

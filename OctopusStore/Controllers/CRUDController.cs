@@ -181,7 +181,7 @@ namespace OctopusStore.Controllers
             return new Response($"Deleted {deleted} {EntityName}(s)");
         }
 
-        protected virtual void ApplyOrdering(Specification<TEntity> spec, string orderBy, bool? orderByDescending)
+        protected virtual void ApplyOrderingToSpec(Specification<TEntity> spec, string orderBy, bool? orderByDescending)
         {
             if (!string.IsNullOrWhiteSpace(orderBy))
             {
@@ -198,7 +198,7 @@ namespace OctopusStore.Controllers
         {
             if (value.EqualsCI("Id"))
             {
-                spec.OrderByValues.Add(e => e.Id);
+                spec.OrderByExpressions.Add(e => e.Id);
             }
         }
     }

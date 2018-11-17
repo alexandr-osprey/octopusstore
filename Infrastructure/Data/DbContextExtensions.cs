@@ -320,7 +320,7 @@ namespace Infrastructure.Data
             }
         }
 
-        public static async Task<IEnumerable<TEntity>> EnumerateAsync<TEntity, TService>(this DbContext context, IAppLogger<TService> logger, Specification<TEntity> listSpec) where TEntity: class
+        public static async Task<IEnumerable<TEntity>> EnumerateAsync<TEntity, TService>(this DbContext context, IAppLogger<TService> logger, Specification<TEntity> listSpec) where TEntity : class
         {
             if (listSpec == null)
                 throw new ArgumentNullException(nameof(listSpec));
@@ -328,15 +328,36 @@ namespace Infrastructure.Data
             {
                 var entities = context.GetQueryBySpecWithIncludes(listSpec);
                 var ordered = ApplyOrdering(entities, listSpec);
-                var paged = await ApplySkipAndTake(ordered, listSpec).ToListAsync();
+                var paged = ApplySkipAndTake(ordered, listSpec);
+                var result = await paged.ToListAsync();
                 //await entities.LoadAsync();
-                return paged;
+                return result;
             }
             catch (Exception readException)
             {
                 throw readException.LogAndGetDbException(logger, $"Function: {nameof(EnumerateAsync)}, {nameof(listSpec)}: {listSpec}");
             }
         }
+
+        public static async Task<IEnumerable<TEntity>> EnumerateAsync<TEntity, TService>(this DbContext context, IAppLogger<TService> logger, Specification<TEntity> listSpec, Expression<Func<TEntity, IComparable>> orderBy) where TEntity : class
+        {
+            if (listSpec == null)
+                throw new ArgumentNullException(nameof(listSpec));
+            try
+            {
+                var entities = context.GetQueryBySpecWithIncludes(listSpec);
+                var ordered = entities.OrderBy(orderBy);
+                var paged = ApplySkipAndTake(ordered, listSpec);
+                var result = await paged.ToListAsync();
+                //await entities.LoadAsync();
+                return result;
+            }
+            catch (Exception readException)
+            {
+                throw readException.LogAndGetDbException(logger, $"Function: {nameof(EnumerateAsync)}, {nameof(listSpec)}: {listSpec}");
+            }
+        }
+
 
         public static async Task<IEnumerable<TRelated>> EnumerateRelatedAsync<TEntity, TRelated, TService>(
             this DbContext context, IAppLogger<TService> logger,
@@ -396,12 +417,12 @@ namespace Infrastructure.Data
         public static IQueryable<T> ApplyOrdering<T>(IQueryable<T> entities, Specification<T> spec) where T : class
         {
             var result = entities;
-            if (spec.OrderByValues.Count > 0)
+            if (spec.OrderByExpressions.Count > 0)
             {
-                var firstField = spec.OrderByValues.First();
-                var orderedResult = spec.OrderByDesc ? result.OrderByDescending(i => firstField(i)) : result.OrderBy(i => firstField(i));
-                foreach (var field in spec.OrderByValues.Skip(1))
-                    orderedResult = spec.OrderByDesc ? orderedResult.ThenByDescending(i => field(i)) : orderedResult.ThenBy(i => field(i));
+                var firstExpression = spec.OrderByExpressions.First();
+                var orderedResult = spec.OrderByDesc ? entities.OrderByDescending(firstExpression) : entities.OrderBy(firstExpression);
+                foreach (var expression in spec.OrderByExpressions.Skip(1))
+                    orderedResult = spec.OrderByDesc ? orderedResult.ThenByDescending(expression) : orderedResult.ThenBy(expression);
                 result = orderedResult;
             }
             return result;

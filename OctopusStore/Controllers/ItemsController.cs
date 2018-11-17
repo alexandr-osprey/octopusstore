@@ -5,6 +5,7 @@ using ApplicationCore.Interfaces.Controllers;
 using ApplicationCore.Interfaces.Services;
 using ApplicationCore.Specifications;
 using ApplicationCore.ViewModels;
+using Infrastructure.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
@@ -44,8 +45,11 @@ namespace OctopusStore.Controllers
             page = page ?? 1;
             pageSize = pageSize ?? DefaultTake;
             var spec = await Service.GetIndexSpecificationByParameters(page.Value, pageSize.Value, title, categoryId, storeId, brandId);
-            ApplyOrdering(spec, orderBy, orderByDescending);
+            ApplyOrderingToSpec(spec, orderBy, orderByDescending);
             return await base.IndexAsync<ItemThumbnailViewModel>(new ItemThumbnailIndexSpecification(spec));
+            //var items = await Service.Context.EnumerateAsync(Logger, spec, spec.OrderByExpressions.First());
+            //var vms = from i in items select new ItemThumbnailViewModel(i);
+            //return IndexViewModel<ItemThumbnailViewModel>.FromEnumerableNotPaged(vms);
         }
 
         [AllowAnonymous]
@@ -63,7 +67,7 @@ namespace OctopusStore.Controllers
             page = page ?? 1;
             pageSize = pageSize ?? DefaultTake;
             var spec = await Service.GetIndexSpecificationByParameters(page.Value, pageSize.Value, title, categoryId, storeId, brandId);
-            ApplyOrdering(spec, orderBy, orderByDescending);
+            ApplyOrderingToSpec(spec, orderBy, orderByDescending);
             return await base.IndexAsync(spec);
         }
 
@@ -84,28 +88,18 @@ namespace OctopusStore.Controllers
         [HttpGet("{id:int}/checkUpdateAuthorization")]
         public override async Task<Response> CheckUpdateAuthorizationAsync(int id) => await base.CheckUpdateAuthorizationAsync(id);
 
-        protected override void ApplyOrdering(Specification<Item> spec, string orderBy, bool? orderByDescending)
+        protected override void ApplyOrderingToSpec(Specification<Item> spec, string orderBy, bool? orderByDescending)
         {
-            base.ApplyOrdering(spec, orderBy, orderByDescending);
+            base.ApplyOrderingToSpec(spec, orderBy, orderByDescending);
             if (orderBy.EqualsCI("Title"))
-                spec.OrderByValues.Add(i => i.Title);
+                spec.OrderByExpressions.Add(i => i.Title);
             else if (orderBy.EqualsCI("Price"))
             {
-                spec.AddInclude(i => i.ItemVariants);
+                //spec.AddInclude(i => i.ItemVariants);
                 if (spec.OrderByDesc)
-                    spec.OrderByValues.Add(i =>
-                    {
-                        if (i.ItemVariants.Any())
-                            return (from v in i.ItemVariants select v.Price).Max();
-                        return 0;
-                    });
+                    spec.OrderByExpressions.Add(i => (from v in i.ItemVariants select v.Price).Max());
                 else
-                    spec.OrderByValues.Add(i =>
-                    {
-                        if (i.ItemVariants.Any())
-                            return (from v in i.ItemVariants select v.Price).Min();
-                        return 0;
-                    });
+                    spec.OrderByExpressions.Add(i => (from v in i.ItemVariants select v.Price).Min());
             }
         }
     }

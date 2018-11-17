@@ -39,7 +39,9 @@ namespace OctopusStore
         public void ConfigureTestingServices(IServiceCollection services)
         {
             DbContextOptions<StoreContext> storeContextOptions =
-                new DbContextOptionsBuilder<StoreContext>().UseInMemoryDatabase("Store").Options;
+                new DbContextOptionsBuilder<StoreContext>()
+                //.UseLazyLoadingProxies()
+                .UseInMemoryDatabase("Store").Options;
             services.AddSingleton(storeContextOptions);
             IdentityConfiguration.ConfigureTesting(services, Configuration);
             ConfigureServices(services);

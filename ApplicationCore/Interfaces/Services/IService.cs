@@ -1,5 +1,6 @@
 ﻿using ApplicationCore.Identity;
 using ApplicationCore.Specifications;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -18,6 +19,7 @@ namespace ApplicationCore.Interfaces.Services
         /// </summary>
         string Name { get; set; }
 
+        DbContext Context { get; }
         /// <summary>
         /// Manager authorization and authentication
         /// </summary>

@@ -7,7 +7,7 @@ namespace ApplicationCore.Entities
         public int ItemVariantId { get; set; }
         public int Number { get; set; }
 
-        public ItemVariant ItemVariant { get; set; }
+        public virtual ItemVariant ItemVariant { get; set; }
 
         public CartItem(): base()
         {

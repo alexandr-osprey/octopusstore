@@ -10,8 +10,8 @@ namespace ApplicationCore.Entities
         public int ItemVariantId { get; set; }
         public int CharacteristicValueId { get; set; }
 
-        public CharacteristicValue CharacteristicValue { get; set; }
-        public ItemVariant ItemVariant { get; set; }
+        public virtual CharacteristicValue CharacteristicValue { get; set; }
+        public virtual ItemVariant ItemVariant { get; set; }
 
         public ItemProperty()
         {

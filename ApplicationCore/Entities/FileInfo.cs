@@ -25,7 +25,7 @@ namespace ApplicationCore.Entities
 
         [NotMapped]
         public Stream InputStream { get; set; }
-        public T RelatedEntity { get; set; }
+        public virtual T RelatedEntity { get; set; }
 
         public FileInfo()
         {

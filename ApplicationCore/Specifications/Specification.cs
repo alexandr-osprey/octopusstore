@@ -13,7 +13,7 @@ namespace ApplicationCore.Specifications
         public Expression<Func<T, bool>> Criteria { get; }
         public List<Expression<Func<T, object>>> Includes { get; } = new List<Expression<Func<T, object>>>();
         public List<string> IncludeStrings { get; } = new List<string>();
-        public List<Func<T, IComparable>> OrderByValues { get; set; } = new List<Func<T, IComparable>>();
+        public List<Expression<Func<T, IComparable>>> OrderByExpressions { get; set; } = new List<Expression<Func<T, IComparable>>>();
         public bool OrderByDesc { get; set; } = false;
 
         public int Take { get; protected set; }
@@ -46,7 +46,7 @@ namespace ApplicationCore.Specifications
             Take = specification.Take;
             Skip = specification.Skip;
             Description = specification.Description;
-            OrderByValues = specification.OrderByValues;
+            OrderByExpressions = specification.OrderByExpressions;
             OrderByDesc = specification.OrderByDesc;
         }
         /// <summary>

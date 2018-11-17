@@ -15,7 +15,7 @@ namespace ApplicationCore.Entities
         public string Address { get; set; }
         public DateTime RegistrationDate { get; set; }
 
-        public IEnumerable<Item> Items { get; set; } = new List<Item>();
+        public virtual IEnumerable<Item> Items { get; set; } = new List<Item>();
 
         public Store(): base()
         {
