@@ -7,7 +7,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './/app-routing.module';
 import { HeaderComponent } from './header/header.component';
 import { ItemThumbnailComponent } from './item/item-thumbnail/item-thumbnail.component';
-import { CategoriesComponent } from './categories/categories.component';
+import { CategoriesComponent } from './navigation/categories/categories.component';
 import { MessagesComponent } from './messages/messages.component';
 import { PaginatorComponent } from './paginator/paginator.component';
 import { ItemVariantCreateUpdateComponent } from './item-variant/item-variant-create-update/item-variant-create-update.component';
@@ -20,7 +20,7 @@ import { ItemVariantDetailComponent } from './item-variant/item-variant-detail/i
 import { ItemImageGalleryComponent } from './item-image/item-image-gallery/item-image-gallery.component';
 import { ItemImageCreateUpdateComponent } from './item-image/item-image-create-update/item-image-create-update.component';
 import { ItemImageDisplayComponent } from './item-image/item-image-display/item-image-display.component';
-import { ItemsNavigationPaneComponent } from './item/items-navigation-pane/items-navigation-pane.component';
+import { ItemsNavigationPaneComponent } from './navigation/items-navigation-pane/items-navigation-pane.component';
 import { HomepageComponent } from './homepage/homepage/homepage.component';
 import { StoreCreateUpdateComponent } from './store/store-create-update/store-create-update.component';
 import { StoreDetailComponent } from './store/store-detail/store-detail.component';
@@ -33,6 +33,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { StoreAdministratorsComponent } from './store/store-administrators/store-administrators.component';
 import { CartComponent } from './cart/cart/cart.component';
 import { CartPreviewComponent } from './cart/cart-preview/cart-preview.component';
+import { CharacteristicPaneComponent } from './navigation/characteristic-pane/characteristic-pane.component';
 
 
 @NgModule({
@@ -66,6 +67,7 @@ import { CartPreviewComponent } from './cart/cart-preview/cart-preview.component
     StoreAdministratorsComponent,
     CartComponent,
     CartPreviewComponent,
+    CharacteristicPaneComponent,
   ],
   imports: [
     BrowserModule,

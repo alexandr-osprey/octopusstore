@@ -1,10 +1,9 @@
-import { Category } from "../view-models/category/category";
-import { CategoryService } from "../services/category.service";
+import { Category } from "../../view-models/category/category";
 
 export class CategoryHierarchy extends Category {
   public allCategories: Category[];
   public parentCategories: Category[];
-  constructor(category: Category, allCategories: Category[]) {
+  constructor(private rootCategoryId: number, category: Category, allCategories: Category[]) {
     super(category);
     this.allCategories = allCategories;
     if (category) {
@@ -15,7 +14,7 @@ export class CategoryHierarchy extends Category {
   }
 
   setParentCategories(currentCategory: Category, parentCategories: Category[]) {
-    if (currentCategory.id != CategoryService.rootCategoryId) 
+    if (currentCategory.id != this.rootCategoryId) 
       this.setParentCategories(this.allCategories.find(c => c.id == currentCategory.parentCategoryId), parentCategories);
     parentCategories.push(currentCategory);
   }

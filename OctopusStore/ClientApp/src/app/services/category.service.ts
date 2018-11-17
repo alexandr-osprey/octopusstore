@@ -5,12 +5,13 @@ import { Category } from '../view-models/category/category';
 import { IdentityService } from './identity.service';
 import { DataReadWriteService } from './data-read-write.service';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CategoryService extends DataReadWriteService<Category> {
-  public static rootCategoryId: number = 1;
+  public rootCategoryId: number = 1;
 
   constructor(
     protected http: HttpClient,
@@ -20,5 +21,14 @@ export class CategoryService extends DataReadWriteService<Category> {
     super(http, router, identityService, messageService);
     this.remoteUrl = '/api/categories';
     this.serviceName = 'Category service';
+
+    this.getRoot().subscribe(c => {
+      if (c)
+        this.rootCategoryId = c.id;
+    });
+  }
+
+  public getRoot(): Observable<Category> {
+    return this.getCustom(this.remoteUrl + '/root', {}, this.defaultHttpHeaders, this.getAuthenticationRequired);
   }
 }

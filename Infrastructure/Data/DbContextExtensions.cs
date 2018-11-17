@@ -339,26 +339,6 @@ namespace Infrastructure.Data
             }
         }
 
-        public static async Task<IEnumerable<TEntity>> EnumerateAsync<TEntity, TService>(this DbContext context, IAppLogger<TService> logger, Specification<TEntity> listSpec, Expression<Func<TEntity, IComparable>> orderBy) where TEntity : class
-        {
-            if (listSpec == null)
-                throw new ArgumentNullException(nameof(listSpec));
-            try
-            {
-                var entities = context.GetQueryBySpecWithIncludes(listSpec);
-                var ordered = entities.OrderBy(orderBy);
-                var paged = ApplySkipAndTake(ordered, listSpec);
-                var result = await paged.ToListAsync();
-                //await entities.LoadAsync();
-                return result;
-            }
-            catch (Exception readException)
-            {
-                throw readException.LogAndGetDbException(logger, $"Function: {nameof(EnumerateAsync)}, {nameof(listSpec)}: {listSpec}");
-            }
-        }
-
-
         public static async Task<IEnumerable<TRelated>> EnumerateRelatedAsync<TEntity, TRelated, TService>(
             this DbContext context, IAppLogger<TService> logger,
             Specification<TEntity> listRelatedSpec,

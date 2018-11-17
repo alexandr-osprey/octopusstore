@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
@@ -96,11 +97,11 @@ namespace UnitTests
         public virtual async Task EnumerateOrderedAsync()
         {
             var fields = GetFieldsForOrdered();
-            var expected = (await Context.Set<TEntity>().ToListAsync()).OrderBy(fields.First());
+            var expected = (await Context.Set<TEntity>().ToListAsync()).OrderBy(fields.First().Compile());
             foreach (var field in fields.Skip(1))
-                expected = expected.ThenBy(field);
+                expected = expected.ThenBy(field.Compile());
             var spec = new Specification<TEntity>(e => true);
-            spec.OrderByValues.AddRange(fields);
+            spec.OrderByExpressions.AddRange(fields);
             var actual = await Service.EnumerateAsync(spec);
             Equal(expected, actual);
         }
@@ -109,11 +110,11 @@ namespace UnitTests
         public virtual async Task EnumerateOrdereDescAsync()
         {
             var fields = GetFieldsForOrderedByDesc();
-            var expected = (await Context.Set<TEntity>().ToListAsync()).OrderByDescending(fields.First());
+            var expected = (await Context.Set<TEntity>().ToListAsync()).OrderByDescending(fields.First().Compile());
             foreach (var field in fields.Skip(1))
-                expected = expected.ThenByDescending(field);
+                expected = expected.ThenByDescending(field.Compile());
             var spec = new Specification<TEntity>(e => true);
-            spec.OrderByValues.AddRange(fields);
+            spec.OrderByExpressions.AddRange(fields);
             spec.OrderByDesc = true;
             var actual = await Service.EnumerateAsync(spec);
             Equal(expected, actual);
@@ -224,16 +225,16 @@ namespace UnitTests
             Assert.Equal(expected, actual);
         }
 
-        protected virtual List<Func<TEntity, int>> GetFieldsForOrdered()
+        protected virtual List<Expression<Func<TEntity, IComparable>>> GetFieldsForOrdered()
         {
-            return new List<Func<TEntity, int>>()
+            return new List<Expression<Func<TEntity, IComparable>>>()
             {
                 (e => e.OwnerId.GetHashCode()),
                 (e => e.Id)
             };
         }
 
-        protected virtual List<Func<TEntity, int>> GetFieldsForOrderedByDesc()
+        protected virtual List<Expression<Func<TEntity, IComparable>>> GetFieldsForOrderedByDesc()
         {
             return GetFieldsForOrdered();
         }

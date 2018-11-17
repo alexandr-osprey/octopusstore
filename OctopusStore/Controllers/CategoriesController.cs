@@ -32,6 +32,10 @@ namespace OctopusStore.Controllers
         [HttpGet("{id:int}")]
         public override async Task<CategoryViewModel> ReadAsync(int id) => await base.ReadAsync(id);
 
+        [AllowAnonymous]
+        [HttpGet("root")]
+        public async Task<CategoryViewModel> ReadRootAsync() => await base.ReadAsync(Service.RootCategoryId);
+
         // GET: api/<controller>
         [AllowAnonymous]
         [HttpGet]
