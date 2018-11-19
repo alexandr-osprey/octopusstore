@@ -34,7 +34,7 @@ namespace UnitTests.Controllers
             var spec2 = new CharacteristicValueByCharacteristicIdsSpecification(characteristicIds);
             var characteristicValues = await Service.EnumerateAsync(spec2);
             var expected = new IndexViewModel<CharacteristicValueViewModel>(1, 1, characteristicValues.Count(), from c in characteristicValues select new CharacteristicValueViewModel(c));
-            var actual = await Controller.IndexAsync(category.Id);
+            var actual = await Controller.IndexAsync(category.Id, null);
             Equal(expected, actual);
         }
 
