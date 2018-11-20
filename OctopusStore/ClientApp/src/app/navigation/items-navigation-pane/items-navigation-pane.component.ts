@@ -34,9 +34,11 @@ export class ItemsNavigationPaneComponent implements OnInit {
     if (newCategoryId == this.categoryId)
       return;
     if (!newCategoryId)
-      this.categoryId = this.categoryService.rootCategoryId;
+      newCategoryId = this.categoryService.rootCategoryId;
+    this.categoryId = newCategoryId;
     this.characteristicService.index({ categoryId: this.categoryId }).subscribe(data => {
       if (data) {
+        this.characteristics = [];
         this.categoryId = newCategoryId;
         data.entities.forEach(e => this.characteristics.push(new Characteristic(e)));
       }

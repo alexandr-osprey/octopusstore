@@ -181,7 +181,8 @@ namespace Infrastructure.Services
         public virtual async Task<int> PageCountAsync(Specification<TEntity> spec)
         {
             int totalCount = await Context.CountAsync(Logger, spec);
-            int result = (int)Math.Ceiling(((decimal)totalCount / spec.Take));
+            int take = spec.Take == 0 ? totalCount : spec.Take;
+            int result = (int)Math.Ceiling(((decimal)totalCount / take));
             Logger.Trace("{Name} got page count {count} by spec: {spec}", Name, result, spec);
             return result;
         }

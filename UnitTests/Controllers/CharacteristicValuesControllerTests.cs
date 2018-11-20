@@ -23,18 +23,27 @@ namespace UnitTests.Controllers
         }
 
         [Fact]
-        public async Task IndexAsync()
+        public async Task IndexByCategoryAsync()
         {
             var category = Data.Categories.Smartphones;
-            var categories = await _categoryService.EnumerateParentCategoriesAsync(new EntitySpecification<Category>(category.Id));
+            
+            var categories = new HashSet<Category>();
             var categoryIds = from c in categories select c.Id;
-            var spec = new CharacteristicByCategoryIdsSpecification(categoryIds);
-            var characteristics = await _characteristicService.EnumerateAsync(spec);
-            var characteristicIds = from c in characteristics select c.Id;
-            var spec2 = new CharacteristicValueByCharacteristicIdsSpecification(characteristicIds);
-            var characteristicValues = await Service.EnumerateAsync(spec2);
+            await GetCategoryParentsAsync(category.Id, categories);
+            var characteristics = Data.Characteristics.Entities.Where(c => categoryIds.Contains(c.CategoryId));
+            var characteristicValues = Data.CharacteristicValues.Entities.Where(v => characteristics.Contains(v.Characteristic));
             var expected = new IndexViewModel<CharacteristicValueViewModel>(1, 1, characteristicValues.Count(), from c in characteristicValues select new CharacteristicValueViewModel(c));
             var actual = await Controller.IndexAsync(category.Id, null);
+            Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task IndexByCharacteristicAsync()
+        {
+            var characteristic = Data.Characteristics.Storage;
+            var characteristicValues = Data.CharacteristicValues.Entities.Where(v => v.Characteristic == characteristic);
+            var expected = new IndexViewModel<CharacteristicValueViewModel>(1, 1, characteristicValues.Count(), from c in characteristicValues select new CharacteristicValueViewModel(c));
+            var actual = await Controller.IndexAsync(null, characteristic.Id);
             Equal(expected, actual);
         }
 

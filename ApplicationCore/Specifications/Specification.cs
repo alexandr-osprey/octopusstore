@@ -18,7 +18,7 @@ namespace ApplicationCore.Specifications
 
         public int Take { get; protected set; }
         public int Skip { get; protected set; }
-        public int Page => Skip / Take + 1;
+        public int Page => Skip /  (Take == 0 ? 1 : Take) + 1;
         public virtual string Description { get; set; }
         /// <summary>
         /// Select all by default

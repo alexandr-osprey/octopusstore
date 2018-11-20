@@ -45,10 +45,7 @@ namespace OctopusStore.Controllers
         {
             if (categoryId.HasValue)
                 return await base.IndexByFunctionNotPagedAsync(Service.EnumerateByCategoryAsync, new EntitySpecification<Category>(categoryId.Value));
-            characteristicId = characteristicId ?? 0;
-            var spec = new Specification<CharacteristicValue>(c => c.CharacteristicId == characteristicId.Value);
-            spec.SetPaging(1, MaxTake);
-            return await base.IndexAsync(spec);
+            return await base.IndexAsync(new EntitySpecification<CharacteristicValue>(c => c.CharacteristicId == characteristicId));
         }
 
         [HttpPut]

@@ -17,7 +17,7 @@ export class CharacteristicPaneComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.initializeComponent();
+    //this.initializeComponent();
   }
 
   ngOnChanges() {
@@ -28,8 +28,11 @@ export class CharacteristicPaneComponent implements OnInit {
     this.characteristicValues = [];
     if (this.characteristic) {
       this.characteristicValueService.index({ characteristicId: this.characteristic.id })
-        .subscribe(data => data.entities.forEach(e => this.characteristicValues.push(new CharacteristicValue(e)));
-        );
+        .subscribe(data => {
+          data.entities.forEach(e => {
+            this.characteristicValues.push(new CharacteristicValue(e));
+          });
+        });
     }
   }
 }
