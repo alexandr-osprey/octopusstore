@@ -172,7 +172,21 @@ namespace OctopusStore.Controllers
             await Service.DeleteSingleAsync(spec);
             return new Response($"Deleted {EntityName}(s) according to spec {spec}");
         }
-
+        protected virtual HashSet<int> ParseIds(string value)
+        {
+            var result = new HashSet<int>();
+            if (!string.IsNullOrWhiteSpace(value))
+            {
+                foreach(string idString in value.Split(';'))
+                {
+                    if (int.TryParse(idString, out int id) && id > 0)
+                    {
+                        result.Add(id);
+                    }
+                }
+            }
+            return result;
+        }
         protected virtual async Task<Response> DeleteAsync(Specification<TEntity> spec)
         {
             if (spec == null)

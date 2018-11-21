@@ -33,18 +33,20 @@ namespace OctopusStore.Controllers
         [AllowAnonymous]
         [HttpGet("thumbnails/")]
         public async Task<IndexViewModel<ItemThumbnailViewModel>> IndexThumbnailsAsync(
-            [FromQuery(Name = "page")] int? page,
-            [FromQuery(Name = "pageSize")]int? pageSize,
-            [FromQuery(Name = "title")]string title,
-            [FromQuery(Name = "categoryId")]int? categoryId,
-            [FromQuery(Name = "storeId")]int? storeId,
-            [FromQuery(Name = "brandId")]int? brandId,
-            [FromQuery(Name = "orderBy")]string orderBy,
-            [FromQuery(Name = "orderByDescending")]bool? orderByDescending)
+            int? page,
+            int? pageSize,
+            string title,
+            int? categoryId,
+            int? storeId,
+            int? brandId,
+            string orderBy,
+            string characteristicsFilter,
+            bool? orderByDescending)
         {
             page = page ?? 1;
             pageSize = pageSize ?? DefaultTake;
-            var spec = await Service.GetIndexSpecificationByParameters(page.Value, pageSize.Value, title, categoryId, storeId, brandId);
+            var ids = ParseIds(characteristicsFilter);
+            var spec = await Service.GetIndexSpecificationByParameters(page.Value, pageSize.Value, title, categoryId, storeId, brandId, ids);
             ApplyOrderingToSpec(spec, orderBy, orderByDescending);
             return await base.IndexAsync<ItemThumbnailViewModel>(new ItemThumbnailIndexSpecification(spec));
             //var items = await Service.Context.EnumerateAsync(Logger, spec, spec.OrderByExpressions.First());
@@ -55,18 +57,20 @@ namespace OctopusStore.Controllers
         [AllowAnonymous]
         [HttpGet]
         public async Task<IndexViewModel<ItemViewModel>> IndexAsync(
-            [FromQuery(Name = "page")] int? page,
-            [FromQuery(Name = "pageSize")]int? pageSize,
-            [FromQuery(Name = "title")]string title,
-            [FromQuery(Name = "categoryId")]int? categoryId,
-            [FromQuery(Name = "storeId")]int? storeId,
-            [FromQuery(Name = "brandId")]int? brandId,
-            [FromQuery(Name = "orderBy")]string orderBy,
-            [FromQuery(Name = "orderByDescending")]bool? orderByDescending)
+            int? page,
+            int? pageSize,
+            string title,
+            int? categoryId,
+            int? storeId,
+            int? brandId,
+            string orderBy,
+            string characteristicsFilter,
+            bool? orderByDescending)
         {
             page = page ?? 1;
             pageSize = pageSize ?? DefaultTake;
-            var spec = await Service.GetIndexSpecificationByParameters(page.Value, pageSize.Value, title, categoryId, storeId, brandId);
+            var ids = ParseIds(characteristicsFilter);
+            var spec = await Service.GetIndexSpecificationByParameters(page.Value, pageSize.Value, title, categoryId, storeId, brandId, ids);
             ApplyOrderingToSpec(spec, orderBy, orderByDescending);
             return await base.IndexAsync(spec);
         }

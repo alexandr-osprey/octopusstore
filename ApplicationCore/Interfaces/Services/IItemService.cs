@@ -1,5 +1,6 @@
 ﻿using ApplicationCore.Entities;
 using ApplicationCore.Specifications;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace ApplicationCore.Interfaces.Services
@@ -20,6 +21,6 @@ namespace ApplicationCore.Interfaces.Services
         /// <param name="storeId"></param>
         /// <param name="brandId"></param>
         /// <returns></returns>
-        Task<ItemIndexSpecification> GetIndexSpecificationByParameters(int page, int pageSize, string title, int? categoryId, int? storeId, int? brandId);
+        Task<ItemIndexSpecification> GetIndexSpecificationByParameters(int page, int pageSize, string title, int? categoryId, int? storeId, int? brandId, HashSet<int> characteristicValueIds);
     }
 }

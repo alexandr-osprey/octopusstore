@@ -10,6 +10,7 @@ import { CharacteristicValueService } from '../../services/characteristic-value.
 })
 export class CharacteristicPaneComponent implements OnInit {
   @Input() characteristic: Characteristic;
+  public pickedValue
   public characteristicValues: CharacteristicValue[] = [];
 
   constructor(private characteristicValueService: CharacteristicValueService) {

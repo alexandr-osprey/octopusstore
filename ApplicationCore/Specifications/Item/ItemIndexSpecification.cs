@@ -11,11 +11,13 @@ namespace ApplicationCore.Specifications
         {
         }
 
-        public ItemIndexSpecification(int pageIndex, int pageSize, string title, IEnumerable<Category> categories, int? storeId, int? brandId)
+        public ItemIndexSpecification(int pageIndex, int pageSize, string title, IEnumerable<Category> categories, int? storeId, int? brandId, HashSet<int> characteristicValueIds)
            : base(i => (!HasValue(title) || i.Title.Contains(title, System.StringComparison.OrdinalIgnoreCase)) &&
-                        (!(categories != null && categories.Count() > 0) || categories.Any(c => c.Id == i.CategoryId)) &&
+                        (!(categories.Any()) || categories.Any(c => c.Id == i.CategoryId)) &&
                         (!storeId.HasValue || i.StoreId == storeId) &&
-                        (!brandId.HasValue || i.BrandId == brandId))
+                        (!brandId.HasValue || i.BrandId == brandId) &&
+                        (!characteristicValueIds.Any() || 
+                            characteristicValueIds.IsSubsetOf(from p in i.ItemVariants.SelectMany(v => v.ItemProperties) select p.CharacteristicValueId))) 
         {
             //Take = pageSize;
             //Skip = Take * (pageIndex - 1);

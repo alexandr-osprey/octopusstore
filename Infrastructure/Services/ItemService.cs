@@ -29,8 +29,8 @@ namespace Infrastructure.Services
             this.CategoryService = categoryService;
         }
 
-        public async Task<ItemIndexSpecification> GetIndexSpecificationByParameters(int page, int pageSize, string title, int? categoryId, int? storeId, int? brandId) 
-            => new ItemIndexSpecification(page, pageSize, title, await GetCategoriesAsync(categoryId ?? CategoryService.RootCategoryId), storeId, brandId);
+        public async Task<ItemIndexSpecification> GetIndexSpecificationByParameters(int page, int pageSize, string title, int? categoryId, int? storeId, int? brandId , HashSet<int> characteristicValueIds) 
+            => new ItemIndexSpecification(page, pageSize, title, await GetCategoriesAsync(categoryId ?? CategoryService.RootCategoryId), storeId, brandId, characteristicValueIds);
 
         public override async Task DeleteRelatedEntitiesAsync(Item item)
         {

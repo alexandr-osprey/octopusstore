@@ -9,8 +9,8 @@ namespace ApplicationCore.Specifications
         {
             SetProperties();
         }
-        public ItemThumbnailIndexSpecification(int pageIndex, int pageSize, string title, IEnumerable<Category> categories, int? storeId, int? brandId)
-           : base(pageIndex, pageSize, title, categories, storeId, brandId)
+        public ItemThumbnailIndexSpecification(int pageIndex, int pageSize, string title, IEnumerable<Category> categories, int? storeId, int? brandId, HashSet<int> characteristicValueIds)
+           : base(pageIndex, pageSize, title, categories, storeId, brandId, characteristicValueIds)
         {
             SetProperties();
         }

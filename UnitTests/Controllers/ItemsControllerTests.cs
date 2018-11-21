@@ -25,7 +25,7 @@ namespace UnitTests.Controllers
             int page = 2;
             int pageSize = 3;
 
-            var actual = (await Controller.IndexAsync(page, pageSize, null, null, null, null, null, null));
+            var actual = (await Controller.IndexAsync(page, pageSize, null, null, null, null, null, null, null));
             var items = Data.Items.Entities
                 .Skip(pageSize * (page - 1))
                 .Take(pageSize);
@@ -39,12 +39,54 @@ namespace UnitTests.Controllers
         }
 
         [Fact]
+        public async Task IndexWithCharacteristicValuesFiltersAsync()
+        {
+            int page = 1;
+            int pageSize = 5;
+            HashSet<CharacteristicValue> characteristicValues = new HashSet<CharacteristicValue>
+            {
+                Data.CharacteristicValues.GB32,
+                Data.CharacteristicValues.HD
+            };
+            string filter = string.Join(';', (from c in characteristicValues select c.Id.ToString()));
+            var actual = (await Controller.IndexAsync(page, pageSize, null, null, null, null, null, filter, null));
+            var items = Data.Items.Entities.Where(i => characteristicValues.IsSubsetOf(from p in i.ItemVariants.SelectMany(v => v.ItemProperties) select p.CharacteristicValue));
+            int totalCount = items.Count();
+            var expected = new IndexViewModel<ItemViewModel>(
+                page,
+                GetPageCount(totalCount, pageSize),
+                totalCount,
+                from i in items select new ItemViewModel(i));
+            Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task IndexWithWrongCharacteristicValuesFiltersAsync()
+        {
+            int page = 1;
+            int pageSize = 5;
+
+            var emptyActual = (await Controller.IndexAsync(page, pageSize, null, null, null, null, null, "9999;8888", null));
+            Assert.Empty(emptyActual.Entities);
+
+            HashSet<CharacteristicValue> wrongCharacteristicValues = new HashSet<CharacteristicValue>
+            {
+                Data.CharacteristicValues.XXL,
+                Data.CharacteristicValues.HD
+            };
+            string filter = string.Join(';', (from c in wrongCharacteristicValues select c.Id.ToString()));
+
+            var emptyActual2 = (await Controller.IndexAsync(page, pageSize, null, null, null, null, null, filter, null));
+            Assert.Empty(emptyActual2.Entities);
+        }
+
+        [Fact]
         public async Task IndexWithoutFiltersWithoutPageSizeAsync()
         {
             int page = 2;
             int take = 50;
 
-            var actual = (await Controller.IndexAsync(page, null, null, null, null, null, null, null));
+            var actual = (await Controller.IndexAsync(page, null, null, null, null, null, null, null, null));
             var items = Data.Items.Entities
                 .Skip(take * (page - 1))
                 .Take(take);
@@ -63,7 +105,7 @@ namespace UnitTests.Controllers
             int page = 1;
             int take = 50;
 
-            var actual = (await Controller.IndexAsync(null, null, "sa", null, null, null, null, null));
+            var actual = (await Controller.IndexAsync(null, null, "sa", null, null, null, null, null, null));
             var items = Data.Items.Entities.Where(i => i.Title.Contains("Sa"));
             int totalCount = items.Count();
             var expected = new IndexViewModel<ItemViewModel>(
@@ -90,7 +132,7 @@ namespace UnitTests.Controllers
                 .Skip(pageSize * (page - 1))
                 .Take(pageSize);
             var expected = new IndexViewModel<ItemViewModel>(page, GetPageCount(totalCount, pageSize), totalCount, from i in items select new ItemViewModel(i));
-            var actual = (await Controller.IndexAsync(page, pageSize, "Samsung", samsung7.CategoryId, samsung7.StoreId, samsung7.BrandId, null, null));
+            var actual = (await Controller.IndexAsync(page, pageSize, "Samsung", samsung7.CategoryId, samsung7.StoreId, samsung7.BrandId, null, null, null));
             Equal(expected, actual);
         }
 
@@ -110,7 +152,7 @@ namespace UnitTests.Controllers
                 .Skip(pageSize * (page - 1))
                 .Take(pageSize);
             var expected = new IndexViewModel<ItemThumbnailViewModel>(page, GetPageCount(totalCount, pageSize), totalCount, from i in items select new ItemThumbnailViewModel(i));
-            var actual = (await Controller.IndexThumbnailsAsync(page, pageSize, "Samsung", samsung7.CategoryId, samsung7.StoreId, samsung7.BrandId, null, null));
+            var actual = (await Controller.IndexThumbnailsAsync(page, pageSize, "Samsung", samsung7.CategoryId, samsung7.StoreId, samsung7.BrandId, null, null, null));
             Equal(expected, actual);
         }
 
@@ -130,7 +172,7 @@ namespace UnitTests.Controllers
                 .Skip(pageSize * (page - 1))
                 .Take(pageSize).ToListAsync();
             var expected = new IndexViewModel<ItemViewModel>(page, GetPageCount(totalCount, pageSize), totalCount, from i in items select new ItemViewModel(i));
-            var actual = (await Controller.IndexAsync(null, null, null, clothesCategory.Id, null, null, null, null));
+            var actual = (await Controller.IndexAsync(null, null, null, clothesCategory.Id, null, null, null, null, null));
             Equal(expected, actual);
         }
 
@@ -145,7 +187,7 @@ namespace UnitTests.Controllers
                 .Include(i => i.ItemVariants)
                 .OrderBy(i => (from v in i.ItemVariants select v.Price).Min());
 
-            var actual = (await Controller.IndexAsync(page, pageSize, null, null, null, null, "price", null));
+            var actual = (await Controller.IndexAsync(page, pageSize, null, null, null, null, "price", null, null));
             var items = Context
                 .Set<Item>()
                 .AsNoTracking()
@@ -172,7 +214,7 @@ namespace UnitTests.Controllers
                 .Include(i => i.ItemVariants)
                 .OrderByDescending(i => (from v in i.ItemVariants select v.Price).Min());
 
-            var actual = (await Controller.IndexAsync(page, pageSize, null, null, null, null, "price", true));
+            var actual = (await Controller.IndexAsync(page, pageSize, null, null, null, null, "price", null, true));
             var items = Context
                 .Set<Item>()
                 .AsNoTracking()
@@ -199,7 +241,7 @@ namespace UnitTests.Controllers
                 .Include(i => i.ItemVariants)
                 .OrderBy(i => i.Title);
 
-            var actual = (await Controller.IndexAsync(page, pageSize, null, null, null, null, "title", null));
+            var actual = (await Controller.IndexAsync(page, pageSize, null, null, null, null, "title", null, null));
             var items = Context
                 .Set<Item>()
                 .AsNoTracking()
