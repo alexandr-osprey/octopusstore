@@ -8,7 +8,7 @@ import { CharacteristicValueService } from '../../services/characteristic-value.
 import { ItemVariant } from '../../view-models/item-variant/item-variant';
 import { Characteristic } from '../../view-models/characteristic/characteristic';
 import { CharacteristicValue } from '../../view-models/characteristic-value/characteristic-value';
-import { CharacteristicValueDisplayed } from '../../view-models/characteristic-value/characteristic-value-displayed';
+import { ItemPropertyDisplayed } from '../../view-models/item-property/item-property-displayed';
 
 @Component({
   selector: 'app-item-property-detail',
@@ -18,8 +18,8 @@ import { CharacteristicValueDisplayed } from '../../view-models/characteristic-v
 export class ItemPropertyDetailComponent implements OnInit, OnChanges {
   @Input() itemDetail: ItemDetail;
   @Input() currentVariant: ItemVariant;
-  public characteristicValuesDisplayed: CharacteristicValueDisplayed[];
-  public itemCharacteristicValues: CharacteristicValueDisplayed[];
+  public characteristicValuesDisplayed: ItemPropertyDisplayed[];
+  public itemCharacteristicValues: ItemPropertyDisplayed[];
 
   constructor(
     private messageService: MessageService,
@@ -48,7 +48,7 @@ export class ItemPropertyDetailComponent implements OnInit, OnChanges {
         data[0].entities.forEach(c => characteristics.push(new Characteristic(c)));
         data[1].entities.forEach(cv => characteristicValues.push(new CharacteristicValue(cv)));
         for (var v of data[2].entities) {
-          this.itemCharacteristicValues.push(new CharacteristicValueDisplayed(characteristics, characteristicValues, v));
+          this.itemCharacteristicValues.push(new ItemPropertyDisplayed(characteristics, characteristicValues, v));
         }
         this.currentVariantChanged();
       });

@@ -3,7 +3,7 @@ import { ItemProperty } from "../item-property/item-property";
 import { Characteristic } from "../characteristic/characteristic";
 import { ItemVariant } from "../item-variant/item-variant";
 
-export class CharacteristicValueDisplayed extends ItemProperty {
+export class ItemPropertyDisplayed extends ItemProperty {
   public characteristics: Characteristic[];
   public characteristicValues: CharacteristicValue[];
   private _characteristicId: number;

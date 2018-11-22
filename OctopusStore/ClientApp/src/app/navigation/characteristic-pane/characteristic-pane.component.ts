@@ -3,6 +3,8 @@ import { Characteristic } from '../../view-models/characteristic/characteristic'
 import { CharacteristicValue } from '../../view-models/characteristic-value/characteristic-value';
 import { CharacteristicValueService } from '../../services/characteristic-value.service';
 import { ParameterService } from 'src/app/services/parameter.service';
+import { ParameterNames } from 'src/app/services/parameter-names';
+import { CharacteristicValueCheckbox } from 'src/app/view-models/characteristic-value/characteristic-value-checkbox';
 
 @Component({
   selector: 'app-characteristic-pane',
@@ -13,8 +15,7 @@ export class CharacteristicPaneComponent implements OnInit {
   @Input() characteristic: Characteristic;
   @Output() characteristicValueSelected = new EventEmitter<CharacteristicValue>();
   @Output() characteristicValueUnselected = new EventEmitter<CharacteristicValue>();
-  public pickedValue
-  public characteristicValues: CharacteristicValue[] = [];
+  public characteristicValueCheckboxes: CharacteristicValueCheckbox[] = [];
 
   constructor(
     private characteristicValueService: CharacteristicValueService,
@@ -31,13 +32,17 @@ export class CharacteristicPaneComponent implements OnInit {
   }
 
   initializeComponent() {
-    this.characteristicValues = [];
+    this.characteristicValueCheckboxes = [];
     if (this.characteristic) {
       this.characteristicValueService.index({ characteristicId: this.characteristic.id })
         .subscribe(data => {
           data.entities.forEach(e => {
-            this.characteristicValues.push(new CharacteristicValue(e));
+            this.characteristicValueCheckboxes.push(new CharacteristicValueCheckbox(e));
           });
+          let filters: string = this.parameterService.getParam(ParameterNames.characteristicsFilter);
+          let values = filters.split(';').map(v => +v);
+          let valuesToCheck = this.characteristicValueCheckboxes.filter(v => values.includes(v.id));
+          valuesToCheck.forEach(v => this.characteristicValueCheckboxes.find(c => c == v).checked = true);
         });
     }
   }

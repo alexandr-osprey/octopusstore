@@ -10,7 +10,7 @@ import { Item } from '../../view-models/item/item';
 import { CharacteristicValue } from '../../view-models/characteristic-value/characteristic-value';
 import { Characteristic } from '../../view-models/characteristic/characteristic';
 import { ItemProperty } from '../../view-models/item-property/item-property';
-import { CharacteristicValueDisplayed } from '../../view-models/characteristic-value/characteristic-value-displayed';
+import { ItemPropertyDisplayed } from '../../view-models/item-property/item-property-displayed';
 
 @Component({
   selector: 'app-item-property-create-update',
@@ -20,9 +20,9 @@ import { CharacteristicValueDisplayed } from '../../view-models/characteristic-v
 export class ItemPropertyCreateUpdateComponent implements OnInit, OnChanges {
   @Input() itemVariant: ItemVariant;
   @Input() item: Item;
-  public itemPropertiesSaved: CharacteristicValueDisplayed[] = [];
-  public itemPropertiesUnsaved: CharacteristicValueDisplayed[] = [];
-  public itemCharacteristicValues: CharacteristicValueDisplayed[] = [];
+  public itemPropertiesSaved: ItemPropertyDisplayed[] = [];
+  public itemPropertiesUnsaved: ItemPropertyDisplayed[] = [];
+  public itemCharacteristicValues: ItemPropertyDisplayed[] = [];
 
   public characteristics: Characteristic[] = [];
   public characteristicValues: CharacteristicValue[] = [];
@@ -51,7 +51,7 @@ export class ItemPropertyCreateUpdateComponent implements OnInit, OnChanges {
         data[0].entities.forEach(c => this.characteristics.push(new Characteristic(c)));
         data[1].entities.forEach(cv => this.characteristicValues.push(new CharacteristicValue(cv)));
         data[2].entities.forEach(i => {
-          this.itemCharacteristicValues.push(new CharacteristicValueDisplayed(this.characteristics, this.characteristicValues, i));
+          this.itemCharacteristicValues.push(new ItemPropertyDisplayed(this.characteristics, this.characteristicValues, i));
         });
         this.currentVariantChanged();
       });
@@ -62,11 +62,11 @@ export class ItemPropertyCreateUpdateComponent implements OnInit, OnChanges {
     this.itemPropertiesUnsaved = this.itemCharacteristicValues.filter(v => v.itemVariantId == this.itemVariant.id && v.id == 0);
   }
   protected addItemProperty() {
-    let addedItemVariant = new CharacteristicValueDisplayed(this.characteristics, this.characteristicValues, { id: 0, itemVariantId: this.itemVariant.id });
+    let addedItemVariant = new ItemPropertyDisplayed(this.characteristics, this.characteristicValues, { id: 0, itemVariantId: this.itemVariant.id });
     this.itemCharacteristicValues.push(addedItemVariant);
     this.itemPropertiesUnsaved.push(addedItemVariant);
   }
-  protected removeItemProperty(itemPropertyDisplayed: CharacteristicValueDisplayed) {
+  protected removeItemProperty(itemPropertyDisplayed: ItemPropertyDisplayed) {
     if (itemPropertyDisplayed.id != 0) {
       this.itemPropertyService.delete(itemPropertyDisplayed.id).subscribe(data => {
         if (data) {
@@ -83,14 +83,14 @@ export class ItemPropertyCreateUpdateComponent implements OnInit, OnChanges {
     this.itemPropertiesUnsaved.forEach(value => this.saveItemProperty(value));
     //this.messageService.sendSuccess("Item variant characteristic values saved");
   }
-  protected saveItemProperty(value: CharacteristicValueDisplayed) {
+  protected saveItemProperty(value: ItemPropertyDisplayed) {
     let index = this.itemPropertiesUnsaved.indexOf(value);
     if (~index) {
       this.itemPropertyService.postOrPut(value).subscribe((data: ItemProperty) => {
         if (data) {
           this.itemPropertiesUnsaved = this.itemPropertiesUnsaved.filter(v => v != value);
           this.itemCharacteristicValues = this.itemCharacteristicValues.filter(v => v != value);
-          let savedValue = new CharacteristicValueDisplayed(this.characteristics, this.characteristicValues, data);
+          let savedValue = new ItemPropertyDisplayed(this.characteristics, this.characteristicValues, data);
           this.itemPropertiesSaved.push(savedValue);
           this.itemCharacteristicValues.push(savedValue);
         }

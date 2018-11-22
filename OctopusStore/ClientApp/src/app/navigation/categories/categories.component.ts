@@ -53,6 +53,7 @@ export class CategoriesComponent implements OnInit {
   getCategoryParams(categoryId: number): any {
     let params = this.parameterService.getUpdatedParams([ParameterNames.categoryId, categoryId]);
     params[ParameterNames.page] = 1;
+    params[ParameterNames.characteristicsFilter] = ';';
     return params;
   }
 }

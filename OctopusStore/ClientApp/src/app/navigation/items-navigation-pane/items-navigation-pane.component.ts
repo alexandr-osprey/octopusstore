@@ -26,12 +26,12 @@ export class ItemsNavigationPaneComponent implements OnInit {
 
   initializeComponent() {
     this.parameterService.params$.subscribe(params => {
-      this.getCharacteristics();
+      this.getCharacteristics(false);
     });
-    this.getCharacteristics();
+    this.getCharacteristics(true);
   }
 
-  getCharacteristics() {
+  getCharacteristics(init: boolean) {
     let newCategoryId: number = +this.parameterService.getParam(ParameterNames.categoryId);
     if (newCategoryId == this.categoryId)
       return;
@@ -43,6 +43,11 @@ export class ItemsNavigationPaneComponent implements OnInit {
         this.characteristics = [];
         this.categoryId = newCategoryId;
         data.entities.forEach(e => this.characteristics.push(new Characteristic(e)));
+        if (init) {
+          let filters: string = this.parameterService.getParam(ParameterNames.characteristicsFilter);
+          this.selectedChacarteristicValueIds = filters.split(';').map(v => +v);
+          this.applyFilter();
+        }
       }
     });
   }
