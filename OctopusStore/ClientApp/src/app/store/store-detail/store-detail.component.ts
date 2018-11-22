@@ -30,7 +30,7 @@ export class StoreDetailComponent implements OnInit {
 
   initializeComponent() {
     let storeId = +this.route.snapshot.paramMap.get('id');
-    this.parameterService.navigateWithUpdatedParam([ParameterNames.storeId, storeId]);
+    this.parameterService.navigateWithUpdatedParams([ParameterNames.storeId, storeId]);
     if (storeId) {
       this.storeService.getDetail(storeId).subscribe((storeDetail: Store) => {
         this.storeDetail = new Store(storeDetail);

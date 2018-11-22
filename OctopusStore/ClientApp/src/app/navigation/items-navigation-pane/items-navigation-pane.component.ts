@@ -4,6 +4,7 @@ import { CharacteristicService } from '../../services/characteristic.service';
 import { ParameterService } from '../../services/parameter.service';
 import { ParameterNames } from '../../services/parameter-names';
 import { Characteristic } from '../../view-models/characteristic/characteristic';
+import { CharacteristicValue } from 'src/app/view-models/characteristic-value/characteristic-value';
 
 @Component({
   selector: 'app-items-navigation-pane',
@@ -13,6 +14,7 @@ import { Characteristic } from '../../view-models/characteristic/characteristic'
 export class ItemsNavigationPaneComponent implements OnInit {
   protected categoryId: number;
   protected characteristics: Characteristic[] = [];
+  protected selectedChacarteristicValueIds: number[] = [];
 
   constructor(private categoryService: CategoryService,
     private characteristicService: CharacteristicService,
@@ -43,5 +45,26 @@ export class ItemsNavigationPaneComponent implements OnInit {
         data.entities.forEach(e => this.characteristics.push(new Characteristic(e)));
       }
     });
+  }
+
+  characteristicValueSelected(characteristicValue: CharacteristicValue) {
+    let existing = this.selectedChacarteristicValueIds.find(i => i == characteristicValue.id);
+    if (!existing) {
+      this.selectedChacarteristicValueIds.push(characteristicValue.id);
+      this.applyFilter();
+    }
+  }
+
+  characteristicValueUnselected(characteristicValue: CharacteristicValue) {
+    let existing = this.selectedChacarteristicValueIds.find(i => i == characteristicValue.id);
+    if (existing) {
+      this.selectedChacarteristicValueIds = this.selectedChacarteristicValueIds.filter(i => i != characteristicValue.id);
+      this.applyFilter();
+    }
+  }
+
+  applyFilter() {
+    let p = this.selectedChacarteristicValueIds.join(';');
+    this.parameterService.navigateWithUpdatedParams([ParameterNames.characteristicsFilter, p], [ParameterNames.page, 1]);
   }
 }

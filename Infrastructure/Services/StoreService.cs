@@ -76,7 +76,7 @@ namespace Infrastructure.Services
             var items = await Context.EnumerateRelatedEnumAsync(Logger, new EntitySpecification<Store>(id), b => b.Items);
             foreach (var item in items)
                 item.StoreId = idToRelinkTo;
-            await Context.UpdateEntities(Logger, "Relink Store");
+            await Context.SaveChangesAsync(Logger, "Relink Store");
         }
     }
 }

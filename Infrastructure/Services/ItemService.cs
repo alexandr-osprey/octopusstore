@@ -50,7 +50,7 @@ namespace Infrastructure.Services
             var itemImages = await Context.EnumerateRelatedEnumAsync(Logger, new EntitySpecification<Item>(id), b => b.Images);
             foreach (var image in itemImages)
                 image.RelatedId = idToRelinkTo;
-            await Context.UpdateEntities(Logger, "Relink Item");
+            await Context.SaveChangesAsync(Logger, "Relink Item");
         }
 
         protected async Task<IEnumerable<Category>> GetCategoriesAsync(int categoryId)

@@ -182,6 +182,7 @@ namespace Infrastructure.Services
         {
             int totalCount = await Context.CountAsync(Logger, spec);
             int take = spec.Take == 0 ? totalCount : spec.Take;
+            take = take == 0 ? 1 : take;
             int result = (int)Math.Ceiling(((decimal)totalCount / take));
             Logger.Trace("{Name} got page count {count} by spec: {spec}", Name, result, spec);
             return result;

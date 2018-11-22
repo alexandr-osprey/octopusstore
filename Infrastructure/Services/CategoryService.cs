@@ -118,7 +118,7 @@ namespace Infrastructure.Services
             var categoryCharacteristics = await Context.EnumerateRelatedEnumAsync(Logger, new EntitySpecification<Category>(id), b => b.Characteristics);
             foreach (var characteristic in categoryCharacteristics)
                 characteristic.CategoryId = idToRelinkTo;
-            await Context.UpdateEntities(Logger, "Relink Category");
+            await Context.SaveChangesAsync(Logger, "Relink Category");
         }
 
         protected override async Task ValidateCreateWithExceptionAsync(Category category)

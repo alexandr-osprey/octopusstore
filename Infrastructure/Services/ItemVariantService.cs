@@ -26,7 +26,7 @@ namespace Infrastructure.Services
             var itemProperties = await Context.EnumerateRelatedEnumAsync(Logger, new EntitySpecification<ItemVariant>(id), b => b.ItemProperties);
             foreach (var property in itemProperties)
                 property.ItemVariantId = idToRelinkTo;
-            await Context.UpdateEntities(Logger, "Relink ItemVariant");
+            await Context.SaveChangesAsync(Logger, "Relink ItemVariant");
         }
 
         protected override async Task ValidateCreateWithExceptionAsync(ItemVariant itemVariant)

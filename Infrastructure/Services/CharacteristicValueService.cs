@@ -44,7 +44,7 @@ namespace Infrastructure.Services
             var characteristicValues = await Context.EnumerateRelatedEnumAsync(Logger, new EntitySpecification<CharacteristicValue>(id), b => b.ItemProperties);
             foreach (var value in characteristicValues)
                 value.CharacteristicValueId = idToRelinkTo;
-            await Context.UpdateEntities(Logger, "Relink CharacteristicValue");
+            await Context.SaveChangesAsync(Logger, "Relink CharacteristicValue");
         }
 
         protected override async Task ValidateCreateWithExceptionAsync(CharacteristicValue characteristicValue)

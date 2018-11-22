@@ -26,7 +26,7 @@ namespace Infrastructure.Services
             var muItems = await Context.EnumerateRelatedEnumAsync(Logger, new EntitySpecification<MeasurementUnit>(id), b => b.Items);
             foreach (var item in muItems)
                 item.MeasurementUnitId = idToRelinkTo;
-            await Context.UpdateEntities(Logger, "Relink MeasurementUnit");
+            await Context.SaveChangesAsync(Logger, "Relink MeasurementUnit");
         }
 
         protected override async Task ValidateCreateWithExceptionAsync(MeasurementUnit measurementUnit)

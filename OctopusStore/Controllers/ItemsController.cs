@@ -49,9 +49,6 @@ namespace OctopusStore.Controllers
             var spec = await Service.GetIndexSpecificationByParameters(page.Value, pageSize.Value, title, categoryId, storeId, brandId, ids);
             ApplyOrderingToSpec(spec, orderBy, orderByDescending);
             return await base.IndexAsync<ItemThumbnailViewModel>(new ItemThumbnailIndexSpecification(spec));
-            //var items = await Service.Context.EnumerateAsync(Logger, spec, spec.OrderByExpressions.First());
-            //var vms = from i in items select new ItemThumbnailViewModel(i);
-            //return IndexViewModel<ItemThumbnailViewModel>.FromEnumerableNotPaged(vms);
         }
 
         [AllowAnonymous]

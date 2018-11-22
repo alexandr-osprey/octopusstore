@@ -11,6 +11,7 @@ export class ParameterNames {
   public static title: string = "title";
   public static itemid: string = "itemId";
   public static itemVariantId: string = "itemVariantId";
+  public static characteristicsFilter: string = "characteristicsFilter";
   //suffixes
   public static thumbnails: string = "thumbnails";
   public static file: string = "file";

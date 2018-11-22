@@ -39,7 +39,7 @@ namespace Infrastructure.Services
             var brandItems = await Context.EnumerateRelatedEnumAsync(Logger, new EntitySpecification<Brand>(id), b => b.Items);
             foreach (var item in brandItems)
                 item.BrandId = idToRelinkTo;
-            await Context.UpdateEntities(Logger, "Relink Category");
+            await Context.SaveChangesAsync(Logger, "Relink Category");
         }
     }
 }

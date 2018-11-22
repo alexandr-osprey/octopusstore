@@ -44,7 +44,7 @@ export class ParameterService {
     return params;
   }
 
-  public navigateWithUpdatedParam(...args: [string, any][]): void {
+  public navigateWithUpdatedParams(...args: [string, any][]): void {
     let params = this.getUpdatedParams(...args);
     this.router.navigate([ParameterService.getUrlWithoutParams(this.router)], { queryParams: params });
   }

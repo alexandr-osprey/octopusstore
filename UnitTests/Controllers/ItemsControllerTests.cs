@@ -61,6 +61,28 @@ namespace UnitTests.Controllers
         }
 
         [Fact]
+        public async Task IndexThumbnailsWithCharacteristicValuesFiltersAsync()
+        {
+            int page = 1;
+            int pageSize = 5;
+            HashSet<CharacteristicValue> characteristicValues = new HashSet<CharacteristicValue>
+            {
+                Data.CharacteristicValues.GB32,
+                Data.CharacteristicValues.HD
+            };
+            string filter = string.Join(';', (from c in characteristicValues select c.Id.ToString()));
+            var actual = (await Controller.IndexThumbnailsAsync(page, pageSize, null, null, null, null, null, filter, null));
+            var items = Data.Items.Entities.Where(i => characteristicValues.IsSubsetOf(from p in i.ItemVariants.SelectMany(v => v.ItemProperties) select p.CharacteristicValue));
+            int totalCount = items.Count();
+            var expected = new IndexViewModel<ItemThumbnailViewModel>(
+                page,
+                GetPageCount(totalCount, pageSize),
+                totalCount,
+                from i in items select new ItemThumbnailViewModel(i));
+            Equal(expected, actual);
+        }
+
+        [Fact]
         public async Task IndexWithWrongCharacteristicValuesFiltersAsync()
         {
             int page = 1;

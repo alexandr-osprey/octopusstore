@@ -40,7 +40,7 @@ export class ItemVariantDetailComponent implements OnInit, OnChanges {
 
   selectItemVariant(itemVariant: ItemVariant) {
     this.currentVariant = this.itemDetail.itemVariants.find(v => v == itemVariant);
-    this.parameterService.navigateWithUpdatedParam([ParameterNames.itemVariantId, itemVariant.id]);
+    this.parameterService.navigateWithUpdatedParams([ParameterNames.itemVariantId, itemVariant.id]);
     this.itemVariantSelected.emit(itemVariant);
   }
 }

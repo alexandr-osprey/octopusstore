@@ -210,7 +210,7 @@ namespace Infrastructure.Data
         /// <param name="entityToUpdate"></param>
         /// <param name="checkExistence"></param>
         /// <returns></returns>
-        public static async Task UpdateEntities<TService>(this DbContext context, IAppLogger<TService> logger, string saveDescription)
+        public static async Task SaveChangesAsync<TService>(this DbContext context, IAppLogger<TService> logger, string saveDescription)
         {
             try
             {
@@ -218,7 +218,7 @@ namespace Infrastructure.Data
             }
             catch (Exception exception)
             {
-                throw exception.LogAndGetDbException(logger, $"Function: {nameof(UpdateEntities)}, description: {saveDescription}");
+                throw exception.LogAndGetDbException(logger, $"Function: {nameof(SaveChangesAsync)}, description: {saveDescription}");
             }
         }
 

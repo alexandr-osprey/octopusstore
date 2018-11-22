@@ -4,7 +4,9 @@
   </div>
   <div *ngIf="characteristics" class="col-12 col-md-12">
     <div *ngFor="let characteristic of characteristics">
-      <app-characteristic-pane [characteristic]="characteristic"></app-characteristic-pane>
+      <app-characteristic-pane [characteristic]="characteristic"
+                               (characteristicValueSelected)="characteristicValueSelected($event)"
+                               (characteristicValueUnselected)="characteristicValueUnselected($event)"></app-characteristic-pane>
     </div>
   </div>
 
