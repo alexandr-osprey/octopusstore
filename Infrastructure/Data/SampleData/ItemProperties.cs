@@ -14,7 +14,7 @@ namespace Infrastructure.Data.SampleData
         public ItemProperty IPhone632HD { get; protected set; }
         public ItemProperty IPhone664GB32 { get; protected set; }
         public ItemProperty IPhone664HD { get; protected set; }
-        public ItemProperty Samsung732HDGB32 { get; protected set; }
+        public ItemProperty Samsung732HDGB16 { get; protected set; }
         public ItemProperty Samsung732HDHD { get; protected set; }
         public ItemProperty Samsung732GB32FHDGB32 { get; protected set; }
         public ItemProperty Samsung732GB32FHDFullHD { get; protected set; }
@@ -50,8 +50,8 @@ namespace Infrastructure.Data.SampleData
                 new ItemProperty(ItemVariants.IPhone664GB.Id, CharacteristicValues.GB32.Id) { OwnerId = Users.JohnId },
                 new ItemProperty(ItemVariants.IPhone664GB.Id, CharacteristicValues.FullHD.Id) { OwnerId = Users.JohnId },
                 //samsung 7 32 hd
-                new ItemProperty(ItemVariants.Samsung732GBHD.Id, CharacteristicValues.GB32.Id) { OwnerId = Users.JohnId },
-                new ItemProperty(ItemVariants.Samsung732GBHD.Id, CharacteristicValues.HD.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.Samsung716GBHD.Id, CharacteristicValues.GB16.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.Samsung716GBHD.Id, CharacteristicValues.HD.Id) { OwnerId = Users.JohnId },
                 //samsung 7 32 full hd
                 new ItemProperty(ItemVariants.Samsung732GBFullHD.Id, CharacteristicValues.GB32.Id) { OwnerId = Users.JohnId },
                 new ItemProperty(ItemVariants.Samsung732GBFullHD.Id, CharacteristicValues.FullHD.Id) { OwnerId = Users.JohnId },
@@ -89,7 +89,7 @@ namespace Infrastructure.Data.SampleData
             IPhone632HD = Entities[1];
             IPhone664GB32 = Entities[2];
             IPhone664HD = Entities[3];
-            Samsung732HDGB32 = Entities[4];
+            Samsung732HDGB16 = Entities[4];
             Samsung732HDHD = Entities[5];
             Samsung732GB32FHDGB32 = Entities[6];
             Samsung732GB32FHDFullHD = Entities[7];

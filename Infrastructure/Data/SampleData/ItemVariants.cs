@@ -11,7 +11,7 @@ namespace Infrastructure.Data.SampleData
 
         public ItemVariant IPhone632GB  { get; protected set; }
         public ItemVariant IPhone664GB  { get; protected set; }
-        public ItemVariant Samsung732GBHD  { get; protected set; }
+        public ItemVariant Samsung716GBHD  { get; protected set; }
         public ItemVariant Samsung732GBFullHD  { get; protected set; }
         public ItemVariant Samsung832GBHD  { get; protected set; }
         public ItemVariant Samsung832GBFullHD  { get; protected set; }
@@ -34,7 +34,7 @@ namespace Infrastructure.Data.SampleData
             {
                 new ItemVariant { Title = "iPhone 6 32GB", Price = 700, ItemId = Items.IPhone6.Id, OwnerId = Users.JohnId }, //0
                 new ItemVariant { Title = "iPhone 6 64GB", Price = 800, ItemId = Items.IPhone6.Id, OwnerId = Users.JohnId }, //1
-                new ItemVariant { Title = "Samsung 7 32GB HD", Price = 500, ItemId = Items.Samsung7.Id, OwnerId = Users.JohnId }, //2
+                new ItemVariant { Title = "Samsung 7 16GB HD", Price = 500, ItemId = Items.Samsung7.Id, OwnerId = Users.JohnId }, //2
                 new ItemVariant { Title = "Samsung 7 32GB Full HD", Price = 550, ItemId = Items.Samsung7.Id, OwnerId = Users.JohnId }, //3
                 new ItemVariant { Title = "Samsung 8 32GB HD", Price = 700, ItemId = Items.Samsung8.Id, OwnerId = Users.JohnId },  //4
                 new ItemVariant { Title = "Samsung 8 32GB Full HD", Price = 750, ItemId = Items.Samsung8.Id, OwnerId = Users.JohnId }, //5
@@ -57,7 +57,7 @@ namespace Infrastructure.Data.SampleData
             base.Init();
             IPhone632GB = Entities[0];
             IPhone664GB = Entities[1];
-            Samsung732GBHD = Entities[2];
+            Samsung716GBHD = Entities[2];
             Samsung732GBFullHD = Entities[3];
             Samsung832GBHD = Entities[4];
             Samsung832GBFullHD = Entities[5];

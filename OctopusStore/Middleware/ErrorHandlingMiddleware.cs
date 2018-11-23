@@ -19,7 +19,7 @@ namespace OctopusStore.Middleware
             this.next = next;
         }
 
-        public async Task Invoke(HttpContext context)
+        public async Task Invoke(HttpContext context, IAppLogger<ErrorHandlingMiddleware> logger)
         {
             try
             {
@@ -27,11 +27,11 @@ namespace OctopusStore.Middleware
             }
             catch (Exception ex)
             {
-                await HandleExceptionAsync(context, ex);
+                await HandleExceptionAsync(context, ex, logger);
             }
         }
 
-        private static Task HandleExceptionAsync(HttpContext context, Exception exception)
+        private static Task HandleExceptionAsync(HttpContext context, Exception exception, IAppLogger<ErrorHandlingMiddleware> logger)
         {
             var code = HttpStatusCode.InternalServerError;
 
@@ -42,7 +42,15 @@ namespace OctopusStore.Middleware
             else if (exception is AuthenticationException) code = HttpStatusCode.Unauthorized;
             else if (exception is SecurityTokenExpiredException) code = HttpStatusCode.Unauthorized;
             else if (exception is AuthorizationException) code = HttpStatusCode.Forbidden;
-            else if (exception is CustomDbException) code = HttpStatusCode.InternalServerError;
+            else if (exception is CustomDbException)
+            {
+                logger.Error(exception, "CustomDbException ");
+            }
+            else if (exception is Exception)
+            {
+                logger.Error(exception, "Exception ");
+            }
+
             
 
             var result = JsonConvert.SerializeObject(new { message = exception.Message });

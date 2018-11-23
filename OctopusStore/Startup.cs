@@ -134,12 +134,14 @@ namespace OctopusStore
 
             app.UseMiddleware(typeof(ErrorHandlingMiddleware));
             app.UseAuthentication();
+            app.UseMiddleware(typeof(TokenUpdateSuggestionMarker));
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
                     template: "{controller}/{action=Index}/{id?}");
             });
+            
 
             app.UseSpa(spa =>
             {
