@@ -153,9 +153,9 @@ namespace Infrastructure.Identity
                 throw new ArgumentNullException("Id not provided");
             if (claim == null)
                 throw new ArgumentNullException("claim not provided");
-            var user = await _userManager.FindByIdAsync(id);
-            if (user == null)
-                throw new EntityNotFoundException("user not found");
+            var user = await _userManager.FindByIdAsync(id) ?? throw new EntityNotFoundException("user not found");
+            user.ClaimsUpdatedAt = DateTime.UtcNow;
+            await _userManager.UpdateAsync(user);
             await _userManager.AddClaimAsync(user, claim);
         }
         public async Task RemoveClaim(string id, Claim claim)
@@ -163,10 +163,10 @@ namespace Infrastructure.Identity
             if (id == null)
                 throw new ArgumentNullException("Id not provided");
             if (claim == null)
-                throw new ArgumentNullException("claim not provided");
-            var user = await _userManager.FindByIdAsync(id);
-            if (user == null)
-                throw new EntityNotFoundException("user not found");
+                throw new ArgumentNullException("claim not provided") ?? throw new EntityNotFoundException("user not found");
+            var user = await _userManager.FindByIdAsync(id) ?? throw new EntityNotFoundException("user not found");
+            user.ClaimsUpdatedAt = DateTime.UtcNow;
+            await _userManager.UpdateAsync(user);
             await _userManager.RemoveClaimAsync(user, claim);
         }
         public async Task<IEnumerable<string>> EnumerateEmailsWithClaimAsync(Claim claim)
@@ -179,19 +179,20 @@ namespace Infrastructure.Identity
         {
             if (email == null)
                 throw new ArgumentNullException("email not provided");
-            var user = await _userManager.FindByIdAsync(email);
-            if (user == null)
-                throw new EntityNotFoundException("user not found");
+            var user = await _userManager.FindByIdAsync(email) ?? throw new EntityNotFoundException("user not found");
             return user.Id;
         }
         public async Task RemoveFromUsersAsync(Claim claim)
         {
-            if (claim == null)
-                throw new ArgumentNullException("claim not provided");
-            var users = await _userManager.GetUsersForClaimAsync(claim);
+            var users = await _userManager.GetUsersForClaimAsync(claim ?? throw new ArgumentNullException("claim not provided"));
             foreach (var user in users)
+            {
                 await _userManager.RemoveClaimAsync(user, claim);
+                user.ClaimsUpdatedAt = DateTime.UtcNow;
+                await _userManager.UpdateAsync(user);
+            }
         }
+
         protected async Task<bool> CheckExistence(string email) => await _userManager.FindByEmailAsync(email) != null;
         protected async Task<string> GenerateJwtToken(ApplicationUser user, int expirationTimeSeconds)
         {
@@ -206,7 +207,7 @@ namespace Infrastructure.Identity
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("SigningKey").Value));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
             var expires =
-                DateTime.Now.AddSeconds(expirationTimeSeconds);
+                DateTime.UtcNow.AddSeconds(expirationTimeSeconds);
             //DateTime.Now.AddDays(Convert.ToDouble(_configuration["ExpireDays"]));
 
             var cs = await _userManager.GetClaimsAsync(user);
@@ -215,7 +216,8 @@ namespace Infrastructure.Identity
                 audience: _configuration["Audience"],
                 claims: claims,
                 expires: expires,
-                signingCredentials: creds);
+                signingCredentials: creds,
+                notBefore: DateTime.UtcNow);
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
         protected async Task<string> GenerateJwtToken(ApplicationUser user)

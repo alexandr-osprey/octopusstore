@@ -41,8 +41,9 @@ namespace Infrastructure.Identity
             var user = await userManager.FindByEmailAsync(email);
             if (user == null)
             {
-               user = new ApplicationUser { Email = email, UserName = username, Id = email };
-               var res =  await userManager.CreateAsync(user, testUserPw);
+                user = new ApplicationUser { Email = email, UserName = username, Id = email };
+                user.ClaimsUpdatedAt = DateTime.UtcNow;
+                var res = await userManager.CreateAsync(user, testUserPw);
                 await userManager.AddClaimAsync(user, new Claim(ClaimTypes.NameIdentifier, email));
                 await userManager.AddClaimAsync(user, new Claim(ClaimTypes.Name, email));
             }
@@ -51,11 +52,11 @@ namespace Infrastructure.Identity
 
         public static async Task AddClaim(UserManager<ApplicationUser> userManager, Claim claim, params string[] userIds)
         {
-            foreach(var user in userIds)
+            foreach (var user in userIds)
             {
                 await userManager.AddClaimAsync(await userManager.FindByIdAsync(user), claim);
             }
-             
+
         }
         private static async Task<IdentityResult> EnsureRole(IServiceProvider serviceProvider,
                                                                       string email, string role)

@@ -33,8 +33,7 @@ export class ItemService extends DataReadWriteService<Item> {
     return this.getCustom<EntityIndex<ItemThumbnail>>(
       this.getUrlWithParameter(ParameterNames.thumbnails),
       this.parameterService.getParams(),
-      this.defaultHttpHeaders,
-      this.getAuthenticationRequired
+      this.defaultHttpHeaders
       );
   }
 }

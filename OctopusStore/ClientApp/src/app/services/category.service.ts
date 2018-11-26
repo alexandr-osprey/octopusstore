@@ -29,6 +29,6 @@ export class CategoryService extends DataReadWriteService<Category> {
   }
 
   public getRoot(): Observable<Category> {
-    return this.getCustom(this.remoteUrl + '/root', {}, this.defaultHttpHeaders, this.getAuthenticationRequired);
+    return this.getCustom(this.remoteUrl + '/root', {}, this.defaultHttpHeaders);
   }
 }

@@ -31,26 +31,16 @@ namespace OctopusStore.Middleware
                     var token = tokenHandler.ReadJwtToken(tokenString);
                     //var id = token.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name) ?? throw new Exception($"Name claim not found at token {tokenString}");
                     var user = await userManager.FindByIdAsync(token.Subject) ?? throw new Exception($"User {token.Subject} not found");
-                    var actualClaims = await userManager.GetClaimsAsync(user);
-                    var httpContext = (HttpContext)state;
-                    httpContext.Response.Headers.Add("Claims-Changed", "true");
+                    if (user.ClaimsUpdatedAt > token.ValidFrom)
+                    {
+                        var httpContext = (HttpContext)state;
+                        httpContext.Response.Headers.Add("Claims-Changed", "true");
+                    }
                 }
             }, context);
             await next(context);
         }
 
-        private bool CheckClaimSets(IEnumerable<Claim> superset, IEnumerable<Claim> subset)
-        {
-            bool result = true;
-            var comparer = new ClaimComparer();
-            foreach(var s in subset)
-            {
-                result = superset.Contains(s, comparer);
-                if (!result)
-                    break;
-            }
-            return result;
-        }
         private string GetTokenFromAuthorizationString(string authorization)
         {
             string result = string.Empty;

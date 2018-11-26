@@ -32,16 +32,16 @@ export abstract class DataReadWriteService <TEntity extends Entity> {
     protected messageService: MessageService) {
   }
   public post(body: any, url: string = this.remoteUrl, params: any = {}, headers: HttpHeaders = this.defaultHttpHeaders): Observable<TEntity> {
-    return this.postCustom(body, url, params, this.postAuthenticationRequired, headers);
+    return this.postCustom(body, url, params, headers);
   }
-  public postCustom<T>(body: any, url: string, params: any, authenticationRequired: boolean, headers: HttpHeaders): Observable<T> {
-    return this.customRequest("post", url, params, headers, authenticationRequired, body);
+  public postCustom<T>(body: any, url: string, params: any, headers: HttpHeaders): Observable<T> {
+    return this.customRequest("post", url, params, headers, body);
   }
   public put(body: Entity, url: string = this.remoteUrl, params: any = {}, headers: HttpHeaders = this.defaultHttpHeaders): Observable<TEntity> {
-    return this.putCustom(body, url, params, this.postAuthenticationRequired, headers);
+    return this.putCustom(body, url, params, headers);
   }
-  public putCustom<T>(body: any, url: string, params: any, authenticationRequired: boolean, headers: HttpHeaders): Observable<T> {
-    return this.customRequest<T>("put", url, params, headers, authenticationRequired, body);
+  public putCustom<T>(body: any, url: string, params: any, headers: HttpHeaders): Observable<T> {
+    return this.customRequest<T>("put", url, params, headers, body);
   }
   public postOrPut(model: TEntity, url: string = this.remoteUrl, params: any = {}, headers: HttpHeaders = this.defaultHttpHeaders): Observable<TEntity> {
     if (model.id)
@@ -52,29 +52,28 @@ export abstract class DataReadWriteService <TEntity extends Entity> {
   public index(params: any = {}): Observable<EntityIndex<TEntity>> {
     if (params && params[ParameterNames.updateAuthorizationFilter])
       this.getAuthenticationRequired = true;
-    return this.getCustom<EntityIndex<TEntity>>(this.remoteUrl, params, this.defaultHttpHeaders, this.getAuthenticationRequired);
+    return this.getCustom<EntityIndex<TEntity>>(this.remoteUrl, params, this.defaultHttpHeaders);
   }
   public get(id: number, params: any = {}): Observable<TEntity> {
-    return this.getCustom(this.getUrlWithId(id), params, this.defaultHttpHeaders, this.getAuthenticationRequired);
+    return this.getCustom(this.getUrlWithId(id), params, this.defaultHttpHeaders);
   }
   public getDetail<TDetail>(id: number, params: any = {}): Observable<TDetail> {
-    return this.getCustom(this.getUrlWithIdWithSuffix(id, "detail"), params, this.defaultHttpHeaders, this.getAuthenticationRequired);
+    return this.getCustom(this.getUrlWithIdWithSuffix(id, "detail"), params, this.defaultHttpHeaders);
   }
   public delete(id: number): Observable<string> {
     return this.deleteCustom(this.getUrlWithId(id), {}, this.defaultHttpHeaders, this.deleteAuthenticationRequired);
   }
   public deleteCustom<T>(url: string, params: any, headers: HttpHeaders, authenticationRequired: boolean): Observable<T> {
-    return this.customRequest("delete", url, params, headers, authenticationRequired, {});
+    return this.customRequest("delete", url, params, headers, {});
   }
-  public getCustom<T>(url: string, params: any, headers: HttpHeaders, authenticationRequired: boolean): Observable<T> {
-    return this.customRequest("get", url, params, headers, authenticationRequired, {});
+  public getCustom<T>(url: string, params: any, headers: HttpHeaders): Observable<T> {
+    return this.customRequest("get", url, params, headers, {});
   }
   protected customRequest<TResult>(
     requestType: string,
     url: string,
     params: any,
     headers: any,
-    authenticationRequired: boolean,
     body: any,
     retryCount: number = 1,
     customSource: Subject<TResult> = null): Observable<TResult> {
@@ -82,7 +81,7 @@ export abstract class DataReadWriteService <TEntity extends Entity> {
     if (!customSource)
       customSource = new Subject<TResult>();
 
-    if (authenticationRequired)
+    if (this.identityService.signedIn)
       headers = this.identityService.getHeadersWithAuthInfo(headers);
     let operation = this.getOperation(requestType, url, params, headers, body);
     this.messageService.sendTrace(`${this.serviceName} ${requestType} ${url} ${(body.toString())} request ${retryCount} time`);
@@ -103,7 +102,7 @@ export abstract class DataReadWriteService <TEntity extends Entity> {
             this.identityService.ensureSignIn().subscribe((success) => {
               //console.log("customRequest errorResponse  401 < 3  subscribe enter"); 
                 //  this.messageService.sendTrace(`log in success from ${retryCount} repeat`);
-                  this.customRequest(requestType, url, params, headers, authenticationRequired, body, ++retryCount, customSource);
+                  this.customRequest(requestType, url, params, headers, body, ++retryCount, customSource);
               });
           } else {
             //console.log("customRequest errorResponse  401 > 3 enter");

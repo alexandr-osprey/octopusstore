@@ -71,7 +71,7 @@ export class CartItemService extends DataReadWriteService<CartItem> {
   public addToCart(cartItemToAdd: CartItem): Observable<CartItemThumbnail[]> {
     let cartItemSubject = new Subject<CartItemThumbnail[]>();
     if (this.identityService.signedIn) {
-      this.putCustom<CartItemThumbnail>(cartItemToAdd, this.getUrlWithParameter('addToCart'), {}, this.postAuthenticationRequired, this.defaultHttpHeaders)
+      this.putCustom<CartItemThumbnail>(cartItemToAdd, this.getUrlWithParameter('addToCart'), {}, this.defaultHttpHeaders)
         .subscribe((added: CartItemThumbnail) => {
           if (added) {
             this.updateCartItemThumbnail(new CartItemThumbnail(added));
@@ -120,7 +120,7 @@ export class CartItemService extends DataReadWriteService<CartItem> {
     if (existing) {
       existing.number -= cartItem.number;
       if (this.identityService.signedIn) {
-        this.putCustom<Response>(cartItem, this.getUrlWithParameter('removeFromCart'), {}, this.postAuthenticationRequired, this.defaultHttpHeaders)
+        this.putCustom<Response>(cartItem, this.getUrlWithParameter('removeFromCart'), {}, this.defaultHttpHeaders)
           .subscribe((response: Response) => {
             if (response) {
               this.updateCartItemThumbnail(existing);
@@ -174,7 +174,7 @@ export class CartItemService extends DataReadWriteService<CartItem> {
   }
 
   public indexThumbnails() {
-    return this.getCustom<EntityIndex<CartItemThumbnail>>(this.getUrlWithParameter(ParameterNames.thumbnails), {}, this.defaultHttpHeaders, this.getAuthenticationRequired);
+    return this.getCustom<EntityIndex<CartItemThumbnail>>(this.getUrlWithParameter(ParameterNames.thumbnails), {}, this.defaultHttpHeaders);
   }
 
   protected loadFromLocal() {

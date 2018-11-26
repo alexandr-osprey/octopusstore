@@ -115,6 +115,22 @@ export class IdentityService {
     return this.http.get<string>('/api/credentials', { headers: headers });
   }
 
+  public getUserAdministredStoreIds(): number[] {
+    let result: number[] = [];
+    let tokenValue = this.tokenManager.getValue("StoreAdministrator");
+    if (tokenValue) {
+      if (Array.isArray(tokenValue)) {
+        for (let i = 0; i < tokenValue.length; i++) {
+          result.push(+tokenValue[i]);
+        }
+      }
+      else {
+        result.push(+tokenValue);
+      }
+    }
+    return result;
+  }
+
   public checkCreateUpdateAuthorization(url: string, throwError: boolean = false): Observable<boolean> {
     let resultSubject = new Subject<boolean>();
     if (!(url && this.hasSavedCredentials())) {

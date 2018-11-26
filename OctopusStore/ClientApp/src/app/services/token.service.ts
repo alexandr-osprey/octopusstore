@@ -63,6 +63,16 @@ export class TokenService {
     this.clearRefreshToken();
   }
 
+  public getValue(key: string): any {
+    let token = this.getToken();
+    let result: any = null;
+    if (token) {
+      let decoded = jwt_decode(token);
+      result = decoded[key]
+    }
+    return result;
+  }
+
   protected getExpirationDate(token: string): Date {
     let decoded = jwt_decode(token);
     if (decoded.exp == null)

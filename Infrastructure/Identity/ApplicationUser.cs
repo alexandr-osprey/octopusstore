@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using System.Collections.Generic;
+using System;
 
 namespace Infrastructure.Identity
 {
     public class ApplicationUser: IdentityUser
     {
+        public DateTime ClaimsUpdatedAt { get; set; }
     }
 }

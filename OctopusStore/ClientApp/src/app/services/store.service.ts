@@ -25,12 +25,12 @@ export class StoreService extends DataReadWriteService<Store> {
 
   public indexStoreAdministrators(storeId: number): Observable<Index<string>> {
     let url = this.getUrlWithIdWithSuffix(storeId, "administrators");
-    return this.getCustom(url, {}, this.defaultHttpHeaders, true);
+    return this.getCustom(url, {}, this.defaultHttpHeaders);
   }
   public postStoreAdministrator(storeId: number, storeAdministrator: string): Observable<string> {
     let url = this.getUrlWithIdWithSuffix(storeId, "administrators");
     let headers = this.defaultHttpHeaders.append("email", storeAdministrator);
-    return this.postCustom(storeAdministrator, url, {}, true, headers);
+    return this.postCustom(storeAdministrator, url, {}, headers);
   }
   public deleteStoreAdministrator(storeId: number, storeAdministrator: string): Observable<string> {
     let url = this.getUrlWithIdWithSuffix(storeId, "administrators");
