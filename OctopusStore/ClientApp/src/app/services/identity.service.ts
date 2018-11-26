@@ -103,6 +103,12 @@ export class IdentityService {
     }
     return subjectForResultNotifying.asObservable();
   }
+
+
+  public refreshToken(): Observable<TokenPair> {
+    this.tokenManager.markAsInvalid();
+    return this.ensureSignIn();
+  }
   public authGet(): Observable<string> {
     this.tokenManager.isTokenInvalid;
     let headers = this.tokenManager.getHeadersWithToken(this.defaultHttpHeaders);

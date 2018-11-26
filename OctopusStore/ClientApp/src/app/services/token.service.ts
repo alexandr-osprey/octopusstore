@@ -43,10 +43,14 @@ export class TokenService {
       token = this.getToken();
     if (!token)
       return false;
+    return true;
   }
-  public isTokenInvalid(token?: string): boolean {
+  public isTokenInvalid(): boolean {
     if (!this.tokenExists())
       return true;
+    if (this.tokenPair && this.tokenPair.invalid)
+      return true;
+    let token = this.getToken();
     const date = this.getExpirationDate(token);
     if (date == undefined) return true;
     //console.log("t: " + date);
@@ -55,8 +59,8 @@ export class TokenService {
     return !(date > new Date());
   }
   public clear(): void {
-    localStorage.removeItem(this.TOKEN_NAME);
-    localStorage.removeItem(this.REFRESH_TOKEN_NAME);
+    this.clearToken();
+    this.clearRefreshToken();
   }
 
   protected getExpirationDate(token: string): Date {
@@ -67,6 +71,20 @@ export class TokenService {
     date.setUTCSeconds(decoded.exp);
     return date;
   }
+
+  public clearToken() {
+    localStorage.removeItem(this.TOKEN_NAME);
+  }
+
+  public clearRefreshToken() {
+    localStorage.removeItem(this.REFRESH_TOKEN_NAME);
+  }
+
+  public markAsInvalid() {
+    this.tokenPair.invalid = true;
+  }
+
+
   public getHeadersWithToken(headers?: HttpHeaders): HttpHeaders {
     if (!headers)
       headers = new HttpHeaders();

@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using ApplicationCore.Identity;
+using Infrastructure.Identity;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -17,15 +20,36 @@ namespace OctopusStore.Middleware
             this.next = next;
         }
 
-        public async Task Invoke(HttpContext context)
+        public async Task Invoke(HttpContext context, UserManager<ApplicationUser> userManager)
         {
-            await next(context);
-            string token = GetTokenFromAuthorizationString(context.Request.Headers["Authorization"]);
-            if (!string.IsNullOrWhiteSpace(token) && context.User != null)
+            context.Response.OnStarting(async state =>
             {
+                string tokenString = GetTokenFromAuthorizationString(context.Request.Headers["Authorization"]);
                 var tokenHandler = new JwtSecurityTokenHandler();
-                tokenHandler.ReadJwtToken(token);
+                if (tokenHandler.CanReadToken(tokenString) && context.User != null)
+                {
+                    var token = tokenHandler.ReadJwtToken(tokenString);
+                    //var id = token.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name) ?? throw new Exception($"Name claim not found at token {tokenString}");
+                    var user = await userManager.FindByIdAsync(token.Subject) ?? throw new Exception($"User {token.Subject} not found");
+                    var actualClaims = await userManager.GetClaimsAsync(user);
+                    var httpContext = (HttpContext)state;
+                    httpContext.Response.Headers.Add("Claims-Changed", "true");
+                }
+            }, context);
+            await next(context);
+        }
+
+        private bool CheckClaimSets(IEnumerable<Claim> superset, IEnumerable<Claim> subset)
+        {
+            bool result = true;
+            var comparer = new ClaimComparer();
+            foreach(var s in subset)
+            {
+                result = superset.Contains(s, comparer);
+                if (!result)
+                    break;
             }
+            return result;
         }
         private string GetTokenFromAuthorizationString(string authorization)
         {

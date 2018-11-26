@@ -209,6 +209,7 @@ namespace Infrastructure.Identity
                 DateTime.Now.AddSeconds(expirationTimeSeconds);
             //DateTime.Now.AddDays(Convert.ToDouble(_configuration["ExpireDays"]));
 
+            var cs = await _userManager.GetClaimsAsync(user);
             var token = new JwtSecurityToken(
                 issuer: _configuration["Issuer"],
                 audience: _configuration["Audience"],

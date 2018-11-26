@@ -43,6 +43,8 @@ namespace Infrastructure.Identity
             {
                user = new ApplicationUser { Email = email, UserName = username, Id = email };
                var res =  await userManager.CreateAsync(user, testUserPw);
+                await userManager.AddClaimAsync(user, new Claim(ClaimTypes.NameIdentifier, email));
+                await userManager.AddClaimAsync(user, new Claim(ClaimTypes.Name, email));
             }
             return await userManager.FindByEmailAsync(email);
         }

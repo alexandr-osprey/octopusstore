@@ -1,6 +1,6 @@
 import { Observable, of, Subject } from 'rxjs';
 import { MessageService } from './message.service';
-import { HttpClient, HttpHeaders, HttpHeaderResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpHeaderResponse, HttpResponse } from '@angular/common/http';
 import { Entity } from '../view-models/entity/entity';
 import { IdentityService } from './identity.service';
 import 'rxjs/add/operator/retryWhen';
@@ -88,14 +88,16 @@ export abstract class DataReadWriteService <TEntity extends Entity> {
     this.messageService.sendTrace(`${this.serviceName} ${requestType} ${url} ${(body.toString())} request ${retryCount} time`);
     operation
       .retry(1)
-      .subscribe((entity: TResult) => {
-        this.messageService.sendTrace(`${this.serviceName} ${requestType} ${url} ${(entity as any).id} success from ${retryCount} time`);
-        customSource.next(entity);
+      .subscribe((response: HttpResponse<TResult>) => {
+        this.messageService.sendTrace(`${this.serviceName} ${requestType} ${url} ${(response.body as any).id} success from ${retryCount} time`);
+        customSource.next(response.body);
+        if (response.headers.get("claims-changed")) {
+          this.identityService.refreshToken().subscribe();
+        }
       },
       errorResponse => {
        // console.log("customRequest errorResponse enter");
         if (errorResponse.status == 401) {
-          console.log("customRequest errorResponse  401 enter");
           if (retryCount < this.retryLimit) {
            // console.log("customRequest errorResponse  401 < 3 enter");
             this.identityService.ensureSignIn().subscribe((success) => {
@@ -113,26 +115,25 @@ export abstract class DataReadWriteService <TEntity extends Entity> {
             this.handleError(customSource, errorResponse);
           }
       });
-    console.log("customRequest leave");
     return customSource.asObservable();
   }
-  protected getOperation<TResult>(type: string, url: string, params: any, headers: HttpHeaders, body: any): Observable<TResult> {
-    let operation: Observable<TResult>;
+  protected getOperation<TResult>(type: string, url: string, params: any, headers: HttpHeaders, body: any): Observable<HttpResponse<TResult>> {
+    let operation: Observable<HttpResponse<TResult>>;
     switch (type) {
       case "get": {
-        operation = this.http.get<TResult>(url, { headers: headers, params: params });
+        operation = this.http.get<TResult>(url, { headers: headers, params: params, observe: 'response' });
         break;
       }
       case "post": {
-        operation = this.http.post<TResult>(url, body, { headers: headers, params: params });
+        operation = this.http.post<TResult>(url, body, { headers: headers, params: params, observe: 'response' });
         break;
       }
       case "put": {
-        operation = this.http.put<TResult>(url, body, { headers: headers, params: params });
+        operation = this.http.put<TResult>(url, body, { headers: headers, params: params, observe: 'response' });
         break;
       }
       case "delete": {
-        operation = this.http.delete<TResult>(url, { headers: headers, params: params });
+        operation = this.http.delete<TResult>(url, { headers: headers, params: params, observe: 'response' });
         break;
       }
     }
