@@ -35,10 +35,7 @@ export class StoreDetailComponent implements OnInit {
       this.storeService.getDetail(storeId).subscribe((storeDetail: Store) => {
         this.storeDetail = new Store(storeDetail);
       });
-      this.identityService.checkCreateUpdateAuthorization(this.getUpdateLink(storeId)).subscribe(result => {
-        if (result)
-          this.authorizedToUpdate = true;
-      });
+      this.authorizedToUpdate = this.identityService.checkUpdateAuthorization(storeId);
     }
   }
 

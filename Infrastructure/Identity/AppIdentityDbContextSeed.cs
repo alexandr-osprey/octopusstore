@@ -29,8 +29,12 @@ namespace Infrastructure.Identity
                 //await userManager.AddClaimAsync(user, cl);
             });
             var john = await EnsureUser(serviceProvider, Password, "john@mail.com", "john@mail.com");
+            await userManager.AddClaimAsync(john, new Claim(CustomClaimTypes.Administrator, CustomClaimValues.Content));
+            await userManager.AddClaimAsync(john, new Claim(CustomClaimTypes.StoreAdministrator, "1"));
             //await userManager.AddClaimAsync(john, new Claim(CustomClaimTypes.Seller, john.Id));
             var jennifer = await EnsureUser(serviceProvider, Password, "jennifer@mail.com", "jennifer@mail.com");
+            await userManager.AddClaimAsync(jennifer, new Claim(CustomClaimTypes.StoreAdministrator, "2"));
+
             //await userManager.AddClaimAsync(jennifer, new Claim(CustomClaimTypes.Seller, jennifer.Id));
             var admin = await EnsureUser(serviceProvider, Password, "admin@mail.com", "admin@mail.com");
         }

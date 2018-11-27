@@ -42,11 +42,8 @@ export class ItemDetailComponent implements OnInit {
         if (data) {
           this.itemDetail = new ItemDetail(data);
           this.displayedImages = this.itemDetail.images;
+          this.authorizedToUpdate = this.identityService.checkUpdateAuthorization(data.store.id);
         }
-        this.identityService.checkCreateUpdateAuthorization(this.getUpdateLink(itemId)).subscribe(result => {
-          if (result)
-            this.authorizedToUpdate = true;
-        });
       });
     }
   }

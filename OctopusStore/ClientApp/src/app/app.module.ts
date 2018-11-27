@@ -34,6 +34,9 @@ import { StoreAdministratorsComponent } from './store/store-administrators/store
 import { CartComponent } from './cart/cart/cart.component';
 import { CartPreviewComponent } from './cart/cart-preview/cart-preview.component';
 import { CharacteristicPaneComponent } from './navigation/characteristic-pane/characteristic-pane.component';
+import { AdministrationActionsComponent } from './administration/administration-actions/administration-actions.component';
+import { CategoryIndexComponent } from './category/category-index/category-index.component';
+import { CategoryCreateUpdateComponent } from './category/category-create-update/category-create-update.component';
 
 
 @NgModule({
@@ -68,6 +71,9 @@ import { CharacteristicPaneComponent } from './navigation/characteristic-pane/ch
     CartComponent,
     CartPreviewComponent,
     CharacteristicPaneComponent,
+    AdministrationActionsComponent,
+    CategoryIndexComponent,
+    CategoryCreateUpdateComponent,
   ],
   imports: [
     BrowserModule,

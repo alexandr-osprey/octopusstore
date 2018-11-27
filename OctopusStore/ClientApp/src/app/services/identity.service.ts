@@ -182,6 +182,20 @@ export class IdentityService {
     let password = localStorage.getItem(this.PASSWORD_NAME);
     return (email != null && password != null);
   }
+
+  public checkUpdateAuthorization(storeId: number): boolean {
+    let stores = this.getUserAdministredStoreIds();
+    let allowed = stores.findIndex(s => s == storeId) >= 0;
+    allowed = allowed || this.isContentAdministrator();
+    return allowed;
+  }
+
+  public isContentAdministrator(): boolean {
+    let value = this.tokenManager.getValue("Administrator");
+    let contentAdministrator = value == "Content";
+    return contentAdministrator;
+  }
+
   protected signInFailed(errorResponse: HttpErrorResponse): void {
   //  console.log("signInFailed enter");
     //this.router.navigate(['signIn']);
