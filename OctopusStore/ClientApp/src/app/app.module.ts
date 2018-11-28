@@ -34,7 +34,7 @@ import { StoreAdministratorsComponent } from './store/store-administrators/store
 import { CartComponent } from './cart/cart/cart.component';
 import { CartPreviewComponent } from './cart/cart-preview/cart-preview.component';
 import { CharacteristicPaneComponent } from './navigation/characteristic-pane/characteristic-pane.component';
-import { AdministrationActionsComponent } from './administration/administration-actions/administration-actions.component';
+import { AdministratingHomepageComponent } from './administrating/administrating-homepage/administrating-homepage.component';
 import { CategoryIndexComponent } from './category/category-index/category-index.component';
 import { CategoryCreateUpdateComponent } from './category/category-create-update/category-create-update.component';
 
@@ -71,7 +71,7 @@ import { CategoryCreateUpdateComponent } from './category/category-create-update
     CartComponent,
     CartPreviewComponent,
     CharacteristicPaneComponent,
-    AdministrationActionsComponent,
+    AdministratingHomepageComponent,
     CategoryIndexComponent,
     CategoryCreateUpdateComponent,
   ],

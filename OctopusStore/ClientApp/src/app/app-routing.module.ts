@@ -13,6 +13,8 @@ import { IdentitySignUpComponent } from './identity/identity-sing-up/identity-si
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { StoreAdministratorsComponent } from './store/store-administrators/store-administrators.component';
 import { CartComponent } from './cart/cart/cart.component';
+import { AdministratingHomepageComponent } from './administrating/administrating-homepage/administrating-homepage.component';
+import { AdministratorAuthorizationGuard } from './guards/administrator-authorization-guard';
 
 
 const routes: Routes = [
@@ -24,6 +26,12 @@ const routes: Routes = [
   {
     path: 'cart',
     component: CartComponent,
+    pathMatch: 'full',
+  },
+  {
+    path: 'administration',
+    component: AdministratingHomepageComponent,
+    canActivate: [AdministratorAuthorizationGuard],
     pathMatch: 'full',
   },
   {

@@ -12,6 +12,7 @@ export class CreateUpdateAuthorizationGuard implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     this.identityService.checkCreateUpdateAuthorization(state.url, true).subscribe(result => {
       if (!result) {
+        return false;
       }
     });
     return true;
