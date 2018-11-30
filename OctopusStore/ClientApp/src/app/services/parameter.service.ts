@@ -40,7 +40,13 @@ export class ParameterService {
   }
   public getUpdatedParams(...args: [string, any][]): [string, any][] {
     let params = this.getParams();
-    args.forEach(pair => params[pair[0]] = pair[1]);
+    args.forEach(pair => {
+      if (pair[1]) {
+        params[pair[0]] = pair[1];
+      } else {
+        delete params[pair[0]];
+      }
+    });
     return params;
   }
 

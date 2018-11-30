@@ -40,9 +40,11 @@ export class CharacteristicPaneComponent implements OnInit {
             this.characteristicValueCheckboxes.push(new CharacteristicValueCheckbox(e));
           });
           let filters: string = this.parameterService.getParam(ParameterNames.characteristicsFilter);
-          let values = filters.split(';').map(v => +v);
-          let valuesToCheck = this.characteristicValueCheckboxes.filter(v => values.includes(v.id));
-          valuesToCheck.forEach(v => this.characteristicValueCheckboxes.find(c => c == v).checked = true);
+          if (filters) {
+            let values = filters.split(';').map(v => +v);
+            let valuesToCheck = this.characteristicValueCheckboxes.filter(v => values.includes(v.id));
+            valuesToCheck.forEach(v => this.characteristicValueCheckboxes.find(c => c == v).checked = true);
+          }
         });
     }
   }

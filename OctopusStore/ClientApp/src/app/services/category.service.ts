@@ -6,12 +6,13 @@ import { IdentityService } from './identity.service';
 import { DataReadWriteService } from './data-read-write.service';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { APP_SETTINGS } from '../app-settings';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CategoryService extends DataReadWriteService<Category> {
-  public rootCategoryId: number = 1;
+  public rootCategoryId: number = APP_SETTINGS.rootCategoryId;
 
   constructor(
     protected http: HttpClient,

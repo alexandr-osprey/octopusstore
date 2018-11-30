@@ -1,3 +1,22 @@
-<p>
-  category-create-update works!
-</p>
+<div class="row" *ngIf="category">
+  <div class="col-md-12">
+    <form #categoryForm="ngForm">
+      <div class="form-group">
+        <label for="title">Title</label>
+        <input type="text" class="form-control" id="title" required [(ngModel)]="category.title" name="title" #title="ngModel" />
+      </div>
+      <div class="form-group">
+        <label for="description">Description</label>
+        <input type="text" class="form-control" id="description" required [(ngModel)]="category.description" name="description" #description="ngModel" />
+      </div>
+      <div *ngIf="!isUpdating" class="form-group">
+        <label for="parentCategoryId">Parent category</label>
+        <select class="form-control" id="parentCategoryId" required
+                name="parentCategoryId" [(ngModel)]="category.parentCategoryId">
+          <option *ngFor="let parentCategory of allCategories" [value]="parentCategory.id">{{ parentCategory.title }}</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary" [disabled]="!categoryForm.form.valid" (click)="createOrUpdate()">Save</button>
+    </form>
+  </div>
+</div>

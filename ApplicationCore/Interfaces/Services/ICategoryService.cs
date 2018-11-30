@@ -13,7 +13,7 @@ namespace ApplicationCore.Interfaces.Services
         /// <summary>
         /// Id of primal Category
         /// </summary>
-        int RootCategoryId { get; }
+        Category RootCategory { get; }
         /// <summary>
         /// Enumerates Categories from specified category up to the root and subcategories. Used to flatten category hierarchy.
         /// </summary>

@@ -15,6 +15,9 @@ import { StoreAdministratorsComponent } from './store/store-administrators/store
 import { CartComponent } from './cart/cart/cart.component';
 import { AdministratingHomepageComponent } from './administrating/administrating-homepage/administrating-homepage.component';
 import { AdministratorAuthorizationGuard } from './guards/administrator-authorization-guard';
+import { CategoryCreateUpdateComponent } from './category/category-create-update/category-create-update.component';
+import { CategoryIndexComponent } from './category/category-index/category-index.component';
+import { CategoryControlComponent } from './category/category-control/category-control.component';
 
 
 const routes: Routes = [
@@ -29,7 +32,7 @@ const routes: Routes = [
     pathMatch: 'full',
   },
   {
-    path: 'administration',
+    path: 'administrating',
     component: AdministratingHomepageComponent,
     canActivate: [AdministratorAuthorizationGuard],
     pathMatch: 'full',
@@ -43,6 +46,29 @@ const routes: Routes = [
     path: 'signIn',
     component: IdentitySignInComponent,
     pathMatch: 'full'
+  },
+  {
+    path: 'categories/control',
+    pathMatch: 'full',
+    canActivate: [AdministratorAuthorizationGuard],
+    component: CategoryControlComponent,
+  },
+  {
+    path: 'categories/create',
+    pathMatch: 'full',
+    canActivate: [AdministratorAuthorizationGuard],
+    component: CategoryCreateUpdateComponent,
+  },
+  {
+    path: 'categories/:id/update',
+    pathMatch: 'full',
+    canActivate: [AdministratorAuthorizationGuard],
+    component: CategoryCreateUpdateComponent,
+  },
+  {
+    path: 'categories',
+    pathMatch: 'full',
+    component: CategoryIndexComponent,
   },
   {
     path: 'items/create',
@@ -99,6 +125,6 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes, {
     onSameUrlNavigation: 'reload' })],
   exports: [RouterModule],
-  providers: [CreateUpdateAuthorizationGuard]
+  providers: [CreateUpdateAuthorizationGuard, AdministratorAuthorizationGuard]
 })
 export class AppRoutingModule { }

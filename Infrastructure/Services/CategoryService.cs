@@ -13,14 +13,14 @@ namespace Infrastructure.Services
 {
     public class CategoryService: Service<Category>, ICategoryService
     {
-        protected int rootCategoryId = 0;
-        public int RootCategoryId
+        protected Category rootCategory;
+        public Category RootCategory
         {
             get
             {
-                if (rootCategoryId == 0)
-                    rootCategoryId = Context.ReadSingleBySpec(Logger, new Specification<Category>(c => c.IsRoot), true).Id;
-                return rootCategoryId;
+                if (rootCategory == null)
+                    rootCategory = Context.ReadSingleBySpec(Logger, new Specification<Category>(c => c.IsRoot, c => c.Subcategories), true);
+                return rootCategory;
             }
         }
 
@@ -112,6 +112,9 @@ namespace Infrastructure.Services
 
         public override async Task RelinkRelatedAsync(int id, int idToRelinkTo)
         {
+            var subcategories = await Context.EnumerateRelatedEnumAsync(Logger, new EntitySpecification<Category>(id), c => c.Subcategories);
+            foreach (var subcategory in subcategories)
+                subcategory.ParentCategoryId = idToRelinkTo;
             var categoryItems = await Context.EnumerateRelatedEnumAsync(Logger, new EntitySpecification<Category>(id), b => b.Items);
             foreach (var item in categoryItems)
                 item.CategoryId = idToRelinkTo;
@@ -130,7 +133,8 @@ namespace Infrastructure.Services
                 throw new EntityValidationException("Description not specified");
             if (!category.IsRoot && !await Context.ExistsBySpecAsync(Logger, new EntitySpecification<Category>(category.ParentCategoryId)))
                 throw new EntityValidationException("Parent category does not exist");
-            
+            if (category.ParentCategoryId != RootCategory.Id && !RootCategory.Subcategories.Any(c => c.Id == category.ParentCategoryId))
+                throw new EntityValidationException("Only root or first level categories can be parent");
         }
 
         protected override async Task ValidateCustomUniquinessWithException(Category category)

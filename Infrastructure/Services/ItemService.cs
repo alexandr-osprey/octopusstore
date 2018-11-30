@@ -30,7 +30,7 @@ namespace Infrastructure.Services
         }
 
         public async Task<ItemIndexSpecification> GetIndexSpecificationByParameters(int page, int pageSize, string title, int? categoryId, int? storeId, int? brandId , HashSet<int> characteristicValueIds) 
-            => new ItemIndexSpecification(page, pageSize, title, await GetCategoriesAsync(categoryId ?? CategoryService.RootCategoryId), storeId, brandId, characteristicValueIds);
+            => new ItemIndexSpecification(page, pageSize, title, await GetCategoriesAsync(categoryId ?? CategoryService.RootCategory.Id), storeId, brandId, characteristicValueIds);
 
         public override async Task DeleteRelatedEntitiesAsync(Item item)
         {

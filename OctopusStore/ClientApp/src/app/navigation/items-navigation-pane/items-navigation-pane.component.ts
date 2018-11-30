@@ -45,7 +45,9 @@ export class ItemsNavigationPaneComponent implements OnInit {
         data.entities.forEach(e => this.characteristics.push(new Characteristic(e)));
         if (init) {
           let filters: string = this.parameterService.getParam(ParameterNames.characteristicsFilter);
-          this.selectedChacarteristicValueIds = filters.split(';').map(v => +v);
+          if (filters) {
+            this.selectedChacarteristicValueIds = filters.split(';').map(v => +v);
+          }
           this.applyFilter();
         }
       }

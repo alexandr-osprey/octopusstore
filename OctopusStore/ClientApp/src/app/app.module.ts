@@ -7,7 +7,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './/app-routing.module';
 import { HeaderComponent } from './header/header.component';
 import { ItemThumbnailComponent } from './item/item-thumbnail/item-thumbnail.component';
-import { CategoriesComponent } from './navigation/categories/categories.component';
+import { CategoryIndexComponent } from './category/category-index/category-index.component';
 import { MessagesComponent } from './messages/messages.component';
 import { PaginatorComponent } from './paginator/paginator.component';
 import { ItemVariantCreateUpdateComponent } from './item-variant/item-variant-create-update/item-variant-create-update.component';
@@ -35,8 +35,10 @@ import { CartComponent } from './cart/cart/cart.component';
 import { CartPreviewComponent } from './cart/cart-preview/cart-preview.component';
 import { CharacteristicPaneComponent } from './navigation/characteristic-pane/characteristic-pane.component';
 import { AdministratingHomepageComponent } from './administrating/administrating-homepage/administrating-homepage.component';
-import { CategoryIndexComponent } from './category/category-index/category-index.component';
 import { CategoryCreateUpdateComponent } from './category/category-create-update/category-create-update.component';
+import { CategoryControlComponent } from './category/category-control/category-control.component';
+import { AppLoadModule } from './app-load';
+
 
 
 @NgModule({
@@ -47,7 +49,7 @@ import { CategoryCreateUpdateComponent } from './category/category-create-update
     HeaderComponent,
     ItemThumbnailsComponent,
     ItemThumbnailComponent,
-    CategoriesComponent,
+    CategoryIndexComponent,
     MessagesComponent,
     PaginatorComponent,
     ItemImageGalleryComponent,
@@ -72,8 +74,8 @@ import { CategoryCreateUpdateComponent } from './category/category-create-update
     CartPreviewComponent,
     CharacteristicPaneComponent,
     AdministratingHomepageComponent,
-    CategoryIndexComponent,
     CategoryCreateUpdateComponent,
+    CategoryControlComponent
   ],
   imports: [
     BrowserModule,
@@ -81,6 +83,7 @@ import { CategoryCreateUpdateComponent } from './category/category-create-update
     NgbModule.forRoot(), 
     HttpClientModule,
     FormsModule,
+    AppLoadModule
   ],
   providers: [{
     provide: ErrorHandler, 

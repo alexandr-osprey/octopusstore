@@ -34,7 +34,7 @@ namespace OctopusStore.Controllers
 
         [AllowAnonymous]
         [HttpGet("root")]
-        public async Task<CategoryViewModel> ReadRootAsync() => await base.ReadAsync(Service.RootCategoryId);
+        public async Task<CategoryViewModel> ReadRootAsync() => await base.ReadAsync(Service.RootCategory.Id);
 
         // GET: api/<controller>
         [AllowAnonymous]
@@ -43,7 +43,7 @@ namespace OctopusStore.Controllers
             [FromQuery(Name = "categoryId")]int? categoryId,
             [FromQuery(Name = "storeId")]int? storeId)
         {
-            categoryId = categoryId ?? Service.RootCategoryId;
+            categoryId = categoryId ?? Service.RootCategory.Id;
             var categories = await Service.EnumerateHierarchyAsync(new EntitySpecification<Category>(c => c.Id == categoryId.Value));
             if (storeId.HasValue)
             {
