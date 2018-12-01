@@ -32,7 +32,17 @@ namespace OctopusStore.Controllers
         [AllowAnonymous]
         [HttpGet]
         [HttpGet("/api/categories/{categoryId:int}/characteristics")]
-        public async Task<IndexViewModel<CharacteristicViewModel>> IndexAsync(int categoryId) => await base.IndexByFunctionNotPagedAsync(Service.EnumerateByCategoryAsync, new EntitySpecification<Category>(categoryId));
+        public async Task<IndexViewModel<CharacteristicViewModel>> IndexAsync(int categoryId)
+        {
+            if (categoryId > 0)
+            {
+                return await base.IndexByFunctionNotPagedAsync(Service.EnumerateByCategoryAsync, new EntitySpecification<Category>(categoryId));
+            }
+            else
+            {
+                return await base.IndexNotPagedAsync(new Specification<Characteristic>());
+            }
+        }
 
         [HttpPut]
         public override async Task<CharacteristicViewModel> UpdateAsync([FromBody]CharacteristicViewModel characteristicViewModel) => await base.UpdateAsync(characteristicViewModel);

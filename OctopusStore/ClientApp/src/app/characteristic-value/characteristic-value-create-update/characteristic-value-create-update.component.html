@@ -1,3 +1,18 @@
-<p>
-  characteristic-value-create-update works!
-</p>
+<div class="row" *ngIf="characteristicValue">
+  <div class="col-md-12">
+    <form #characteristicValueForm="ngForm">
+      <div class="form-group">
+        <label for="title">Title</label>
+        <input type="text" class="form-control" id="title" required [(ngModel)]="characteristicValue.title" name="title" #title="ngModel" />
+      </div>
+      <div *ngIf="!isUpdating" class="form-group">
+        <label for="characteristicId">Characteristic</label>
+        <select class="form-control" id="characteristicId" required
+                name="characteristicId" [(ngModel)]="characteristicValue.characteristicId">
+          <option *ngFor="let characteristic of characteristics" [value]="characteristic.id">{{ characteristic.title }}</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary" [disabled]="!characteristicValueForm.form.valid" (click)="createOrUpdate()">Save</button>
+    </form>
+  </div>
+</div>

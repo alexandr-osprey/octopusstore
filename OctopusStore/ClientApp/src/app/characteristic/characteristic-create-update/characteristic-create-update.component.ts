@@ -14,7 +14,7 @@ import { MessageService } from 'src/app/services/message.service';
 })
 export class CharacteristicCreateUpdateComponent implements OnInit {
   protected characteristic: Characteristic;
-  protected categories: Characteristic[] = [];
+  protected categories: Category[] = [];
   public isUpdating = false;
   @Output() characteristicSaved = new EventEmitter<Characteristic>();
 
