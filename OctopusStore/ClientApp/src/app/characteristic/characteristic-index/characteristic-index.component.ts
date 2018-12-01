@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ParameterService } from 'src/app/services/parameter.service';
 import { CharacteristicService } from 'src/app/services/characteristic.service';
 import { Characteristic } from 'src/app/view-models/characteristic/characteristic';
@@ -12,6 +12,7 @@ import { ParameterNames } from 'src/app/services/parameter-names';
 export class CharacteristicIndexComponent implements OnInit {
   protected characteristics: Characteristic[] = [];
   protected categoryId: number = 0;
+  @Input() administrating: boolean;
 
   constructor(private parameterService: ParameterService, private characteristicService: CharacteristicService) { }
 

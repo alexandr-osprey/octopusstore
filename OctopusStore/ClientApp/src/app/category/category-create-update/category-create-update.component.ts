@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Location } from '@angular/common';
 import { ParameterService } from 'src/app/services/parameter.service';
-import { ParameterNames } from 'src/app/services/parameter-names';
 import { Category } from 'src/app/view-models/category/category';
 import { CategoryService } from 'src/app/services/category.service';
 import { MessageService } from 'src/app/services/message.service';
@@ -13,7 +13,7 @@ import { MessageService } from 'src/app/services/message.service';
 })
 export class CategoryCreateUpdateComponent implements OnInit {
   protected category: Category;
-  protected allCategories: Category[] = [];
+  protected allowedCategories: Category[] = [];
   public isUpdating = false;
   @Output() categorySaved = new EventEmitter<Category>();
 
@@ -21,23 +21,17 @@ export class CategoryCreateUpdateComponent implements OnInit {
     private parameterService: ParameterService,
     private categoryService: CategoryService,
     private messageService: MessageService,
-    private router: Router) {
+    private router: Router,
+    private location: Location) {
   }
 
   ngOnInit() {
-    this.parameterService.params$.subscribe(p => {
-      this.initializeComponent();
-    });
     this.initializeComponent();
   }
 
   initializeComponent() {
-      this.updateAllCategories();
+      this.updateAllowedCategories();
       let id = +this.route.snapshot.paramMap.get('id') || 0;
-      if(id == 0) {
-        id = +this.parameterService.getParam(ParameterNames.categoryId) || 0;
-      }
-
       if (id != 0) {
         this.isUpdating = true;
         this.categoryService.get(id).subscribe(data => {
@@ -51,13 +45,13 @@ export class CategoryCreateUpdateComponent implements OnInit {
       }
   }
 
-  updateAllCategories() {
+  updateAllowedCategories() {
     this.categoryService.index().subscribe(data => {
       if (data) {
-        this.allCategories = [];
+        this.allowedCategories = [];
         data.entities.forEach(c => {
           if (c.parentCategoryId == this.categoryService.rootCategoryId || c.id == this.categoryService.rootCategoryId) {
-            this.allCategories.push(new Category(c));
+            this.allowedCategories.push(new Category(c));
           }
         });
       }
@@ -68,13 +62,11 @@ export class CategoryCreateUpdateComponent implements OnInit {
     this.categoryService.postOrPut(this.category).subscribe(
       (data) => {
         if (data) {
-          //this.messageService.sendError("subscribe 3: ");
           this.category = new Category(data);
           this.messageService.sendSuccess("Category saved");
-          this.updateAllCategories();
           this.categorySaved.emit(this.category);
-          if (!this.categorySaved.observers.length) {
-            this.parameterService.navigateWithParams('/categories/');
+          if (this.categorySaved.observers.length == 0) {
+            this.location.back();
           }
         }
       });

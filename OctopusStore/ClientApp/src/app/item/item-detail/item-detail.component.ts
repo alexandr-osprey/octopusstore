@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ItemDetail } from '../../view-models/item/item-detail';
 import { ItemService } from '../../services/item.service';
@@ -6,7 +6,6 @@ import { IdentityService } from '../../services/identity.service';
 import { ItemImage } from '../../view-models/item-image/item-image';
 import { ItemVariant } from '../../view-models/item-variant/item-variant';
 import { CartItem } from '../../view-models/cart-item/cart-item';
-import { BrandService } from '../../services/brand.service';
 import { CartItemService } from '../../services/cart-item.service';
 
 @Component({

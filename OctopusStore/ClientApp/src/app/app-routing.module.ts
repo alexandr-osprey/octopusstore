@@ -17,6 +17,8 @@ import { AdministratingHomepageComponent } from './administrating/administrating
 import { AdministratorAuthorizationGuard } from './guards/administrator-authorization-guard';
 import { CategoryCreateUpdateComponent } from './category/category-create-update/category-create-update.component';
 import { CategoryIndexComponent } from './category/category-index/category-index.component';
+import { CharacteristicCreateUpdateComponent } from './characteristic/characteristic-create-update/characteristic-create-update.component';
+import { CharacteristicValueCreateUpdateComponent } from './characteristic-value/characteristic-value-create-update/characteristic-value-create-update.component';
 
 
 const routes: Routes = [
@@ -65,9 +67,28 @@ const routes: Routes = [
     component: CategoryCreateUpdateComponent,
   },
   {
-    path: 'categories',
+    path: 'characteristics/create',
     pathMatch: 'full',
-    component: CategoryIndexComponent,
+    canActivate: [AdministratorAuthorizationGuard],
+    component: CharacteristicCreateUpdateComponent,
+  },
+  {
+    path: 'characteristics/:id/update',
+    pathMatch: 'full',
+    canActivate: [AdministratorAuthorizationGuard],
+    component: CharacteristicCreateUpdateComponent,
+  },
+  {
+    path: 'characteristicValues/create',
+    pathMatch: 'full',
+    canActivate: [AdministratorAuthorizationGuard],
+    component: CharacteristicValueCreateUpdateComponent,
+  },
+  {
+    path: 'characteristicValues/:id/update',
+    pathMatch: 'full',
+    canActivate: [AdministratorAuthorizationGuard],
+    component: CharacteristicValueCreateUpdateComponent,
   },
   {
     path: 'items/create',

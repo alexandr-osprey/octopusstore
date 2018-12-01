@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { CategoryHierarchy } from './category-hierarchy';
 import { Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
@@ -7,6 +7,7 @@ import { ParameterNames } from '../../services/parameter-names';
 import { CategoryService } from '../../services/category.service';
 import { ParameterService } from '../../services/parameter.service';
 import { EntityIndex } from '../../view-models/entity/entity-index';
+import { IdentityService } from 'src/app/services/identity.service';
 
 @Component({
   selector: 'app-category-index',
@@ -19,6 +20,7 @@ export class CategoryIndexComponent implements OnInit {
   protected currentCategory: Category;
   protected parametersSubsription: Subscription;
   protected categoryIdParamName = ParameterNames.categoryId;
+  @Input() administrating: boolean;
 
   constructor(
     private categoryService: CategoryService,
