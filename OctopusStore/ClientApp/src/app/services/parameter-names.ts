@@ -6,6 +6,7 @@ export class ParameterNames {
   public static page: string = "page";
   public static pageSize: string = "pageSize";
   //filters
+  public static characteristicId: string = "characteristicId";
   public static categoryId: string = "categoryId";
   public static storeId: string = "storeId";
   public static title: string = "title";

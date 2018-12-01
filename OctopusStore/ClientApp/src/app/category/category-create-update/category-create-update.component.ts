@@ -70,11 +70,11 @@ export class CategoryCreateUpdateComponent implements OnInit {
         if (data) {
           //this.messageService.sendError("subscribe 3: ");
           this.category = new Category(data);
-          this.messageService.sendSuccess("Category updated");
+          this.messageService.sendSuccess("Category saved");
           this.updateAllCategories();
           this.categorySaved.emit(this.category);
           if (!this.categorySaved.observers.length) {
-            this.parameterService.navigateWithParams('/categories/control/');
+            this.parameterService.navigateWithParams('/categories/');
           }
         }
       });

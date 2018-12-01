@@ -33,6 +33,9 @@
         <div>
           <a [routerLink]="['/cart']">Cart</a>
         </div>
+        <div *ngIf="isContentAdministrator">
+          <a [routerLink]="['/administrating']">Administrating</a>
+        </div>
       </div>
     </div>
   </div>

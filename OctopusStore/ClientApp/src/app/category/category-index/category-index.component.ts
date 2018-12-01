@@ -44,17 +44,20 @@ export class CategoryIndexComponent implements OnInit {
     let categoryId: number = +this.parameterService.getParam(ParameterNames.categoryId);
     if (!categoryId)
       categoryId = this.categoryService.rootCategoryId;
-    this.categoryService.index(this.parameterService.getUpdatedParams([ParameterNames.categoryId, categoryId])).subscribe((data: EntityIndex<Category>) => {
-      data.entities.forEach(c => this.allCategories.push(new Category(c)));
-      this.currentCategory = this.allCategories.find(c => c.id == categoryId);
-      this.categoryHierarchy = new CategoryHierarchy(this.categoryService.rootCategoryId, this.currentCategory, this.allCategories);
-    });
+    if (!this.currentCategory || this.currentCategory.id != categoryId) {
+      this.categoryService.index(this.parameterService.getUpdatedParams([ParameterNames.categoryId, categoryId])).subscribe((data: EntityIndex<Category>) => {
+        data.entities.forEach(c => this.allCategories.push(new Category(c)));
+        this.currentCategory = this.allCategories.find(c => c.id == categoryId);
+        this.categoryHierarchy = new CategoryHierarchy(this.categoryService.rootCategoryId, this.currentCategory, this.allCategories);
+      });
+    }
   }
   getCategoryParams(categoryId: number): any {
     let params = this.parameterService.getUpdatedParams(
       [ParameterNames.categoryId, categoryId],
       [ParameterNames.characteristicsFilter, null],
-      [ParameterNames.page, null]);
+      [ParameterNames.page, null],
+      [ParameterNames.characteristicId, null]);
     return params;
   }
 }

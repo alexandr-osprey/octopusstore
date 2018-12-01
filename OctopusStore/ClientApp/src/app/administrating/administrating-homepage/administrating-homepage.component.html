@@ -1,10 +1,11 @@
 <div class="row">
-  <ul>
-    <li><a [routerLink]="['/categories']">Categories</a></li>
-    <li><a [routerLink]="['/characteristics']">Characteristics</a></li>
-    <li><a [routerLink]="['/brands']">Brands</a></li>
-    <li><a [routerLink]="['/characteristicValues']">Characteristic values</a></li>
-    <li><a [routerLink]="['/measurementUnits']">Measurement units</a></li>
-    <li><a [routerLink]="['/stores']">Stores</a></li>
-  </ul>
+  <div class="col-md-2">
+    <app-category-index></app-category-index>
+  </div>
+  <div class="col-md-2">
+    <app-characteristic-index></app-characteristic-index>
+  </div>
+  <div class="col-md-2">
+    <app-characteristic-value-index></app-characteristic-value-index>
+  </div>
 </div>

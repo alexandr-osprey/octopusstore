@@ -36,8 +36,11 @@ import { CartPreviewComponent } from './cart/cart-preview/cart-preview.component
 import { CharacteristicPaneComponent } from './navigation/characteristic-pane/characteristic-pane.component';
 import { AdministratingHomepageComponent } from './administrating/administrating-homepage/administrating-homepage.component';
 import { CategoryCreateUpdateComponent } from './category/category-create-update/category-create-update.component';
-import { CategoryControlComponent } from './category/category-control/category-control.component';
 import { AppLoadModule } from './app-load';
+import { CharacteristicIndexComponent } from './characteristic/characteristic-index/characteristic-index.component';
+import { CharacteristicCreateUpdateComponent } from './characteristic/characteristic-create-update/characteristic-create-update.component';
+import { CharacteristicValueIndexComponent } from './characteristic-value/characteristic-value-index/characteristic-value-index.component';
+import { CharacteristicValueCreateUpdateComponent } from './characteristic-value/characteristic-value-create-update/characteristic-value-create-update.component';
 
 
 
@@ -75,7 +78,10 @@ import { AppLoadModule } from './app-load';
     CharacteristicPaneComponent,
     AdministratingHomepageComponent,
     CategoryCreateUpdateComponent,
-    CategoryControlComponent
+    CharacteristicIndexComponent,
+    CharacteristicCreateUpdateComponent,
+    CharacteristicValueIndexComponent,
+    CharacteristicValueCreateUpdateComponent,
   ],
   imports: [
     BrowserModule,

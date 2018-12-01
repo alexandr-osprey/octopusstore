@@ -17,7 +17,6 @@ import { AdministratingHomepageComponent } from './administrating/administrating
 import { AdministratorAuthorizationGuard } from './guards/administrator-authorization-guard';
 import { CategoryCreateUpdateComponent } from './category/category-create-update/category-create-update.component';
 import { CategoryIndexComponent } from './category/category-index/category-index.component';
-import { CategoryControlComponent } from './category/category-control/category-control.component';
 
 
 const routes: Routes = [
@@ -48,10 +47,10 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'categories/control',
+    path: 'administrating',
     pathMatch: 'full',
     canActivate: [AdministratorAuthorizationGuard],
-    component: CategoryControlComponent,
+    component: AdministratingHomepageComponent,
   },
   {
     path: 'categories/create',
