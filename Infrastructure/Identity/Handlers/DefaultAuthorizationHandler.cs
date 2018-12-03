@@ -4,6 +4,7 @@ using ApplicationCore.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Infrastructure.Identity
@@ -71,13 +72,12 @@ namespace Infrastructure.Identity
 
         public bool UpdateDeleteContentAdministrator(AuthorizationHandlerContext context, OperationAuthorizationRequirement requirement)
         {
-            if (!(requirement.Name == Operations.Update || requirement.Name == Operations.Delete)
-                || context.User == null)
+            if (!(requirement.Name == Operations.Update || requirement.Name == Operations.Delete))
                 return false;
-            if (context.User.HasClaim(CustomClaimTypes.Administrator, CustomClaimValues.Content))
-                return true;
-            return false;
+            return IsContentAdministrator(context.User);
         }
+
+
 
         /// <summary>
         /// Ensures that a user allowed set properites of an entity.
@@ -89,6 +89,13 @@ namespace Infrastructure.Identity
         protected virtual async Task<bool> ValidateRightsOnEntityPropertiesAsync(AuthorizationHandlerContext context, OperationAuthorizationRequirement requirement, T entity)
         {
             return await Task.FromResult(true);
+        }
+
+        protected bool IsContentAdministrator(ClaimsPrincipal claimsPrincipal)
+        {
+            if (claimsPrincipal != null && claimsPrincipal.HasClaim(CustomClaimTypes.Administrator, CustomClaimValues.Content))
+                return true;
+            return false;
         }
     }
 }

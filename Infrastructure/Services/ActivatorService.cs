@@ -51,8 +51,15 @@ namespace Infrastructure.Services
 
         public T GetInstance<T>(params object[] constructorArguments)
         {
-            var types = (from c in constructorArguments select c.GetType()).ToArray();
-            return (T)GetActivator(typeof(T), types)(constructorArguments);
+            if (constructorArguments != null && constructorArguments.Length > 0)
+            {
+                var types = (from c in constructorArguments select c.GetType()).ToArray();
+                return (T)GetActivator(typeof(T), types)(constructorArguments);
+            }
+            else
+            {
+                return Activator.CreateInstance<T>();
+            }
         }
     }
 }

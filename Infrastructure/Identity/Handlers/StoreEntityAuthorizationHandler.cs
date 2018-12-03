@@ -55,8 +55,8 @@ namespace Infrastructure.Identity
                                     OperationAuthorizationRequirement requirement,
                                     T entity)
         {
-            if (!(context.User != null && entity != null))
-                return false;
+            if (base.IsContentAdministrator(context.User))
+                return true;
             bool result = false;
             Store store = await GetStoreEntityAsync(entity);
             if (store.OwnerId == context.User.Identity.Name || context.User.HasClaim(CustomClaimTypes.StoreAdministrator, store.Id.ToString()))
