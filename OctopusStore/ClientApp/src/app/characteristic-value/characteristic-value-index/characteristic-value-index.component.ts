@@ -3,6 +3,7 @@ import { CharacteristicValueService } from 'src/app/services/characteristic-valu
 import { ParameterService } from 'src/app/services/parameter.service';
 import { CharacteristicValue } from 'src/app/view-models/characteristic-value/characteristic-value';
 import { ParameterNames } from 'src/app/services/parameter-names';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-characteristic-value-index',
@@ -15,7 +16,10 @@ export class CharacteristicValueIndexComponent implements OnInit {
   @Input() administrating: boolean;
 
 
-  constructor(private characteristicValueService: CharacteristicValueService, private parameterService: ParameterService) { }
+  constructor(
+    private characteristicValueService: CharacteristicValueService,
+    private parameterService: ParameterService,
+    private router: Router) { }
 
   ngOnInit() {
     this.parameterService.params$.subscribe(_ => {
@@ -37,5 +41,10 @@ export class CharacteristicValueIndexComponent implements OnInit {
         }
       });
     }
+  }
+
+  create() {
+    let characteristicId = this.parameterService.getParam(ParameterNames.characteristicId);
+    this.router.navigate(['/characteristicValues/create'], { queryParams: { characteristicId: characteristicId } });
   }
 }

@@ -7,7 +7,7 @@ import { ParameterNames } from '../../services/parameter-names';
 import { CategoryService } from '../../services/category.service';
 import { ParameterService } from '../../services/parameter.service';
 import { EntityIndex } from '../../view-models/entity/entity-index';
-import { IdentityService } from 'src/app/services/identity.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-category-index',
@@ -24,6 +24,7 @@ export class CategoryIndexComponent implements OnInit {
 
   constructor(
     private categoryService: CategoryService,
+    private router: Router,
     private parameterService: ParameterService) {
   }
 
@@ -61,5 +62,10 @@ export class CategoryIndexComponent implements OnInit {
       [ParameterNames.page, null],
       [ParameterNames.characteristicId, null]);
     return params;
+  }
+
+  create() {
+    let categoryId = this.parameterService.getParam(ParameterNames.categoryId);
+    this.router.navigate(['/categories/create'], { queryParams: { categoryId: categoryId } });
   }
 }

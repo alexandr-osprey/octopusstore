@@ -1,7 +1,7 @@
 <div *ngIf="currentCategory" class="row">
   <div class="col-12 col-md-12 categories">
     <div *ngIf="administrating">
-      <a [routerLink]="['/categories/create']">Create</a>
+      <button class="btn" (click)="create()">Create</button>
     </div>
     <div *ngFor="let parentCategory of categoryHierarchy.parentCategories">
       <a [routerLink] [queryParams]="getCategoryParams(parentCategory.id)" [ngClass]="{'category': true, 'link': true, 'current-category': currentCategory.id==parentCategory.id, 'parent-category': currentCategory.id != parentCategory.id}">{{parentCategory.title}}</a>

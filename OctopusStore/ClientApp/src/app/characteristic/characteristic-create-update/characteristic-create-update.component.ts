@@ -6,6 +6,8 @@ import { Location } from '@angular/common';
 import { CategoryService } from 'src/app/services/category.service';
 import { Category } from 'src/app/view-models/category/category';
 import { MessageService } from 'src/app/services/message.service';
+import { ParameterService } from 'src/app/services/parameter.service';
+import { ParameterNames } from 'src/app/services/parameter-names';
 
 @Component({
   selector: 'app-characteristic-create-update',
@@ -23,6 +25,7 @@ export class CharacteristicCreateUpdateComponent implements OnInit {
     private route: ActivatedRoute,
     private messageService: MessageService,
     private categoryService: CategoryService,
+    private parameterService: ParameterService,
     private location: Location) { }
 
   ngOnInit() {
@@ -40,7 +43,8 @@ export class CharacteristicCreateUpdateComponent implements OnInit {
         }
       });
     } else {
-      this.characteristic = new Characteristic();
+      let categoryId = +this.parameterService.getParam(ParameterNames.categoryId);
+      this.characteristic = new Characteristic({ categoryId: categoryId });
       this.isUpdating = false;
     }
   }
@@ -60,7 +64,7 @@ export class CharacteristicCreateUpdateComponent implements OnInit {
     this.characteristicService.postOrPut(this.characteristic).subscribe(
       (data) => {
         if (data) {
-          this.characteristic = new Category(data);
+          this.characteristic = new Characteristic(data);
           this.messageService.sendSuccess("Characteristic saved");
           this.characteristicSaved.emit(this.characteristic);
           if (this.characteristicSaved.observers.length == 0) {

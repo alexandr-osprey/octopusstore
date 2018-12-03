@@ -5,6 +5,7 @@ import { ParameterService } from 'src/app/services/parameter.service';
 import { Category } from 'src/app/view-models/category/category';
 import { CategoryService } from 'src/app/services/category.service';
 import { MessageService } from 'src/app/services/message.service';
+import { ParameterNames } from 'src/app/services/parameter-names';
 
 @Component({
   selector: 'app-category-create-update',
@@ -30,19 +31,19 @@ export class CategoryCreateUpdateComponent implements OnInit {
   }
 
   initializeComponent() {
-      this.updateAllowedCategories();
-      let id = +this.route.snapshot.paramMap.get('id') || 0;
-      if (id != 0) {
-        this.isUpdating = true;
-        this.categoryService.get(id).subscribe(data => {
-          if (data) {
-            this.category = new Category(data);
-          }
-        });
-      } else {
-        this.category = new Category();
-        this.isUpdating = false;
-      }
+    this.updateAllowedCategories();
+    let id = +this.route.snapshot.paramMap.get('id') || 0;
+    if (id != 0) {
+      this.isUpdating = true;
+      this.categoryService.get(id).subscribe(data => {
+        if (data) {
+          this.category = new Category(data);
+        }
+      });
+    } else {
+      this.category = new Category();
+      this.isUpdating = false;
+    }
   }
 
   updateAllowedCategories() {
@@ -54,6 +55,12 @@ export class CategoryCreateUpdateComponent implements OnInit {
             this.allowedCategories.push(new Category(c));
           }
         });
+        if (!this.isUpdating) {
+          let parentCategoryId = +this.parameterService.getParam(ParameterNames.categoryId);
+          if (this.allowedCategories.find(c => c.id == parentCategoryId)) {
+            this.category.parentCategoryId = parentCategoryId;
+          }
+        }
       }
     });
   }

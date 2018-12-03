@@ -6,6 +6,8 @@ import { MessageService } from 'src/app/services/message.service';
 import { CharacteristicValueService } from 'src/app/services/characteristic-value.service';
 import { CharacteristicValue } from 'src/app/view-models/characteristic-value/characteristic-value';
 import { Characteristic } from 'src/app/view-models/characteristic/characteristic';
+import { ParameterNames } from 'src/app/services/parameter-names';
+import { ParameterService } from 'src/app/services/parameter.service';
 
 @Component({
   selector: 'app-characteristic-value-create-update',
@@ -23,6 +25,7 @@ export class CharacteristicValueCreateUpdateComponent implements OnInit {
     private route: ActivatedRoute,
     private messageService: MessageService,
     private characteristicValueService: CharacteristicValueService,
+    private parameterService: ParameterService,
     private location: Location) { }
 
   ngOnInit() {
@@ -40,7 +43,8 @@ export class CharacteristicValueCreateUpdateComponent implements OnInit {
         }
       });
     } else {
-      this.characteristicValue = new CharacteristicValue();
+      let characteristicId = +this.parameterService.getParam(ParameterNames.characteristicId);
+      this.characteristicValue = new CharacteristicValue({ characteristicId: characteristicId });
       this.isUpdating = false;
     }
   }
