@@ -19,6 +19,8 @@ import { CategoryCreateUpdateComponent } from './category/category-create-update
 import { CategoryIndexComponent } from './category/category-index/category-index.component';
 import { CharacteristicCreateUpdateComponent } from './characteristic/characteristic-create-update/characteristic-create-update.component';
 import { CharacteristicValueCreateUpdateComponent } from './characteristic-value/characteristic-value-create-update/characteristic-value-create-update.component';
+import { BrandCreateUpdateComponent } from './brand/brand-create-update/brand-create-update.component';
+import { MeasurementUnitCreateUpdateComponent } from './measurement-unit/measurement-unit-create-update/measurement-unit-create-update.component';
 
 
 const routes: Routes = [
@@ -53,6 +55,18 @@ const routes: Routes = [
     pathMatch: 'full',
     canActivate: [AdministratorAuthorizationGuard],
     component: AdministratingHomepageComponent,
+  },
+  {
+    path: 'brands/create',
+    pathMatch: 'full',
+    canActivate: [AdministratorAuthorizationGuard],
+    component: BrandCreateUpdateComponent,
+  },
+  {
+    path: 'brands/:id/update',
+    pathMatch: 'full',
+    canActivate: [AdministratorAuthorizationGuard],
+    component: BrandCreateUpdateComponent,
   },
   {
     path: 'categories/create',
@@ -110,6 +124,18 @@ const routes: Routes = [
   {
     path: 'items',
     component: ItemThumbnailsComponent,
+  },
+  {
+    path: 'measurementUnits/create',
+    pathMatch: 'full',
+    canActivate: [AdministratorAuthorizationGuard],
+    component: MeasurementUnitCreateUpdateComponent,
+  },
+  {
+    path: 'measurementUnits/:id/update',
+    pathMatch: 'full',
+    canActivate: [AdministratorAuthorizationGuard],
+    component: MeasurementUnitCreateUpdateComponent,
   },
   {
     path: 'stores',

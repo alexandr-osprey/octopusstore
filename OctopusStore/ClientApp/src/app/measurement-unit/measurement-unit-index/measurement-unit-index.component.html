@@ -1,0 +1,11 @@
+<div class="row">
+  <div class="col-md-12">
+    <div *ngIf="administrating">
+      <button class="btn" (click)="create()">Create</button>
+    </div>
+    <div *ngFor="let measurementUnit of measurementUnits">
+      <a [routerLink]="['/measurementUnits/', measurementUnit.id, 'update']">{{ measurementUnit.title }}</a>
+      <a *ngIf="administrating" [routerLink]="['/measurementUnits', measurementUnit.id, 'update']">  Update</a>
+    </div>
+  </div>
+</div>

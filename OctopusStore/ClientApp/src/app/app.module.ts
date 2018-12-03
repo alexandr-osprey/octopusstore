@@ -41,6 +41,10 @@ import { CharacteristicIndexComponent } from './characteristic/characteristic-in
 import { CharacteristicCreateUpdateComponent } from './characteristic/characteristic-create-update/characteristic-create-update.component';
 import { CharacteristicValueIndexComponent } from './characteristic-value/characteristic-value-index/characteristic-value-index.component';
 import { CharacteristicValueCreateUpdateComponent } from './characteristic-value/characteristic-value-create-update/characteristic-value-create-update.component';
+import { BrandIndexComponent } from './brand/brand-index/brand-index.component';
+import { BrandCreateUpdateComponent } from './brand/brand-create-update/brand-create-update.component';
+import { MeasurementUnitIndexComponent } from './measurement-unit/measurement-unit-index/measurement-unit-index.component';
+import { MeasurementUnitCreateUpdateComponent } from './measurement-unit/measurement-unit-create-update/measurement-unit-create-update.component';
 
 
 
@@ -82,6 +86,10 @@ import { CharacteristicValueCreateUpdateComponent } from './characteristic-value
     CharacteristicCreateUpdateComponent,
     CharacteristicValueIndexComponent,
     CharacteristicValueCreateUpdateComponent,
+    BrandIndexComponent,
+    BrandCreateUpdateComponent,
+    MeasurementUnitIndexComponent,
+    MeasurementUnitCreateUpdateComponent,
   ],
   imports: [
     BrowserModule,

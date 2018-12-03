@@ -1,0 +1,11 @@
+<div class="row" *ngIf="brand">
+  <div class="col-md-12">
+    <form #brandForm="ngForm">
+      <div class="form-group">
+        <label for="title">Title</label>
+        <input type="text" class="form-control" id="title" required [(ngModel)]="brand.title" name="title" #title="ngModel" />
+      </div>
+      <button type="submit" class="btn btn-primary" [disabled]="!brandForm.form.valid" (click)="createOrUpdate()">Save</button>
+    </form>
+  </div>
+</div>
