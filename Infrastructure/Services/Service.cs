@@ -167,6 +167,8 @@ namespace Infrastructure.Services
 
         protected virtual async Task ValidateCreateWithExceptionAsync(TEntity entity)
         {
+            if (entity == null)
+                throw new ArgumentNullException(nameof(entity));
             if (string.IsNullOrWhiteSpace(entity.OwnerId))
                 throw new EntityValidationException("OwnerId not specified");
             await Task.CompletedTask;

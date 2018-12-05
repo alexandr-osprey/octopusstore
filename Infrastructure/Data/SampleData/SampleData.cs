@@ -16,6 +16,8 @@
         public CartItems CartItems { get; }
         public ItemProperties ItemProperties { get; }
         public ItemImages ItemImages { get; }
+        public Orders Orders { get; }
+        public OrderItems OrderItems { get; }
 
 
         public SampleData(StoreContext context)
@@ -34,6 +36,8 @@
             CartItems = new CartItems(Context, ItemVariants);
             ItemProperties = new ItemProperties(Context, ItemVariants, CharacteristicValues);
             ItemImages = new ItemImages(Context, Items);
+            Orders = new Orders(Context, Stores);
+            OrderItems = new OrderItems(Context, Orders, ItemVariants);
         }
     }
 }
