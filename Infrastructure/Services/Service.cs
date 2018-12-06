@@ -42,14 +42,12 @@ namespace Infrastructure.Services
 
         public virtual async Task<TEntity> CreateAsync(TEntity entity)
         {
-            entity.OwnerId = ScopedParameters.ClaimsPrincipal.Identity.Name;
-            await ValidateCreateWithExceptionAsync(entity);
+            await FullValidationWithExceptionAsync(entity);
+            entity.OwnerId = ScopedParameters.ClaimsPrincipal?.Identity?.Name
+                ?? throw new Exception("User identity not provided for entity creation");
             await ValidateCustomUniquinessWithException(entity);
             if (AuthoriationParameters.CreateAuthorizationRequired)
-            {
                 await AuthorizeWithException(entity, AuthoriationParameters.CreateOperationRequirement);
-            }
-            //await ValidateUniquiness
             var result = await Context.CreateAsync(Logger, entity);
             Logger.Trace("{Name} added entity {entity}", Name, result);
             return result;
@@ -57,7 +55,7 @@ namespace Infrastructure.Services
 
         public virtual async Task<TEntity> ReadSingleAsync(Specification<TEntity> spec)
         {
-            var entity = await Context.ReadSingleBySpecAsync(Logger, spec);
+            var entity = await Context.ReadSingleBySpecAsync(Logger, spec, true);
             if (AuthoriationParameters.ReadAuthorizationRequired)
                 await AuthorizeWithException(entity, AuthoriationParameters.ReadOperationRequirement);
             Logger.Trace("{Name} retreived single entity {entity} by spec: {spec}", Name, entity, spec);
@@ -66,16 +64,19 @@ namespace Infrastructure.Services
 
         public virtual async Task<TEntity> ReadSingleAsync(TEntity entity)
         {
-            entity = await Context.ReadSingleAsync(Logger, entity);
+            entity = await Context.ReadSingleAsync(Logger, entity, true);
             if (AuthoriationParameters.ReadAuthorizationRequired)
                 await AuthorizeWithException(entity, AuthoriationParameters.ReadOperationRequirement);
             Logger.Trace("{Name} retreived single entity {entity}", Name, entity);
             return entity;
         }
 
-        public virtual async Task<TEntity> UpdateAsync(TEntity entity)
+        public virtual async Task<TEntity> UpdateAsync(TEntity entity, bool fullValidation = false)
         {
-            await ValidateUpdateWithExceptionAsync(entity);
+            if (fullValidation)
+                await FullValidationWithExceptionAsync(entity);
+            else
+                await PartialValidationWithExceptionAsync(entity);
             if (AuthoriationParameters.UpdateAuthorizationRequired)
                 await AuthorizeWithException(entity, AuthoriationParameters.UpdateOperationRequirement);
             var result = await Context.UpdateSingleAsync(Logger, entity);
@@ -168,19 +169,16 @@ namespace Infrastructure.Services
             await Task.CompletedTask;
         }
 
-        protected virtual async Task ValidateCreateWithExceptionAsync(TEntity entity)
+        protected virtual async Task FullValidationWithExceptionAsync(TEntity entity)
         {
-            if (entity == null)
-                throw new ArgumentNullException(nameof(entity));
-            if (string.IsNullOrWhiteSpace(entity.OwnerId))
-                throw new EntityValidationException("OwnerId not specified");
-            await Task.CompletedTask;
+            await PartialValidationWithExceptionAsync(entity);
         }
 
-        protected virtual async Task ValidateUpdateWithExceptionAsync(TEntity entity)
+        protected virtual Task PartialValidationWithExceptionAsync(TEntity entity)
         {
-            //_logger.Trace("{Name} validated {entity}", Name, entity);
-            await Task.CompletedTask;
+            if (entity == null)
+                throw new EntityValidationException("Entity not provided");
+            return Task.CompletedTask;
         }
 
         public virtual async Task<int> PageCountAsync(Specification<TEntity> spec)

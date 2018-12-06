@@ -89,7 +89,7 @@ namespace UnitTests.Services
         public async Task TryToSetOrderCreatedStatusAsync()
         {
             var order = Data.Orders.John1000;
-            await Assert.ThrowsAsync<BadRequestException>(() => Service.SetStatusAsync(order.Id, OrderStatus.Created));
+            await Assert.ThrowsAsync<EntityValidationException>(() => Service.SetStatusAsync(order.Id, OrderStatus.Created));
         }
 
         [Fact]
@@ -97,9 +97,9 @@ namespace UnitTests.Services
         {
             var order = Data.Orders.John1000;
             await Service.SetStatusAsync(order.Id, OrderStatus.Cancelled);
-            await Assert.ThrowsAsync<BadRequestException>(() => Service.SetStatusAsync(order.Id, OrderStatus.Created));
-            await Assert.ThrowsAsync<BadRequestException>(() => Service.SetStatusAsync(order.Id, OrderStatus.Finished));
-            await Assert.ThrowsAsync<BadRequestException>(() => Service.SetStatusAsync(order.Id, OrderStatus.Cancelled));
+            await Assert.ThrowsAsync<EntityValidationException>(() => Service.SetStatusAsync(order.Id, OrderStatus.Created));
+            await Assert.ThrowsAsync<EntityValidationException>(() => Service.SetStatusAsync(order.Id, OrderStatus.Finished));
+            await Assert.ThrowsAsync<EntityValidationException>(() => Service.SetStatusAsync(order.Id, OrderStatus.Cancelled));
         }
 
         [Fact]
@@ -107,9 +107,9 @@ namespace UnitTests.Services
         {
             var order = Data.Orders.John1000;
             await Service.SetStatusAsync(order.Id, OrderStatus.Finished);
-            await Assert.ThrowsAsync<BadRequestException>(() => Service.SetStatusAsync(order.Id, OrderStatus.Created));
-            await Assert.ThrowsAsync<BadRequestException>(() => Service.SetStatusAsync(order.Id, OrderStatus.Finished));
-            await Assert.ThrowsAsync<BadRequestException>(() => Service.SetStatusAsync(order.Id, OrderStatus.Cancelled));
+            await Assert.ThrowsAsync<EntityValidationException>(() => Service.SetStatusAsync(order.Id, OrderStatus.Created));
+            await Assert.ThrowsAsync<EntityValidationException>(() => Service.SetStatusAsync(order.Id, OrderStatus.Finished));
+            await Assert.ThrowsAsync<EntityValidationException>(() => Service.SetStatusAsync(order.Id, OrderStatus.Cancelled));
         }
     }
 }

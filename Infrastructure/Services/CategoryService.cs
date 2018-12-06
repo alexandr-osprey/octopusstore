@@ -124,17 +124,22 @@ namespace Infrastructure.Services
             await Context.SaveChangesAsync(Logger, "Relink Category");
         }
 
-        protected override async Task ValidateCreateWithExceptionAsync(Category category)
+        protected override async Task FullValidationWithExceptionAsync(Category category)
         {
-            await base.ValidateCreateWithExceptionAsync(category);
-            if (string.IsNullOrWhiteSpace(category.Title))
-                throw new EntityValidationException("Title not specified");
-            if (string.IsNullOrWhiteSpace(category.Description))
-                throw new EntityValidationException("Description not specified");
+            await base.FullValidationWithExceptionAsync(category);
             if (!category.IsRoot && !await Context.ExistsBySpecAsync(Logger, new EntitySpecification<Category>(category.ParentCategoryId)))
                 throw new EntityValidationException("Parent category does not exist");
             if (category.ParentCategoryId != RootCategory.Id && !RootCategory.Subcategories.Any(c => c.Id == category.ParentCategoryId))
                 throw new EntityValidationException("Only root or first level categories can be parent");
+        }
+
+        protected override async Task PartialValidationWithExceptionAsync(Category category)
+        {
+            await base.PartialValidationWithExceptionAsync(category);
+            if (string.IsNullOrWhiteSpace(category.Title))
+                throw new EntityValidationException("Title not specified");
+            if (string.IsNullOrWhiteSpace(category.Description))
+                throw new EntityValidationException("Description not specified");
         }
 
         protected override async Task ValidateCustomUniquinessWithException(Category category)
@@ -142,11 +147,6 @@ namespace Infrastructure.Services
             await base.ValidateCustomUniquinessWithException(category);
             if (category.IsRoot && await Context.ExistsBySpecAsync(Logger, new Specification<Category>(c => c.IsRoot)))
                 throw new EntityAlreadyExistsException("Root category already exists");
-        }
-
-        protected override async Task ValidateUpdateWithExceptionAsync(Category category)
-        {
-            await ValidateCreateWithExceptionAsync(category);
         }
 
         protected async Task GetSubcategoriesAsync(Category category, HashSet<Category> subcategories)

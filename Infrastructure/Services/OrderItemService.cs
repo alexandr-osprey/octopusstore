@@ -22,11 +22,9 @@ namespace Infrastructure.Services
         {
         }
 
-        protected override async Task ValidateCreateWithExceptionAsync(OrderItem orderItem)
+        protected override async Task FullValidationWithExceptionAsync(OrderItem orderItem)
         {
-            await base.ValidateCreateWithExceptionAsync(orderItem);
-            if (orderItem.Number <= 0)
-                throw new EntityValidationException("Number must be more than zero");
+            await base.FullValidationWithExceptionAsync(orderItem);
             var order = await Context.ReadSingleBySpecAsync(Logger, new EntitySpecification<Order>(orderItem.OrderId), false)
                 ?? throw new EntityValidationException($"Order {orderItem.OrderId} not found");
             var itemVariant = await Context
@@ -39,11 +37,11 @@ namespace Infrastructure.Services
                 throw new EntityValidationException("Incorrect item variant for store in order");
         }
 
-        protected override Task ValidateUpdateWithExceptionAsync(OrderItem orderItem)
+        protected override async Task PartialValidationWithExceptionAsync(OrderItem orderItem)
         {
+            await base.PartialValidationWithExceptionAsync(orderItem);
             if (orderItem.Number <= 0)
                 throw new EntityValidationException("Number must be positive");
-            return Task.CompletedTask;
         }
     }
 }

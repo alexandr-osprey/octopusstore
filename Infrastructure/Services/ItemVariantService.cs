@@ -29,17 +29,17 @@ namespace Infrastructure.Services
             await Context.SaveChangesAsync(Logger, "Relink ItemVariant");
         }
 
-        protected override async Task ValidateCreateWithExceptionAsync(ItemVariant itemVariant)
+        protected override async Task FullValidationWithExceptionAsync(ItemVariant itemVariant)
         {
-            await base.ValidateCreateWithExceptionAsync(itemVariant);
-            await ValidateUpdateWithExceptionAsync(itemVariant);
+            await base.FullValidationWithExceptionAsync(itemVariant);
+            await PartialValidationWithExceptionAsync(itemVariant);
             if (!await Context.ExistsBySpecAsync(Logger, new EntitySpecification<Item>(itemVariant.ItemId)))
                 throw new EntityValidationException($"Item with Id {itemVariant.ItemId} does not exist. ");
         }
 
-        protected override async Task ValidateUpdateWithExceptionAsync(ItemVariant itemVariant)
+        protected override async Task PartialValidationWithExceptionAsync(ItemVariant itemVariant)
         {
-            await base.ValidateUpdateWithExceptionAsync(itemVariant);
+            await base.PartialValidationWithExceptionAsync(itemVariant);
             if (string.IsNullOrWhiteSpace(itemVariant.Title))
                 throw new EntityValidationException($"Incorrect title. ");
             if (itemVariant.Price <= 0)

@@ -49,6 +49,7 @@ namespace UnitTests
         [Fact]
         public virtual async Task CreateAsyncThrowsValidationExceptionAsync()
         {
+            await Assert.ThrowsAsync<EntityValidationException>(() => Service.CreateAsync(null));
             foreach (var incorrectEntity in GetIncorrectNewEntites())
             {
                 await Assert.ThrowsAsync<EntityValidationException>(() => Service.CreateAsync(incorrectEntity));
@@ -142,12 +143,14 @@ namespace UnitTests
         [Fact]
         public virtual async Task UpdateThrowsEntityValidationExceptionAsync()
         {
+            await Assert.ThrowsAsync<EntityValidationException>(() => Service.UpdateAsync(null));
             foreach (var incorrectEntity in GetIncorrectEntitesForUpdate())
             {
                 await Assert.ThrowsAsync<EntityValidationException>(() => Service.UpdateAsync(incorrectEntity));
             }
         }
-        protected abstract IEnumerable<TEntity> GetIncorrectEntitesForUpdate();
+
+        protected virtual IEnumerable<TEntity> GetIncorrectEntitesForUpdate() => new List<TEntity>();
 
         [Fact]
         public virtual async Task DeleteSingleAsync()

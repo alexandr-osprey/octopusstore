@@ -55,12 +55,6 @@ namespace UnitTests.Services
         {
             return new List<ItemProperty>() { };
         }
-
-        protected override IEnumerable<ItemProperty> GetIncorrectEntitesForUpdate()
-        {
-            Data.ItemProperties.Samsung832HDHD.CharacteristicValueId = Data.CharacteristicValues.MuchFashion.Id;
-            return new List<ItemProperty>() { Data.ItemProperties.Samsung832HDHD };
-        }
         
         protected async Task<IEnumerable<ItemProperty>> GetDuplicateEntitiesAsync()
         {

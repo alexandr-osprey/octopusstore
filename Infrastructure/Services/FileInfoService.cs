@@ -32,8 +32,6 @@ namespace Infrastructure.Services
 
         override public async Task<TFileInfo> CreateAsync(TFileInfo entity)
         {
-            if (entity == null)
-                throw new ArgumentNullException(nameof(entity));
             await base.CreateAsync(entity);
             try
             {
@@ -45,7 +43,7 @@ namespace Infrastructure.Services
             {
                 string message = $"Error saving file {entity.FullPath} from FileInfo {nameof(TFileInfo)} Id = {entity.Id}";
                 Logger.Warn(exception, message);
-                throw new IOException(message, exception);
+                throw;
             }
             return entity;
         }
@@ -87,17 +85,16 @@ namespace Infrastructure.Services
             await base.DeleteRelatedEntitiesAsync(entity);
         }
 
-        protected override async Task ValidateCreateWithExceptionAsync(TFileInfo fileInfo)
+        protected override async Task FullValidationWithExceptionAsync(TFileInfo fileInfo)
         {
-            await ValidateUpdateWithExceptionAsync(fileInfo);
+            await base.FullValidationWithExceptionAsync(fileInfo);
             ValidateFile(fileInfo);
             await ValidateRelatedEntityAsync(fileInfo);
-            await base.ValidateCreateWithExceptionAsync(fileInfo);
         }
 
-        protected override async Task ValidateUpdateWithExceptionAsync(TFileInfo fileInfo)
+        protected override async Task PartialValidationWithExceptionAsync(TFileInfo fileInfo)
         {
-            await base.ValidateUpdateWithExceptionAsync(fileInfo);
+            await base.PartialValidationWithExceptionAsync(fileInfo);
             if (string.IsNullOrWhiteSpace(fileInfo.Title))
                 throw new EntityValidationException("Incorrect title");
         }

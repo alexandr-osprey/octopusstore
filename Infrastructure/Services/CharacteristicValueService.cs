@@ -47,17 +47,16 @@ namespace Infrastructure.Services
             await Context.SaveChangesAsync(Logger, "Relink CharacteristicValue");
         }
 
-        protected override async Task ValidateCreateWithExceptionAsync(CharacteristicValue characteristicValue)
+        protected override async Task FullValidationWithExceptionAsync(CharacteristicValue characteristicValue)
         {
-            await base.ValidateCreateWithExceptionAsync(characteristicValue);
-            await ValidateUpdateWithExceptionAsync(characteristicValue);
+            await base.FullValidationWithExceptionAsync(characteristicValue);
             if (!await Context.ExistsBySpecAsync(Logger, new EntitySpecification<Characteristic>(characteristicValue.CharacteristicId)))
                 throw new EntityValidationException("Characteristic does not exist");
         }
 
-        protected override async Task ValidateUpdateWithExceptionAsync(CharacteristicValue characteristicValue)
+        protected override async Task PartialValidationWithExceptionAsync(CharacteristicValue characteristicValue)
         {
-            await base.ValidateUpdateWithExceptionAsync(characteristicValue);
+            await base.PartialValidationWithExceptionAsync(characteristicValue);
             if (string.IsNullOrWhiteSpace(characteristicValue.Title))
                 throw new EntityValidationException("Incorrect title");
         }

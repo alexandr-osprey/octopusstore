@@ -47,9 +47,9 @@ namespace Infrastructure.Services
             return await ItemVariantService.EnumerateRelatedEnumAsync(itemVariantSpec, (v => v.ItemProperties));
         }
 
-        protected override async Task ValidateCreateWithExceptionAsync(ItemProperty itemProperty)
+        protected override async Task FullValidationWithExceptionAsync(ItemProperty itemProperty)
         {
-            await base.ValidateCreateWithExceptionAsync(itemProperty);
+            await base.FullValidationWithExceptionAsync(itemProperty);
             var itemVariant = await Context
                 .Set<ItemVariant>()
                 .Include(v => v.Item)
@@ -62,12 +62,6 @@ namespace Infrastructure.Services
                     ?? throw new EntityValidationException($"Characteristic value {itemProperty.CharacteristicValueId} does not exist");
             if (!possibleCharacteristicValues.Contains(characteristicValue))
                 throw new EntityValidationException($"Characteristic value {itemProperty.CharacteristicValueId} has the wrong category");
-        }
-
-        protected override async Task ValidateUpdateWithExceptionAsync(ItemProperty itemProperty)
-        {
-            await base.ValidateUpdateWithExceptionAsync(itemProperty);
-            await ValidateCreateWithExceptionAsync(itemProperty);
         }
     }
 }

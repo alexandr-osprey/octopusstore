@@ -22,16 +22,11 @@ namespace Infrastructure.Services
         {
         }
 
-        protected override async Task ValidateCreateWithExceptionAsync(Brand brand)
+        protected override async Task PartialValidationWithExceptionAsync(Brand brand)
         {
-            await base.ValidateCreateWithExceptionAsync(brand);
+            await base.PartialValidationWithExceptionAsync(brand);
             if (string.IsNullOrWhiteSpace(brand.Title))
                 throw new EntityValidationException("Title not specified");
-        }
-
-        protected override async Task ValidateUpdateWithExceptionAsync(Brand brand)
-        {
-            await ValidateCreateWithExceptionAsync(brand);
         }
 
         public override async Task RelinkRelatedAsync(int id, int idToRelinkTo)

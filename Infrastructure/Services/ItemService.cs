@@ -58,25 +58,24 @@ namespace Infrastructure.Services
             return await CategoryService.EnumerateSubcategoriesAsync(new EntitySpecification<Category>(categoryId));
         }
 
-        protected override async Task ValidateCreateWithExceptionAsync(Item item)
+        protected override async Task FullValidationWithExceptionAsync(Item item)
         {
-            await ValidateUpdateWithExceptionAsync(item);
+            await base.FullValidationWithExceptionAsync(item);
             var category = await Context.ReadByKeyAsync<Category, Service<Item>>(Logger, item.CategoryId, false)
                 ?? throw new EntityValidationException($"Category with Id {item.CategoryId} does not exist. ");
             if (!category.CanHaveItems)
                 throw new EntityValidationException($"Category with Id {item.CategoryId} can't have items. ");
             if (!await Context.ExistsBySpecAsync(Logger, new EntitySpecification<Store>(item.StoreId)))
-                throw new EntityValidationException($"Store with Id {item.StoreId}  does not exist. ");
+                throw new EntityValidationException($"Store with Id {item.StoreId} does not exist. ");
             if (!await Context.ExistsBySpecAsync(Logger, new EntitySpecification<Brand>(item.BrandId)))
-                throw new EntityValidationException($"Brand with Id {item.BrandId}  does not exist. ");
+                throw new EntityValidationException($"Brand with Id {item.BrandId} does not exist. ");
             if (!await Context.ExistsBySpecAsync(Logger, new EntitySpecification<MeasurementUnit>(item.MeasurementUnitId)))
                 throw new EntityValidationException($"MeasurementUnit with Id {item.MeasurementUnitId}  does not exist. ");
-            await base.ValidateCreateWithExceptionAsync(item);
         }
 
-        protected override async Task ValidateUpdateWithExceptionAsync(Item item)
+        protected override async Task PartialValidationWithExceptionAsync(Item item)
         {
-            await base.ValidateUpdateWithExceptionAsync(item);
+            await base.PartialValidationWithExceptionAsync(item);
             if (string.IsNullOrWhiteSpace(item.Title))
                 throw new EntityValidationException("Incorrect title");
             if (string.IsNullOrWhiteSpace(item.Description))
