@@ -7,7 +7,7 @@ namespace ApplicationCore.Interfaces.Services
     /// <summary>
     /// Maintains full lifecycle of cart of current user
     /// </summary>
-    public interface ICartItemService: IService<CartItem>
+    public interface ICartItemService : IService<CartItem>
     {
         /// <summary>
         /// Adds a number of item variants into user cart

@@ -8,7 +8,7 @@ namespace ApplicationCore.Entities
     {
         Created,
         Finished,
-        Candelled
+        Cancelled
     }
 
     public class Order : Entity, IGenericMemberwiseClonable<Order>

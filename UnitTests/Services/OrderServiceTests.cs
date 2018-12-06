@@ -1,4 +1,5 @@
 ﻿using ApplicationCore.Entities;
+using ApplicationCore.Exceptions;
 using ApplicationCore.Interfaces.Services;
 using ApplicationCore.Specifications;
 using Infrastructure.Data.SampleData;
@@ -22,7 +23,7 @@ namespace UnitTests.Services
         {
             return new List<Order>()
             {
-                new Order() { StoreId = Data.Stores.Johns.Id, OwnerId = Users.JenniferId }
+                new Order() { StoreId = Data.Stores.Johns.Id }
             };
         }
 
@@ -30,7 +31,7 @@ namespace UnitTests.Services
         {
             return new List<Order>()
             {
-                new Order() { StoreId = 0, OwnerId = Users.JenniferId },
+                new Order() { StoreId = 0 },
                 new Order() { StoreId = Data.Stores.Jennifers.Id, Sum = -324 }
             };
         }
@@ -64,6 +65,51 @@ namespace UnitTests.Services
             await Service.DeleteSingleWithRelatedRelink(order.Id, idToRelinkTo);
             orderItems.ForEach(i => Assert.Equal(i.OrderId, idToRelinkTo));
             Assert.False(Context.Set<Order>().Any(b => b == order));
+        }
+
+        [Fact]
+        public async Task SetOrderFinishedStatusAsync()
+        {
+            var order = Data.Orders.John1000;
+            var cancelledStatusTime = DateTime.UtcNow;
+            await Service.SetStatusAsync(order.Id, OrderStatus.Cancelled);
+            Assert.True(order.DateTimeCancelled >= cancelledStatusTime);
+        }
+
+        [Fact]
+        public async Task SetOrderCancelledStatusAsync()
+        {
+            var order = Data.Orders.John1000;
+            var finishedStatusTime = DateTime.UtcNow;
+            await Service.SetStatusAsync(order.Id, OrderStatus.Finished);
+            Assert.True(order.DateTimeFinished >= finishedStatusTime);
+        }
+
+        [Fact]
+        public async Task TryToSetOrderCreatedStatusAsync()
+        {
+            var order = Data.Orders.John1000;
+            await Assert.ThrowsAsync<BadRequestException>(() => Service.SetStatusAsync(order.Id, OrderStatus.Created));
+        }
+
+        [Fact]
+        public async Task TryToSetOrderStatusFromCancelledAsync()
+        {
+            var order = Data.Orders.John1000;
+            await Service.SetStatusAsync(order.Id, OrderStatus.Cancelled);
+            await Assert.ThrowsAsync<BadRequestException>(() => Service.SetStatusAsync(order.Id, OrderStatus.Created));
+            await Assert.ThrowsAsync<BadRequestException>(() => Service.SetStatusAsync(order.Id, OrderStatus.Finished));
+            await Assert.ThrowsAsync<BadRequestException>(() => Service.SetStatusAsync(order.Id, OrderStatus.Cancelled));
+        }
+
+        [Fact]
+        public async Task TryToSetOrderStatusFromFinishedAsync()
+        {
+            var order = Data.Orders.John1000;
+            await Service.SetStatusAsync(order.Id, OrderStatus.Finished);
+            await Assert.ThrowsAsync<BadRequestException>(() => Service.SetStatusAsync(order.Id, OrderStatus.Created));
+            await Assert.ThrowsAsync<BadRequestException>(() => Service.SetStatusAsync(order.Id, OrderStatus.Finished));
+            await Assert.ThrowsAsync<BadRequestException>(() => Service.SetStatusAsync(order.Id, OrderStatus.Cancelled));
         }
     }
 }

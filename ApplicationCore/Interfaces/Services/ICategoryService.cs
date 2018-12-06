@@ -8,7 +8,7 @@ namespace ApplicationCore.Interfaces.Services
     /// <summary>
     /// Maintains full lifecycle of Category entities
     /// </summary>
-    public interface ICategoryService: IService<Category>
+    public interface ICategoryService : IService<Category>
     {
         /// <summary>
         /// Id of primal Category

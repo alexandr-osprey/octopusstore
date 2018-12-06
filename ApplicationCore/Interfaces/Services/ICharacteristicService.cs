@@ -8,7 +8,7 @@ namespace ApplicationCore.Interfaces.Services
     /// <summary>
     /// Maintains full lifecycle of Characteristic entities
     /// </summary>
-    public interface ICharacteristicService: IService<Characteristic>
+    public interface ICharacteristicService : IService<Characteristic>
     {
         /// <summary>
         /// Enumerates Characterstics of Items described by specification
