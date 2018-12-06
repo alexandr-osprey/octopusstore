@@ -5,6 +5,7 @@ using ApplicationCore.Interfaces;
 using ApplicationCore.Interfaces.Services;
 using ApplicationCore.Specifications;
 using Infrastructure.Data;
+using System;
 using System.Threading.Tasks;
 
 namespace Infrastructure.Services
@@ -42,6 +43,34 @@ namespace Infrastructure.Services
             foreach (var orderItem in orderItems)
                 orderItem.OrderId = idToRelinkTo;
             await Context.SaveChangesAsync(Logger, "Relink Order");
+        }
+
+        public async Task<Order> SetStatusAsync(int orderId, OrderStatus orderStatus)
+        {
+            var order = await Context.ReadSingleBySpecAsync(Logger, new EntitySpecification<Order>(orderId), true);
+            if (orderStatus == OrderStatus.Created)
+                throw new BadRequestException("Can't set Created status Manually");
+            if (order.Status == OrderStatus.Created)
+            {
+                if (orderStatus == OrderStatus.Cancelled)
+                {
+                    order.Status = orderStatus;
+                    order.DateTimeCancelled = DateTime.UtcNow;
+                }
+                else if (orderStatus == OrderStatus.Finished)
+                {
+                    order.Status = orderStatus;
+                    order.DateTimeFinished = DateTime.UtcNow;
+                }
+                else
+                    throw new BadRequestException("Unsupported order status " + orderStatus);
+                await Context.UpdateSingleAsync(Logger, order, false);
+            }
+            else if (order.Status == OrderStatus.Finished)
+                throw new BadRequestException("Order already finished, can't change status");
+            else if (order.Status == OrderStatus.Cancelled)
+                throw new BadRequestException("Order already cancelled, can't change status");
+            return order;
         }
     }
 }
