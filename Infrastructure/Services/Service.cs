@@ -143,7 +143,10 @@ namespace Infrastructure.Services
         /// <param name="id"></param>
         /// <param name="idToRelinkTo"></param>
         /// <returns></returns>
-        public abstract Task RelinkRelatedAsync(int id, int idToRelinkTo);
+        public virtual Task RelinkRelatedAsync(int id, int idToRelinkTo)
+        {
+            return Task.CompletedTask;
+        }
 
         protected virtual async Task DeleteSingleAsync(TEntity entity)
         {

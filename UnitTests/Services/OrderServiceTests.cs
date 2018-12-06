@@ -37,7 +37,7 @@ namespace UnitTests.Services
 
         protected override Specification<Order> GetEntitiesToDeleteSpecification()
         {
-            return new Specification<Order>(b => b.OwnerId == Users.JenniferId);
+            return new Specification<Order>(b => b.StoreId == Data.Stores.Johns.Id);
         }
 
         protected override IEnumerable<Order> GetCorrectEntitesForUpdate()
@@ -48,11 +48,10 @@ namespace UnitTests.Services
 
         protected override IEnumerable<Order> GetIncorrectEntitesForUpdate()
         {
-            int id = Data.Orders.JenInJohnsStore.Id;
+            Data.Orders.JenInJohnsStore.Sum = -1;
             return new List<Order>()
             {
-                new Order() { Id = id, Sum = -1 },
-                new Order() { Id = id, StoreId = 0 },
+                Data.Orders.JenInJohnsStore
             };
         }
 

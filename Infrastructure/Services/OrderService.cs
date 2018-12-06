@@ -24,19 +24,16 @@ namespace Infrastructure.Services
         protected override async Task ValidateCreateWithExceptionAsync(Order order)
         {
             await base.ValidateCreateWithExceptionAsync(order);
-            if (order.Sum < 0)
-            {
-                throw new EntityValidationException($"Order sum can't be negative");
-            }
+            await ValidateUpdateWithExceptionAsync(order);
             if (!await Context.ExistsBySpecAsync(Logger, new EntitySpecification<Store>(order.StoreId)))
-            {
                 throw new EntityValidationException($"Store {order.StoreId} does not exist");
-            }
         }
 
         protected override Task ValidateUpdateWithExceptionAsync(Order order)
         {
-            return ValidateCreateWithExceptionAsync(order);
+            if (order.Sum < 0)
+                throw new EntityValidationException($"Order sum can't be negative");
+            return Task.CompletedTask;
         }
 
         public override async Task RelinkRelatedAsync(int id, int idToRelinkTo)

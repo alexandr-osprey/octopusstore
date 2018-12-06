@@ -98,6 +98,8 @@ namespace OctopusStore
             services.AddScoped<IAuthorizationHandler, MeasurementUnitAuthorizationHandler>();
             services.AddScoped<IAuthorizationHandler, StoreAuthorizationHandler>();
             services.AddScoped<IAuthorizationHandler, CartItemAuthorizationHandler>();
+            services.AddScoped<IAuthorizationHandler, OrderAuthorizationHandler>();
+            services.AddScoped<IAuthorizationHandler, OrderItemAuthorizationHandler>();
         }
     }
 }

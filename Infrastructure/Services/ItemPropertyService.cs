@@ -47,11 +47,6 @@ namespace Infrastructure.Services
             return await ItemVariantService.EnumerateRelatedEnumAsync(itemVariantSpec, (v => v.ItemProperties));
         }
 
-        public override Task RelinkRelatedAsync(int id, int idToRelinkTo)
-        {
-            return Task.CompletedTask;
-        }
-
         protected override async Task ValidateCreateWithExceptionAsync(ItemProperty itemProperty)
         {
             await base.ValidateCreateWithExceptionAsync(itemProperty);

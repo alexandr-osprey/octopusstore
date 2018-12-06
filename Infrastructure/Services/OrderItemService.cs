@@ -27,8 +27,10 @@ namespace Infrastructure.Services
             await base.ValidateCreateWithExceptionAsync(orderItem);
             if (orderItem.Number <= 0)
                 throw new EntityValidationException("Number must be more than zero");
-            var order = await Context.ReadSingleBySpecAsync(Logger, new EntitySpecification<Order>(orderItem.OrderId), true);
-            var itemVariant = await Context.Set<ItemVariant>()
+            var order = await Context.ReadSingleBySpecAsync(Logger, new EntitySpecification<Order>(orderItem.OrderId), false)
+                ?? throw new EntityValidationException($"Order {orderItem.OrderId} not found");
+            var itemVariant = await Context
+                .Set<ItemVariant>()
                 .Include(iv => iv.Item)
                     .ThenInclude(i => i.Store)
                 .FirstOrDefaultAsync(iv => iv.Id == orderItem.ItemVariantId) 
@@ -39,12 +41,8 @@ namespace Infrastructure.Services
 
         protected override Task ValidateUpdateWithExceptionAsync(OrderItem orderItem)
         {
-            return ValidateCreateWithExceptionAsync(orderItem);
-
-        }
-
-        public override Task RelinkRelatedAsync(int id, int idToRelinkTo)
-        {
+            if (orderItem.Number <= 0)
+                throw new EntityValidationException("Number must be positive");
             return Task.CompletedTask;
         }
     }
