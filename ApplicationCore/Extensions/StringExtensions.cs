@@ -4,9 +4,9 @@ namespace ApplicationCore.Extensions
 {
     public static class StringExtensions
     {
-        public static bool Contains(this string source, string toCheck, StringComparison comp)
+        public static bool ContainsCI(this string source, string toCheck)
         {
-            return source?.IndexOf(toCheck, comp) >= 0;
+            return source?.IndexOf(toCheck, StringComparison.OrdinalIgnoreCase) >= 0;
         }
 
         /// <summary>

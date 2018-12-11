@@ -124,22 +124,21 @@ namespace Infrastructure.Services
             await Context.SaveChangesAsync(Logger, "Relink Category");
         }
 
-        protected override async Task FullValidationWithExceptionAsync(Category category)
+        protected override async Task ValidationWithExceptionAsync(Category category)
         {
-            await base.FullValidationWithExceptionAsync(category);
-            if (!category.IsRoot && !await Context.ExistsBySpecAsync(Logger, new EntitySpecification<Category>(category.ParentCategoryId)))
-                throw new EntityValidationException("Parent category does not exist");
-            if (category.ParentCategoryId != RootCategory.Id && !RootCategory.Subcategories.Any(c => c.Id == category.ParentCategoryId))
-                throw new EntityValidationException("Only root or first level categories can be parent");
-        }
-
-        protected override async Task PartialValidationWithExceptionAsync(Category category)
-        {
-            await base.PartialValidationWithExceptionAsync(category);
+            await base.ValidationWithExceptionAsync(category);
+            var entityEntry = Context.Entry(category);
             if (string.IsNullOrWhiteSpace(category.Title))
                 throw new EntityValidationException("Title not specified");
             if (string.IsNullOrWhiteSpace(category.Description))
                 throw new EntityValidationException("Description not specified");
+            if (IsPropertyModified(entityEntry, c => c.ParentCategoryId, false) 
+                && !category.IsRoot && !await Context.ExistsBySpecAsync(Logger, new EntitySpecification<Category>(category.ParentCategoryId)))
+                throw new EntityValidationException("Parent category does not exist");
+            // just throws exception if modified
+            IsPropertyModified(entityEntry, c => c.IsRoot, false);
+            if (category.ParentCategoryId != RootCategory.Id && !RootCategory.Subcategories.Any(c => c.Id == category.ParentCategoryId))
+                throw new EntityValidationException("Only root or first level categories can be parent");
         }
 
         protected override async Task ValidateCustomUniquinessWithException(Category category)

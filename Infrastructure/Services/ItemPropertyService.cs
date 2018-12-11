@@ -47,21 +47,29 @@ namespace Infrastructure.Services
             return await ItemVariantService.EnumerateRelatedEnumAsync(itemVariantSpec, (v => v.ItemProperties));
         }
 
-        protected override async Task FullValidationWithExceptionAsync(ItemProperty itemProperty)
+        protected override async Task ValidationWithExceptionAsync(ItemProperty itemProperty)
         {
-            await base.FullValidationWithExceptionAsync(itemProperty);
-            var itemVariant = await Context
-                .Set<ItemVariant>()
-                .Include(v => v.Item)
-                .FirstOrDefaultAsync(v => v.Id == itemProperty.ItemVariantId) 
+            await base.ValidationWithExceptionAsync(itemProperty);
+            var entityEntry = Context.Entry(itemProperty);
+            if (IsPropertyModified(entityEntry, p => p.ItemVariantId, false) 
+                | IsPropertyModified(entityEntry, p => p.CharacteristicValueId, false))
+            {
+                var itemVariant = await Context
+                    .Set<ItemVariant>()
+                    .Include(v => v.Item)
+                    .FirstOrDefaultAsync(v => v.Id == itemProperty.ItemVariantId)
                     ?? throw new EntityValidationException($"Item variant {itemProperty.ItemVariantId} does not exist");
-            var possibleCharacteristicValues = await CharacteristicValueService.EnumerateByCategoryAsync(new EntitySpecification<Category>(itemVariant.Item.CategoryId));
-            var characteristicValue = await Context
-                .Set<CharacteristicValue>()
-                .FirstOrDefaultAsync(v => v.Id == itemProperty.CharacteristicValueId) 
-                    ?? throw new EntityValidationException($"Characteristic value {itemProperty.CharacteristicValueId} does not exist");
-            if (!possibleCharacteristicValues.Contains(characteristicValue))
-                throw new EntityValidationException($"Characteristic value {itemProperty.CharacteristicValueId} has the wrong category");
+                if (IsPropertyModified(entityEntry, p => p.CharacteristicValueId, false))
+                {
+                    var possibleCharacteristicValues = await CharacteristicValueService.EnumerateByCategoryAsync(new EntitySpecification<Category>(itemVariant.Item.CategoryId));
+                    var characteristicValue = await Context
+                        .Set<CharacteristicValue>()
+                        .FirstOrDefaultAsync(v => v.Id == itemProperty.CharacteristicValueId)
+                            ?? throw new EntityValidationException($"Characteristic value {itemProperty.CharacteristicValueId} does not exist");
+                    if (!possibleCharacteristicValues.Contains(characteristicValue))
+                        throw new EntityValidationException($"Characteristic value {itemProperty.CharacteristicValueId} has the wrong category");
+                }
+            }
         }
     }
 }

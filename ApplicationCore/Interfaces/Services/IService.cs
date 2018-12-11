@@ -52,7 +52,7 @@ namespace ApplicationCore.Interfaces.Services
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        Task<TEntity> UpdateAsync(TEntity entity, bool fullValidation = false);
+        Task<TEntity> UpdateAsync(TEntity entity);
 
         /// <summary>
         /// Deletes a single entity. Existence of entity should be verified in advance.

@@ -59,10 +59,11 @@ namespace UnitTests.Services
         protected override IEnumerable<Characteristic> GetIncorrectEntitesForUpdate()
         {
             Data.Characteristics.Size.Title = "";
+            Data.Characteristics.Colour.CategoryId = Data.Categories.Electronics.Id;
             return new List<Characteristic>()
             {
-                //   new Characteristic() { Id = first.Id, Title = first.Title, CategoryId = first.CategoryId, OwnerId = first.OwnerId },
-                Data.Characteristics.Size
+                Data.Characteristics.Size,
+                Data.Characteristics.Colour
             };
         }
     }

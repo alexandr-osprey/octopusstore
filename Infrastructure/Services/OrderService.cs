@@ -5,6 +5,7 @@ using ApplicationCore.Interfaces;
 using ApplicationCore.Interfaces.Services;
 using ApplicationCore.Specifications;
 using Infrastructure.Data;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.Threading.Tasks;
 
@@ -22,19 +23,18 @@ namespace Infrastructure.Services
         {
         }
 
-        protected override async Task FullValidationWithExceptionAsync(Order order)
+        protected override async Task ValidationWithExceptionAsync(Order order)
         {
-            await base.FullValidationWithExceptionAsync(order);
-            await PartialValidationWithExceptionAsync(order);
-            if (!await Context.ExistsBySpecAsync(Logger, new EntitySpecification<Store>(order.StoreId)))
-                throw new EntityValidationException($"Store {order.StoreId} does not exist");
-        }
-
-        protected override async Task PartialValidationWithExceptionAsync(Order order)
-        {
-            await base.PartialValidationWithExceptionAsync(order);
+            await base.ValidationWithExceptionAsync(order);
             if (order.Sum < 0)
                 throw new EntityValidationException($"Order sum can't be negative");
+            if (!await Context.ExistsBySpecAsync(Logger, new EntitySpecification<Store>(order.StoreId)))
+                throw new EntityValidationException($"Store {order.StoreId} does not exist");
+            var orderEntry = Context.Entry(order);
+            if (IsPropertyModified(orderEntry, o => o.StoreId, false)
+                && !await Context.ExistsBySpecAsync(Logger, new EntitySpecification<Store>(order.StoreId), false))
+                throw new EntityValidationException($"Store with id {order.StoreId} does not exist");
+            ValidateStatusWithException(orderEntry);
         }
 
         public override async Task RelinkRelatedAsync(int id, int idToRelinkTo)
@@ -48,29 +48,32 @@ namespace Infrastructure.Services
         public async Task<Order> SetStatusAsync(int orderId, OrderStatus orderStatus)
         {
             var order = await Context.ReadSingleBySpecAsync(Logger, new EntitySpecification<Order>(orderId), true);
-            if (orderStatus == OrderStatus.Created)
-                throw new EntityValidationException("Can't set Created status Manually");
-            if (order.Status == OrderStatus.Created)
-            {
-                if (orderStatus == OrderStatus.Cancelled)
-                {
-                    order.Status = orderStatus;
-                    order.DateTimeCancelled = DateTime.UtcNow;
-                }
-                else if (orderStatus == OrderStatus.Finished)
-                {
-                    order.Status = orderStatus;
-                    order.DateTimeFinished = DateTime.UtcNow;
-                }
-                else
-                    throw new EntityValidationException("Unsupported order status " + orderStatus);
-                await Context.UpdateSingleAsync(Logger, order, false);
-            }
-            else if (order.Status == OrderStatus.Finished)
-                throw new EntityValidationException("Order already finished, can't change status");
-            else if (order.Status == OrderStatus.Cancelled)
-                throw new EntityValidationException("Order already cancelled, can't change status");
+            order.Status = orderStatus;
+            await UpdateAsync(order);
             return order;
+        }
+
+        protected void ValidateStatusWithException(EntityEntry<Order> orderEntry)
+        {
+            var statusProperty = orderEntry.Property(o => o.Status);
+            if (statusProperty.IsModified)
+            {
+                if (statusProperty.CurrentValue == OrderStatus.Created)
+                    throw new EntityValidationException("Can't set Created status Manually");
+                if (statusProperty.OriginalValue == OrderStatus.Created)
+                {
+                    if (statusProperty.CurrentValue == OrderStatus.Cancelled)
+                        orderEntry.Entity.DateTimeCancelled = DateTime.UtcNow;
+                    else if (statusProperty.CurrentValue == OrderStatus.Finished)
+                        orderEntry.Entity.DateTimeFinished = DateTime.UtcNow;
+                    else
+                        throw new EntityValidationException("Unsupported order status " + orderEntry.Entity.Status);
+                }
+                else if (statusProperty.OriginalValue == OrderStatus.Finished)
+                    throw new EntityValidationException("Order already finished, can't change status");
+                else if (statusProperty.OriginalValue == OrderStatus.Cancelled)
+                    throw new EntityValidationException("Order already cancelled, can't change status");
+            }
         }
     }
 }

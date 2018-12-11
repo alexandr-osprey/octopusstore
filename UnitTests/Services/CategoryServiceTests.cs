@@ -154,10 +154,14 @@ namespace UnitTests.Services
         {
             Data.Categories.Electronics.Description = " ";
             Data.Categories.Jackets.Title = "";
+            Data.Categories.Smartphones.ParentCategoryId = Data.Categories.Clothes.Id;
+            Data.Categories.Clothes.IsRoot = !Data.Categories.Clothes.IsRoot;
             return new List<Category>()
             {
                 Data.Categories.Electronics,
-                Data.Categories.Jackets
+                Data.Categories.Jackets,
+                Data.Categories.Smartphones,
+                Data.Categories.Clothes
             };
         }
 

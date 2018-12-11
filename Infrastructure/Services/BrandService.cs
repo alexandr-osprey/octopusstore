@@ -22,9 +22,10 @@ namespace Infrastructure.Services
         {
         }
 
-        protected override async Task PartialValidationWithExceptionAsync(Brand brand)
+        protected override async Task ValidationWithExceptionAsync(Brand brand)
         {
-            await base.PartialValidationWithExceptionAsync(brand);
+            await base.ValidationWithExceptionAsync(brand);
+            var entityEntry = Context.Entry(brand);
             if (string.IsNullOrWhiteSpace(brand.Title))
                 throw new EntityValidationException("Title not specified");
         }

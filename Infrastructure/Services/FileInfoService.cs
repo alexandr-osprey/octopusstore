@@ -5,6 +5,7 @@ using ApplicationCore.Interfaces;
 using ApplicationCore.Interfaces.Services;
 using ApplicationCore.Specifications;
 using Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.IO;
 using System.Threading.Tasks;
@@ -85,18 +86,24 @@ namespace Infrastructure.Services
             await base.DeleteRelatedEntitiesAsync(entity);
         }
 
-        protected override async Task FullValidationWithExceptionAsync(TFileInfo fileInfo)
+        protected override async Task ValidationWithExceptionAsync(TFileInfo fileInfo)
         {
-            await base.FullValidationWithExceptionAsync(fileInfo);
-            ValidateFile(fileInfo);
-            await ValidateRelatedEntityAsync(fileInfo);
-        }
-
-        protected override async Task PartialValidationWithExceptionAsync(TFileInfo fileInfo)
-        {
-            await base.PartialValidationWithExceptionAsync(fileInfo);
+            await base.ValidationWithExceptionAsync(fileInfo);
+            var entityEntry = Context.Entry(fileInfo);
             if (string.IsNullOrWhiteSpace(fileInfo.Title))
                 throw new EntityValidationException("Incorrect title");
+            if (IsPropertyModified(entityEntry, f => f.ContentType, false) && !fileInfo.ContentTypeAllowed)
+                throw new EntityValidationException($"Unsupported content type: { fileInfo.ContentType }");
+            if (entityEntry.State == EntityState.Detached || entityEntry.State == EntityState.Added)
+                ValidateFile(fileInfo);
+            else
+            {
+                if (IsPropertyModified(entityEntry, f => f.FullPath, false) && string.IsNullOrWhiteSpace(fileInfo.FullPath))
+                    throw new EntityValidationException("Empty full path");
+                if (IsPropertyModified(entityEntry, f => f.DirectoryPath, false) && string.IsNullOrWhiteSpace(fileInfo.DirectoryPath))
+                    throw new EntityValidationException("Empty directory path");
+            }
+            await ValidateRelatedEntityAsync(fileInfo);
         }
 
         protected async Task<bool> ValidateRelatedEntityAsync(TFileInfo fileInfo)
@@ -112,8 +119,6 @@ namespace Infrastructure.Services
                 throw new EntityValidationException("File not provided");
             if (fileInfo.InputStream.Length > MaxAllowedFileSize)
                 throw new EntityValidationException($"The file exceeds 10 MB.");
-            if (!fileInfo.ContentTypeAllowed)
-                throw new EntityValidationException($"Unsupported content type: { fileInfo.ContentType }");
             return true;
         }
 

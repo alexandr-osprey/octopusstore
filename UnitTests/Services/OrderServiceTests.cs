@@ -50,9 +50,15 @@ namespace UnitTests.Services
         protected override IEnumerable<Order> GetIncorrectEntitesForUpdate()
         {
             Data.Orders.JenInJohnsStore.Sum = -1;
+            Data.Orders.Jen2000.StoreId = Data.Stores.Johns.Id;
+            Data.Orders.John1000Cancelled.Status = OrderStatus.Created;
+            Data.Orders.John1000Finished.Status = OrderStatus.Cancelled;
             return new List<Order>()
             {
-                Data.Orders.JenInJohnsStore
+                Data.Orders.JenInJohnsStore,
+                Data.Orders.Jen2000,
+                Data.Orders.John1000Cancelled,
+                Data.Orders.John1000Finished
             };
         }
 
@@ -83,13 +89,6 @@ namespace UnitTests.Services
             var finishedStatusTime = DateTime.UtcNow;
             await Service.SetStatusAsync(order.Id, OrderStatus.Finished);
             Assert.True(order.DateTimeFinished >= finishedStatusTime);
-        }
-
-        [Fact]
-        public async Task TryToSetOrderCreatedStatusAsync()
-        {
-            var order = Data.Orders.John1000;
-            await Assert.ThrowsAsync<EntityValidationException>(() => Service.SetStatusAsync(order.Id, OrderStatus.Created));
         }
 
         [Fact]

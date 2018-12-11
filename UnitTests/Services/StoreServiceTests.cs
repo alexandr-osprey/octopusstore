@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using ApplicationCore.Interfaces.Services;
 using Xunit;
 using System.Linq;
+using System;
 
 namespace UnitTests.Services
 {
@@ -53,11 +54,13 @@ namespace UnitTests.Services
 
         protected override IEnumerable<Store> GetIncorrectEntitesForUpdate()
         {
-            var first = Data.Stores.Jennifers;
-            first.Title = null;
-            first.Description = "Upd 1";
-            first.Address = "Upd 1";
-            return new List<Store>() { first };
+            Data.Stores.Jennifers.Title = "";
+            Data.Stores.Johns.RegistrationDate = DateTime.Now;
+            return new List<Store>()
+            {
+                 Data.Stores.Jennifers,
+                 Data.Stores.Johns
+            };
         }
 
         protected override IEnumerable<Store> GetIncorrectNewEntites()

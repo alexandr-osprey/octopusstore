@@ -29,9 +29,9 @@ namespace Infrastructure.Services
             await Context.SaveChangesAsync(Logger, "Relink MeasurementUnit");
         }
 
-        protected override async Task PartialValidationWithExceptionAsync(MeasurementUnit measurementUnit)
+        protected override async Task ValidationWithExceptionAsync(MeasurementUnit measurementUnit)
         {
-            await base.PartialValidationWithExceptionAsync(measurementUnit);
+            await base.ValidationWithExceptionAsync(measurementUnit);
             if (string.IsNullOrWhiteSpace(measurementUnit.Title))
                 throw new EntityValidationException("Incorrect title");
         }

@@ -7,6 +7,7 @@ using ApplicationCore.Specifications;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,7 +43,7 @@ namespace Infrastructure.Services
 
         public virtual async Task<TEntity> CreateAsync(TEntity entity)
         {
-            await FullValidationWithExceptionAsync(entity);
+            await ValidationWithExceptionAsync(entity);
             entity.OwnerId = ScopedParameters.ClaimsPrincipal?.Identity?.Name
                 ?? throw new Exception("User identity not provided for entity creation");
             await ValidateCustomUniquinessWithException(entity);
@@ -71,12 +72,14 @@ namespace Infrastructure.Services
             return entity;
         }
 
-        public virtual async Task<TEntity> UpdateAsync(TEntity entity, bool fullValidation = false)
+        public virtual async Task<TEntity> UpdateAsync(TEntity entity)
         {
-            if (fullValidation)
-                await FullValidationWithExceptionAsync(entity);
-            else
-                await PartialValidationWithExceptionAsync(entity);
+            if (entity == null)
+                throw new EntityValidationException("Entity not provided");
+            var entityEntry = Context.Entry(entity);
+            if (entityEntry.State == EntityState.Detached)
+                throw new EntityValidationException($"Entity {entity} not being tracked");
+            await ValidationWithExceptionAsync(entity);
             if (AuthoriationParameters.UpdateAuthorizationRequired)
                 await AuthorizeWithException(entity, AuthoriationParameters.UpdateOperationRequirement);
             var result = await Context.UpdateSingleAsync(Logger, entity);
@@ -169,12 +172,7 @@ namespace Infrastructure.Services
             await Task.CompletedTask;
         }
 
-        protected virtual async Task FullValidationWithExceptionAsync(TEntity entity)
-        {
-            await PartialValidationWithExceptionAsync(entity);
-        }
-
-        protected virtual Task PartialValidationWithExceptionAsync(TEntity entity)
+        protected virtual Task ValidationWithExceptionAsync(TEntity entity)
         {
             if (entity == null)
                 throw new EntityValidationException("Entity not provided");
@@ -240,6 +238,23 @@ namespace Infrastructure.Services
         protected async Task<bool> Authorize(object obj, OperationAuthorizationRequirement requirement)
         {
             return await IdentityService.AuthorizeAsync(ScopedParameters.ClaimsPrincipal, obj, requirement);
+        }
+
+        protected bool IsPropertyModified<TProperty>(EntityEntry<TEntity> entityEntry, Expression<Func<TEntity, TProperty>> propertyExpression, bool isUpdatable = true)
+        {
+            bool isModified = false;
+            if (entityEntry.State == EntityState.Unchanged)
+                isModified = false;
+            else if (entityEntry.State == EntityState.Modified)
+            {
+                PropertyEntry<TEntity, TProperty> statusProperty = entityEntry.Property(propertyExpression);
+                isModified = statusProperty.IsModified;
+                if (isModified && !isUpdatable)
+                    throw new EntityValidationException($"Property {statusProperty.Metadata.Name} is not updatable");
+            }
+            else if (entityEntry.State == EntityState.Detached || entityEntry.State == EntityState.Added)
+                isModified = true;
+            return isModified;
         }
     }
 }

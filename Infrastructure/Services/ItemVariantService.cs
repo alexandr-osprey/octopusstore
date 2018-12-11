@@ -29,21 +29,17 @@ namespace Infrastructure.Services
             await Context.SaveChangesAsync(Logger, "Relink ItemVariant");
         }
 
-        protected override async Task FullValidationWithExceptionAsync(ItemVariant itemVariant)
+        protected override async Task ValidationWithExceptionAsync(ItemVariant itemVariant)
         {
-            await base.FullValidationWithExceptionAsync(itemVariant);
-            await PartialValidationWithExceptionAsync(itemVariant);
-            if (!await Context.ExistsBySpecAsync(Logger, new EntitySpecification<Item>(itemVariant.ItemId)))
-                throw new EntityValidationException($"Item with Id {itemVariant.ItemId} does not exist. ");
-        }
-
-        protected override async Task PartialValidationWithExceptionAsync(ItemVariant itemVariant)
-        {
-            await base.PartialValidationWithExceptionAsync(itemVariant);
+            await base.ValidationWithExceptionAsync(itemVariant);
             if (string.IsNullOrWhiteSpace(itemVariant.Title))
                 throw new EntityValidationException($"Incorrect title. ");
             if (itemVariant.Price <= 0)
                 throw new EntityValidationException($"Price can't be zero or less. ");
+            var entityEntry = Context.Entry(itemVariant);
+            if (IsPropertyModified(entityEntry, v => v.ItemId, false) 
+                && !await Context.ExistsBySpecAsync(Logger, new EntitySpecification<Item>(itemVariant.ItemId)))
+                throw new EntityValidationException($"Item with Id {itemVariant.ItemId} does not exist. ");
         }
     }
 }

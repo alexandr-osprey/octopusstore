@@ -1,7 +1,6 @@
 ﻿using ApplicationCore.Entities;
 using ApplicationCore.Interfaces.Services;
 using ApplicationCore.Specifications;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -100,9 +99,15 @@ namespace UnitTests.Services
         protected override IEnumerable<ItemImage> GetIncorrectEntitesForUpdate()
         {
             Data.ItemImages.Samsung81.Title = "";
+            Data.ItemImages.IPhone61.ContentType = "txt";
+            Data.ItemImages.IPhone62.DirectoryPath = "path";
+            Data.ItemImages.IPhone63.FullPath = "fullpath";
             return new List<ItemImage>()
             {
-                Data.ItemImages.Samsung81
+                Data.ItemImages.Samsung81,
+                Data.ItemImages.IPhone61,
+                Data.ItemImages.IPhone62,
+                Data.ItemImages.IPhone63
             };
         }
 

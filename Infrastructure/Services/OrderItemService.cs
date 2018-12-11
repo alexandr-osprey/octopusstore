@@ -22,26 +22,30 @@ namespace Infrastructure.Services
         {
         }
 
-        protected override async Task FullValidationWithExceptionAsync(OrderItem orderItem)
+        protected override async Task ValidationWithExceptionAsync(OrderItem orderItem)
         {
-            await base.FullValidationWithExceptionAsync(orderItem);
-            var order = await Context.ReadSingleBySpecAsync(Logger, new EntitySpecification<Order>(orderItem.OrderId), false)
-                ?? throw new EntityValidationException($"Order {orderItem.OrderId} not found");
-            var itemVariant = await Context
-                .Set<ItemVariant>()
-                .Include(iv => iv.Item)
-                    .ThenInclude(i => i.Store)
-                .FirstOrDefaultAsync(iv => iv.Id == orderItem.ItemVariantId) 
-                ?? throw new EntityValidationException($"Item variant {orderItem.ItemVariantId} not found");
-            if (itemVariant.Item.Store.Id != order.StoreId)
-                throw new EntityValidationException("Incorrect item variant for store in order");
-        }
-
-        protected override async Task PartialValidationWithExceptionAsync(OrderItem orderItem)
-        {
-            await base.PartialValidationWithExceptionAsync(orderItem);
+            await base.ValidationWithExceptionAsync(orderItem);
             if (orderItem.Number <= 0)
                 throw new EntityValidationException("Number must be positive");
+            var orderEntry = Context.Entry(orderItem);
+            if (IsPropertyModified(orderEntry, o => o.OrderId, false)
+                | IsPropertyModified(orderEntry, o => o.ItemVariantId, false))
+            {
+                var order = await Context.ReadSingleBySpecAsync(Logger, new EntitySpecification<Order>(orderItem.OrderId), false)
+                    ?? throw new EntityValidationException($"Order {orderItem.OrderId} not found");
+                if (IsPropertyModified(orderEntry, o => o.ItemVariantId, false))
+                {
+                    var itemVariant = await Context
+                        .Set<ItemVariant>()
+                        .Include(iv => iv.Item)
+                            .ThenInclude(i => i.Store)
+                        .FirstOrDefaultAsync(iv => iv.Id == orderItem.ItemVariantId)
+                            ?? throw new EntityValidationException($"Item variant {orderItem.ItemVariantId} not found");
+                    if (itemVariant.Item.Store.Id != order.StoreId)
+                        throw new EntityValidationException("Incorrect item variant for store in order");
+                }
+            }
+
         }
     }
 }

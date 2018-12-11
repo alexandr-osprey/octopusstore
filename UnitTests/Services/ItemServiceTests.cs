@@ -54,7 +54,21 @@ namespace UnitTests.Services
         protected override IEnumerable<Item> GetIncorrectEntitesForUpdate()
         {
             Data.Items.PebbleWatch.Title = null;
-            return new List<Item>() { Data.Items.PebbleWatch };
+            Data.Items.IPhone6.BrandId = Data.Brands.Pebble.Id;
+            Data.Items.Jacket.MeasurementUnitId = Data.MeasurementUnits.M.Id;
+            Data.Items.Samsung7.StoreId = Data.Stores.Jennifers.Id;
+            Data.Items.Samsung8.CategoryId = Data.Categories.Shoes.Id;
+            Data.Items.Shoes.Description = "";
+
+            return new List<Item>()
+            {
+                Data.Items.PebbleWatch,
+                Data.Items.IPhone6,
+                Data.Items.Jacket,
+                Data.Items.Samsung7,
+                Data.Items.Samsung8,
+                Data.Items.Shoes
+            };
         }
 
         [Fact]

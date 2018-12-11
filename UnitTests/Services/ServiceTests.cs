@@ -1,5 +1,6 @@
 ﻿using ApplicationCore.Entities;
 using ApplicationCore.Exceptions;
+using ApplicationCore.Interfaces;
 using ApplicationCore.Interfaces.Services;
 using ApplicationCore.Specifications;
 using Infrastructure.Data;
@@ -17,7 +18,7 @@ namespace UnitTests
     public abstract class ServiceTests<TEntity, TService>
        : TestBase<TEntity>
         where TService: IService<TEntity>
-        where TEntity: Entity
+        where TEntity: Entity, IGenericMemberwiseClonable<TEntity>
     {
         protected TService Service { get; }
 
@@ -51,9 +52,7 @@ namespace UnitTests
         {
             await Assert.ThrowsAsync<EntityValidationException>(() => Service.CreateAsync(null));
             foreach (var incorrectEntity in GetIncorrectNewEntites())
-            {
                 await Assert.ThrowsAsync<EntityValidationException>(() => Service.CreateAsync(incorrectEntity));
-            }
         }
         protected abstract IEnumerable<TEntity> GetIncorrectNewEntites();
 
@@ -133,9 +132,7 @@ namespace UnitTests
         public virtual async Task UpdateAsync()
         {
             foreach (var entityToUpdate in GetCorrectEntitesForUpdate())
-            {
                 Equal(entityToUpdate, await Service.UpdateAsync(entityToUpdate));
-            }
         }
 
         protected abstract IEnumerable<TEntity> GetCorrectEntitesForUpdate();
@@ -144,10 +141,9 @@ namespace UnitTests
         public virtual async Task UpdateThrowsEntityValidationExceptionAsync()
         {
             await Assert.ThrowsAsync<EntityValidationException>(() => Service.UpdateAsync(null));
+            await Assert.ThrowsAsync<EntityValidationException>(() => Service.UpdateAsync(GetCorrectEntitesForUpdate().FirstOrDefault()?.ShallowClone()));
             foreach (var incorrectEntity in GetIncorrectEntitesForUpdate())
-            {
                 await Assert.ThrowsAsync<EntityValidationException>(() => Service.UpdateAsync(incorrectEntity));
-            }
         }
 
         protected virtual IEnumerable<TEntity> GetIncorrectEntitesForUpdate() => new List<TEntity>();
@@ -164,9 +160,7 @@ namespace UnitTests
         {
             var entititesToDelete = await Context.EnumerateAsync(Logger, GetEntitiesToDeleteSpecification());
             foreach(var entityToDelete in entititesToDelete)
-            {
                 await DeleteSingleEntityAsync(entityToDelete);
-            }
         }
 
         protected async Task DeleteSingleEntityAsync(TEntity entity)
@@ -206,7 +200,6 @@ namespace UnitTests
         {
             await Assert.ThrowsAsync<EntityNotFoundException>(() => Service.DeleteSingleAsync(new EntitySpecification<TEntity>(9999)));
         }
-
 
         [Fact]
         public virtual async Task CountTotalAsync()

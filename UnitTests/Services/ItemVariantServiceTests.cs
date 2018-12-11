@@ -54,11 +54,14 @@ namespace UnitTests.Services
 
         protected override IEnumerable<ItemVariant> GetIncorrectEntitesForUpdate()
         {
-            var itemVariant = Data.ItemVariants.JacketBlack;
+            Data.ItemVariants.JacketBlack.ItemId = Data.Items.IPhone6.Id;
+            Data.ItemVariants.IPhone632GB.Title = "";
+            Data.ItemVariants.IPhone664GB.Price = 0;
             return new List<ItemVariant>()
             {
-                new ItemVariant() { Id = itemVariant.Id, Title = "", ItemId = itemVariant.ItemId, OwnerId = itemVariant.OwnerId, Price = itemVariant.Price },
-                new ItemVariant() { Id = itemVariant.Id, Title = itemVariant.Title, ItemId = itemVariant.ItemId, OwnerId = itemVariant.OwnerId, Price = 0 },
+                Data.ItemVariants.JacketBlack,
+                Data.ItemVariants.IPhone632GB,
+                Data.ItemVariants.IPhone664GB
             };
         }
 

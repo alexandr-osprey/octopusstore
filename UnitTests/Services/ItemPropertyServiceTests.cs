@@ -55,7 +55,18 @@ namespace UnitTests.Services
         {
             return new List<ItemProperty>() { };
         }
-        
+
+        protected override IEnumerable<ItemProperty> GetIncorrectEntitesForUpdate()
+        {
+            Data.ItemProperties.IPhone632GB32.CharacteristicValueId = Data.CharacteristicValues.MAh1000.Id;
+            Data.ItemProperties.IPhone632HD.ItemVariantId = Data.ItemVariants.JacketBlack.Id;
+            return new List<ItemProperty>()
+            {
+                Data.ItemProperties.IPhone632GB32,
+                Data.ItemProperties.IPhone632HD
+            };
+        }
+
         protected async Task<IEnumerable<ItemProperty>> GetDuplicateEntitiesAsync()
         {
             var iphone = Data.ItemProperties.IPhone632GB32;

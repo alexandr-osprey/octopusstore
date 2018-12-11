@@ -12,7 +12,7 @@ namespace ApplicationCore.Specifications
         }
 
         public ItemIndexSpecification(int pageIndex, int pageSize, string title, IEnumerable<Category> categories, int? storeId, int? brandId, HashSet<int> characteristicValueIds)
-           : base(i => (!HasValue(title) || i.Title.Contains(title, System.StringComparison.OrdinalIgnoreCase)) &&
+           : base(i => (!HasValue(title) || i.Title.ContainsCI(title)) &&
                         (!(categories.Any()) || categories.Any(c => c.Id == i.CategoryId)) &&
                         (!storeId.HasValue || i.StoreId == storeId) &&
                         (!brandId.HasValue || i.BrandId == brandId) &&

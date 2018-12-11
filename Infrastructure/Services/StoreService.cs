@@ -30,7 +30,7 @@ namespace Infrastructure.Services
 
         public override async Task<Store> CreateAsync(Store entity)
         {
-            await base.FullValidationWithExceptionAsync(entity);
+            await base.ValidationWithExceptionAsync(entity);
             entity.RegistrationDate = DateTime.Now;
             var store = await base.CreateAsync(entity);
             await IdentityService.AddClaim(entity.OwnerId, new Claim(entity.OwnerId, entity.Id.ToString()));
@@ -55,15 +55,17 @@ namespace Infrastructure.Services
             await base.DeleteRelatedEntitiesAsync(store);
         }
 
-        protected override async Task PartialValidationWithExceptionAsync(Store store)
+        protected override async Task ValidationWithExceptionAsync(Store store)
         {
-            await base.PartialValidationWithExceptionAsync(store);
+            await base.ValidationWithExceptionAsync(store);
             if (string.IsNullOrWhiteSpace(store.Title))
                 throw new EntityValidationException("Incorrect title");
             if (string.IsNullOrWhiteSpace(store.Description))
                 throw new EntityValidationException("Incorrect description");
             if (string.IsNullOrWhiteSpace(store.Address))
                 throw new EntityValidationException("Incorrect address");
+            var entityEntry = Context.Entry(store);
+            IsPropertyModified(entityEntry, s => s.RegistrationDate, false);
         }
 
         public override async Task RelinkRelatedAsync(int id, int idToRelinkTo)

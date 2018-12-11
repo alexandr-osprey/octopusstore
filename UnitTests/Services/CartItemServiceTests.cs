@@ -131,10 +131,12 @@ namespace UnitTests.Services
         {
             Data.CartItems.JohnIphone32.Number = 0;
             Data.CartItems.JohnIphone64.Number = -1;
+            Data.CartItems.JenniferIphone32.ItemVariantId = Data.ItemVariants.JacketBlack.Id;
             return new List<CartItem>
             {
                 Data.CartItems.JohnIphone32,
-                Data.CartItems.JohnIphone64
+                Data.CartItems.JohnIphone64,
+                Data.CartItems.JenniferIphone32
             };
         }
 

@@ -59,7 +59,12 @@ namespace UnitTests.Services
         protected override IEnumerable<CharacteristicValue> GetIncorrectEntitesForUpdate()
         {
             Data.CharacteristicValues.GB32.Title = null;
-            return new List<CharacteristicValue>() { Data.CharacteristicValues.GB32 };
+            Data.CharacteristicValues.FullHD.CharacteristicId = Data.Characteristics.Size.Id;
+            return new List<CharacteristicValue>()
+            {
+                Data.CharacteristicValues.GB32,
+                Data.CharacteristicValues.FullHD
+            };
         }
     }
 }

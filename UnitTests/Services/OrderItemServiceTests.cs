@@ -55,10 +55,14 @@ namespace UnitTests.Services
         {
             Data.OrderItems.JenInJohnsStore1.Number = 0;
             Data.OrderItems.JenInJohnsStore2.Number = -1;
+            Data.OrderItems.John10001.OrderId = Data.Orders.Jen2000.Id;
+            Data.OrderItems.John10002.ItemVariantId = Data.Stores.Jennifers.Id;
             return new List<OrderItem>()
             {
                 Data.OrderItems.JenInJohnsStore1,
                 Data.OrderItems.JenInJohnsStore2,
+                Data.OrderItems.John10001,
+                Data.OrderItems.John10002
             };
         }
     }
