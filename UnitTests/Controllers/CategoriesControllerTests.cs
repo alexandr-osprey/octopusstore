@@ -106,8 +106,8 @@ namespace UnitTests.Controllers
                 {
                     Id = Data.Categories.Shoes.Id,
                     Description = "UPDATED",
-                    IsRoot = false,
-                    ParentCategoryId = Data.Categories.Root.Id,
+                    IsRoot = Data.Categories.Shoes.IsRoot,
+                    ParentCategoryId = Data.Categories.Shoes.ParentCategoryId,
                     Title ="UPDATED"
                 }
             };

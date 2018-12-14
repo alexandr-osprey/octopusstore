@@ -34,15 +34,15 @@ namespace Infrastructure.Data.SampleData
         {
             return new List<ItemImage>
             {
-                new ItemImage("iPhone 6 - 1", ItemImageContentType, Items.IPhone6.Id, null) { OwnerId = Users.JohnId, FullPath = Path.Combine(PathToFiles, Users.JohnId, "iPhone 6 - 1.jpg"),  },
-                new ItemImage("iPhone 6 - 2.jpg", ItemImageContentType, Items.IPhone6.Id, null) { OwnerId = Users.JohnId, FullPath = Path.Combine(PathToFiles, Users.JohnId, "iPhone 6 - 2.jpg") },
-                new ItemImage("iPhone 6 - 3.jpg", ItemImageContentType, Items.IPhone6.Id, null) { OwnerId = Users.JohnId, FullPath = Path.Combine(PathToFiles, Users.JohnId, "iPhone 6 - 3.jpg") },
-                new ItemImage("Samsung 7.jpg", ItemImageContentType, Items.Samsung7.Id, null) { OwnerId = Users.JohnId, FullPath = Path.Combine(PathToFiles, Users.JohnId, "Samsung 7.jpg") },
-                new ItemImage("Samsung 8.jpg", ItemImageContentType, Items.Samsung8.Id, null) { OwnerId = Users.JohnId, FullPath = Path.Combine(PathToFiles, Users.JohnId, "Samsung 8.jpg") },
-                new ItemImage("Pebble.jpg", ItemImageContentType, Items.PebbleWatch.Id, null) { OwnerId = Users.JohnId, FullPath = Path.Combine(PathToFiles, Users.JohnId, "Pebble.jpg") },
+                new ItemImage("iPhone_6___1", ItemImageContentType, Items.IPhone6.Id, null) { OwnerId = Users.JohnId, FullPath = Path.Combine(PathToFiles, Users.JohnId, "iPhone 6 - 1.jpg"),  },
+                new ItemImage("iPhone_6___2", ItemImageContentType, Items.IPhone6.Id, null) { OwnerId = Users.JohnId, FullPath = Path.Combine(PathToFiles, Users.JohnId, "iPhone 6 - 2.jpg") },
+                new ItemImage("iPhone_6___3", ItemImageContentType, Items.IPhone6.Id, null) { OwnerId = Users.JohnId, FullPath = Path.Combine(PathToFiles, Users.JohnId, "iPhone 6 - 3.jpg") },
+                new ItemImage("Samsung_7", ItemImageContentType, Items.Samsung7.Id, null) { OwnerId = Users.JohnId, FullPath = Path.Combine(PathToFiles, Users.JohnId, "Samsung 7.jpg") },
+                new ItemImage("Samsung_8", ItemImageContentType, Items.Samsung8.Id, null) { OwnerId = Users.JohnId, FullPath = Path.Combine(PathToFiles, Users.JohnId, "Samsung 8.jpg") },
+                new ItemImage("Pebble", ItemImageContentType, Items.PebbleWatch.Id, null) { OwnerId = Users.JohnId, FullPath = Path.Combine(PathToFiles, Users.JohnId, "Pebble.jpg") },
 
-                new ItemImage("Shoes.jpg", ItemImageContentType, Items.Shoes.Id, null) { OwnerId = Users.JohnId, FullPath = Path.Combine(PathToFiles, Users.JenniferId, "Shoes.jpg") },
-                new ItemImage("Jacket.jpg", ItemImageContentType, Items.Jacket.Id, null) { OwnerId = Users.JohnId, FullPath = Path.Combine(PathToFiles, Users.JenniferId, "Jacket.jpg") }
+                new ItemImage("Shoes", ItemImageContentType, Items.Shoes.Id, null) { OwnerId = Users.JohnId, FullPath = Path.Combine(PathToFiles, Users.JenniferId, "Shoes.jpg") },
+                new ItemImage("Jacket", ItemImageContentType, Items.Jacket.Id, null) { OwnerId = Users.JohnId, FullPath = Path.Combine(PathToFiles, Users.JenniferId, "Jacket.jpg") }
             };
         }
 
@@ -61,9 +61,17 @@ namespace Infrastructure.Data.SampleData
                     Directory.CreateDirectory(Path.GetDirectoryName(itemImage.FullPath));
                     string rel = Path.GetRelativePath(PathToFiles, itemImage.FullPath);
                     string fullBackupPath = Path.Combine(PathToBackup, rel);
-                    File.Copy(fullBackupPath, itemImage.FullPath);
+                    var bytes = GetItemImageByteArray(itemImage.Title);
+                    if (bytes == null)
+                        continue;
+                    File.WriteAllBytes(itemImage.FullPath, bytes);
                 }
             }
+        }
+
+        protected byte[] GetItemImageByteArray(string imageNameWithoutExtension)
+        {
+            return (byte[])typeof(Properties.Resources).GetProperty(imageNameWithoutExtension).GetValue(null);
         }
 
         protected override IQueryable<ItemImage> GetQueryable()

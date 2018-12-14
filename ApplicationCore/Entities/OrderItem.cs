@@ -15,6 +15,13 @@ namespace ApplicationCore.Entities
         {
         }
 
+        public OrderItem(CartItem cartItem, int orderId) : base()
+        {
+            ItemVariantId = cartItem.ItemVariantId;
+            Number = cartItem.Number;
+            OrderId = orderId;
+        }
+
         public bool Equals(OrderItem orderItem) => base.Equals(orderItem)
             && OrderId == orderItem.OrderId
             && ItemVariantId == orderItem.ItemVariantId
