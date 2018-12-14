@@ -119,11 +119,12 @@ namespace UnitTests.Controllers
             return ms;
         }
 
-        protected override void AssertUpdateSuccess(ItemImage beforeUpdate, ItemImageViewModel expected, ItemImageViewModel actual)
+        protected override Task AssertUpdateSuccessAsync(ItemImage beforeUpdate, ItemImageViewModel expected, ItemImageViewModel actual)
         {
             Assert.Equal(expected.Title, actual.Title);
             Assert.Equal(beforeUpdate.RelatedId, actual.RelatedId);
             Assert.Equal(beforeUpdate.ContentType, actual.ContentType);
+            return Task.CompletedTask;
         }
 
         protected override IEnumerable<ItemImage> GetCorrectEntitiesToCreate()

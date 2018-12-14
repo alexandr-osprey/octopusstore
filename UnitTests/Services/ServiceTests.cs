@@ -40,11 +40,11 @@ namespace UnitTests
 
         protected abstract IEnumerable<TEntity> GetCorrectNewEntites();
 
-        protected virtual async Task AssertCreateSuccessAsync(TEntity created)
+        protected virtual Task AssertCreateSuccessAsync(TEntity created)
         {
             Assert.NotEqual(0, created.Id);
             Assert.NotNull(created.OwnerId);
-            await Task.CompletedTask;
+            return Task.CompletedTask;
         }
 
         [Fact]

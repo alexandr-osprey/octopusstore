@@ -6,6 +6,7 @@ namespace ApplicationCore.Interfaces.Controllers
 {
     public interface IController<TEntity, TViewModel> where TEntity: Entity where TViewModel: EntityViewModel<TEntity>
     {
+        IScopedParameters ScopedParameters { get; }
         Task<TViewModel> CreateAsync(TViewModel viewModel);
         Task<TViewModel> ReadAsync(int id);
         Task<TViewModel> UpdateAsync(TViewModel viewModel);

@@ -353,7 +353,7 @@ namespace UnitTests.Controllers
             };
         }
 
-        protected override void AssertUpdateSuccess(Item beforeUpdate, ItemViewModel expected, ItemViewModel actual)
+        protected override Task AssertUpdateSuccessAsync(Item beforeUpdate, ItemViewModel expected, ItemViewModel actual)
         {
             Assert.Equal(expected.Id, actual.Id);
             Assert.Equal(expected.Title, actual.Title);
@@ -363,6 +363,7 @@ namespace UnitTests.Controllers
             Assert.Equal(beforeUpdate.CategoryId, actual.CategoryId);
             Assert.Equal(beforeUpdate.StoreId, actual.StoreId);
             Assert.Equal(beforeUpdate.MeasurementUnitId, actual.MeasurementUnitId);
+            return Task.CompletedTask;
         }
     }
 }

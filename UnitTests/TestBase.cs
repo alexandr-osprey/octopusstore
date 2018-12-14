@@ -19,6 +19,7 @@ using OctopusStore;
 using OctopusStore.Controllers;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -34,12 +35,18 @@ namespace UnitTests
             ReferenceLoopHandling = ReferenceLoopHandling.Ignore
         };
 
+        public static IConfiguration AppSetting { get; } = new ConfigurationBuilder()
+                    .SetBasePath(Directory.GetCurrentDirectory())
+                    .AddJsonFile("appsettings.json")
+                    .Build();
+
         protected static ServiceCollection Services { get; } = new ServiceCollection();
         protected ServiceProvider ServiceProvider { get; }
 
         static TestBase()
         {
             ConfigureDI();
+            ConfigureIdentity();
         }
 
 
@@ -82,12 +89,12 @@ namespace UnitTests
             Services.AddSingleton(IdentityContextOptions);
             //IdentityConfiguration.ConfigureTesting(services, configuration);
 
-            Services.AddSingleton(_ => new TokenValidationParameters());
-            Services.AddDbContext<AppIdentityDbContext>();
-            Services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<AppIdentityDbContext>()
-                .AddDefaultTokenProviders();
-            Services.AddScoped<IIdentityService, IdentityService>();
+            //Services.AddSingleton(_ => new TokenValidationParameters());
+            //Services.AddDbContext<AppIdentityDbContext>();
+            //Services.AddIdentity<ApplicationUser, IdentityRole>()
+              //  .AddEntityFrameworkStores<AppIdentityDbContext>()
+              //  .AddDefaultTokenProviders();
+           // Services.AddScoped<IIdentityService, IdentityService>();
             Services.AddScoped<UserManager<ApplicationUser>, UserManager<ApplicationUser>>();
             Services.AddScoped<SignInManager<ApplicationUser>, SignInManager<ApplicationUser>>();
             Services.AddScoped<IAuthorizationService, DefaultAuthorizationService>();
@@ -97,15 +104,11 @@ namespace UnitTests
             Services.AddScoped<IAuthorizationEvaluator, DefaultAuthorizationEvaluator>();
             var scopedParameters = new ScopedParameters()
             {
-                ClaimsPrincipal = new ClaimsPrincipal(
-                    new ClaimsIdentity(
-                        new List<Claim>()
-                        {
-                            new Claim(ClaimTypes.NameIdentifier, Users.JohnId),
-                            new Claim(ClaimTypes.Name, Users.JohnId)
-                        }))
+                ClaimsPrincipal = Users.AdminPrincipal
             };
             Services.AddSingleton<IScopedParameters>(scopedParameters);
+            IdentityConfiguration.ConfigureServices(Services, AppSetting);
+
 
             //await signInManager.SignInAsync(
             //    await Resolve<UserManager<ApplicationUser>>().FindByIdAsync(adminId), false);
@@ -118,7 +121,7 @@ namespace UnitTests
             //services.AddDbContext<StoreContext>(options => options.UseInMemoryDatabase(Guid.NewGuid().ToString()));
 
             Startup.ConfigureDI(Services);
-            Services.AddSingleton(typeof(IAuthorizationParameters<>), typeof(AuthoriationParametersWithoutAuthorization<>));
+            //Services.AddSingleton(typeof(IAuthorizationParameters<>), typeof(AuthoriationParametersWithoutAuthorization<>));
             Services.AddScoped<IAuthorizationParameters<CartItem>, AuthoriationParametersWithoutAuthorization<CartItem>>();
 
             var conf = new Mock<IConfiguration>();
@@ -138,7 +141,7 @@ namespace UnitTests
             Services.AddScoped<IOrdersController, OrdersController>();
             //Services.AddScoped<IOrderItemsController, OrderItemsController>();
 
-            ConfigureIdentity();
+            //ConfigureIdentity();
         }
 
         protected T Resolve<T>()
@@ -206,15 +209,5 @@ namespace UnitTests
             //    JsonConvert.SerializeObject(expected, Formatting.None, jsonSettings),
             //    JsonConvert.SerializeObject(actual, Formatting.None, jsonSettings));
         }
-
-        //protected async Task CreateItemImageCopy(ItemImage itemImage)
-        //{
-        //    string fileCopy = itemImage.FullPath + "_copy";
-        //    if (!File.Exists(fileCopy))
-        //        File.Copy(itemImage.FullPath, fileCopy);
-        //    itemImage.FullPath = fileCopy;
-        //    Context.Set<ItemImage>().Update(itemImage);
-        //    await Context.SaveChangesAsync();
-        //}
     }
 }

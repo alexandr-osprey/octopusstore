@@ -1,4 +1,5 @@
-﻿using ApplicationCore.Identity;
+﻿using ApplicationCore.Entities;
+using ApplicationCore.Identity;
 using Infrastructure.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -46,7 +47,7 @@ namespace OctopusStore
                        .UseSqlServer(configuration.GetConnectionString("IdentityConnection")).Options;
             services.AddSingleton(identityContextOptions);
         }
-        public static void ConfigureTesting(IServiceCollection services, IConfiguration configuration)
+        public static void ConfigureTesting(IServiceCollection services)
         {
             DbContextOptions<AppIdentityDbContext> storeContextOptions =
             new DbContextOptionsBuilder<AppIdentityDbContext>()
@@ -100,6 +101,11 @@ namespace OctopusStore
             services.AddScoped<IAuthorizationHandler, CartItemAuthorizationHandler>();
             services.AddScoped<IAuthorizationHandler, OrderAuthorizationHandler>();
             services.AddScoped<IAuthorizationHandler, OrderItemAuthorizationHandler>();
+
+            services.AddScoped(typeof(IAuthorizationParameters<>), typeof(AuthorizationParameters<>));
+            services.AddScoped<IAuthorizationParameters<CartItem>, CartItemAuthorizationParameters>();
+            services.AddScoped<IAuthorizationParameters<Order>, OrderAuthorizationParameters>();
+            services.AddScoped<IAuthorizationParameters<OrderItem>, OrderItemAuthorizationParameters>();
         }
     }
 }

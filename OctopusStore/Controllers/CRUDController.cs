@@ -27,7 +27,7 @@ namespace OctopusStore.Controllers
         protected string EntityName { get; } = typeof(TEntity).Name;
         protected int MaxTake { get; } = 200;
         protected int DefaultTake { get; } = 50;
-        protected IScopedParameters ScopedParameters { get; }
+        public IScopedParameters ScopedParameters { get; }
 
         public CRUDController(
             TService service,

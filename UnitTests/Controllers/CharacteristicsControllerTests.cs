@@ -48,11 +48,12 @@ namespace UnitTests.Controllers
             Equal(expected, actual);
         }
 
-        protected override void AssertUpdateSuccess(Characteristic beforeUpdate, CharacteristicViewModel expected, CharacteristicViewModel actual)
+        protected override Task AssertUpdateSuccessAsync(Characteristic beforeUpdate, CharacteristicViewModel expected, CharacteristicViewModel actual)
         {
             Assert.Equal(expected.Title, actual.Title);
             Assert.Equal(beforeUpdate.CategoryId, actual.CategoryId);
             Assert.Equal(beforeUpdate.Id, actual.Id);
+            return Task.CompletedTask;
         }
 
         protected override IEnumerable<Characteristic> GetCorrectEntitiesToCreate()

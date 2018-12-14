@@ -5,7 +5,6 @@ using ApplicationCore.Interfaces.Controllers;
 using ApplicationCore.Interfaces.Services;
 using ApplicationCore.Specifications;
 using ApplicationCore.ViewModels;
-using Infrastructure.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
@@ -43,10 +42,8 @@ namespace OctopusStore.Controllers
             string characteristicsFilter,
             bool? orderByDescending)
         {
-            page = page ?? 1;
-            pageSize = pageSize ?? DefaultTake;
-            var ids = ParseIds(characteristicsFilter);
-            var spec = await Service.GetIndexSpecificationByParameters(page.Value, pageSize.Value, title, categoryId, storeId, brandId, ids);
+            var spec = await Service.GetIndexSpecificationByParameters(page ?? 1, pageSize ?? DefaultTake, 
+                title, categoryId, storeId, brandId, ParseIds(characteristicsFilter));
             ApplyOrderingToSpec(spec, orderBy, orderByDescending);
             return await base.IndexAsync<ItemThumbnailViewModel>(new ItemThumbnailIndexSpecification(spec));
         }
@@ -64,10 +61,8 @@ namespace OctopusStore.Controllers
             string characteristicsFilter,
             bool? orderByDescending)
         {
-            page = page ?? 1;
-            pageSize = pageSize ?? DefaultTake;
-            var ids = ParseIds(characteristicsFilter);
-            var spec = await Service.GetIndexSpecificationByParameters(page.Value, pageSize.Value, title, categoryId, storeId, brandId, ids);
+            var spec = await Service.GetIndexSpecificationByParameters(page ?? 1, pageSize ?? DefaultTake, 
+                title, categoryId, storeId, brandId, ParseIds(characteristicsFilter));
             ApplyOrderingToSpec(spec, orderBy, orderByDescending);
             return await base.IndexAsync(spec);
         }

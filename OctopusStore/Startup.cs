@@ -43,7 +43,7 @@ namespace OctopusStore
                 //.UseLazyLoadingProxies()
                 .UseInMemoryDatabase("Store").Options;
             services.AddSingleton(storeContextOptions);
-            IdentityConfiguration.ConfigureTesting(services, Configuration);
+            IdentityConfiguration.ConfigureTesting(services);
             ConfigureServices(services);
         }
 
@@ -98,10 +98,7 @@ namespace OctopusStore
             services.AddDbContext<StoreContext>();
             services.AddSingleton<IActivatorService, ActivatorService>();
             services.AddScoped(typeof(IAppLogger<>), typeof(AppLogger<>));
-        
             services.AddScoped<IScopedParameters, ScopedParameters>();
-            services.AddScoped(typeof(IAuthorizationParameters<>), typeof(AuthorizationParameters<>));
-            services.AddScoped<IAuthorizationParameters<CartItem>, CartItemAuthorizationParameters>();
             services.AddScoped<IBrandService, BrandService>();
             services.AddScoped<IMeasurementUnitService, MeasurementUnitService>();
             services.AddScoped<ICategoryService, CategoryService>();

@@ -73,13 +73,14 @@ namespace UnitTests.Controllers
             };
         }
 
-        protected override void AssertUpdateSuccess(Store beforeUpdate, StoreViewModel expected, StoreViewModel actual)
+        protected override Task AssertUpdateSuccessAsync(Store beforeUpdate, StoreViewModel expected, StoreViewModel actual)
         {
             Assert.Equal(expected.Id, actual.Id);
             Assert.Equal(expected.Title, actual.Title);
             Assert.Equal(expected.Address, actual.Address);
             Assert.Equal(expected.Description, actual.Description);
             Assert.Equal(beforeUpdate.OwnerId, actual.OwnerId);
+            return Task.CompletedTask;
         }
     }
 }

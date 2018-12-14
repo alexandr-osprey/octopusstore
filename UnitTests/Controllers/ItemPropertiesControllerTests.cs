@@ -78,11 +78,12 @@ namespace UnitTests.Controllers
             };
         }
 
-        protected override void AssertUpdateSuccess(ItemProperty beforeUpdate, ItemPropertyViewModel expected, ItemPropertyViewModel actual)
+        protected override Task AssertUpdateSuccessAsync(ItemProperty beforeUpdate, ItemPropertyViewModel expected, ItemPropertyViewModel actual)
         {
             Assert.Equal(beforeUpdate.Id, actual.Id);
             Assert.Equal(beforeUpdate.ItemVariantId, actual.ItemVariantId);
             Assert.Equal(beforeUpdate.CharacteristicValueId, actual.CharacteristicValueId);
+            return Task.CompletedTask;
         }
     }
 }

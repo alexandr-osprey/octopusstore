@@ -13,6 +13,8 @@ namespace Infrastructure.Data.SampleData
         public CartItem JohnIphone64 { get; protected set; }
         public CartItem JenniferIphone32 { get; protected set; }
         public CartItem JenniferIphone64 { get; protected set; }
+        public CartItem JohnJacketBlack { get; protected set; }
+        public CartItem JohnShoesMuch { get; protected set; }
 
         public CartItems(StoreContext storeContext, ItemVariants itemVariants): base(storeContext)
         {
@@ -29,6 +31,8 @@ namespace Infrastructure.Data.SampleData
                 new CartItem() { OwnerId = Users.JohnId, ItemVariantId = ItemVariants.IPhone664GB.Id, Number = 2 },
                 new CartItem() { OwnerId = Users.JenniferId, ItemVariantId = ItemVariants.IPhone632GB.Id, Number = 3 },
                 new CartItem() { OwnerId = Users.JenniferId, ItemVariantId = ItemVariants.IPhone664GB.Id, Number = 4 },
+                new CartItem() { OwnerId = Users.JohnId, ItemVariantId = ItemVariants.JacketBlack.Id, Number = 4 },
+                new CartItem() { OwnerId = Users.JohnId, ItemVariantId = ItemVariants.ShoesXMuchFashion.Id, Number = 4 },
             };
         }
 
@@ -44,6 +48,8 @@ namespace Infrastructure.Data.SampleData
             JohnIphone64 = Entities[1];
             JenniferIphone32 = Entities[2];
             JenniferIphone64 = Entities[3];
+            JohnJacketBlack = Entities[4];
+            JohnShoesMuch = Entities[5];
         }
     }
 }

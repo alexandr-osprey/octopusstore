@@ -59,11 +59,12 @@ namespace UnitTests.Controllers
             };
         }
 
-        protected override void AssertUpdateSuccess(CharacteristicValue beforeUpdate, CharacteristicValueViewModel expected, CharacteristicValueViewModel actual)
+        protected override Task AssertUpdateSuccessAsync(CharacteristicValue beforeUpdate, CharacteristicValueViewModel expected, CharacteristicValueViewModel actual)
         {
             Assert.Equal(expected.Title, actual.Title);
             Assert.Equal(beforeUpdate.CharacteristicId, actual.CharacteristicId);
             Assert.Equal(beforeUpdate.Id, actual.Id);
+            return Task.CompletedTask;
         }
 
         protected override IEnumerable<CharacteristicValueViewModel> GetCorrectViewModelsToUpdate()

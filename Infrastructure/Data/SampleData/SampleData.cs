@@ -18,6 +18,7 @@
         public ItemImages ItemImages { get; }
         public Orders Orders { get; }
         public OrderItems OrderItems { get; }
+        public Users Users { get; }
 
 
         public SampleData(StoreContext context)
@@ -25,6 +26,7 @@
             Context = context;
             if (DropBeforeSeed)
                 Context.Database.EnsureDeleted();
+            Users = new Users();
             Brands = new Brands(Context);
             MeasurementUnits = new MeasurementUnits(Context);
             Stores = new Stores(Context);

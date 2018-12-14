@@ -139,16 +139,26 @@ namespace Infrastructure.Identity
             return result.Succeeded;
         }
 
-        public async Task<bool> HasClaimAsync(string id, Claim claim)
+        public async Task<bool> HasClaimAsync(string userId, Claim claim)
         {
-            if (id == null)
-                throw new ArgumentNullException(nameof(id));
+            if (userId == null)
+                throw new ArgumentNullException(nameof(userId));
             if (claim == null)
                 throw new ArgumentNullException(nameof(claim));
-            var user = await UserManager.FindByIdAsync(id) ?? throw new EntityNotFoundException("user not found");
+            var user = await UserManager.FindByIdAsync(userId) ?? throw new EntityNotFoundException("user not found");
             var userClaims = await UserManager.GetClaimsAsync(user);
             bool result = userClaims.Where(uc => uc.Type == claim.Type && uc.Value == claim.Value).Any();
             return result;
+        }
+
+        public Task<bool> IsContentAdministratorAsync(string userId)
+        {
+            return HasClaimAsync(userId, new Claim(CustomClaimTypes.Administrator, CustomClaimValues.Content));
+        }
+
+        public Task<bool> IsStoreAdministratorAsync(string userId, int storeId)
+        {
+            return HasClaimAsync(userId, new Claim(CustomClaimTypes.StoreAdministrator, storeId.ToString()));
         }
 
         public async Task AddClaim(string id, Claim claim)

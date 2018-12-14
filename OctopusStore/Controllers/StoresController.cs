@@ -47,8 +47,6 @@ namespace OctopusStore.Controllers
             [FromQuery(Name = "updateAuthorizationFilter")]bool? updateAuthorizationFilter,
             [FromQuery(Name = "title")]string title)
         {
-            pageSize = pageSize ?? DefaultTake;
-            page = page ?? 1;
             if (updateAuthorizationFilter.HasValue && updateAuthorizationFilter.Value)
             {
                 if (User.Identity.Name == null)
@@ -56,7 +54,7 @@ namespace OctopusStore.Controllers
                 AuthorziationParameters.ReadAuthorizationRequired = true;
                 AuthorziationParameters.ReadOperationRequirement = OperationAuthorizationRequirements.Update;
             }
-            return await base.IndexAsync(new StoreIndexSpecification(page.Value, pageSize.Value, title));
+            return await base.IndexAsync(new StoreIndexSpecification(page ?? 1, pageSize ?? DefaultTake, title));
         }
 
         [HttpPut]

@@ -54,11 +54,12 @@ namespace UnitTests.Controllers
             var actual = await Controller.RemoveFromCartAsync(new CartItemViewModel() { ItemVariantId = existing.ItemVariantId, Number = existing.Number });
         }
 
-        protected override void AssertUpdateSuccess(CartItem beforeUpdate, CartItemViewModel expected, CartItemViewModel actual)
+        protected override Task AssertUpdateSuccessAsync(CartItem beforeUpdate, CartItemViewModel expected, CartItemViewModel actual)
         {
             Assert.Equal(expected.Number, actual.Number);
             Assert.Equal(beforeUpdate.ItemVariantId, actual.ItemVariantId);
             Assert.Equal(beforeUpdate.Id, actual.Id);
+            return Task.CompletedTask;
         }
 
         protected override IEnumerable<CartItem> GetCorrectEntitiesToCreate()

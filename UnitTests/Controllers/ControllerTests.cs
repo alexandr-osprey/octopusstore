@@ -39,16 +39,17 @@ namespace UnitTests.Controllers
                 var expected = ToViewModel(entity);
                 var actual = await Controller.CreateAsync(expected);
                 //Assert.True(await _context.Set<TEntity>().AnyAsync(e => e.Id == entity.Id));
-                AssertCreateSuccess(expected, actual);
+                await AssertCreateSuccessAsync(expected, actual);
             }
         }
 
         protected abstract IEnumerable<TEntity> GetCorrectEntitiesToCreate();
-        protected virtual void AssertCreateSuccess(TViewModel expected, TViewModel actual)
+        protected virtual Task AssertCreateSuccessAsync(TViewModel expected, TViewModel actual)
         {
             Assert.NotEqual(0, actual.Id);
             expected.Id = actual.Id;
             Equal(expected, actual);
+            return Task.CompletedTask;
         }
         protected abstract TViewModel ToViewModel(TEntity entity);
 
@@ -68,15 +69,16 @@ namespace UnitTests.Controllers
             {
                 var beforeUpdate = await Context.Set<TEntity>().FirstAsync(e => e.Id == viewModel.Id);
                 var actual = await Controller.UpdateAsync(viewModel);
-                AssertUpdateSuccess(beforeUpdate, viewModel, actual);
+                await AssertUpdateSuccessAsync(beforeUpdate, viewModel, actual);
             }
         }
 
         protected abstract IEnumerable<TViewModel> GetCorrectViewModelsToUpdate();
 
-        protected virtual void AssertUpdateSuccess(TEntity beforeUpdate, TViewModel expected, TViewModel actual)
+        protected virtual Task AssertUpdateSuccessAsync(TEntity beforeUpdate, TViewModel expected, TViewModel actual)
         {
             Equal(expected, actual);
+            return Task.CompletedTask;
         }
 
         [Fact]

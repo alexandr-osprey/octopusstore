@@ -43,12 +43,13 @@ namespace UnitTests.Controllers
                     .Include(j => j.ItemProperties);
         }
 
-        protected override void AssertUpdateSuccess(ItemVariant beforeUpdate, ItemVariantViewModel expected, ItemVariantViewModel actual)
+        protected override Task AssertUpdateSuccessAsync(ItemVariant beforeUpdate, ItemVariantViewModel expected, ItemVariantViewModel actual)
         {
             Assert.Equal(beforeUpdate.ItemId, actual.ItemId);
             Assert.Equal(expected.Id, actual.Id);
             Assert.Equal(expected.Title, actual.Title);
             Assert.Equal(expected.Price, actual.Price);
+            return Task.CompletedTask;
         }
 
         protected override IEnumerable<ItemVariant> GetCorrectEntitiesToCreate()
