@@ -17,6 +17,7 @@ namespace UnitTests.Services
         public CartItemServiceTests(ITestOutputHelper output)
            : base(output)
         {
+            //Service.ScopedParameters.ClaimsPrincipal = Users.JohnPrincipal;
         }
 
         [Fact]
@@ -36,7 +37,7 @@ namespace UnitTests.Services
         [Fact]
         public async Task AddToCartNotExistingAsync()
         {
-            int itemVariantId = Data.ItemVariants.ShoesXMuchFashion.Id;
+            int itemVariantId = Data.ItemVariants.ShoesXXLMuchFashion.Id;
             int numberBeforeAdd = 0;
             int q = 10;
             int expected = q + numberBeforeAdd;
@@ -79,7 +80,7 @@ namespace UnitTests.Services
         {
             return new List<CartItem>
             {
-                new CartItem() { OwnerId = Users.JohnId, ItemVariantId = Data.ItemVariants.JacketBlack.Id, Number = 7 },
+                new CartItem() { OwnerId = Users.JohnId, ItemVariantId = Data.ItemVariants.Samsung832GBFullHD.Id, Number = 7 },
                 new CartItem() { OwnerId = Users.JohnId, ItemVariantId = Data.ItemVariants.Pebble1000mAh.Id, Number = 8 }
             };
         }

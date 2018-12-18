@@ -1,7 +1,7 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { MeasurementUnit } from 'src/app/view-models/measurement-unit/measurement-unit';
-import { MeasurementUnitService } from 'src/app/services/measurement-unit.service';
+import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
+import { MeasurementUnit } from '../measurement-unit';
+import { MeasurementUnitService } from '../measurement-unit.service';
 
 @Component({
   selector: 'app-measurement-unit-index',

@@ -1,8 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter, OnChanges } from '@angular/core';
-import { ItemVariant } from '../../view-models/item-variant/item-variant';
-import { ItemDetail } from '../../view-models/item/item-detail';
-import { ParameterService } from '../../services/parameter.service';
-import { ParameterNames } from '../../services/parameter-names';
+import { ParameterService } from '../../parameter/parameter.service';
+import { ParameterNames } from '../../parameter/parameter-names';
+import { ItemDetail } from 'src/app/item/item-detail';
+import { ItemVariant } from '../item-variant';
 
 @Component({
   selector: 'app-item-variant-detail',

@@ -1,15 +1,15 @@
-import { Observable, of, Subject } from 'rxjs';
-import { MessageService } from './message.service';
-import { HttpClient, HttpHeaders, HttpHeaderResponse, HttpResponse } from '@angular/common/http';
-import { Entity } from '../view-models/entity/entity';
-import { IdentityService } from './identity.service';
+import { Observable, Subject } from 'rxjs';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import 'rxjs/add/operator/retryWhen';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/delay';
 import 'rxjs/add/operator/take';
 import { Router } from '@angular/router';
-import { ParameterNames } from './parameter-names';
-import { EntityIndex } from '../view-models/entity/entity-index';
+import { Entity } from '../models/entity/entity';
+import { IdentityService } from '../identity/identity.service';
+import { ParameterNames } from '../parameter/parameter-names';
+import { EntityIndex } from '../models/entity/entity-index';
+import { MessageService } from '../message/message.service';
 
 export abstract class DataReadWriteService <TEntity extends Entity> {
   protected remoteUrl: string;
@@ -31,44 +31,56 @@ export abstract class DataReadWriteService <TEntity extends Entity> {
     protected identityService: IdentityService,
     protected messageService: MessageService) {
   }
+
   public post(body: any, url: string = this.remoteUrl, params: any = {}, headers: HttpHeaders = this.defaultHttpHeaders): Observable<TEntity> {
     return this.postCustom(body, url, params, headers);
   }
+
   public postCustom<T>(body: any, url: string, params: any, headers: HttpHeaders): Observable<T> {
     return this.customRequest("post", url, params, headers, body);
   }
+
   public put(body: Entity, url: string = this.remoteUrl, params: any = {}, headers: HttpHeaders = this.defaultHttpHeaders): Observable<TEntity> {
     return this.putCustom(body, url, params, headers);
   }
+
   public putCustom<T>(body: any, url: string, params: any, headers: HttpHeaders): Observable<T> {
     return this.customRequest<T>("put", url, params, headers, body);
   }
+
   public postOrPut(model: TEntity, url: string = this.remoteUrl, params: any = {}, headers: HttpHeaders = this.defaultHttpHeaders): Observable<TEntity> {
     if (model.id)
       return this.put(model, url, params, headers);
     else
       return this.post(model, url, params, headers);
   }
+
   public index(params: any = {}): Observable<EntityIndex<TEntity>> {
     if (params && params[ParameterNames.updateAuthorizationFilter])
       this.getAuthenticationRequired = true;
     return this.getCustom<EntityIndex<TEntity>>(this.remoteUrl, params, this.defaultHttpHeaders);
   }
+
   public get(id: number, params: any = {}): Observable<TEntity> {
     return this.getCustom(this.getUrlWithId(id), params, this.defaultHttpHeaders);
   }
+
   public getDetail<TDetail>(id: number, params: any = {}): Observable<TDetail> {
     return this.getCustom(this.getUrlWithIdWithSuffix(id, "detail"), params, this.defaultHttpHeaders);
   }
+
   public delete(id: number): Observable<string> {
     return this.deleteCustom(this.getUrlWithId(id), {}, this.defaultHttpHeaders, this.deleteAuthenticationRequired);
   }
+
   public deleteCustom<T>(url: string, params: any, headers: HttpHeaders, authenticationRequired: boolean): Observable<T> {
     return this.customRequest("delete", url, params, headers, {});
   }
+
   public getCustom<T>(url: string, params: any, headers: HttpHeaders): Observable<T> {
     return this.customRequest("get", url, params, headers, {});
   }
+
   protected customRequest<TResult>(
     requestType: string,
     url: string,
@@ -116,6 +128,7 @@ export abstract class DataReadWriteService <TEntity extends Entity> {
       });
     return customSource.asObservable();
   }
+
   protected getOperation<TResult>(type: string, url: string, params: any, headers: HttpHeaders, body: any): Observable<HttpResponse<TResult>> {
     let operation: Observable<HttpResponse<TResult>>;
     switch (type) {
@@ -138,15 +151,19 @@ export abstract class DataReadWriteService <TEntity extends Entity> {
     }
     return operation;
   }
+
   public getUrlWithId(id: number, url: string = this.remoteUrl) {
     return this.getUrlWithParameter(`${id}`, url);
   }
+
   public getUrlWithIdWithSuffix(id: number, suffix: string, url: string = this.remoteUrl) {
     return `${url}/${id}/${suffix}`;
   }
+
   public getUrlWithParameter(parameter: string, url: string = this.remoteUrl) {
     return `${url}/${parameter}`;
   }
+
   protected handleError<T>(customSource: Subject<T>, errorResponse: any) {
     let message = "";
     switch (errorResponse.status) {

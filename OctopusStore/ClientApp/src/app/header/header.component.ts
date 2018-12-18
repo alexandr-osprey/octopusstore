@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { IdentityService } from '../services/identity.service';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
+import { IdentityService } from '../identity/identity.service';
 
 @Component({
   selector: 'app-header',

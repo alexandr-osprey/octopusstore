@@ -1,10 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Item } from '../../view-models/item/item';
-import { ItemVariant } from '../../view-models/item-variant/item-variant';
-import { ItemVariantService } from '../../services/item-variant.service';
-import { MessageService } from '../../services/message.service';
 import { Subscription } from 'rxjs';
-import { EntityIndex } from '../../view-models/entity/entity-index';
+import { Item } from 'src/app/item/item';
+import { ItemVariant } from '../item-variant';
+import { EntityIndex } from 'src/app/models/entity/entity-index';
+import { MessageService } from 'src/app/message/message.service';
+import { ItemVariantService } from '../item-variant.service';
 
 
 @Component({

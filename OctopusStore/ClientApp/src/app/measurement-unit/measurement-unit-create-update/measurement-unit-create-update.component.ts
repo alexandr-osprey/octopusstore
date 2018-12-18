@@ -1,9 +1,9 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { MeasurementUnitService } from 'src/app/services/measurement-unit.service';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
-import { MeasurementUnit } from 'src/app/view-models/measurement-unit/measurement-unit';
-import { MessageService } from 'src/app/services/message.service';
+import { MeasurementUnit } from '../measurement-unit';
+import { MeasurementUnitService } from '../measurement-unit.service';
+import { MessageService } from 'src/app/message/message.service';
 
 @Component({
   selector: 'app-measurement-unit-create-update',

@@ -1,13 +1,13 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { CharacteristicService } from 'src/app/services/characteristic.service';
-import { Characteristic } from 'src/app/view-models/characteristic/characteristic';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
-import { CategoryService } from 'src/app/services/category.service';
-import { Category } from 'src/app/view-models/category/category';
-import { MessageService } from 'src/app/services/message.service';
-import { ParameterService } from 'src/app/services/parameter.service';
-import { ParameterNames } from 'src/app/services/parameter-names';
+import { ParameterService } from 'src/app/parameter/parameter.service';
+import { ParameterNames } from 'src/app/parameter/parameter-names';
+import { Characteristic } from '../characteristic';
+import { Category } from 'src/app/category/category';
+import { CharacteristicService } from '../characteristic.service';
+import { MessageService } from 'src/app/message/message.service';
+import { CategoryService } from 'src/app/category/category.service';
 
 @Component({
   selector: 'app-characteristic-create-update',

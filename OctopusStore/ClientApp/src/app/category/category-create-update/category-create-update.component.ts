@@ -1,11 +1,11 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
-import { ParameterService } from 'src/app/services/parameter.service';
-import { Category } from 'src/app/view-models/category/category';
-import { CategoryService } from 'src/app/services/category.service';
-import { MessageService } from 'src/app/services/message.service';
-import { ParameterNames } from 'src/app/services/parameter-names';
+import { ParameterService } from 'src/app/parameter/parameter.service';
+import { ParameterNames } from 'src/app/parameter/parameter-names';
+import { Category } from '../category';
+import { CategoryService } from '../category.service';
+import { MessageService } from 'src/app/message/message.service';
 
 @Component({
   selector: 'app-category-create-update',

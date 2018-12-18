@@ -12,15 +12,14 @@ import { CreateUpdateAuthorizationGuard } from './guards/create-update-authoriza
 import { IdentitySignUpComponent } from './identity/identity-sing-up/identity-sign-up.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { StoreAdministratorsComponent } from './store/store-administrators/store-administrators.component';
-import { CartComponent } from './cart/cart/cart.component';
 import { AdministratingHomepageComponent } from './administrating/administrating-homepage/administrating-homepage.component';
 import { AdministratorAuthorizationGuard } from './guards/administrator-authorization-guard';
 import { CategoryCreateUpdateComponent } from './category/category-create-update/category-create-update.component';
-import { CategoryIndexComponent } from './category/category-index/category-index.component';
 import { CharacteristicCreateUpdateComponent } from './characteristic/characteristic-create-update/characteristic-create-update.component';
 import { CharacteristicValueCreateUpdateComponent } from './characteristic-value/characteristic-value-create-update/characteristic-value-create-update.component';
 import { BrandCreateUpdateComponent } from './brand/brand-create-update/brand-create-update.component';
 import { MeasurementUnitCreateUpdateComponent } from './measurement-unit/measurement-unit-create-update/measurement-unit-create-update.component';
+import { CartItemIndexComponent } from './cart-item/cart-item-index/cart-item-index.component';
 
 
 const routes: Routes = [
@@ -31,7 +30,7 @@ const routes: Routes = [
   },
   {
     path: 'cart',
-    component: CartComponent,
+    component: CartItemIndexComponent,
     pathMatch: 'full',
   },
   {

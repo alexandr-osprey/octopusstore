@@ -2,12 +2,12 @@ import { Component, OnInit, Input } from '@angular/core';
 import { CategoryHierarchy } from './category-hierarchy';
 import { Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
-import { Category } from '../../view-models/category/category';
-import { ParameterNames } from '../../services/parameter-names';
-import { CategoryService } from '../../services/category.service';
-import { ParameterService } from '../../services/parameter.service';
-import { EntityIndex } from '../../view-models/entity/entity-index';
+import { ParameterNames } from '../../parameter/parameter-names';
+import { ParameterService } from '../../parameter/parameter.service';
 import { Router } from '@angular/router';
+import { Category } from '../category';
+import { CategoryService } from '../category.service';
+import { EntityIndex } from 'src/app/models/entity/entity-index';
 
 @Component({
   selector: 'app-category-index',

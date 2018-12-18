@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Category } from '../view-models/category/category';
 import { HttpClient } from '@angular/common/http';
 import { APP_SETTINGS } from '../app-settings';
+import { Category } from '../category/category';
 
 @Injectable()
 export class AppLoadService {

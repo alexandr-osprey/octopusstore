@@ -7,6 +7,7 @@ namespace ApplicationCore.ViewModels
         public ItemVariantViewModel ItemVariant { get; set; }
         public ItemViewModel Item { get; set; }
         public MeasurementUnitViewModel MeasurementUnit { get; set; }
+        public StoreViewModel Store { get; set; }
 
         public int Number { get; set; }
 
@@ -20,6 +21,7 @@ namespace ApplicationCore.ViewModels
             Item = new ItemViewModel(cartItem.ItemVariant.Item);
             MeasurementUnit = new MeasurementUnitViewModel(cartItem.ItemVariant.Item.MeasurementUnit);
             Number = cartItem.Number;
+            Store = new StoreViewModel(cartItem.ItemVariant.Item.Store);
         }
 
         public override CartItem ToModel()
@@ -28,7 +30,7 @@ namespace ApplicationCore.ViewModels
             {
                 Id = Id,
                 ItemVariantId = ItemVariant.Id,
-                Number = Number
+                Number = Number,
             };
         }
         public override CartItem UpdateModel(CartItem modelToUpdate)

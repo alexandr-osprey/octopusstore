@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Brand } from 'src/app/view-models/brand/brand';
-import { BrandService } from 'src/app/services/brand.service';
 import { Router } from '@angular/router';
+import { BrandService } from '../brand.service';
+import { Brand } from '../brand';
 
 @Component({
   selector: 'app-brand-index',

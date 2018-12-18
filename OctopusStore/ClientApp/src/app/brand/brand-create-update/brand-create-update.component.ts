@@ -1,9 +1,9 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { BrandService } from 'src/app/services/brand.service';
-import { Brand } from 'src/app/view-models/brand/brand';
-import { MessageService } from 'src/app/services/message.service';
 import { Location } from '@angular/common';
+import { Brand } from '../brand';
+import { BrandService } from '../brand.service';
+import { MessageService } from 'src/app/message/message.service';
 
 @Component({
   selector: 'app-brand-create-update',

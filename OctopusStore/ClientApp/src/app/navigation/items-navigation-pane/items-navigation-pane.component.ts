@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { CategoryService } from '../../services/category.service';
-import { CharacteristicService } from '../../services/characteristic.service';
-import { ParameterService } from '../../services/parameter.service';
-import { ParameterNames } from '../../services/parameter-names';
-import { Characteristic } from '../../view-models/characteristic/characteristic';
-import { CharacteristicValue } from 'src/app/view-models/characteristic-value/characteristic-value';
+import { ParameterService } from '../../parameter/parameter.service';
+import { ParameterNames } from '../../parameter/parameter-names';
+import { Characteristic } from 'src/app/characteristic/characteristic';
+import { CategoryService } from 'src/app/category/category.service';
+import { CharacteristicService } from 'src/app/characteristic/characteristic.service';
+import { CharacteristicValue } from 'src/app/characteristic-value/characteristic-value';
 
 @Component({
   selector: 'app-items-navigation-pane',

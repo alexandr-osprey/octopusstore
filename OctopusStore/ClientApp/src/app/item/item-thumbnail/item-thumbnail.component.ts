@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ItemThumbnail } from '../../view-models/item/item-thumbnail';
-import { ParameterNames } from '../../services/parameter-names';
-import { ItemService } from '../../services/item.service';
+import { ParameterNames } from '../../parameter/parameter-names';
+import { ItemThumbnail } from '../item-thumbnail';
+import { ItemService } from '../item.service';
 
 @Component({
   selector: 'app-item-thumbnail',

@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Store } from '../../view-models/store/store';
-import { StoreService } from '../../services/store.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { MessageService } from '../../services/message.service';
-import { IdentityService } from '../../services/identity.service';
+import { StoreService } from '../store.service';
+import { MessageService } from 'src/app/message/message.service';
+import { IdentityService } from 'src/app/identity/identity.service';
+import { Store } from '../store';
 
 @Component({
   selector: 'app-store-create-update',

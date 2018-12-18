@@ -1,10 +1,10 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Characteristic } from '../../view-models/characteristic/characteristic';
-import { CharacteristicValue } from '../../view-models/characteristic-value/characteristic-value';
-import { CharacteristicValueService } from '../../services/characteristic-value.service';
-import { ParameterService } from 'src/app/services/parameter.service';
-import { ParameterNames } from 'src/app/services/parameter-names';
-import { CharacteristicValueCheckbox } from 'src/app/view-models/characteristic-value/characteristic-value-checkbox';
+import { ParameterService } from 'src/app/parameter/parameter.service';
+import { ParameterNames } from 'src/app/parameter/parameter-names';
+import { CharacteristicValue } from 'src/app/characteristic-value/characteristic-value';
+import { CharacteristicValueCheckbox } from 'src/app/characteristic-value/characteristic-value-checkbox';
+import { CharacteristicValueService } from 'src/app/characteristic-value/characteristic-value.service';
+import { Characteristic } from 'src/app/characteristic/characteristic';
 
 @Component({
   selector: 'app-characteristic-pane',

@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, OnChanges } from '@angular/core';
-import { ItemImageService } from '../../services/item-image.service';
-import { ItemImage } from '../../view-models/item-image/item-image';
+import { ItemImage } from '../item-image';
+import { ItemImageService } from '../item-image.service';
 
 @Component({
   selector: 'app-item-image-display',

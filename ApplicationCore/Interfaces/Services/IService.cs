@@ -25,6 +25,8 @@ namespace ApplicationCore.Interfaces.Services
         /// </summary>
         IIdentityService IdentityService { get; }
 
+        IScopedParameters ScopedParameters { get; }
+
         /// <summary>
         /// Adds entity to repository
         /// </summary>

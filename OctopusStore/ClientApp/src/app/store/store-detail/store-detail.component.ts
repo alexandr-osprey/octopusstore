@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { StoreService } from '../../services/store.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
-import { ParameterService } from '../../services/parameter.service';
-import { ParameterNames } from '../../services/parameter-names';
-import { IdentityService } from '../../services/identity.service';
-import { Store } from '../../view-models/store/store';
+import { ParameterService } from '../../parameter/parameter.service';
+import { ParameterNames } from '../../parameter/parameter-names';
+import { Store } from '../store';
+import { StoreService } from '../store.service';
+import { IdentityService } from 'src/app/identity/identity.service';
 
 @Component({
   selector: 'app-store-detail',

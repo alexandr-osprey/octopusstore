@@ -47,6 +47,7 @@ namespace UnitTests
         {
             ConfigureDI();
             ConfigureIdentity();
+            OverrideDefaultDI();
         }
 
 
@@ -84,6 +85,14 @@ namespace UnitTests
             signInManager.Context = new DefaultHttpContext();
         }
 
+        protected static void OverrideDefaultDI()
+        {
+            Services.AddSingleton(typeof(IAuthorizationParameters<>), typeof(AuthoriationParametersWithoutAuthorization<>));
+            Services.AddScoped<IAuthorizationParameters<CartItem>, AuthoriationParametersWithoutAuthorization<CartItem>>();
+            Services.AddScoped<IAuthorizationParameters<OrderItem>, AuthoriationParametersWithoutAuthorization<OrderItem>>();
+            Services.AddScoped<IAuthorizationParameters<Order>, AuthoriationParametersWithoutAuthorization<Order>>();
+        }
+
         protected static void ConfigureIdentity()
         {
             Services.AddSingleton(IdentityContextOptions);
@@ -104,7 +113,7 @@ namespace UnitTests
             Services.AddScoped<IAuthorizationEvaluator, DefaultAuthorizationEvaluator>();
             var scopedParameters = new ScopedParameters()
             {
-                ClaimsPrincipal = Users.AdminPrincipal
+                ClaimsPrincipal = Users.JohnPrincipal
             };
             Services.AddSingleton<IScopedParameters>(scopedParameters);
             IdentityConfiguration.ConfigureServices(Services, AppSetting);
@@ -121,8 +130,8 @@ namespace UnitTests
             //services.AddDbContext<StoreContext>(options => options.UseInMemoryDatabase(Guid.NewGuid().ToString()));
 
             Startup.ConfigureDI(Services);
-            //Services.AddSingleton(typeof(IAuthorizationParameters<>), typeof(AuthoriationParametersWithoutAuthorization<>));
-            Services.AddScoped<IAuthorizationParameters<CartItem>, AuthoriationParametersWithoutAuthorization<CartItem>>();
+            
+            //Services.AddScoped<IAuthorizationParameters<CartItem>, AuthoriationParametersWithoutAuthorization<CartItem>>();
 
             var conf = new Mock<IConfiguration>();
             Services.AddSingleton(conf.Object);

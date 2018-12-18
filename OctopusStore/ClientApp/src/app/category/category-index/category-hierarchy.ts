@@ -1,4 +1,4 @@
-import { Category } from "../../view-models/category/category";
+import { Category } from "../category";
 
 export class CategoryHierarchy extends Category {
   public allCategories: Category[];

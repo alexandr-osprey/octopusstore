@@ -20,7 +20,7 @@ namespace Infrastructure.Services
     {
         public DbContext Context { get; }
         protected IAppLogger<Service<TEntity>> Logger { get; }
-        protected IScopedParameters ScopedParameters { get; }
+        public IScopedParameters ScopedParameters { get; }
         protected IAuthorizationParameters<TEntity> AuthoriationParameters { get; }
 
         public IIdentityService IdentityService { get; }

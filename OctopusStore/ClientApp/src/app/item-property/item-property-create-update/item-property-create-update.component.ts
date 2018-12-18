@@ -1,16 +1,16 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { MessageService } from '../../services/message.service';
-import { CharacteristicService } from '../../services/characteristic.service';
-import { CharacteristicValueService } from '../../services/characteristic-value.service';
-import { ItemPropertyService } from '../../services/item-property.service';
-import { ItemVariant } from '../../view-models/item-variant/item-variant';
 import { Observable } from 'rxjs';
 import 'rxjs/add/observable/zip';
-import { Item } from '../../view-models/item/item';
-import { CharacteristicValue } from '../../view-models/characteristic-value/characteristic-value';
-import { Characteristic } from '../../view-models/characteristic/characteristic';
-import { ItemProperty } from '../../view-models/item-property/item-property';
-import { ItemPropertyDisplayed } from '../../view-models/item-property/item-property-displayed';
+import { ItemVariant } from 'src/app/item-variant/item-variant';
+import { Item } from 'src/app/item/item';
+import { ItemPropertyDisplayed } from '../item-property-displayed';
+import { CharacteristicValue } from 'src/app/characteristic-value/characteristic-value';
+import { Characteristic } from 'src/app/characteristic/characteristic';
+import { MessageService } from 'src/app/message/message.service';
+import { CharacteristicService } from 'src/app/characteristic/characteristic.service';
+import { CharacteristicValueService } from 'src/app/characteristic-value/characteristic-value.service';
+import { ItemPropertyService } from '../item-property.service';
+import { ItemProperty } from '../item-property';
 
 @Component({
   selector: 'app-item-property-create-update',

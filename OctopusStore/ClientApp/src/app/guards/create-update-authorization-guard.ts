@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, RouterStateSnapshot, ActivatedRouteSnapshot } from '@angular/router'
-import { IdentityService } from '../services/identity.service';
+import { IdentityService } from '../identity/identity.service';
 
 
 @Injectable()

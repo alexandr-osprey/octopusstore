@@ -1,19 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { Brand } from '../../view-models/brand/brand';
-import { Store } from '../../view-models/store/store';
-import { Category } from '../../view-models/category/category';
-import { MeasurementUnit } from '../../view-models/measurement-unit/measurement-unit';
-import { BrandService } from '../../services/brand.service';
-import { StoreService } from '../../services/store.service';
-import { MeasurementUnitService } from '../../services/measurement-unit.service';
-import { CategoryService } from '../../services/category.service';
-import { ItemService } from '../../services/item.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Item } from '../../view-models/item/item';
-import { ItemVariant } from '../../view-models/item-variant/item-variant';
 import 'rxjs/add/observable/zip';
 import { Observable, Subscription } from 'rxjs';
-import { MessageService } from '../../services/message.service';
+import { Brand } from 'src/app/brand/brand';
+import { Store } from 'src/app/store/store';
+import { Category } from 'src/app/category/category';
+import { MeasurementUnit } from 'src/app/measurement-unit/measurement-unit';
+import { ItemVariant } from 'src/app/item-variant/item-variant';
+import { Item } from '../item';
+import { BrandService } from 'src/app/brand/brand.service';
+import { StoreService } from 'src/app/store/store.service';
+import { MeasurementUnitService } from 'src/app/measurement-unit/measurement-unit.service';
+import { CategoryService } from 'src/app/category/category.service';
+import { ItemService } from '../item.service';
+import { MessageService } from 'src/app/message/message.service';
 
 @Component({
   selector: 'app-item-create-update',

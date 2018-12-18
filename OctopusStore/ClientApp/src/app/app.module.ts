@@ -8,7 +8,7 @@ import { AppRoutingModule } from './/app-routing.module';
 import { HeaderComponent } from './header/header.component';
 import { ItemThumbnailComponent } from './item/item-thumbnail/item-thumbnail.component';
 import { CategoryIndexComponent } from './category/category-index/category-index.component';
-import { MessagesComponent } from './messages/messages.component';
+import { MessagesComponent } from './message/messages.component';
 import { PaginatorComponent } from './paginator/paginator.component';
 import { ItemVariantCreateUpdateComponent } from './item-variant/item-variant-create-update/item-variant-create-update.component';
 import { ItemPropertyCreateUpdateComponent } from './item-property/item-property-create-update/item-property-create-update.component';
@@ -31,8 +31,6 @@ import { IdentitySignOutComponent } from './identity/identity-sign-out/identity-
 import { IdentitySignUpComponent } from './identity/identity-sing-up/identity-sign-up.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { StoreAdministratorsComponent } from './store/store-administrators/store-administrators.component';
-import { CartComponent } from './cart/cart/cart.component';
-import { CartPreviewComponent } from './cart/cart-preview/cart-preview.component';
 import { CharacteristicPaneComponent } from './navigation/characteristic-pane/characteristic-pane.component';
 import { AdministratingHomepageComponent } from './administrating/administrating-homepage/administrating-homepage.component';
 import { CategoryCreateUpdateComponent } from './category/category-create-update/category-create-update.component';
@@ -45,6 +43,9 @@ import { BrandIndexComponent } from './brand/brand-index/brand-index.component';
 import { BrandCreateUpdateComponent } from './brand/brand-create-update/brand-create-update.component';
 import { MeasurementUnitIndexComponent } from './measurement-unit/measurement-unit-index/measurement-unit-index.component';
 import { MeasurementUnitCreateUpdateComponent } from './measurement-unit/measurement-unit-create-update/measurement-unit-create-update.component';
+import { OrderCreateUpdateComponent } from './order/order-create-update/order-create-update.component';
+import { CartItemIndexComponent } from './cart-item/cart-item-index/cart-item-index.component';
+import { CartItemIndexPreviewComponent } from './cart-item/cart-item-index-preview/cart-item-index-preview.component';
 
 
 
@@ -77,8 +78,8 @@ import { MeasurementUnitCreateUpdateComponent } from './measurement-unit/measure
     IdentitySignOutComponent,
     PageNotFoundComponent,
     StoreAdministratorsComponent,
-    CartComponent,
-    CartPreviewComponent,
+    CartItemIndexComponent,
+    CartItemIndexPreviewComponent,
     CharacteristicPaneComponent,
     AdministratingHomepageComponent,
     CategoryCreateUpdateComponent,
@@ -90,6 +91,7 @@ import { MeasurementUnitCreateUpdateComponent } from './measurement-unit/measure
     BrandCreateUpdateComponent,
     MeasurementUnitIndexComponent,
     MeasurementUnitCreateUpdateComponent,
+    OrderCreateUpdateComponent,
   ],
   imports: [
     BrowserModule,

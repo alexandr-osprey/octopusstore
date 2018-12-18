@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Credentials } from '../../view-models/identity/credentials';
-import { IdentityService } from '../../services/identity.service';
 import 'rxjs/add/operator/catch';
 import { Router } from '@angular/router';
 import 'rxjs/add/operator/retryWhen';
-import { MessageService } from '../../services/message.service';
-import { TokenPair } from '../../view-models/identity/token-pair';
+import { Credentials } from '../credentials';
+import { IdentityService } from '../identity.service';
+import { MessageService } from 'src/app/message/message.service';
+import { TokenPair } from '../token-pair';
 
 
 @Component({

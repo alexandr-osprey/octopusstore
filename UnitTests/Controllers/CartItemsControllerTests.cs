@@ -68,7 +68,7 @@ namespace UnitTests.Controllers
             {
                 new CartItem()
                 {
-                    ItemVariantId = Data.ItemVariants.JacketBlack.Id,
+                    ItemVariantId = Data.ItemVariants.Samsung832GBFullHD.Id,
                     Number = 4
                 },
                 new CartItem()

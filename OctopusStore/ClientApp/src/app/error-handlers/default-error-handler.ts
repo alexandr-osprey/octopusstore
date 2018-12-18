@@ -1,11 +1,13 @@
 import { ErrorHandler, Injectable, Injector } from '@angular/core';
 import { Router } from '@angular/router';
-import { MessageService } from '../services/message.service';
+import { MessageService } from '../message/message.service';
 
 @Injectable()
 export class DefaultErrorHandler implements ErrorHandler {
 
-  constructor(private injector: Injector, private messageService: MessageService) { }
+  constructor(
+    private injector: Injector,
+    private messageService: MessageService) { }
 
   handleError(errorResponse) {
     const router = this.injector.get(Router);

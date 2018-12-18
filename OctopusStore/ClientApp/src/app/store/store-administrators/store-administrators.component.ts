@@ -1,9 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { StoreService } from '../../services/store.service';
 import { ActivatedRoute } from '@angular/router';
-import { Index } from '../../view-models';
 import { Observable } from 'rxjs';
-import { Store } from '../../view-models/store/store';
+import { StoreService } from '../store.service';
+import { Store } from '../store';
+import { Index } from 'src/app/models';
 
 @Component({
   selector: 'app-store-administrators',

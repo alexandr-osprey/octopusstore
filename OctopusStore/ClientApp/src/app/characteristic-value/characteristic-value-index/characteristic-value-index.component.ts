@@ -1,9 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { CharacteristicValueService } from 'src/app/services/characteristic-value.service';
-import { ParameterService } from 'src/app/services/parameter.service';
-import { CharacteristicValue } from 'src/app/view-models/characteristic-value/characteristic-value';
-import { ParameterNames } from 'src/app/services/parameter-names';
+import { ParameterService } from 'src/app/parameter/parameter.service';
+import { ParameterNames } from 'src/app/parameter/parameter-names';
 import { Router } from '@angular/router';
+import { CharacteristicValue } from '../characteristic-value';
+import { CharacteristicValueService } from '../characteristic-value.service';
 
 @Component({
   selector: 'app-characteristic-value-index',

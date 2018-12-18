@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ParameterService } from 'src/app/services/parameter.service';
-import { ParameterNames } from 'src/app/services/parameter-names';
-import { Category } from 'src/app/view-models/category/category';
 import { Router } from '@angular/router';
+import { ParameterService } from 'src/app/parameter/parameter.service';
+import { ParameterNames } from 'src/app/parameter/parameter-names';
+import { Category } from 'src/app/category/category';
 
 @Component({
   selector: 'app-administrating-homepage',

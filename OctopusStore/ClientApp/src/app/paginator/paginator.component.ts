@@ -1,8 +1,8 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { EntityIndex } from '../view-models/entity/entity-index';
-import { Entity } from '../view-models/entity/entity';
-import { ParameterService } from '../services/parameter.service';
-import { ParameterNames } from '../services/parameter-names';
+import { ParameterService } from '../parameter/parameter.service';
+import { ParameterNames } from '../parameter/parameter-names';
+import { Entity } from '../models/entity/entity';
+import { EntityIndex } from '../models/entity/entity-index';
 
 @Component({
   selector: 'app-paginator',
