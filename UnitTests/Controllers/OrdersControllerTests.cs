@@ -70,21 +70,21 @@ namespace UnitTests.Controllers
             };
         }
 
-        protected override async Task AssertCreateSuccessAsync(OrderViewModel expected, OrderViewModel actual)
-        {
-            var createdOrder = await Context.Set<Order>()
-                .Include(o => o.OrderItems)
-                .FirstOrDefaultAsync(o => o.Id == actual.Id);
-            var cartItemsForOrder = Data.CartItems.Entities.Where(c => c.OwnerId == Users.JohnId && c.ItemVariant.Item.StoreId == actual.StoreId);
-            decimal sum = (from c in cartItemsForOrder select c.ItemVariant.Price * c.Number).Sum();
-            Assert.Equal(sum, actual.Sum);
-            var createdOrderItems = await Context.Set<OrderItem>().Where(i => i.OrderId == createdOrder.Id).ToListAsync();
-            foreach(var cartItem in cartItemsForOrder)
-            {
-                var orderItem = createdOrderItems.First(i => i.ItemVariantId == cartItem.ItemVariantId);
-                Assert.Equal(cartItem.Number, orderItem.Number);
-            }
-        }
+        //protected override async Task AssertCreateSuccessAsync(OrderViewModel expected, OrderViewModel actual)
+        //{
+        //    var createdOrder = await Context.Set<Order>()
+        //        .Include(o => o.OrderItems)
+        //        .FirstOrDefaultAsync(o => o.Id == actual.Id);
+        //    var cartItemsForOrder = Data.CartItems.Entities.Where(c => c.OwnerId == Users.JohnId && c.ItemVariant.Item.StoreId == actual.StoreId);
+        //    decimal sum = (from c in cartItemsForOrder select c.ItemVariant.Price * c.Number).Sum();
+        //    Assert.Equal(sum, actual.Sum);
+        //    var createdOrderItems = await Context.Set<OrderItem>().Where(i => i.OrderId == createdOrder.Id).ToListAsync();
+        //    foreach(var cartItem in cartItemsForOrder)
+        //    {
+        //        var orderItem = createdOrderItems.First(i => i.ItemVariantId == cartItem.ItemVariantId);
+        //        Assert.Equal(cartItem.Number, orderItem.Number);
+        //    }
+        //}
 
         protected override IEnumerable<OrderViewModel> GetCorrectViewModelsToUpdate()
         {

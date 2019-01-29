@@ -7,6 +7,7 @@ using ApplicationCore.Specifications;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Infrastructure.Services
@@ -35,6 +36,16 @@ namespace Infrastructure.Services
                 && !await Context.ExistsBySpecAsync(Logger, new EntitySpecification<Store>(order.StoreId), false))
                 throw new EntityValidationException($"Store with id {order.StoreId} does not exist");
             ValidateStatusWithException(orderEntry);
+        }
+
+        public async Task<Order> RecalculateSumAsync(int orderId)
+        {
+            var spec = new EntitySpecification<Order>(orderId);
+            spec.AddInclude("OrderItems.ItemVariant");
+            var order = await Context.ReadSingleBySpecAsync(Logger, spec, true);
+            order.Sum = (from o in order.OrderItems select o.ItemVariant.Price * o.Number).Sum();
+            await Context.SaveChangesAsync(Logger, $"Recalculating order {orderId} sum");
+            return order;
         }
 
         public override async Task RelinkRelatedAsync(int id, int idToRelinkTo)

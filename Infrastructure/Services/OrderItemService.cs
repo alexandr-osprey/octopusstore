@@ -22,6 +22,13 @@ namespace Infrastructure.Services
         {
         }
 
+        protected override async Task ValidateCustomUniquinessWithException(OrderItem orderItem)
+        {
+            await base.ValidateCustomUniquinessWithException(orderItem);
+            if (await Context.ExistsBySpecAsync(Logger, new Specification<OrderItem>(oi => oi.ItemVariantId == orderItem.ItemVariantId && oi.OrderId == orderItem.OrderId)))
+                throw new EntityAlreadyExistsException($"Cart item with item variant {orderItem.ItemVariantId} already exists");
+        }
+
         protected override async Task ValidationWithExceptionAsync(OrderItem orderItem)
         {
             await base.ValidationWithExceptionAsync(orderItem);
@@ -45,7 +52,6 @@ namespace Infrastructure.Services
                         throw new EntityValidationException("Incorrect item variant for store in order");
                 }
             }
-
         }
     }
 }

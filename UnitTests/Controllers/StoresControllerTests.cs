@@ -12,9 +12,9 @@ using Infrastructure.Data.SampleData;
 
 namespace UnitTests.Controllers
 {
-    public class StoreControllerTest : ControllerTests<Store, StoreViewModel, IStoresController, IStoreService>
+    public class StoresControllerTests : ControllerTests<Store, StoreViewModel, IStoresController, IStoreService>
     {
-        public StoreControllerTest(ITestOutputHelper output)
+        public StoresControllerTests(ITestOutputHelper output)
            : base(output)
         {
         }

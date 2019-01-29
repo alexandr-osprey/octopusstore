@@ -60,7 +60,6 @@ namespace Infrastructure.Data.SampleData
                 {
                     Directory.CreateDirectory(Path.GetDirectoryName(itemImage.FullPath));
                     string rel = Path.GetRelativePath(PathToFiles, itemImage.FullPath);
-                    string fullBackupPath = Path.Combine(PathToBackup, rel);
                     var bytes = GetItemImageByteArray(itemImage.Title);
                     if (bytes == null)
                         continue;

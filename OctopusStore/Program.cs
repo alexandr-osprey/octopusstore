@@ -14,7 +14,7 @@ namespace OctopusStore
     {
         public static void Main(string[] args)
         {
-            var host = CreateWebHostBuilder(args);
+            var host = CreateWebHost(args);
 
             using (var scope = host.Services.CreateScope())
             {
@@ -37,7 +37,7 @@ namespace OctopusStore
             host.Run();
         }
 
-        public static IWebHost CreateWebHostBuilder(string[] args) =>
+        public static IWebHost CreateWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
                 .Build();

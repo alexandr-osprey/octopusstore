@@ -40,6 +40,7 @@
             ItemImages = new ItemImages(Context, Items);
             Orders = new Orders(Context, Stores);
             OrderItems = new OrderItems(Context, Orders, ItemVariants);
+            Orders.RecalculateSums();
         }
     }
 }

@@ -20,7 +20,7 @@ namespace UnitTests.Services
         {
             return new List<OrderItem>()
             {
-                new OrderItem() { ItemVariantId = Data.ItemVariants.IPhone664GB.Id, OrderId = Data.Orders.John1000.Id, Number = 1 },
+                new OrderItem() { ItemVariantId = Data.ItemVariants.Pebble1000mAh.Id, OrderId = Data.Orders.John1000.Id, Number = 1 },
                 new OrderItem() { ItemVariantId = Data.ItemVariants.JacketBlack.Id, OrderId = Data.Orders.Jen2000.Id, Number = 2 },
             };
         }

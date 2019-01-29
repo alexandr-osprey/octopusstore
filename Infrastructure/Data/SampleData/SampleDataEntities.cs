@@ -8,7 +8,7 @@ namespace Infrastructure.Data.SampleData
 {
     public abstract class SampleDataEntities<T> where T: Entity, IGenericMemberwiseClonable<T>
     {
-        protected StoreContext StoreContext { get; }
+        protected StoreContext Context { get; }
         protected abstract IEnumerable<T> GetSourceEntities();
 
         protected List<T> entities = new List<T>();
@@ -16,17 +16,17 @@ namespace Infrastructure.Data.SampleData
 
         public SampleDataEntities(StoreContext storeContext)
         {
-            StoreContext = storeContext;
+            Context = storeContext;
         }
 
         protected void Seed()
         {
-            if (!StoreContext.Set<T>().Any())
+            if (!Context.Set<T>().Any())
             {
                 BeforeSeed();
                 var savingEntities = GetSourceEntities();
-                StoreContext.AddRange(savingEntities);
-                StoreContext.SaveChanges();
+                Context.AddRange(savingEntities);
+                Context.SaveChanges();
                 AfterSeed(savingEntities);
             }
         }
@@ -46,7 +46,7 @@ namespace Infrastructure.Data.SampleData
 
         protected virtual IQueryable<T> GetQueryable()
         {
-            return StoreContext.Set<T>();
+            return Context.Set<T>();
         }
     }
 }

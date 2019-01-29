@@ -27,8 +27,8 @@ namespace Infrastructure.Services
             IAppLogger<Service<ItemProperty>> logger)
            : base(context, identityService, scopedParameters, authoriationParameters, logger)
         {
-            this.ItemVariantService = itemVariantService;
-            this.CharacteristicValueService = characteristicValueService;
+            ItemVariantService = itemVariantService;
+            CharacteristicValueService = characteristicValueService;
         }
 
         protected override async Task ValidateCustomUniquinessWithException(ItemProperty itemProperty)
@@ -58,7 +58,7 @@ namespace Infrastructure.Services
                     .Set<ItemVariant>()
                     .Include(v => v.Item)
                     .FirstOrDefaultAsync(v => v.Id == itemProperty.ItemVariantId)
-                    ?? throw new EntityValidationException($"Item variant {itemProperty.ItemVariantId} does not exist");
+                        ?? throw new EntityValidationException($"Item variant {itemProperty.ItemVariantId} does not exist");
                 if (IsPropertyModified(entityEntry, p => p.CharacteristicValueId, false))
                 {
                     var possibleCharacteristicValues = await CharacteristicValueService.EnumerateByCategoryAsync(new EntitySpecification<Category>(itemVariant.Item.CategoryId));

@@ -240,7 +240,7 @@ namespace Infrastructure.Services
             return await IdentityService.AuthorizeAsync(ScopedParameters.ClaimsPrincipal, obj, requirement);
         }
 
-        protected bool IsPropertyModified<TProperty>(EntityEntry<TEntity> entityEntry, Expression<Func<TEntity, TProperty>> propertyExpression, bool isUpdatable = true)
+        protected bool IsPropertyModified<TProperty>(EntityEntry<TEntity> entityEntry, Expression<Func<TEntity, TProperty>> propertyExpression, bool throwIfNotUpdatable = true)
         {
             bool isModified = false;
             if (entityEntry.State == EntityState.Unchanged)
@@ -249,7 +249,7 @@ namespace Infrastructure.Services
             {
                 PropertyEntry<TEntity, TProperty> statusProperty = entityEntry.Property(propertyExpression);
                 isModified = statusProperty.IsModified;
-                if (isModified && !isUpdatable)
+                if (isModified && !throwIfNotUpdatable)
                     throw new EntityValidationException($"Property {statusProperty.Metadata.Name} is not updatable");
             }
             else if (entityEntry.State == EntityState.Detached || entityEntry.State == EntityState.Added)

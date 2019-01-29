@@ -58,6 +58,7 @@ namespace OctopusStore.Controllers
             };
             return await base.IndexNotPagedAsync(spec);
         }
+
         [AllowAnonymous]
         [HttpGet("{id:int}/file")]
         public async Task<FileStreamResult> GetFileAsync(int id)
@@ -74,6 +75,7 @@ namespace OctopusStore.Controllers
                 throw new Exception(message);
             }
         }
+
         [AllowAnonymous]
         [HttpGet("{id:int}")]
         public override async Task<ItemImageViewModel> ReadAsync(int id) => await base.ReadAsync(id);

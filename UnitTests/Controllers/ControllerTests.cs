@@ -82,7 +82,7 @@ namespace UnitTests.Controllers
         }
 
         [Fact]
-        public async Task DeleteAsync()
+        public virtual async Task DeleteAsync()
         {
             var entity = await Context.Set<TEntity>().LastAsync();
             await Controller.DeleteAsync(entity.Id);

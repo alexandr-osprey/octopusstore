@@ -13,8 +13,6 @@ namespace Infrastructure.Identity
         public static string Password = "Password1!";
         public static async Task SeedAsync(IServiceProvider serviceProvider, UserManager<ApplicationUser> userManager)
         {
-            var defaultUser = new ApplicationUser { UserName = "demouser@microsoft.com", Email = "demouser@microsoft.com" };
-            await userManager.CreateAsync(defaultUser, "Passw@rd1");
             List<string> emails = new List<string>()
             {
                 "user3@mail.com",
@@ -37,6 +35,7 @@ namespace Infrastructure.Identity
 
             //await userManager.AddClaimAsync(jennifer, new Claim(CustomClaimTypes.Seller, jennifer.Id));
             var admin = await EnsureUser(serviceProvider, Password, "admin@mail.com", "admin@mail.com");
+            await userManager.AddClaimAsync(admin, new Claim(CustomClaimTypes.Administrator, CustomClaimValues.Content));
         }
         private static async Task<ApplicationUser> EnsureUser(IServiceProvider serviceProvider,
                                             string testUserPw, string email, string username = "")

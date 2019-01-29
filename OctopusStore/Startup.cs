@@ -33,19 +33,19 @@ namespace OctopusStore
 
         public void ConfigureDevelopmentServices(IServiceCollection services)
         {
-            ConfigureTestingServices(services);
-        }
-
-        public void ConfigureTestingServices(IServiceCollection services)
-        {
             DbContextOptions<StoreContext> storeContextOptions =
                 new DbContextOptionsBuilder<StoreContext>()
-                //.UseLazyLoadingProxies()
-                .UseInMemoryDatabase("Store").Options;
+                    //.UseLazyLoadingProxies()
+                    .UseInMemoryDatabase("Store").Options;
             services.AddSingleton(storeContextOptions);
             IdentityConfiguration.ConfigureTesting(services);
-            ConfigureServices(services);
+            ConfigureCommonServices(services);
         }
+
+        //public void ConfigureTestingServices(IServiceCollection services)
+        //{
+
+        //}
 
         public void ConfigureProductionServices(IServiceCollection services)
         {
@@ -65,11 +65,11 @@ namespace OctopusStore
             //services.AddDbContext<AppIdentityDbContext>(options =>
             //    options.UseSqlServer(Configuration.GetConnectionString("IdentityConnection")));
 
-            ConfigureServices(services);
+            ConfigureCommonServices(services);
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public void ConfigureCommonServices(IServiceCollection services)
         {
 
             ConfigureDI(services);

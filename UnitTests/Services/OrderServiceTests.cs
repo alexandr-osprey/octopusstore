@@ -63,6 +63,23 @@ namespace UnitTests.Services
         }
 
         [Fact]
+        public async Task RecalculateSumAsync()
+        {
+            var order = Data.Orders.JohnInJohnsStore;
+            decimal oldSum = (from o in order.OrderItems select o.ItemVariant.Price * o.Number).Sum();
+            await Context.OrderItems.AddAsync(new OrderItem()
+            {
+                ItemVariantId = Data.ItemVariants.Pebble1000mAh.Id,
+                Number = 2,
+                OrderId = order.Id
+            });
+            await Context.SaveChangesAsync();
+            decimal addedSum = Data.ItemVariants.Pebble1000mAh.Price * 2;
+            await Service.RecalculateSumAsync(order.Id);
+            Assert.Equal(oldSum + addedSum, order.Sum);
+        }
+
+        [Fact]
         public async Task DeleteSingleWithRelatedRelinkAsync()
         {
             var order = Data.Orders.John1000;
@@ -80,6 +97,7 @@ namespace UnitTests.Services
             var cancelledStatusTime = DateTime.UtcNow;
             await Service.SetStatusAsync(order.Id, OrderStatus.Cancelled);
             Assert.True(order.DateTimeCancelled >= cancelledStatusTime);
+            Assert.Equal(OrderStatus.Cancelled, order.Status);
         }
 
         [Fact]
@@ -89,6 +107,7 @@ namespace UnitTests.Services
             var finishedStatusTime = DateTime.UtcNow;
             await Service.SetStatusAsync(order.Id, OrderStatus.Finished);
             Assert.True(order.DateTimeFinished >= finishedStatusTime);
+            Assert.Equal(OrderStatus.Finished, order.Status);
         }
 
         [Fact]

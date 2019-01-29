@@ -30,14 +30,14 @@ namespace Infrastructure.Data.SampleData
         {
             return new List<Order>
             {
-                new Order() { StoreId = Stores.Johns.Id, OwnerId = Users.JenniferId, Sum = 500 },
-                new Order() { StoreId = Stores.Jennifers.Id, OwnerId = Users.JohnId, Sum = 500 },
-                new Order() { StoreId = Stores.Jennifers.Id, OwnerId = Users.JenniferId, Sum = 500 },
-                new Order() { StoreId = Stores.Johns.Id, OwnerId = Users.JohnId, Sum = 500 },
-                new Order() { StoreId = Stores.Johns.Id, OwnerId = Users.JenniferId, Sum = 1000 },
-                new Order() { StoreId = Stores.Jennifers.Id, OwnerId = Users.JohnId, Sum = 2000 },
-                new Order() { StoreId = Stores.Johns.Id, OwnerId = Users.JenniferId, Sum = 1000, Status = OrderStatus.Cancelled, DateTimeCancelled = DateTime.UtcNow },
-                new Order() { StoreId = Stores.Johns.Id, OwnerId = Users.JenniferId, Sum = 1000, Status = OrderStatus.Finished, DateTimeCancelled = DateTime.UtcNow },
+                new Order() { StoreId = Stores.Johns.Id, OwnerId = Users.JenniferId },
+                new Order() { StoreId = Stores.Jennifers.Id, OwnerId = Users.JohnId },
+                new Order() { StoreId = Stores.Jennifers.Id, OwnerId = Users.JenniferId },
+                new Order() { StoreId = Stores.Johns.Id, OwnerId = Users.JohnId },
+                new Order() { StoreId = Stores.Johns.Id, OwnerId = Users.JenniferId },
+                new Order() { StoreId = Stores.Jennifers.Id, OwnerId = Users.JohnId },
+                new Order() { StoreId = Stores.Johns.Id, OwnerId = Users.JenniferId, Status = OrderStatus.Cancelled, DateTimeCancelled = DateTime.UtcNow },
+                new Order() { StoreId = Stores.Johns.Id, OwnerId = Users.JenniferId, Status = OrderStatus.Finished, DateTimeCancelled = DateTime.UtcNow },
             };
         }
 
@@ -46,6 +46,15 @@ namespace Infrastructure.Data.SampleData
             return base.GetQueryable()
                 .Include(o => o.Store)
                 .Include(o => o.OrderItems);
+        }
+
+        public void RecalculateSums()
+        {
+            foreach(var order in Entities)
+            {
+                order.Sum = (from i in order.OrderItems select i.ItemVariant.Price * i.Number).Sum();
+            }
+            Context.SaveChangesAsync();
         }
 
         public override void Init()

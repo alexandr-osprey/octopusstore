@@ -6,6 +6,6 @@ namespace ApplicationCore.Interfaces.Controllers
 {
     public interface IOrderItemsController: IController<OrderItem, OrderItemViewModel>
     {
-        Task<IndexViewModel<OrderItemViewModel>> IndexAsync();
+        //Task<IndexViewModel<OrderItemViewModel>> IndexAsync();
     }
 }

@@ -45,7 +45,7 @@ namespace Infrastructure.Data.SampleData
             categories.ElementAt(3).ParentCategoryId = categories.ElementAt(1).Id;
             categories.ElementAt(5).ParentCategoryId = categories.ElementAt(4).Id;
             categories.ElementAt(6).ParentCategoryId = categories.ElementAt(4).Id;
-            StoreContext.SaveChanges();
+            Context.SaveChanges();
             base.AfterSeed(categories);
         }
 

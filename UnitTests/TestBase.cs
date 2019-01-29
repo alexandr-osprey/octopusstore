@@ -148,6 +148,7 @@ namespace UnitTests
             Services.AddScoped<ICharacteristicsController, CharacteristicsController>();
             Services.AddScoped<ICharacteristicValuesController, CharacteristicValuesController>();
             Services.AddScoped<IOrdersController, OrdersController>();
+            Services.AddScoped<IOrderItemsController, OrderItemsController>();
             //Services.AddScoped<IOrderItemsController, OrderItemsController>();
 
             //ConfigureIdentity();

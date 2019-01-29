@@ -11,9 +11,9 @@ using System.Collections.Generic;
 
 namespace UnitTests.Controllers
 {
-    public class ItemVariantControllerTest : ControllerTests<ItemVariant, ItemVariantViewModel, IItemVariantsController, IItemVariantService>
+    public class ItemVariantsControllerTest : ControllerTests<ItemVariant, ItemVariantViewModel, IItemVariantsController, IItemVariantService>
     {
-        public ItemVariantControllerTest(ITestOutputHelper output) : base(output)
+        public ItemVariantsControllerTest(ITestOutputHelper output) : base(output)
         {
         }
 

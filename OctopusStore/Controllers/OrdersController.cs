@@ -16,7 +16,6 @@ namespace OctopusStore.Controllers
     [Route("api/[controller]")]
     public class OrdersController: CRUDController<IOrderService, Order, OrderViewModel>, IOrdersController
     {
-        protected ICartItemService CartItemService { get; }
         protected IOrderItemService OrderItemService { get; }
 
         public OrdersController(
@@ -28,25 +27,11 @@ namespace OctopusStore.Controllers
             IAppLogger<IController<Order, OrderViewModel>> logger)
            : base(orderService, activatorService, scopedParameters, logger)
         {
-            CartItemService = cartItemService;
             OrderItemService = orderItemService;
         }
 
         [HttpPost]
-        public override async Task<OrderViewModel> CreateAsync([FromBody]OrderViewModel orderViewModel)
-        {
-            if (orderViewModel == null)
-                throw new EntityValidationException("No order view model provided");
-            var spec = new CartItemStoreSpecification(ScopedParameters.ClaimsPrincipal.Identity.Name, orderViewModel.StoreId);
-            var cartItems = await CartItemService.EnumerateAsync(spec);
-            if (!cartItems.Any())
-                throw new EntityValidationException($"No cart items with store {orderViewModel.StoreId}");
-            orderViewModel.Sum = (from i in cartItems select i.ItemVariant.Price * i.Number).Sum();
-            var createdOrder = await base.CreateAsync(orderViewModel);
-            foreach(var cartItem in cartItems)
-                await OrderItemService.CreateAsync(new OrderItem(cartItem, createdOrder.Id));
-            return createdOrder;
-        }
+        public override async Task<OrderViewModel> CreateAsync([FromBody]OrderViewModel orderViewModel) => await base.CreateAsync(orderViewModel);
 
         [AllowAnonymous]
         [HttpGet("{id:int}")]
@@ -61,7 +46,7 @@ namespace OctopusStore.Controllers
         }
 
         [HttpPut]
-        public override async Task<OrderViewModel> UpdateAsync([FromBody]OrderViewModel brandViewModel) => await base.UpdateAsync(brandViewModel);
+        public override async Task<OrderViewModel> UpdateAsync([FromBody]OrderViewModel orderViewModel) => await base.UpdateAsync(orderViewModel);
 
         [HttpGet("{id:int}/checkUpdateAuthorization")]
         public async Task<Response> CheckUpdateAuthorization(int id) => await base.CheckUpdateAuthorizationAsync(id);
