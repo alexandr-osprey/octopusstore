@@ -9,11 +9,11 @@ import { CartItem } from '../cart-item';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-cart-item-index',
-  templateUrl: './cart-item-index.component.html',
-  styleUrls: ['./cart-item-index.component.css']
+  selector: 'app-cart-item-thumbnail-index',
+  templateUrl: './cart-item-thumbnail-index.component.html',
+  styleUrls: ['./cart-item-thumbnail-index.component.css']
 })
-export class CartItemIndexComponent implements OnInit {
+export class CartItemThumbnailIndexComponent implements OnInit {
   protected cartItemThumbnails: CartItemThumbnail[] = [];
   protected sum: number = 0;
 

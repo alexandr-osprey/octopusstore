@@ -8,12 +8,12 @@ import { EntityIndex } from 'src/app/models/entity/entity-index';
 import { ItemThumbnail } from '../item-thumbnail';
 
 @Component({
-  selector: 'app-item-thumbnails',
-  templateUrl: './item-thumbnails.component.html',
-  styleUrls: ['./item-thumbnails.component.css'],
+  selector: 'app-item-thumbnail-index',
+  templateUrl: './item-thumbnail-index.component.html',
+  styleUrls: ['./item-thumbnail-index.component.css'],
   providers: [ItemService]
 })
-export class ItemThumbnailsComponent implements OnInit, OnDestroy {
+export class ItemThumbnailIndexComponent implements OnInit, OnDestroy {
   itemThumbnailIndex: EntityIndex<ItemThumbnail>;
   parametersSubsription: Subscription;
   itemThumbnailsSubsription: Subscription;
@@ -76,7 +76,7 @@ export class ItemThumbnailsComponent implements OnInit, OnDestroy {
 
 
   getItems(): void {
-    this.itemService.indexItemThumbnails().subscribe((data: EntityIndex<ItemThumbnail>) => {
+    this.itemService.indexThumbnails().subscribe((data: EntityIndex<ItemThumbnail>) => {
       this.itemThumbnailIndex = data;
     });
   }

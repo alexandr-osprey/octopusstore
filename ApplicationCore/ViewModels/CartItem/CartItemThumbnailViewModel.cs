@@ -2,14 +2,12 @@
 
 namespace ApplicationCore.ViewModels
 {
-    public class CartItemThumbnailViewModel : EntityViewModel<CartItem>
+    public class CartItemThumbnailViewModel : CartItemViewModel
     {
         public ItemVariantViewModel ItemVariant { get; set; }
         public ItemViewModel Item { get; set; }
         public MeasurementUnitViewModel MeasurementUnit { get; set; }
         public StoreViewModel Store { get; set; }
-
-        public int Number { get; set; }
 
         public CartItemThumbnailViewModel(): base()
         {
@@ -22,21 +20,6 @@ namespace ApplicationCore.ViewModels
             MeasurementUnit = new MeasurementUnitViewModel(cartItem.ItemVariant.Item.MeasurementUnit);
             Number = cartItem.Number;
             Store = new StoreViewModel(cartItem.ItemVariant.Item.Store);
-        }
-
-        public override CartItem ToModel()
-        {
-            return new CartItem()
-            {
-                Id = Id,
-                ItemVariantId = ItemVariant.Id,
-                Number = Number,
-            };
-        }
-        public override CartItem UpdateModel(CartItem modelToUpdate)
-        {
-            modelToUpdate.Number = Number;
-            return modelToUpdate;
         }
     }
 }

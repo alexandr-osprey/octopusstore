@@ -1,16 +1,14 @@
 import { ItemVariant } from "../item-variant/item-variant";
 import { Item } from "../item/item";
 import { MeasurementUnit } from "../measurement-unit/measurement-unit";
-import { Entity } from "../models/entity/entity";
 import { Store } from "../store/store";
+import { CartItem } from "./cart-item";
 
-export class CartItemThumbnail extends Entity {
+export class CartItemThumbnail extends CartItem {
   itemVariant: ItemVariant;
   item: Item;
   measurementUnit: MeasurementUnit;
   store: Store;
-
-  number: number;
 
   public constructor(init?: Partial<CartItemThumbnail>) {
     super(init);

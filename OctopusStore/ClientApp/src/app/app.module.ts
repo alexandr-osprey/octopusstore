@@ -13,7 +13,7 @@ import { PaginatorComponent } from './paginator/paginator.component';
 import { ItemVariantCreateUpdateComponent } from './item-variant/item-variant-create-update/item-variant-create-update.component';
 import { ItemPropertyCreateUpdateComponent } from './item-property/item-property-create-update/item-property-create-update.component';
 import { ItemCreateUpdateComponent } from './item/item-create-update/item-create-update.component';
-import { ItemThumbnailsComponent } from './item/item-thumbnails/item-thumbnails.component';
+import { ItemThumbnailIndexComponent } from './item/item-thumbnail-index/item-thumbnail-index.component';
 import { ItemDetailComponent } from './item/item-detail/item-detail.component';
 import { ItemPropertyDetailComponent } from './item-property/item-property-detail/item-property-detail.component';
 import { ItemVariantDetailComponent } from './item-variant/item-variant-detail/item-variant-detail.component';
@@ -44,8 +44,8 @@ import { BrandCreateUpdateComponent } from './brand/brand-create-update/brand-cr
 import { MeasurementUnitIndexComponent } from './measurement-unit/measurement-unit-index/measurement-unit-index.component';
 import { MeasurementUnitCreateUpdateComponent } from './measurement-unit/measurement-unit-create-update/measurement-unit-create-update.component';
 import { OrderCreateComponent } from './order/order-create/order-create.component';
-import { CartItemIndexComponent } from './cart-item/cart-item-index/cart-item-index.component';
-import { OrderIndexComponent } from './order/order-index/order-index.component';
+import { CartItemThumbnailIndexComponent } from './cart-item/cart-item-thumbnail-index/cart-item-thumbnail-index.component';
+import { OrderThumbnailIndexComponent } from './order/order-thumbnail-index/order-thumbnail-index.component';
 
 
 @NgModule({
@@ -54,7 +54,7 @@ import { OrderIndexComponent } from './order/order-index/order-index.component';
     ItemDetailComponent,
     ItemThumbnailComponent,
     HeaderComponent,
-    ItemThumbnailsComponent,
+    ItemThumbnailIndexComponent,
     ItemThumbnailComponent,
     CategoryIndexComponent,
     MessagesComponent,
@@ -77,7 +77,7 @@ import { OrderIndexComponent } from './order/order-index/order-index.component';
     IdentitySignOutComponent,
     PageNotFoundComponent,
     StoreAdministratorsComponent,
-    CartItemIndexComponent,
+    CartItemThumbnailIndexComponent,
     CharacteristicPaneComponent,
     AdministratingHomepageComponent,
     CategoryCreateUpdateComponent,
@@ -90,7 +90,7 @@ import { OrderIndexComponent } from './order/order-index/order-index.component';
     MeasurementUnitIndexComponent,
     MeasurementUnitCreateUpdateComponent,
     OrderCreateComponent,
-    OrderIndexComponent,
+    OrderThumbnailIndexComponent,
   ],
   imports: [
     BrowserModule,

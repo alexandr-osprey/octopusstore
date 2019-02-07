@@ -233,10 +233,6 @@ export class CartItemService extends DataReadWriteService<CartItem> {
   }
 
   protected getCopy(): CartItemThumbnail[] {
-    let copy: CartItemThumbnail[] = [];
-    this.cartItemThumbnails.forEach(c => {
-      copy.push(new CartItemThumbnail(c));
-    });
-    return copy;
+    return this.cartItemThumbnails.map(c => new CartItemThumbnail(c));
   }
 }

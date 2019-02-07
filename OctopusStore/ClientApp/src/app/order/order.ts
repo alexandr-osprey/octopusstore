@@ -1,5 +1,4 @@
 import { Entity } from "../models/entity/entity";
-import { CartItem } from "../cart-item/cart-item";
 
 export enum OrderStatus {
   Created,

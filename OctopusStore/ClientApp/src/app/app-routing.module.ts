@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router'
 import { ItemCreateUpdateComponent } from './item/item-create-update/item-create-update.component';
-import { ItemThumbnailsComponent } from './item/item-thumbnails/item-thumbnails.component';
+import { ItemThumbnailIndexComponent } from './item/item-thumbnail-index/item-thumbnail-index.component';
 import { ItemDetailComponent } from './item/item-detail/item-detail.component';
 import { HomepageComponent } from './homepage/homepage/homepage.component';
 import { StoreCreateUpdateComponent } from './store/store-create-update/store-create-update.component';
@@ -19,9 +19,9 @@ import { CharacteristicCreateUpdateComponent } from './characteristic/characteri
 import { CharacteristicValueCreateUpdateComponent } from './characteristic-value/characteristic-value-create-update/characteristic-value-create-update.component';
 import { BrandCreateUpdateComponent } from './brand/brand-create-update/brand-create-update.component';
 import { MeasurementUnitCreateUpdateComponent } from './measurement-unit/measurement-unit-create-update/measurement-unit-create-update.component';
-import { CartItemIndexComponent } from './cart-item/cart-item-index/cart-item-index.component';
+import { CartItemThumbnailIndexComponent } from './cart-item/cart-item-thumbnail-index/cart-item-thumbnail-index.component';
 import { OrderCreateComponent } from './order/order-create/order-create.component';
-import { OrderIndexComponent } from './order/order-index/order-index.component';
+import { OrderThumbnailIndexComponent } from './order/order-thumbnail-index/order-thumbnail-index.component';
 import { SignedInAuthorizationGuard } from './guards/signed-in-authorization-guard';
 
 
@@ -33,7 +33,7 @@ const routes: Routes = [
   },
   {
     path: 'cart',
-    component: CartItemIndexComponent,
+    component: CartItemThumbnailIndexComponent,
     pathMatch: 'full',
   },
   {
@@ -125,7 +125,7 @@ const routes: Routes = [
   },
   {
     path: 'items',
-    component: ItemThumbnailsComponent,
+    component: ItemThumbnailIndexComponent,
   },
   {
     path: 'measurementUnits/create',
@@ -165,7 +165,7 @@ const routes: Routes = [
   {
     path: 'orders',
     //pathMatch: 'full',
-    component: OrderIndexComponent,
+    component: OrderThumbnailIndexComponent,
     canActivate: [SignedInAuthorizationGuard],
   },
   //{

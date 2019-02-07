@@ -13,6 +13,7 @@ namespace ApplicationCore.Specifications
            : base(pageIndex, pageSize, storeId, orderStatus, ownerId) 
         {
             SetPaging(pageIndex, pageSize);
+            SetIncludes();
         }
 
         protected void SetIncludes()

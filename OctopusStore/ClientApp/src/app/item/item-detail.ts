@@ -5,11 +5,9 @@ import { MeasurementUnit } from "../measurement-unit/measurement-unit";
 import { Store } from "../store/store";
 import { ItemImage } from "../item-image/item-image";
 import { ItemVariant } from "../item-variant/item-variant";
-import { EntityDetail } from "../models/entity/entity-detail";
 
 
-export class ItemDetail extends EntityDetail<Item> {
-  description: string;
+export class ItemDetail extends Item {
   measurementUnit: MeasurementUnit;
   category: Category;
   store: Store;

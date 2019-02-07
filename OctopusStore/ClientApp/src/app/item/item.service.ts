@@ -29,11 +29,10 @@ export class ItemService extends DataReadWriteService<Item> {
     this.getAuthenticationRequired = true;
   }
 
-  public indexItemThumbnails(): Observable<EntityIndex<ItemThumbnail>> {
+  public indexThumbnails(): Observable<EntityIndex<ItemThumbnail>> {
     return this.getCustom<EntityIndex<ItemThumbnail>>(
       this.getUrlWithParameter(ParameterNames.thumbnails),
       this.parameterService.getParams(),
-      this.defaultHttpHeaders
-      );
+      this.defaultHttpHeaders);
   }
 }
