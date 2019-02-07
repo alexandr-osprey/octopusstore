@@ -5,6 +5,7 @@ using ApplicationCore.Interfaces;
 using ApplicationCore.Interfaces.Services;
 using ApplicationCore.Specifications;
 using Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.Linq;
@@ -24,37 +25,34 @@ namespace Infrastructure.Services
         {
         }
 
+        public override async Task<Order> CreateAsync(Order order)
+        {
+            await base.ValidationWithExceptionAsync(order);
+            // set sum from database, not model
+            var itemVariant = await GetItemVariantAsync(order);
+            order.Sum = itemVariant.Price * order.Number;
+            return await base.CreateAsync(order);
+        }
+
         protected override async Task ValidationWithExceptionAsync(Order order)
         {
             await base.ValidationWithExceptionAsync(order);
             if (order.Sum < 0)
                 throw new EntityValidationException($"Order sum can't be negative");
-            if (!await Context.ExistsBySpecAsync(Logger, new EntitySpecification<Store>(order.StoreId)))
-                throw new EntityValidationException($"Store {order.StoreId} does not exist");
+            if (order.Number <= 0)
+                throw new EntityValidationException("Number must be positive");
             var orderEntry = Context.Entry(order);
-            if (IsPropertyModified(orderEntry, o => o.StoreId, false)
-                && !await Context.ExistsBySpecAsync(Logger, new EntitySpecification<Store>(order.StoreId), false))
-                throw new EntityValidationException($"Store with id {order.StoreId} does not exist");
+
+            if (IsPropertyModified(orderEntry, o => o.ItemVariantId, false))
+            {
+                if (IsPropertyModified(orderEntry, o => o.ItemVariantId, false))
+                {
+                    var itemVariant = await GetItemVariantAsync(order);
+                }
+            }
             ValidateStatusWithException(orderEntry);
         }
 
-        public async Task<Order> RecalculateSumAsync(int orderId)
-        {
-            var spec = new EntitySpecification<Order>(orderId);
-            spec.AddInclude("OrderItems.ItemVariant");
-            var order = await Context.ReadSingleBySpecAsync(Logger, spec, true);
-            order.Sum = (from o in order.OrderItems select o.ItemVariant.Price * o.Number).Sum();
-            await Context.SaveChangesAsync(Logger, $"Recalculating order {orderId} sum");
-            return order;
-        }
-
-        public override async Task RelinkRelatedAsync(int id, int idToRelinkTo)
-        {
-            var orderItems = await Context.EnumerateRelatedEnumAsync(Logger, new EntitySpecification<Order>(id), b => b.OrderItems);
-            foreach (var orderItem in orderItems)
-                orderItem.OrderId = idToRelinkTo;
-            await Context.SaveChangesAsync(Logger, "Relink Order");
-        }
 
         public async Task<Order> SetStatusAsync(int orderId, OrderStatus orderStatus)
         {
@@ -85,6 +83,20 @@ namespace Infrastructure.Services
                 else if (statusProperty.OriginalValue == OrderStatus.Cancelled)
                     throw new EntityValidationException("Order already cancelled, can't change status");
             }
+        }
+
+        protected async Task<ItemVariant> GetItemVariantAsync(Order order)
+        {
+            if (order == null)
+                throw new ArgumentNullException(nameof(order));
+
+            var itemVariant = await Context
+                        .Set<ItemVariant>()
+                        .Include(iv => iv.Item)
+                            .ThenInclude(i => i.Store)
+                        .FirstOrDefaultAsync(iv => iv.Id == order.ItemVariantId)
+                            ?? throw new EntityValidationException($"Item variant {order.ItemVariantId} not found");
+            return itemVariant;
         }
     }
 }

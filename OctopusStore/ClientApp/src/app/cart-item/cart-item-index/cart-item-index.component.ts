@@ -6,6 +6,7 @@ import { CartItemService } from '../cart-item.service';
 import { Item } from 'src/app/item/item';
 import { ItemVariant } from 'src/app/item-variant/item-variant';
 import { CartItem } from '../cart-item';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cart-item-index',
@@ -18,6 +19,7 @@ export class CartItemIndexComponent implements OnInit {
 
   constructor(
     private cartItemService: CartItemService,
+    private router: Router,
     private parameterService: ParameterService) {
   }
 
@@ -66,5 +68,9 @@ export class CartItemIndexComponent implements OnInit {
   removeCartItem(cartItemThumbnail: CartItemThumbnail) {
     let item = new CartItem({ itemVariantId: cartItemThumbnail.itemVariant.id, number: cartItemThumbnail.number });
     this.cartItemService.removeFromCart(item);
+  }
+
+  createOrder() {
+    this.router.navigate(['/orders/create']);
   }
 }

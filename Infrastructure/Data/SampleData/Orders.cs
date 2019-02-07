@@ -9,19 +9,18 @@ namespace Infrastructure.Data.SampleData
     public class Orders: SampleDataEntities<Order>
     {
         protected Stores Stores { get; }
+        protected ItemVariants ItemVariants { get; }
 
         public Order JenInJohnsStore { get; set; }
         public Order JohnInJensStore { get; set; }
         public Order JenInJensStore { get; set; }
         public Order JohnInJohnsStore { get; set; }
-        public Order John1000 { get; set; }
-        public Order Jen2000 { get; set; }
-        public Order John1000Cancelled { get; set; }
-        public Order John1000Finished { get; set; }
+        public Order JenInJohnsStoreCancelled { get; set; }
+        public Order JenInJohnsStoreFinished { get; set; }
 
-        public Orders(StoreContext storeContext, Stores stores): base(storeContext)
+        public Orders(StoreContext storeContext, ItemVariants itemVariants): base(storeContext)
         {
-            Stores = stores;
+            ItemVariants = itemVariants;
             Seed();
             Init();
         }
@@ -30,32 +29,21 @@ namespace Infrastructure.Data.SampleData
         {
             return new List<Order>
             {
-                new Order() { StoreId = Stores.Johns.Id, OwnerId = Users.JenniferId },
-                new Order() { StoreId = Stores.Jennifers.Id, OwnerId = Users.JohnId },
-                new Order() { StoreId = Stores.Jennifers.Id, OwnerId = Users.JenniferId },
-                new Order() { StoreId = Stores.Johns.Id, OwnerId = Users.JohnId },
-                new Order() { StoreId = Stores.Johns.Id, OwnerId = Users.JenniferId },
-                new Order() { StoreId = Stores.Jennifers.Id, OwnerId = Users.JohnId },
-                new Order() { StoreId = Stores.Johns.Id, OwnerId = Users.JenniferId, Status = OrderStatus.Cancelled, DateTimeCancelled = DateTime.UtcNow },
-                new Order() { StoreId = Stores.Johns.Id, OwnerId = Users.JenniferId, Status = OrderStatus.Finished, DateTimeCancelled = DateTime.UtcNow },
+                new Order() { ItemVariantId = ItemVariants.IPhone632GB.Id, OwnerId = Users.JenniferId, Number = 1, Sum = ItemVariants.IPhone632GB.Price, Status = OrderStatus.Created },
+                new Order() { ItemVariantId = ItemVariants.ShoesXMuchFashion.Id, OwnerId = Users.JohnId, Number = 2, Sum = ItemVariants.ShoesXMuchFashion.Price * 2, Status = OrderStatus.Created },
+                new Order() { ItemVariantId = ItemVariants.ShoesXXLMuchFashion.Id, OwnerId = Users.JenniferId, Number = 3, Sum = ItemVariants.ShoesXXLMuchFashion.Price * 3, Status = OrderStatus.Created },
+                new Order() { ItemVariantId = ItemVariants.Samsung716GBHD.Id, OwnerId = Users.JohnId, Number = 4, Sum = ItemVariants.Samsung716GBHD.Price * 4, Status = OrderStatus.Created },
+                new Order() { ItemVariantId = ItemVariants.IPhone632GB.Id, OwnerId = Users.JenniferId, Number = 5, Sum = ItemVariants.IPhone632GB.Price * 5, Status = OrderStatus.Cancelled, DateTimeCancelled = DateTime.UtcNow },
+                new Order() { ItemVariantId = ItemVariants.IPhone632GB.Id, OwnerId = Users.JenniferId, Number = 6, Sum = ItemVariants.IPhone632GB.Price * 6, Status = OrderStatus.Finished, DateTimeCancelled = DateTime.UtcNow },
             };
         }
 
         protected override IQueryable<Order> GetQueryable()
         {
             return base.GetQueryable()
-                .Include(o => o.Store)
-                .Include(o => o.OrderItems);
+                .Include(o => o.ItemVariant);
         }
 
-        public void RecalculateSums()
-        {
-            foreach(var order in Entities)
-            {
-                order.Sum = (from i in order.OrderItems select i.ItemVariant.Price * i.Number).Sum();
-            }
-            Context.SaveChangesAsync();
-        }
 
         public override void Init()
         {
@@ -64,10 +52,8 @@ namespace Infrastructure.Data.SampleData
             JohnInJensStore = Entities[1];
             JenInJensStore = Entities[2];
             JohnInJohnsStore = Entities[3];
-            John1000 = Entities[4];
-            Jen2000 = Entities[5];
-            John1000Cancelled = Entities[6];
-            John1000Finished = Entities[7];
+            JenInJohnsStoreCancelled = Entities[4];
+            JenInJohnsStoreFinished = Entities[5];
         }
     }
 }

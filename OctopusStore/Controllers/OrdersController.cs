@@ -16,18 +16,15 @@ namespace OctopusStore.Controllers
     [Route("api/[controller]")]
     public class OrdersController: CRUDController<IOrderService, Order, OrderViewModel>, IOrdersController
     {
-        protected IOrderItemService OrderItemService { get; }
 
         public OrdersController(
             IOrderService orderService,
             ICartItemService cartItemService,
-            IOrderItemService orderItemService,
             IActivatorService activatorService,
             IScopedParameters scopedParameters,
             IAppLogger<IController<Order, OrderViewModel>> logger)
            : base(orderService, activatorService, scopedParameters, logger)
         {
-            OrderItemService = orderItemService;
         }
 
         [HttpPost]
@@ -37,13 +34,15 @@ namespace OctopusStore.Controllers
         [HttpGet("{id:int}")]
         public override async Task<OrderViewModel> ReadAsync(int id) => await base.ReadAsync(id);
 
+        [HttpGet("thumbnails/")]
+        public async Task<IndexViewModel<OrderThumbnailViewModel>> IndexThumbnailsAsync(int? page, int? pageSize, int? storeId, OrderStatus? orderStatus, string ownerId) =>
+             await base.IndexAsync<OrderThumbnailViewModel>(new OrderThumbnailIndexSpecification(page ?? 1, pageSize ?? DefaultTake, storeId, orderStatus, ownerId));
+
         [HttpGet]
-        public async Task<IndexViewModel<OrderViewModel>> IndexAsync(int? page, int? pageSize, int? storeId, OrderStatus? orderStatus, string ownerId)
-        {
-            if (!await Service.IdentityService.IsContentAdministratorAsync(ScopedParameters.ClaimsPrincipal.Identity.Name))
-                ownerId = ScopedParameters.ClaimsPrincipal.Identity.Name;
-            return await base.IndexAsync(new OrderIndexSpecification(page ?? 1, pageSize ?? DefaultTake, storeId, orderStatus, ownerId));
-        }
+        public async Task<IndexViewModel<OrderViewModel>> IndexAsync(int? page, int? pageSize, int? storeId, OrderStatus? orderStatus, string ownerId) =>
+            //if (!await Service.IdentityService.IsContentAdministratorAsync(ScopedParameters.ClaimsPrincipal.Identity.Name))
+            //    ownerId = ScopedParameters.ClaimsPrincipal.Identity.Name;
+            await base.IndexAsync(new OrderIndexSpecification(page ?? 1, pageSize ?? DefaultTake, storeId, orderStatus, ownerId));
 
         [HttpPut]
         public override async Task<OrderViewModel> UpdateAsync([FromBody]OrderViewModel orderViewModel) => await base.UpdateAsync(orderViewModel);

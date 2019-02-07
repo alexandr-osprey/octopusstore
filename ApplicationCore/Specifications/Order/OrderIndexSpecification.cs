@@ -4,9 +4,14 @@ namespace ApplicationCore.Specifications
 {
     public class OrderIndexSpecification: EntitySpecification<Order>
     {
+        public OrderIndexSpecification(OrderIndexSpecification orderIndexSpecification) : base(orderIndexSpecification)
+        {
+
+        }
+
         public OrderIndexSpecification(int pageIndex, int pageSize, int? storeId, OrderStatus? orderStatus, string ownerId)
            : base(i => (!HasValue(ownerId) || i.OwnerId.Equals(ownerId)) &&
-                        (!storeId.HasValue || i.StoreId == storeId) &&
+                        (!storeId.HasValue || i.ItemVariant.Item.StoreId == storeId) &&
                         (!orderStatus.HasValue || i.Status == orderStatus)) 
         {
             SetPaging(pageIndex, pageSize);

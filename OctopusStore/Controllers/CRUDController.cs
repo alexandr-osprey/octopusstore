@@ -65,7 +65,7 @@ namespace OctopusStore.Controllers
         {
             if (viewModel == null)
                 throw new BadRequestException("Empty body");
-            var entityToUpdate = await Service.ReadSingleAsync(viewModel.ToModel());
+            var entityToUpdate = await Service.ReadSingleAsync(new Specification<TEntity>(e => e.GetHashCode() == viewModel.GetHashCode()));
             var entitiy = await Service.UpdateAsync(viewModel.UpdateModel(entityToUpdate));
             return GetViewModel<TViewModel>(entitiy);
         }

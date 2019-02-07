@@ -111,7 +111,6 @@ namespace OctopusStore
             services.AddScoped<ICharacteristicValueService, CharacteristicValueService>();
             services.AddScoped<ICartItemService, CartItemService>();
             services.AddScoped<IOrderService, OrderService>();
-            services.AddScoped<IOrderItemService, OrderItemService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

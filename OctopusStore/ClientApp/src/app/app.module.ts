@@ -43,10 +43,9 @@ import { BrandIndexComponent } from './brand/brand-index/brand-index.component';
 import { BrandCreateUpdateComponent } from './brand/brand-create-update/brand-create-update.component';
 import { MeasurementUnitIndexComponent } from './measurement-unit/measurement-unit-index/measurement-unit-index.component';
 import { MeasurementUnitCreateUpdateComponent } from './measurement-unit/measurement-unit-create-update/measurement-unit-create-update.component';
-import { OrderCreateUpdateComponent } from './order/order-create-update/order-create-update.component';
+import { OrderCreateComponent } from './order/order-create/order-create.component';
 import { CartItemIndexComponent } from './cart-item/cart-item-index/cart-item-index.component';
-import { CartItemIndexPreviewComponent } from './cart-item/cart-item-index-preview/cart-item-index-preview.component';
-
+import { OrderIndexComponent } from './order/order-index/order-index.component';
 
 
 @NgModule({
@@ -79,7 +78,6 @@ import { CartItemIndexPreviewComponent } from './cart-item/cart-item-index-previ
     PageNotFoundComponent,
     StoreAdministratorsComponent,
     CartItemIndexComponent,
-    CartItemIndexPreviewComponent,
     CharacteristicPaneComponent,
     AdministratingHomepageComponent,
     CategoryCreateUpdateComponent,
@@ -91,7 +89,8 @@ import { CartItemIndexPreviewComponent } from './cart-item/cart-item-index-previ
     BrandCreateUpdateComponent,
     MeasurementUnitIndexComponent,
     MeasurementUnitCreateUpdateComponent,
-    OrderCreateUpdateComponent,
+    OrderCreateComponent,
+    OrderIndexComponent,
   ],
   imports: [
     BrowserModule,

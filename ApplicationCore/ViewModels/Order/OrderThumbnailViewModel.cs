@@ -3,22 +3,27 @@ using System;
 
 namespace ApplicationCore.ViewModels
 {
-    public class OrderViewModel : EntityViewModel<Order>
+    public class OrderThumbnailViewModel : EntityViewModel<Order>
     {
-        public int StoreId { get; set; }
         public DateTime DateTimeCreated { get; set; }
         public DateTime DateTimeFinished { get; set; }
         public DateTime DateTimeCancelled { get; set; }
         public OrderStatus Status { get; set; }
         public decimal Sum { get; set; }
+        public ItemVariantViewModel ItemVariant { get; set; }
+        public StoreViewModel StoreViewModel { get; set; }
+        public int Number { get; set; }
 
-        public OrderViewModel() : base()
+
+        public OrderThumbnailViewModel() : base()
         {
         }
 
-        public OrderViewModel(Order order) : base(order)
+        public OrderThumbnailViewModel(Order order) : base(order)
         {
-            StoreId = order.StoreId;
+            ItemVariant = new ItemVariantViewModel(order.ItemVariant);
+            StoreViewModel = new StoreViewModel(order.ItemVariant.Item.Store);
+            Number = order.Number;
             DateTimeCreated = order.DateTimeCreated;
             DateTimeFinished = order.DateTimeFinished;
             DateTimeCancelled = order.DateTimeCancelled;
@@ -31,7 +36,8 @@ namespace ApplicationCore.ViewModels
             return new Order()
             {
                 Id = Id,
-                StoreId = StoreId,
+                ItemVariantId = ItemVariant.Id,
+                Number = Number,
                 DateTimeCreated = DateTimeCreated,
                 DateTimeFinished = DateTimeFinished,
                 DateTimeCancelled = DateTimeCancelled,
@@ -42,7 +48,8 @@ namespace ApplicationCore.ViewModels
 
         public override Order UpdateModel(Order modelToUpdate)
         {
-            modelToUpdate.Sum = modelToUpdate.Sum;
+            modelToUpdate.Sum = Sum;
+            modelToUpdate.Number = Number;
             return modelToUpdate;
         }
     }

@@ -24,7 +24,6 @@ namespace Infrastructure.Data
         public DbSet<ItemProperty> ItemProperties { get; set; }
         public DbSet<CartItem> CartItems { get; set; }
         public DbSet<Order> Orders { get; set; }
-        public DbSet<OrderItem> OrderItems { get; set; }
 
         public void DetachAllEntities()
         {
@@ -52,7 +51,6 @@ namespace Infrastructure.Data
             builder.Entity<ItemVariant>(ConfigureItemVariant);
             builder.Entity<ItemProperty>(ConfigureItemProperty);
             builder.Entity<Order>(ConfigureOrder);
-            builder.Entity<OrderItem>(ConfigureOrderItem);
             //builder.Entity<StoreAdministrator>(ConfigureStoreAdministrator);
         }
         private void ConfigureBrand(EntityTypeBuilder<Brand> builder)
@@ -145,10 +143,6 @@ namespace Infrastructure.Data
         private void ConfigureOrder(EntityTypeBuilder<Order> builder)
         {
             builder.ToTable(nameof(Order));
-        }
-        private void ConfigureOrderItem(EntityTypeBuilder<OrderItem> builder)
-        {
-            builder.ToTable(nameof(OrderItem));
         }
         //private void ConfigureStoreAdministrator(EntityTypeBuilder<StoreAdministrator> builder)
         //{

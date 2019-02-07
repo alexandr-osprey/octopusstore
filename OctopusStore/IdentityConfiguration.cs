@@ -100,12 +100,10 @@ namespace OctopusStore
             services.AddScoped<IAuthorizationHandler, StoreAuthorizationHandler>();
             services.AddScoped<IAuthorizationHandler, CartItemAuthorizationHandler>();
             services.AddScoped<IAuthorizationHandler, OrderAuthorizationHandler>();
-            services.AddScoped<IAuthorizationHandler, OrderItemAuthorizationHandler>();
 
             services.AddScoped(typeof(IAuthorizationParameters<>), typeof(AuthorizationParameters<>));
             services.AddScoped<IAuthorizationParameters<CartItem>, CartItemAuthorizationParameters>();
             services.AddScoped<IAuthorizationParameters<Order>, OrderAuthorizationParameters>();
-            services.AddScoped<IAuthorizationParameters<OrderItem>, OrderItemAuthorizationParameters>();
         }
     }
 }

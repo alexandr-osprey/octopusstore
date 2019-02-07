@@ -17,7 +17,6 @@
         public ItemProperties ItemProperties { get; }
         public ItemImages ItemImages { get; }
         public Orders Orders { get; }
-        public OrderItems OrderItems { get; }
         public Users Users { get; }
 
 
@@ -38,9 +37,7 @@
             CartItems = new CartItems(Context, ItemVariants);
             ItemProperties = new ItemProperties(Context, ItemVariants, CharacteristicValues);
             ItemImages = new ItemImages(Context, Items);
-            Orders = new Orders(Context, Stores);
-            OrderItems = new OrderItems(Context, Orders, ItemVariants);
-            Orders.RecalculateSums();
+            Orders = new Orders(Context, ItemVariants);
         }
     }
 }

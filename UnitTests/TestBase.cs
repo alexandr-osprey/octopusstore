@@ -89,7 +89,6 @@ namespace UnitTests
         {
             Services.AddSingleton(typeof(IAuthorizationParameters<>), typeof(AuthoriationParametersWithoutAuthorization<>));
             Services.AddScoped<IAuthorizationParameters<CartItem>, AuthoriationParametersWithoutAuthorization<CartItem>>();
-            Services.AddScoped<IAuthorizationParameters<OrderItem>, AuthoriationParametersWithoutAuthorization<OrderItem>>();
             Services.AddScoped<IAuthorizationParameters<Order>, AuthoriationParametersWithoutAuthorization<Order>>();
         }
 
@@ -148,7 +147,6 @@ namespace UnitTests
             Services.AddScoped<ICharacteristicsController, CharacteristicsController>();
             Services.AddScoped<ICharacteristicValuesController, CharacteristicValuesController>();
             Services.AddScoped<IOrdersController, OrdersController>();
-            Services.AddScoped<IOrderItemsController, OrderItemsController>();
             //Services.AddScoped<IOrderItemsController, OrderItemsController>();
 
             //ConfigureIdentity();

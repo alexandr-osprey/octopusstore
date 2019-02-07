@@ -23,98 +23,86 @@ namespace UnitTests.Services
         {
             return new List<Order>()
             {
-                new Order() { StoreId = Data.Stores.Johns.Id }
+                new Order() { ItemVariantId = Data.ItemVariants.Pebble1000mAh.Id,  Number = 1, Sum = 0 },
+                new Order() { ItemVariantId = Data.ItemVariants.Pebble1000mAh.Id,  Number = 2, Sum = 0 },
+                new Order() { ItemVariantId = Data.ItemVariants.JacketBlack.Id, Number = 2, Sum = 1 },
             };
+        }
+
+        protected override async Task AssertCreateSuccessAsync(Order created)
+        {
+            await base.AssertCreateSuccessAsync(created);
+            Assert.Equal(created.ItemVariant.Price * created.Number, created.Sum);
         }
 
         protected override IEnumerable<Order> GetIncorrectNewEntites()
         {
             return new List<Order>()
             {
-                new Order() { StoreId = 0 },
-                new Order() { StoreId = Data.Stores.Jennifers.Id, Sum = -324 }
+                //new Order() { ItemVariantId = Data.ItemVariants.JacketBlack.Id, Number = 2, Sum = -100 },
+
+                new Order() { ItemVariantId = Data.ItemVariants.IPhone664GB.Id, Number = 0, Sum = 100 },
+                new Order() { ItemVariantId = Data.ItemVariants.JacketBlack.Id, Number = -2, Sum = 100 },
+
+                new Order() { ItemVariantId = 9999, Number = 1, Sum = 111 },
             };
         }
 
         protected override Specification<Order> GetEntitiesToDeleteSpecification()
         {
-            return new Specification<Order>(b => b.StoreId == Data.Stores.Johns.Id);
+            return new Specification<Order>(b => b.Number > 1);
         }
 
         protected override IEnumerable<Order> GetCorrectEntitesForUpdate()
         {
             Data.Orders.JenInJohnsStore.Sum = 999;
+            Data.Orders.JenInJohnsStore.Number = 100;
             return new List<Order>() { Data.Orders.JenInJohnsStore };
         }
 
         protected override IEnumerable<Order> GetIncorrectEntitesForUpdate()
         {
             Data.Orders.JenInJohnsStore.Sum = -1;
-            Data.Orders.Jen2000.StoreId = Data.Stores.Johns.Id;
-            Data.Orders.John1000Cancelled.Status = OrderStatus.Created;
-            Data.Orders.John1000Finished.Status = OrderStatus.Cancelled;
+            Data.Orders.JenInJohnsStoreCancelled.Status = OrderStatus.Created;
+            Data.Orders.JenInJohnsStoreFinished.Status = OrderStatus.Cancelled;
+            Data.Orders.JohnInJohnsStore.Number = 0;
+            Data.Orders.JohnInJensStore.Number = -1;
+            Data.Orders.JenInJensStore.ItemVariantId = Data.ItemVariants.IPhone632GB.Id;
             return new List<Order>()
             {
                 Data.Orders.JenInJohnsStore,
-                Data.Orders.Jen2000,
-                Data.Orders.John1000Cancelled,
-                Data.Orders.John1000Finished
+                Data.Orders.JenInJohnsStoreCancelled,
+                Data.Orders.JenInJohnsStoreFinished,
+                Data.Orders.JohnInJohnsStore,
+                Data.Orders.JohnInJensStore,
+                Data.Orders.JenInJensStore
             };
-        }
-
-        [Fact]
-        public async Task RecalculateSumAsync()
-        {
-            var order = Data.Orders.JohnInJohnsStore;
-            decimal oldSum = (from o in order.OrderItems select o.ItemVariant.Price * o.Number).Sum();
-            await Context.OrderItems.AddAsync(new OrderItem()
-            {
-                ItemVariantId = Data.ItemVariants.Pebble1000mAh.Id,
-                Number = 2,
-                OrderId = order.Id
-            });
-            await Context.SaveChangesAsync();
-            decimal addedSum = Data.ItemVariants.Pebble1000mAh.Price * 2;
-            await Service.RecalculateSumAsync(order.Id);
-            Assert.Equal(oldSum + addedSum, order.Sum);
-        }
-
-        [Fact]
-        public async Task DeleteSingleWithRelatedRelinkAsync()
-        {
-            var order = Data.Orders.John1000;
-            int idToRelinkTo = Data.Orders.Jen2000.Id;
-            var orderItems = Data.OrderItems.Entities.Where(i => i.Order == order).ToList();
-            await Service.DeleteSingleWithRelatedRelink(order.Id, idToRelinkTo);
-            orderItems.ForEach(i => Assert.Equal(i.OrderId, idToRelinkTo));
-            Assert.False(Context.Set<Order>().Any(b => b == order));
         }
 
         [Fact]
         public async Task SetOrderFinishedStatusAsync()
         {
-            var order = Data.Orders.John1000;
+            var order = Data.Orders.JohnInJensStore;
             var cancelledStatusTime = DateTime.UtcNow;
-            await Service.SetStatusAsync(order.Id, OrderStatus.Cancelled);
-            Assert.True(order.DateTimeCancelled >= cancelledStatusTime);
-            Assert.Equal(OrderStatus.Cancelled, order.Status);
+            await Service.SetStatusAsync(order.Id, OrderStatus.Finished);
+            Assert.True(order.DateTimeFinished >= cancelledStatusTime);
+            Assert.Equal(OrderStatus.Finished, order.Status);
         }
 
         [Fact]
         public async Task SetOrderCancelledStatusAsync()
         {
-            var order = Data.Orders.John1000;
+            var order = Data.Orders.JohnInJensStore;
             var finishedStatusTime = DateTime.UtcNow;
-            await Service.SetStatusAsync(order.Id, OrderStatus.Finished);
-            Assert.True(order.DateTimeFinished >= finishedStatusTime);
-            Assert.Equal(OrderStatus.Finished, order.Status);
+            await Service.SetStatusAsync(order.Id, OrderStatus.Cancelled);
+            Assert.True(order.DateTimeCancelled >= finishedStatusTime);
+            Assert.Equal(OrderStatus.Cancelled, order.Status);
         }
 
         [Fact]
         public async Task TryToSetOrderStatusFromCancelledAsync()
         {
-            var order = Data.Orders.John1000;
-            await Service.SetStatusAsync(order.Id, OrderStatus.Cancelled);
+            var order = Data.Orders.JenInJohnsStoreCancelled;
             await Assert.ThrowsAsync<EntityValidationException>(() => Service.SetStatusAsync(order.Id, OrderStatus.Created));
             await Assert.ThrowsAsync<EntityValidationException>(() => Service.SetStatusAsync(order.Id, OrderStatus.Finished));
             await Assert.ThrowsAsync<EntityValidationException>(() => Service.SetStatusAsync(order.Id, OrderStatus.Cancelled));
@@ -123,7 +111,7 @@ namespace UnitTests.Services
         [Fact]
         public async Task TryToSetOrderStatusFromFinishedAsync()
         {
-            var order = Data.Orders.John1000;
+            var order = Data.Orders.JenInJohnsStoreFinished;
             await Service.SetStatusAsync(order.Id, OrderStatus.Finished);
             await Assert.ThrowsAsync<EntityValidationException>(() => Service.SetStatusAsync(order.Id, OrderStatus.Created));
             await Assert.ThrowsAsync<EntityValidationException>(() => Service.SetStatusAsync(order.Id, OrderStatus.Finished));

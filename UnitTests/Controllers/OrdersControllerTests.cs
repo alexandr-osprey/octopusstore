@@ -66,10 +66,15 @@ namespace UnitTests.Controllers
         {
             return new List<Order>()
             {
-                new Order() { StoreId = Data.Stores.Jennifers.Id }
+                new Order() { ItemVariantId = Data.ItemVariants.JacketBlack.Id, Number = 1 }
             };
         }
 
+        protected override Task AssertCreateSuccessAsync(OrderViewModel expected, OrderViewModel actual)
+        {
+            expected.Sum = Data.ItemVariants.Entities.First(v => v.Id == expected.ItemVariantId).Price * expected.Number;
+            return base.AssertCreateSuccessAsync(expected, actual);
+        }
         //protected override async Task AssertCreateSuccessAsync(OrderViewModel expected, OrderViewModel actual)
         //{
         //    var createdOrder = await Context.Set<Order>()
@@ -88,9 +93,9 @@ namespace UnitTests.Controllers
 
         protected override IEnumerable<OrderViewModel> GetCorrectViewModelsToUpdate()
         {
-            var order = Data.Orders.Jen2000;
+            var order = Data.Orders.JohnInJensStore;
             order.Sum = 999;
-            var order2 = Data.Orders.John1000;
+            var order2 = Data.Orders.JenInJensStore;
             order2.Status = OrderStatus.Cancelled;
             return new List<OrderViewModel>()
             {
@@ -104,7 +109,8 @@ namespace UnitTests.Controllers
             return new OrderViewModel()
             {
                 Id = entity.Id,
-                StoreId = entity.StoreId,
+                ItemVariantId = entity.ItemVariantId,
+                Number = entity.Number,
                 DateTimeCancelled = entity.DateTimeCancelled,
                 DateTimeCreated = entity.DateTimeCreated,
                 DateTimeFinished = entity.DateTimeFinished,

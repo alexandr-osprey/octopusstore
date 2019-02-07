@@ -32,7 +32,7 @@ export class ItemThumbnailsComponent implements OnInit, OnDestroy {
     );
   }
   error: string;
-  navigationSubscription;
+  //navigationSubscription;
 
   initializeComponent() {
     //this.parameterService.clearParams();

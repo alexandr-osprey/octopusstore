@@ -20,6 +20,9 @@ import { CharacteristicValueCreateUpdateComponent } from './characteristic-value
 import { BrandCreateUpdateComponent } from './brand/brand-create-update/brand-create-update.component';
 import { MeasurementUnitCreateUpdateComponent } from './measurement-unit/measurement-unit-create-update/measurement-unit-create-update.component';
 import { CartItemIndexComponent } from './cart-item/cart-item-index/cart-item-index.component';
+import { OrderCreateComponent } from './order/order-create/order-create.component';
+import { OrderIndexComponent } from './order/order-index/order-index.component';
+import { SignedInAuthorizationGuard } from './guards/signed-in-authorization-guard';
 
 
 const routes: Routes = [
@@ -137,10 +140,6 @@ const routes: Routes = [
     component: MeasurementUnitCreateUpdateComponent,
   },
   {
-    path: 'stores',
-    component: StoreIndexComponent,
-  },
-  {
     path: 'stores/create',
     component: StoreCreateUpdateComponent,
     pathMatch: 'full',
@@ -152,6 +151,29 @@ const routes: Routes = [
     pathMatch: 'full',
     canActivate: [CreateUpdateAuthorizationGuard],
   },
+  {
+    path: 'stores',
+    component: StoreIndexComponent,
+    canActivate: [CreateUpdateAuthorizationGuard],
+  },
+  {
+    path: 'orders/create',
+    component: OrderCreateComponent,
+    pathMatch: 'full',
+    canActivate: [CreateUpdateAuthorizationGuard],
+  },
+  {
+    path: 'orders',
+    //pathMatch: 'full',
+    component: OrderIndexComponent,
+    canActivate: [SignedInAuthorizationGuard],
+  },
+  //{
+  //  path: 'orders/:id/update',
+  //  component: OrderCreateComponent,
+  //  pathMatch: 'full',
+  //  canActivate: [CreateUpdateAuthorizationGuard],
+  //},
   {
     path: 'stores/:id/administrators',
     component: StoreAdministratorsComponent,
@@ -170,6 +192,6 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes, {
     onSameUrlNavigation: 'reload' })],
   exports: [RouterModule],
-  providers: [CreateUpdateAuthorizationGuard, AdministratorAuthorizationGuard]
+  providers: [CreateUpdateAuthorizationGuard, SignedInAuthorizationGuard, AdministratorAuthorizationGuard]
 })
 export class AppRoutingModule { }

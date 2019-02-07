@@ -13,15 +13,15 @@ namespace ApplicationCore.Entities
 
     public class Order : Entity, IGenericMemberwiseClonable<Order>
     {
-        public int StoreId { get; set; }
         public DateTime DateTimeCreated { get; set; }
         public DateTime DateTimeFinished { get; set; }
         public DateTime DateTimeCancelled { get; set; }
         public OrderStatus Status { get; set; }
         public decimal Sum { get; set; }
+        public int ItemVariantId { get; set; }
+        public int Number { get; set; }
 
-        public Store Store { get; set; }
-        public ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
+        public ItemVariant ItemVariant { get; set; }
 
         public Order() : base()
         {
@@ -29,8 +29,15 @@ namespace ApplicationCore.Entities
             DateTimeCreated = DateTime.UtcNow;
         }
 
+        public Order(CartItem cartItem) : this()
+        {
+            ItemVariantId = cartItem.ItemVariantId;
+            Number = cartItem.Number;
+        }
+
         public bool Equals(Order order) => base.Equals(order)
-            && StoreId == order.StoreId
+            && ItemVariantId == order.ItemVariantId
+            && Number == order.Number
             && DateTimeCreated == order.DateTimeCreated
             && DateTimeFinished == order.DateTimeFinished
             && DateTimeCancelled == order.DateTimeCancelled
@@ -41,7 +48,8 @@ namespace ApplicationCore.Entities
 
         protected Order(Order order) : base(order)
         {
-            StoreId = order.StoreId;
+            ItemVariantId = order.ItemVariantId;
+            Number = order.Number;
             DateTimeCreated = order.DateTimeCreated;
             DateTimeFinished = order.DateTimeFinished;
             DateTimeCancelled = order.DateTimeCancelled;
