@@ -35,14 +35,18 @@ namespace OctopusStore.Controllers
         public override async Task<OrderViewModel> ReadAsync(int id) => await base.ReadAsync(id);
 
         [HttpGet("thumbnails/")]
-        public async Task<IndexViewModel<OrderThumbnailViewModel>> IndexThumbnailsAsync(int? page, int? pageSize, int? storeId, OrderStatus? orderStatus, string ownerId) =>
-             await base.IndexAsync<OrderThumbnailViewModel>(new OrderThumbnailIndexSpecification(page ?? 1, pageSize ?? DefaultTake, storeId, orderStatus, ownerId));
+        public async Task<IndexViewModel<OrderThumbnailViewModel>> IndexThumbnailsAsync(int? page, int? pageSize, int? storeId, OrderStatus? orderStatus)
+        {
+            var spec = new OrderThumbnailIndexSpecification(await Service.GetSpecificationAccordingToAuthorizationAsync(page ?? 1, pageSize ?? DefaultTake, storeId, orderStatus));
+            return await base.IndexAsync<OrderThumbnailViewModel>(spec);
+        }
 
-        [HttpGet]
-        public async Task<IndexViewModel<OrderViewModel>> IndexAsync(int? page, int? pageSize, int? storeId, OrderStatus? orderStatus, string ownerId) =>
-            //if (!await Service.IdentityService.IsContentAdministratorAsync(ScopedParameters.ClaimsPrincipal.Identity.Name))
-            //    ownerId = ScopedParameters.ClaimsPrincipal.Identity.Name;
-            await base.IndexAsync(new OrderIndexSpecification(page ?? 1, pageSize ?? DefaultTake, storeId, orderStatus, ownerId));
+        [HttpGet()]
+        public async Task<IndexViewModel<OrderViewModel>> IndexAsync(int? page, int? pageSize, int? storeId, OrderStatus? orderStatus)
+        {
+            var spec = await Service.GetSpecificationAccordingToAuthorizationAsync(page ?? 1, pageSize ?? DefaultTake, storeId, orderStatus);
+            return await base.IndexAsync<OrderViewModel>(spec);
+        }
 
         [HttpPut]
         public override async Task<OrderViewModel> UpdateAsync([FromBody]OrderViewModel orderViewModel) => await base.UpdateAsync(orderViewModel);

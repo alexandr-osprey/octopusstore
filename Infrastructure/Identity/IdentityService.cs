@@ -151,6 +151,17 @@ namespace Infrastructure.Identity
             return result;
         }
 
+        public async Task<bool> HasClaimAsync(string userId, string claimType, string claimValue)
+        {
+            if (userId == null)
+                throw new ArgumentNullException(nameof(userId));
+            if (claimType == null)
+                throw new ArgumentNullException(nameof(claimType));
+            if (claimValue == null)
+                throw new ArgumentNullException(nameof(claimValue));
+            return await HasClaimAsync(userId, new Claim(claimType, claimValue));
+        }
+
         public Task<bool> IsContentAdministratorAsync(string userId)
         {
             return HasClaimAsync(userId, new Claim(CustomClaimTypes.Administrator, CustomClaimValues.Content));

@@ -33,7 +33,7 @@ namespace Infrastructure.Services
             await base.ValidationWithExceptionAsync(entity);
             entity.RegistrationDate = DateTime.Now;
             var store = await base.CreateAsync(entity);
-            await IdentityService.AddClaim(entity.OwnerId, new Claim(entity.OwnerId, entity.Id.ToString()));
+            await IdentityService.AddClaim(entity.OwnerId, new Claim(CustomClaimTypes.StoreAdministrator, entity.Id.ToString()));
             return store;
         }
 

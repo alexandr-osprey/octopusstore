@@ -98,5 +98,24 @@ namespace Infrastructure.Services
                             ?? throw new EntityValidationException($"Item variant {order.ItemVariantId} not found");
             return itemVariant;
         }
+
+        public async Task<OrderIndexSpecification> GetSpecificationAccordingToAuthorizationAsync(int page, int pageSize, int? storeId, OrderStatus? orderStatus)
+        {
+            string ownerId = null;
+            string currentUserId = ScopedParameters.ClaimsPrincipal.Identity.Name;
+            if (!storeId.HasValue)
+            {
+                ownerId = ScopedParameters.ClaimsPrincipal.Identity.Name;
+            }
+            else
+            {
+                if (!(await IdentityService.IsStoreAdministratorAsync(currentUserId, storeId.Value)
+                        || await IdentityService.IsContentAdministratorAsync(currentUserId)))
+                {
+                    throw new AuthorizationException("Current user has no authorization to read orders from this store");
+                }
+            }
+            return new OrderIndexSpecification(page, pageSize, storeId, orderStatus, ownerId);
+        }
     }
 }

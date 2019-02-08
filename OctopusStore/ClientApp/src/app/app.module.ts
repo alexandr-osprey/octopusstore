@@ -30,7 +30,6 @@ import { DefaultErrorHandler } from './error-handlers/default-error-handler';
 import { IdentitySignOutComponent } from './identity/identity-sign-out/identity-sign-out.component';
 import { IdentitySignUpComponent } from './identity/identity-sing-up/identity-sign-up.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { StoreAdministratorsComponent } from './store/store-administrators/store-administrators.component';
 import { CharacteristicPaneComponent } from './navigation/characteristic-pane/characteristic-pane.component';
 import { AdministratingHomepageComponent } from './administrating/administrating-homepage/administrating-homepage.component';
 import { CategoryCreateUpdateComponent } from './category/category-create-update/category-create-update.component';
@@ -76,7 +75,6 @@ import { OrderThumbnailIndexComponent } from './order/order-thumbnail-index/orde
     IdentitySignInComponent,
     IdentitySignOutComponent,
     PageNotFoundComponent,
-    StoreAdministratorsComponent,
     CartItemThumbnailIndexComponent,
     CharacteristicPaneComponent,
     AdministratingHomepageComponent,

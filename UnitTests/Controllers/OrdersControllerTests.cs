@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using ApplicationCore.Entities;
+using ApplicationCore.Exceptions;
 using ApplicationCore.Interfaces.Controllers;
 using ApplicationCore.Interfaces.Services;
 using ApplicationCore.ViewModels;
@@ -25,7 +26,7 @@ namespace UnitTests.Controllers
             int pageSize = 3;
             Controller.ScopedParameters.ClaimsPrincipal = Users.JenniferPrincipal;
 
-            var actual = await Controller.IndexAsync(page, pageSize, null, null, null);
+            var actual = await Controller.IndexAsync(page, pageSize, null, null);
             var orders = Data.Orders.Entities.Where(o => o.OwnerId == Users.JenniferId);
             int totalCount = orders.Count();
             orders = orders.Skip(pageSize * (page - 1)).Take(pageSize);
@@ -38,20 +39,22 @@ namespace UnitTests.Controllers
             Equal(expected, actual);
 
             // try to index as user someoneelse's orders
-            var actual2 = await Controller.IndexAsync(page, pageSize, null, null, Users.JohnId);
+            var actual2 = await Controller.IndexAsync(page, pageSize, null, null);
             Equal(expected, actual2);
         }
 
         [Fact]
-        public async Task IndexAdminWithoutFiltersAsync()
+        public async Task IndexStoreAsContentAdminWithoutFiltersAsync()
         {
-            int page = 2;
+            int page = 1;
             int pageSize = 3;
+            int storeId = Data.Stores.Johns.Id;
             Controller.ScopedParameters.ClaimsPrincipal = Users.AdminPrincipal;
 
-            var actual = await Controller.IndexAsync(page, pageSize, null, null, null);
-            int totalCount = Data.Orders.Entities.Count();
-            var orders = Data.Orders.Entities.Skip(pageSize * (page - 1)).Take(pageSize);
+            var actual = await Controller.IndexAsync(page, pageSize, storeId, null);
+            var ordersTotal = Data.Orders.Entities.Where(o => o.ItemVariant.Item.StoreId == storeId);
+            var orders = ordersTotal.Skip(pageSize * (page - 1)).Take(pageSize);
+            int totalCount = ordersTotal.Count();
 
             var expected = new IndexViewModel<OrderViewModel>(
                 page,
@@ -61,6 +64,34 @@ namespace UnitTests.Controllers
             Equal(expected, actual);
         }
 
+        [Fact]
+        public async Task IndexStoreAsStoreAdminWithoutFiltersAsync()
+        {
+            int page = 1;
+            int pageSize = 3;
+            int storeId = Data.Stores.Johns.Id;
+            Controller.ScopedParameters.ClaimsPrincipal = Users.JohnPrincipal;
+
+            var actual = await Controller.IndexAsync(page, pageSize, storeId, null);
+            var ordersTotal = Data.Orders.Entities.Where(o => o.ItemVariant.Item.StoreId == storeId);
+            var orders = ordersTotal.Skip(pageSize * (page - 1)).Take(pageSize);
+            int totalCount = ordersTotal.Count();
+
+            var expected = new IndexViewModel<OrderViewModel>(
+                page,
+                GetPageCount(totalCount, pageSize),
+                totalCount,
+                from i in orders select new OrderViewModel(i));
+            Equal(expected, actual);
+        }
+
+        [Fact]
+        public virtual async Task IndexNotOwnOrdersAsAdminThrowsAuthorizationExceptionAsync()
+        {
+            int storeId = Data.Stores.Johns.Id;
+            Controller.ScopedParameters.ClaimsPrincipal = Users.JenniferPrincipal;
+            await Assert.ThrowsAsync<AuthorizationException>(() => Service.GetSpecificationAccordingToAuthorizationAsync(1, 1, storeId, null));
+        }
 
         protected override IEnumerable<Order> GetCorrectEntitiesToCreate()
         {

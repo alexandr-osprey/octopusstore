@@ -58,6 +58,7 @@ namespace ApplicationCore.Identity
         /// <returns></returns>
         Task<bool> AuthorizeAsync(ClaimsPrincipal claimsPrincipal, object obj, OperationAuthorizationRequirement authorizationRequirement, bool throwExcpetion = false);
         Task<bool> HasClaimAsync(string userId, Claim claim);
+        Task<bool> HasClaimAsync(string userId, string claimType, string claimValue);
         Task<bool> IsStoreAdministratorAsync(string userId, int storeId);
         Task<bool> IsContentAdministratorAsync(string userId);
         Task AddClaim(string id, Claim claim);

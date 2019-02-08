@@ -144,11 +144,5 @@ namespace Infrastructure.Data
         {
             builder.ToTable(nameof(Order));
         }
-        //private void ConfigureStoreAdministrator(EntityTypeBuilder<StoreAdministrator> builder)
-        //{
-        //    //builder.HasKey(t => new { t.AdministratorId, t.StoreId });
-        //    builder.Property(t => t.AdministratorId).IsRequired();
-        //    builder.Property(t => t.StoreId).IsRequired();
-        //}
     }
 }

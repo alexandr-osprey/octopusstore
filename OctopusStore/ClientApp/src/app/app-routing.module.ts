@@ -11,7 +11,6 @@ import { IdentitySignInComponent } from './identity/identity-sign-in/identity-si
 import { CreateUpdateAuthorizationGuard } from './guards/create-update-authorization-guard';
 import { IdentitySignUpComponent } from './identity/identity-sing-up/identity-sign-up.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { StoreAdministratorsComponent } from './store/store-administrators/store-administrators.component';
 import { AdministratingHomepageComponent } from './administrating/administrating-homepage/administrating-homepage.component';
 import { AdministratorAuthorizationGuard } from './guards/administrator-authorization-guard';
 import { CategoryCreateUpdateComponent } from './category/category-create-update/category-create-update.component';
@@ -167,18 +166,6 @@ const routes: Routes = [
     //pathMatch: 'full',
     component: OrderThumbnailIndexComponent,
     canActivate: [SignedInAuthorizationGuard],
-  },
-  //{
-  //  path: 'orders/:id/update',
-  //  component: OrderCreateComponent,
-  //  pathMatch: 'full',
-  //  canActivate: [CreateUpdateAuthorizationGuard],
-  //},
-  {
-    path: 'stores/:id/administrators',
-    component: StoreAdministratorsComponent,
-    pathMatch: 'full',
-    canActivate: [CreateUpdateAuthorizationGuard],
   },
   {
     path: 'stores/:id/detail',
