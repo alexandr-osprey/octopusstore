@@ -15,15 +15,13 @@ namespace Infrastructure.Identity
         {
         }
 
-        protected override async Task<Store> GetStoreEntityAsync(ItemProperty entity)
+        protected override async Task<int> GetStoreIdAsync(ItemProperty entity)
         {
             var itemVariant = await _storeContext
                 .Set<ItemVariant>()
-                .Where(v => v.Id == entity.ItemVariantId)
                 .Include(v => v.Item)
-                        .ThenInclude(i => i.Store)
-                .FirstAsync();
-            return itemVariant.Item.Store;
+                .FirstAsync(v => v.Id == entity.ItemVariantId);
+            return itemVariant.Item.StoreId;
         }
     }
 }

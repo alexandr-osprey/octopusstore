@@ -19,37 +19,25 @@ namespace Infrastructure.Identity
             _storeContext = storeContext;
         }
 
-        protected async override Task HandleRequirementAsync(
-            AuthorizationHandlerContext context,
-            OperationAuthorizationRequirement requirement,
-            T entity)
-        {
-            await base.HandleRequirementAsync(context, requirement, entity);
-            if (!context.HasSucceeded)
-            {
-                if (await IsStoreAdministrator(context, requirement, entity))
-                {
-                    context.Succeed(requirement);
-                }
-            }
-        }
+        protected override async Task<bool> CreateAsync(AuthorizationHandlerContext context, T entity) => await base.CreateAsync(context, entity) || await IsStoreAdministratorAsync(context, entity);
+        protected override async Task<bool> UpdateAsync(AuthorizationHandlerContext context, T entity) => await base.UpdateAsync(context, entity) || await IsStoreAdministratorAsync(context, entity);
+        protected override async Task<bool> DeleteAsync(AuthorizationHandlerContext context, T entity) => await base.DeleteAsync(context, entity) || await IsStoreAdministratorAsync(context, entity);
 
-        public async Task<bool> IsStoreAdministrator(
+        public async Task<bool> IsStoreAdministratorAsync(
             AuthorizationHandlerContext context,
-            OperationAuthorizationRequirement requirement,
             T entity)
         {
             if (context.User == null)
                 return false;
 
-            Store store = await GetStoreEntityAsync(entity);
-            if (context.User.HasClaim(CustomClaimTypes.StoreAdministrator, store.Id.ToString()))
+            int storeId = await GetStoreIdAsync(entity);
+            if (context.User.HasClaim(CustomClaimTypes.StoreAdministrator, storeId.ToString()))
                 return true;
 
             return false;
         }
 
-        protected abstract Task<Store> GetStoreEntityAsync(T entity);
+        protected abstract Task<int> GetStoreIdAsync(T entity);
 
         protected override async Task<bool> ValidateRightsOnEntityPropertiesAsync(AuthorizationHandlerContext context,
                                     OperationAuthorizationRequirement requirement,
@@ -58,8 +46,8 @@ namespace Infrastructure.Identity
             if (base.IsContentAdministrator(context.User))
                 return true;
             bool result = false;
-            Store store = await GetStoreEntityAsync(entity);
-            if (store.OwnerId == context.User.Identity.Name || context.User.HasClaim(CustomClaimTypes.StoreAdministrator, store.Id.ToString()))
+            int storeId = await GetStoreIdAsync(entity);
+            if (context.User.HasClaim(CustomClaimTypes.StoreAdministrator, storeId.ToString()))
                 result = true;
 
             return result;

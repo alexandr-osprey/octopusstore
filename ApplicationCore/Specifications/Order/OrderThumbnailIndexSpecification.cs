@@ -6,7 +6,7 @@ namespace ApplicationCore.Specifications
     {
         public OrderThumbnailIndexSpecification(OrderIndexSpecification orderIndexSpecification) : base(orderIndexSpecification)
         {
-
+            SetIncludes();
         }
 
         public OrderThumbnailIndexSpecification(int pageIndex, int pageSize, int? storeId, OrderStatus? orderStatus, string ownerId)

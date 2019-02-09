@@ -14,11 +14,10 @@ namespace Infrastructure.Identity
         {
         }
 
-        protected override async Task<Store> GetStoreEntityAsync(ItemImage itemImage)
+        protected override async Task<int> GetStoreIdAsync(ItemImage itemImage)
         {
-            var spec = new EntitySpecification<Item>((i => i.Id == itemImage.RelatedId), (i => i.Store));
-            var item = await _storeContext.ReadSingleBySpecAsync(_logger, spec, true);
-            return item.Store;
+            var item = await _storeContext.ReadSingleBySpecAsync(_logger, new EntitySpecification<Item>(itemImage.RelatedId), true);
+            return item.StoreId;
         }
     }
 }

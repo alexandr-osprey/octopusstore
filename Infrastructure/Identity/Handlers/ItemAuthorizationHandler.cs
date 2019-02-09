@@ -13,9 +13,6 @@ namespace Infrastructure.Identity
         {
         }
 
-        protected override async Task<Store> GetStoreEntityAsync(Item item)
-        {
-            return await _storeContext.ReadByKeyAsync<Store, IAuthorziationHandler<Item>>(_logger, item.StoreId, true);
-        }
+        protected override Task<int> GetStoreIdAsync(Item item) => Task.FromResult(item.StoreId);
     }
 }

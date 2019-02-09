@@ -27,9 +27,8 @@ export class OrderService extends DataReadWriteService<Order> {
     this.serviceName = 'Orders service';
   }
 
-  public indexThumbnails(): Observable<EntityIndex<OrderThumbnail>> {
-    // TO DO implement normal filtering!
-    this.parameterService.navigateWithUpdatedParams(["ownerId", this.identityService.currentUserEmail]);
+  public indexThumbnails(storeId: number): Observable<EntityIndex<OrderThumbnail>> {
+    this.parameterService.navigateWithUpdatedParams([ParameterNames.storeId, storeId]);
     return this.getCustom<EntityIndex<OrderThumbnail>>(
       this.getUrlWithParameter(ParameterNames.thumbnails),
       this.parameterService.getParams(),

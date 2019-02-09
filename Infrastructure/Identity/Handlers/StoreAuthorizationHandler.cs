@@ -13,9 +13,6 @@ namespace Infrastructure.Identity
         {
         }
 
-        protected override Task<Store> GetStoreEntityAsync(Store entity)
-        {
-            return Task.FromResult(entity);
-        }
+        protected override Task<int> GetStoreIdAsync(Store store) => Task.FromResult(store.Id);
     }
 }

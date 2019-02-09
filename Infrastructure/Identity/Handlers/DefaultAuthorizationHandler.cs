@@ -22,7 +22,7 @@ namespace Infrastructure.Identity
 
         protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, OperationAuthorizationRequirement requirement, T entity)
         {
-            if (DefaultChecks(context, requirement, entity))
+            if (await DefaultChecksAsync(context, requirement, entity))
             {
                 // check entity validity on create and update operations
                 if ((requirement.Name == Operations.Create || requirement.Name == Operations.Update))
@@ -37,47 +37,42 @@ namespace Infrastructure.Identity
             }
         }
 
-        protected bool DefaultChecks(AuthorizationHandlerContext context, OperationAuthorizationRequirement requirement, T entity)
+        protected async Task<bool> DefaultChecksAsync(AuthorizationHandlerContext context, OperationAuthorizationRequirement requirement, T entity)
         {
-            return ReadAny(context, requirement)
-                    || CreateAuthorized(context, requirement)
-                    || UpdateDeleteOwner(context, requirement, entity)
-                    || UpdateDeleteContentAdministrator(context, requirement);
+            switch(requirement.Name)
+            {
+                case Operations.Read:
+                    return await ReadAsync(context, entity);
+                case Operations.Create:
+                    return await CreateAsync(context, entity);
+                case Operations.Update:
+                    return await UpdateAsync(context, entity);
+                case Operations.Delete:
+                    return await DeleteAsync(context, entity);
+                default:
+                    return false;
+            }
         }
 
-        public bool ReadAny(AuthorizationHandlerContext context, OperationAuthorizationRequirement requirement)
-        {
-            if (requirement.Name == Operations.Read)
-                return true;
-            return false;
-        }
+        protected virtual Task<bool> ReadAsync(AuthorizationHandlerContext context, T entity) => Task.FromResult(true);
+        protected virtual Task<bool> CreateAsync(AuthorizationHandlerContext context, T entity) => Task.FromResult(IsAuthenticated(context));
+        protected virtual Task<bool> UpdateAsync(AuthorizationHandlerContext context, T entity) => Task.FromResult(IsAuthenticated(context) && (IsOwner(context, entity) || IsContentAdministrator(context)));
+        protected virtual Task<bool> DeleteAsync(AuthorizationHandlerContext context, T entity) => Task.FromResult(IsAuthenticated(context) && (IsOwner(context, entity) || IsContentAdministrator(context)));
 
-        public bool CreateAuthorized(AuthorizationHandlerContext context, OperationAuthorizationRequirement requirement)
-        {
-            if (requirement.Name == Operations.Create 
-                && context.User != null)
-                return true;
-            return false;
-        }
+        protected virtual bool ReadAny(AuthorizationHandlerContext context, OperationAuthorizationRequirement requirement) => true;
 
-        public bool UpdateDeleteOwner(AuthorizationHandlerContext context, OperationAuthorizationRequirement requirement, T entity)
+        protected virtual bool IsAuthenticated(AuthorizationHandlerContext context) => context?.User != null;
+
+        protected virtual bool IsOwner(AuthorizationHandlerContext context, T entity)
         {
-            if (!(requirement.Name == Operations.Update || requirement.Name == Operations.Delete)
-                || context.User == null)
+            if (context?.User == null)
                 return false;
             if (entity.OwnerId == _userManager.GetUserId(context.User))
                 return true;
             return false;
         }
 
-        public bool UpdateDeleteContentAdministrator(AuthorizationHandlerContext context, OperationAuthorizationRequirement requirement)
-        {
-            if (!(requirement.Name == Operations.Update || requirement.Name == Operations.Delete))
-                return false;
-            return IsContentAdministrator(context.User);
-        }
-
-
+        protected virtual bool IsContentAdministrator(AuthorizationHandlerContext context) => IsContentAdministrator(context?.User);
 
         /// <summary>
         /// Ensures that a user allowed set properites of an entity.
@@ -86,10 +81,7 @@ namespace Infrastructure.Identity
         /// <param name="requirement"></param>
         /// <param name="entity"></param>
         /// <returns></returns>
-        protected virtual async Task<bool> ValidateRightsOnEntityPropertiesAsync(AuthorizationHandlerContext context, OperationAuthorizationRequirement requirement, T entity)
-        {
-            return await Task.FromResult(true);
-        }
+        protected virtual async Task<bool> ValidateRightsOnEntityPropertiesAsync(AuthorizationHandlerContext context, OperationAuthorizationRequirement requirement, T entity) => await Task.FromResult(true);
 
         protected bool IsContentAdministrator(ClaimsPrincipal claimsPrincipal)
         {

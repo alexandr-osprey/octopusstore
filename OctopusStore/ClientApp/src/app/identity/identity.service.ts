@@ -196,6 +196,11 @@ export class IdentityService {
     return contentAdministrator;
   }
 
+  public isStoreAdministrator(storeId: number): boolean {
+    let stores = this.getUserAdministredStoreIds();
+    return stores.includes(storeId);
+  }
+
   protected signInFailed(errorResponse: HttpErrorResponse): void {
   //  console.log("signInFailed enter");
     //this.router.navigate(['signIn']);

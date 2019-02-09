@@ -34,6 +34,10 @@ namespace OctopusStore.Controllers
         [HttpGet("{id:int}")]
         public override async Task<OrderViewModel> ReadAsync(int id) => await base.ReadAsync(id);
 
+        [AllowAnonymous]
+        [HttpGet("{id:int}/detail")]
+        public async Task<OrderDetailViewModel> ReadDetailAsync(int id) => await base.ReadDetailAsync<OrderDetailViewModel>(new OrderDetailSpecification(id));
+
         [HttpGet("thumbnails/")]
         public async Task<IndexViewModel<OrderThumbnailViewModel>> IndexThumbnailsAsync(int? page, int? pageSize, int? storeId, OrderStatus? orderStatus)
         {
