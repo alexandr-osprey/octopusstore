@@ -10,6 +10,7 @@ namespace ApplicationCore.Interfaces
         /// <summary>
         /// Specifies the user for whom authorization for operation should be checked
         /// </summary>
-        ClaimsPrincipal ClaimsPrincipal { get; set; }
+        ClaimsPrincipal ClaimsPrincipal { get; }
+        string CurrentUserId { get; }
     }
 }

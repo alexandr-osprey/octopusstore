@@ -5,7 +5,8 @@ namespace Infrastructure
 {
     public class ScopedParameters: IScopedParameters
     {
-        public ClaimsPrincipal ClaimsPrincipal { get; set; }
+        public ClaimsPrincipal ClaimsPrincipal { get; }
+        public string CurrentUserId => ClaimsPrincipal?.Identity?.Name;
 
         public ScopedParameters()
         {

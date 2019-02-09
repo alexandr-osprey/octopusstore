@@ -44,8 +44,7 @@ namespace Infrastructure.Services
         public virtual async Task<TEntity> CreateAsync(TEntity entity)
         {
             await ValidationWithExceptionAsync(entity);
-            entity.OwnerId = ScopedParameters.ClaimsPrincipal?.Identity?.Name
-                ?? throw new Exception("User identity not provided for entity creation");
+            entity.OwnerId = ScopedParameters.CurrentUserId ?? throw new Exception("User identity not provided for entity creation");
             await ValidateCustomUniquinessWithException(entity);
             if (AuthoriationParameters.CreateAuthorizationRequired)
                 await AuthorizeWithException(entity, AuthoriationParameters.CreateOperationRequirement);

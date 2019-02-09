@@ -102,15 +102,12 @@ namespace Infrastructure.Services
         public async Task<OrderIndexSpecification> GetSpecificationAccordingToAuthorizationAsync(int page, int pageSize, int? storeId, OrderStatus? orderStatus)
         {
             string ownerId = null;
-            string currentUserId = ScopedParameters.ClaimsPrincipal.Identity.Name;
             if (!storeId.HasValue)
-            {
-                ownerId = ScopedParameters.ClaimsPrincipal.Identity.Name;
-            }
+                ownerId = ScopedParameters.CurrentUserId;
             else
             {
-                if (!(await IdentityService.IsStoreAdministratorAsync(currentUserId, storeId.Value)
-                        || await IdentityService.IsContentAdministratorAsync(currentUserId)))
+                if (!(await IdentityService.IsStoreAdministratorAsync(ScopedParameters.CurrentUserId, storeId.Value)
+                        || await IdentityService.IsContentAdministratorAsync(ScopedParameters.CurrentUserId)))
                 {
                     throw new AuthorizationException("Current user has no authorization to read orders from this store");
                 }

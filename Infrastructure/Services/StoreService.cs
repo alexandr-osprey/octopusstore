@@ -37,6 +37,13 @@ namespace Infrastructure.Services
             return store;
         }
 
+        protected override async Task ValidateCustomUniquinessWithException(Store store)
+        {
+            await base.ValidateCustomUniquinessWithException(store);
+            if (await Context.ExistsBySpecAsync(Logger, new Specification<Store>(s => s.OwnerId == ScopedParameters.CurrentUserId)))
+                throw new EntityAlreadyExistsException("User already has a store");
+        }
+
         override public async Task<int> DeleteAsync(Specification<Store> spec)
         {
             spec.AddInclude((s => s.Items));
