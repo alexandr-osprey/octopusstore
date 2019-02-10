@@ -42,7 +42,8 @@ namespace UnitTests.Controllers
 
         protected override IEnumerable<Store> GetCorrectEntitiesToCreate()
         {
-            return new List<Store>() { new Store() { Title = "Store 1", Address = "Address", Description = "Desc", OwnerId = Users.JohnId } };
+            Controller.ScopedParameters.ClaimsPrincipal = Users.AdminPrincipal;
+            return new List<Store>() { new Store() { Title = "Store 1", Address = "Address", Description = "Desc", OwnerId = Users.AdminId } };
         }
 
         protected override StoreViewModel ToViewModel(Store entity)

@@ -9,6 +9,7 @@ using ApplicationCore.Interfaces.Services;
 using Xunit;
 using System.Linq;
 using System;
+using Infrastructure.Data.SampleData;
 
 namespace UnitTests.Services
 {
@@ -30,6 +31,7 @@ namespace UnitTests.Services
 
         protected override IEnumerable<Store> GetCorrectNewEntites()
         {
+            Service.ScopedParameters.ClaimsPrincipal = Users.User1Principal;
             return new List<Store>()
             {
                 new Store() { Title = "New store",  Address = "New address", Description = "New desc "}

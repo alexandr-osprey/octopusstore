@@ -35,7 +35,7 @@ namespace UnitTests.Controllers
                 page,
                 GetPageCount(totalCount, pageSize),
                 totalCount,
-                from i in orders select new OrderViewModel(i));
+                orders.Select(o => new OrderViewModel(o) { CustomerEmail = o.OwnerId }));
             Equal(expected, actual);
 
             // try to index as user someoneelse's orders
@@ -60,7 +60,7 @@ namespace UnitTests.Controllers
                 page,
                 GetPageCount(totalCount, pageSize),
                 totalCount,
-                from i in orders select new OrderViewModel(i));
+                orders.Select(o => new OrderViewModel(o) { CustomerEmail = o.OwnerId }));
             Equal(expected, actual);
         }
 
@@ -81,7 +81,8 @@ namespace UnitTests.Controllers
                 page,
                 GetPageCount(totalCount, pageSize),
                 totalCount,
-                from i in orders select new OrderViewModel(i));
+                orders.Select(o => new OrderViewModel(o) { CustomerEmail = o.OwnerId }));
+
             Equal(expected, actual);
         }
 
@@ -97,7 +98,7 @@ namespace UnitTests.Controllers
         {
             return new List<Order>()
             {
-                new Order() { ItemVariantId = Data.ItemVariants.JacketBlack.Id, Number = 1 }
+                new Order() { ItemVariantId = Data.ItemVariants.JacketBlack.Id, Number = 1, OwnerId = Users.JohnId }
             };
         }
 
@@ -146,7 +147,8 @@ namespace UnitTests.Controllers
                 DateTimeCreated = entity.DateTimeCreated,
                 DateTimeFinished = entity.DateTimeFinished,
                 Status = entity.Status,
-                Sum = entity.Sum
+                Sum = entity.Sum,
+                CustomerEmail = entity.OwnerId
             };
         }
     }
