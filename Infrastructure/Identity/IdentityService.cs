@@ -206,9 +206,17 @@ namespace Infrastructure.Identity
         public async Task<string> GetUserId(string email)
         {
             if (email == null)
-                throw new ArgumentNullException("email not provided");
-            var user = await UserManager.FindByIdAsync(email) ?? throw new EntityNotFoundException("user not found");
+                throw new ArgumentNullException(nameof(email));
+            var user = await UserManager.FindByEmailAsync(email) ?? throw new EntityNotFoundException("user not found");
             return user.Id;
+        }
+
+        public async Task<string> GetUserEmail(string id)
+        {
+            if (id == null)
+                throw new ArgumentNullException(nameof(id));
+            var user = await UserManager.FindByIdAsync(id) ?? throw new EntityNotFoundException("user not found");
+            return user.Email;
         }
 
         public async Task RemoveFromUsersAsync(Claim claim)

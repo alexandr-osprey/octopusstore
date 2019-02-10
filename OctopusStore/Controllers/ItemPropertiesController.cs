@@ -38,7 +38,7 @@ namespace OctopusStore.Controllers
                 return await IndexByItemVariantAsync(itemVariantId.Value);
             else if (itemId.HasValue)
                 return await IndexByItemAsync(itemId.Value);
-            return GetNotPagedIndexViewModel(new List<ItemProperty>());
+            return await GetNotPagedIndexViewModelAsync(new List<ItemProperty>());
         }
 
         [AllowAnonymous]

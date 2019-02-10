@@ -8,6 +8,7 @@
     <tbody>
       <tr>
         <th>Title</th>
+        <th>Email</th>
         <th>Store</th>
         <th>Status</th>
         <th>Number</th>
@@ -15,6 +16,7 @@
       </tr>
       <tr *ngFor="let order of orderIndex.entities">
         <td>{{ order.itemVariant.title }}</td>
+        <td>{{ order.customerEmail }}</td>
         <td>{{ order.store.title }}</td>
         <td>{{ getStatusString(order.status) }}</td>
         <td>{{ order.number }}</td>

@@ -15,6 +15,8 @@ namespace Infrastructure.Identity
         {
             List<string> emails = new List<string>()
             {
+                "user1@mail.com",
+                "user2@mail.com",
                 "user3@mail.com",
                 "user4@mail.com",
                 "user5@mail.com",
@@ -23,7 +25,7 @@ namespace Infrastructure.Identity
             emails.ForEach(async e =>
             {
                 var user = await EnsureUser(serviceProvider, Password, e, e);
-                var cl = new Claim(CustomClaimTypes.Buyer, user.Id);
+                //var cl = new Claim(CustomClaimTypes.Buyer, user.Id);
                 //await userManager.AddClaimAsync(user, cl);
             });
             var john = await EnsureUser(serviceProvider, Password, "john@mail.com", "john@mail.com");

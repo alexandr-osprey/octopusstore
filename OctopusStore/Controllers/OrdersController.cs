@@ -57,5 +57,12 @@ namespace OctopusStore.Controllers
 
         [HttpGet("{id:int}/checkUpdateAuthorization")]
         public async Task<Response> CheckUpdateAuthorization(int id) => await base.CheckUpdateAuthorizationAsync(id);
+
+        protected override async Task PopulateViewModelWithRelatedDataAsync<TCustomViewModel>(TCustomViewModel viewModel)
+        {
+            var order = await Service.ReadSingleAsync(new EntitySpecification<Order>(viewModel.GetHashCode()));
+            string email = await Service.IdentityService.GetUserEmail(order.OwnerId);
+            viewModel.CustomerEmail = email;
+        }
     }
 }

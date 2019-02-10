@@ -16,12 +16,13 @@ namespace Infrastructure.Identity
         public StoreEntityAuthorizationHandler(UserManager<ApplicationUser> userManager, StoreContext storeContext, IAppLogger<IAuthorziationHandler<T>> logger)
            : base(userManager, logger)
         {
+            ValidateRightsOnEnityProperties = true;
             _storeContext = storeContext;
         }
 
-        protected override async Task<bool> CreateAsync(AuthorizationHandlerContext context, T entity) => await base.CreateAsync(context, entity) || await IsStoreAdministratorAsync(context, entity);
-        protected override async Task<bool> UpdateAsync(AuthorizationHandlerContext context, T entity) => await base.UpdateAsync(context, entity) || await IsStoreAdministratorAsync(context, entity);
-        protected override async Task<bool> DeleteAsync(AuthorizationHandlerContext context, T entity) => await base.DeleteAsync(context, entity) || await IsStoreAdministratorAsync(context, entity);
+        protected override async Task<bool> CreateAsync(AuthorizationHandlerContext context, T entity) => IsAuthenticated(context) && await IsStoreAdministratorAsync(context, entity);
+        protected override async Task<bool> UpdateAsync(AuthorizationHandlerContext context, T entity) => IsAuthenticated(context) && await IsStoreAdministratorAsync(context, entity);
+        protected override async Task<bool> DeleteAsync(AuthorizationHandlerContext context, T entity) => IsAuthenticated(context) && await IsStoreAdministratorAsync(context, entity);
 
         public async Task<bool> IsStoreAdministratorAsync(
             AuthorizationHandlerContext context,

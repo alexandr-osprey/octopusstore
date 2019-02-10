@@ -50,7 +50,7 @@ namespace OctopusStore.Controllers
                 var storeCategories = await IndexByStoreIdAsync(storeId.Value);
                 categories = (from c in categories where storeCategories.Contains(c) select c).OrderBy(c => c.Id);
             }
-            return GetNotPagedIndexViewModel(categories);
+            return await GetNotPagedIndexViewModelAsync(categories);
         }
         //[AllowAnonymous]
         //[HttpGet("/api/stores/{id:int}/categories")]

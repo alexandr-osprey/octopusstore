@@ -12,6 +12,7 @@ namespace Infrastructure.Identity
     {
         public OrderAuthorizationHandler(UserManager<ApplicationUser> userManager, StoreContext storeContext, IAppLogger<IAuthorziationHandler<Order>> appLogger) : base(userManager, storeContext, appLogger)
         {
+            ValidateRightsOnEnityProperties = false;
         }
 
         protected override async Task<int> GetStoreIdAsync(Order order)
@@ -20,8 +21,7 @@ namespace Infrastructure.Identity
             return itemVariant.Item.StoreId;
         }
 
+        protected override Task<bool> CreateAsync(AuthorizationHandlerContext context, Order entity) => Task.FromResult(IsAuthenticated(context));
         protected override async Task<bool> ReadAsync(AuthorizationHandlerContext context, Order entity) => IsAuthenticated(context) && (IsOwner(context, entity) || await IsStoreAdministratorAsync(context, entity));
-        protected override async Task<bool> UpdateAsync(AuthorizationHandlerContext context, Order entity) => IsAuthenticated(context) && await IsStoreAdministratorAsync(context, entity);
-        protected override async Task<bool> DeleteAsync(AuthorizationHandlerContext context, Order entity) => IsAuthenticated(context) && await IsStoreAdministratorAsync(context, entity);
     }
 }

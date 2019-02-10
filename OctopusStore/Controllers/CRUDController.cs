@@ -53,7 +53,7 @@ namespace OctopusStore.Controllers
                 throw new BadRequestException("Empty body");
             viewModel.Id = 0;
             var entity = await Service.CreateAsync(viewModel.ToModel());
-            return GetViewModel<TViewModel>(entity);
+            return await GetViewModelAsync<TViewModel>(entity);
         }
 
         public virtual async Task<TViewModel> ReadAsync(int id)
@@ -67,7 +67,7 @@ namespace OctopusStore.Controllers
                 throw new BadRequestException("Empty body");
             var entityToUpdate = await Service.ReadSingleAsync(new Specification<TEntity>(e => e.GetHashCode() == viewModel.GetHashCode()));
             var entitiy = await Service.UpdateAsync(viewModel.UpdateModel(entityToUpdate));
-            return GetViewModel<TViewModel>(entitiy);
+            return await GetViewModelAsync<TViewModel>(entitiy);
         }
 
         public virtual async Task<Response> DeleteAsync(int id)
@@ -84,7 +84,7 @@ namespace OctopusStore.Controllers
 
         protected async Task<IndexViewModel<TCustomViewModel>> IndexAsync<TCustomViewModel>(Specification<TEntity> spec)
             //where TCustomIndexViewModel: EntityIndexViewModel<TCustomViewModel, TEntity>
-            where TCustomViewModel : EntityViewModel<TEntity>
+            where TCustomViewModel : TViewModel
         {
             if (spec.Take > MaxTake || spec.Skip < 0)
             {
@@ -94,7 +94,7 @@ namespace OctopusStore.Controllers
             var entities = await Service.EnumerateAsync(spec);
             int totalCount = await Service.CountTotalAsync(spec);
             int totalPages = await Service.PageCountAsync(spec);
-            return GetIndexViewModel<TCustomViewModel>(spec.Page, totalPages, totalCount, entities);
+            return await GetIndexViewModelAsync<TCustomViewModel>(spec.Page, totalPages, totalCount, entities);
         }
 
         protected virtual async Task<IndexViewModel<TViewModel>> IndexAsync(Specification<TEntity> spec)
@@ -105,7 +105,7 @@ namespace OctopusStore.Controllers
         protected async Task<IndexViewModel<TViewModel>> IndexByFunctionNotPagedAsync<TCustom>(Func<Specification<TCustom>, Task<IEnumerable<TEntity>>> retrievingFunction, Specification<TCustom> spec)
             where TCustom : class
         {
-            return GetNotPagedIndexViewModel<TViewModel>(await retrievingFunction(spec));
+            return await GetNotPagedIndexViewModelAsync<TViewModel>(await retrievingFunction(spec));
         }
 
         protected async Task<IndexViewModel<TViewModel>> IndexByRelatedNotPagedAsync<TRelated>
@@ -113,7 +113,7 @@ namespace OctopusStore.Controllers
             Specification<TRelated> relatedSpec)
             where TRelated : Entity
         {
-            return GetNotPagedIndexViewModel<TViewModel>(await retrievingFunction(relatedSpec));
+            return await GetNotPagedIndexViewModelAsync<TViewModel>(await retrievingFunction(relatedSpec));
         }
 
         protected async Task<IndexViewModel<TViewModel>> IndexNotPagedAsync(Specification<TEntity> spec)
@@ -121,49 +121,54 @@ namespace OctopusStore.Controllers
             return await IndexNotPagedAsync<TViewModel>(spec);
         }
 
-        protected async Task<IndexViewModel<TCustomViewModel>> IndexNotPagedAsync<TCustomViewModel>(Specification<TEntity> spec) where TCustomViewModel : EntityViewModel<TEntity>
+        protected async Task<IndexViewModel<TCustomViewModel>> IndexNotPagedAsync<TCustomViewModel>(Specification<TEntity> spec) where TCustomViewModel : TViewModel
         {
             spec.SetPaging(1, MaxTake);
-            return GetNotPagedIndexViewModel<TCustomViewModel>(await Service.EnumerateAsync(spec));
+            return await GetNotPagedIndexViewModelAsync<TCustomViewModel>(await Service.EnumerateAsync(spec));
         }
 
-        protected async Task<TDetailViewModel> ReadDetailAsync<TDetailViewModel>(Specification<TEntity> spec) where TDetailViewModel : EntityViewModel<TEntity>
+        protected async Task<TDetailViewModel> ReadDetailAsync<TDetailViewModel>(Specification<TEntity> spec) where TDetailViewModel : TViewModel
         {
-            return GetViewModel<TDetailViewModel>(await Service.ReadSingleAsync(spec));
+            return await GetViewModelAsync<TDetailViewModel>(await Service.ReadSingleAsync(spec));
         }
 
-        protected async Task<TCustomViewModel> ReadAsync<TCustomViewModel>(Specification<TEntity> spec) where TCustomViewModel : EntityViewModel<TEntity>
+        protected async Task<TCustomViewModel> ReadAsync<TCustomViewModel>(Specification<TEntity> spec) where TCustomViewModel : TViewModel
         {
-            return GetViewModel<TCustomViewModel>(await Service.ReadSingleAsync(spec));
+            return await GetViewModelAsync<TCustomViewModel>(await Service.ReadSingleAsync(spec));
         }
 
-        protected IndexViewModel<TViewModel> GetNotPagedIndexViewModel(IEnumerable<TEntity> entities)
+        protected Task<IndexViewModel<TViewModel>> GetNotPagedIndexViewModelAsync(IEnumerable<TEntity> entities)
         {
-            return GetNotPagedIndexViewModel<TViewModel>(entities);
+            return GetNotPagedIndexViewModelAsync<TViewModel>(entities);
         }
 
-        protected IndexViewModel<TCustomViewModel> GetNotPagedIndexViewModel<TCustomViewModel>(IEnumerable<TEntity> entities) where TCustomViewModel : EntityViewModel<TEntity>
+        protected async Task<IndexViewModel<TCustomViewModel>> GetNotPagedIndexViewModelAsync<TCustomViewModel>(IEnumerable<TEntity> entities) where TCustomViewModel : TViewModel
         {
             int totalCount = entities.Count();
             int page = totalCount == 0 ? 0 : 1;
             int totalPages = page;
-            return GetIndexViewModel<TCustomViewModel>(page, totalPages, totalCount, entities);
+            return await GetIndexViewModelAsync<TCustomViewModel>(page, totalPages, totalCount, entities);
         }
 
-        protected IndexViewModel<TCustomViewModel> GetIndexViewModel<TCustomViewModel>(int page, int totalPages, int totalCount, IEnumerable<TEntity> entities)
-            where TCustomViewModel : EntityViewModel<TEntity>
+        protected async Task<IndexViewModel<TCustomViewModel>> GetIndexViewModelAsync<TCustomViewModel>(int page, int totalPages, int totalCount, IEnumerable<TEntity> entities)
+            where TCustomViewModel : TViewModel
         {
-            var viewModels = from e in entities select GetViewModel<TCustomViewModel>(e);
+            var viewModels = new List<TCustomViewModel>();
+            foreach (var entity in entities)
+                viewModels.Add(await GetViewModelAsync<TCustomViewModel>(entity));
             return IndexViewModel<TCustomViewModel>.FromEnumerable(page, totalPages, totalCount, viewModels);
             //var types = new Type[] { typeof(int), typeof(int), typeof(int), typeof(IEnumerable<TEntity>) };
             //return (TCustomIndexViewModel)ast.GetActivator(typeof(TCustomIndexViewModel), types)(page, totalPages, totalCount, entities);
         }
 
-        protected TCustomViewModel GetViewModel<TCustomViewModel>(TEntity entity) where TCustomViewModel : EntityViewModel<TEntity>
+        protected async Task<TCustomViewModel> GetViewModelAsync<TCustomViewModel>(TEntity entity) where TCustomViewModel : TViewModel
         {
-            //return (TCustomViewModel)new ActivatorsStorage().GetActivator(typeof(TCustomViewModel), typeof(TEntity))(entity);
-            return ActivatorService.GetInstance<TCustomViewModel>(entity);
+            var viewModel = ActivatorService.GetInstance<TCustomViewModel>(entity);
+            await PopulateViewModelWithRelatedDataAsync(viewModel);
+            return viewModel;
         }
+
+        protected virtual Task PopulateViewModelWithRelatedDataAsync<TCustomViewModel>(TCustomViewModel viewModel) where TCustomViewModel : TViewModel => Task.FromResult(viewModel);
 
         protected virtual async Task<Response> DeleteSingleAsync(Specification<TEntity> spec)
         {
@@ -194,6 +199,8 @@ namespace OctopusStore.Controllers
             int deleted = await Service.DeleteAsync(spec);
             return new Response($"Deleted {deleted} {EntityName}(s)");
         }
+
+
 
         protected virtual void ApplyOrderingToSpec(Specification<TEntity> spec, string orderBy, bool? orderByDescending)
         {

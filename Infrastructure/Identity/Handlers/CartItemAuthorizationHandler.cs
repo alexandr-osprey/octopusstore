@@ -12,6 +12,7 @@ namespace Infrastructure.Identity
     {
         public CartItemAuthorizationHandler(UserManager<ApplicationUser> userManager, StoreContext storeContext, IAppLogger<IAuthorziationHandler<CartItem>> appLogger): base(userManager, storeContext, appLogger)
         {
+            ValidateRightsOnEnityProperties = false;
         }
 
         protected override async Task<int> GetStoreIdAsync(CartItem cartItem)
@@ -20,6 +21,9 @@ namespace Infrastructure.Identity
             return itemVariant.Item.StoreId;
         }
 
-        protected override async Task<bool> ReadAsync(AuthorizationHandlerContext context, CartItem entity) => IsAuthenticated(context) && (IsOwner(context, entity) || await IsStoreAdministratorAsync(context, entity));
+        protected override Task<bool> CreateAsync(AuthorizationHandlerContext context, CartItem cartItem) => Task.FromResult(IsAuthenticated(context));
+        protected override async Task<bool> ReadAsync(AuthorizationHandlerContext context, CartItem cartItem) => IsAuthenticated(context) && (IsOwner(context, cartItem) || await IsStoreAdministratorAsync(context, cartItem));
+        protected override async Task<bool> UpdateAsync(AuthorizationHandlerContext context, CartItem cartItem) => IsAuthenticated(context) && (IsOwner(context, cartItem) || await IsStoreAdministratorAsync(context, cartItem));
+        protected override async Task<bool> DeleteAsync(AuthorizationHandlerContext context, CartItem cartItem) => IsAuthenticated(context) && (IsOwner(context, cartItem) || await IsStoreAdministratorAsync(context, cartItem));
     }
 }

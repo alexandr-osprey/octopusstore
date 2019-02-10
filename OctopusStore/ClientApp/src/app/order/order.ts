@@ -15,6 +15,7 @@ export class Order extends Entity {
   sum: number;
   itemVariantId: number;
   number: number;
+  customerEmail: string;
 
   public constructor(init?: Partial<Order>) {
     super(init);

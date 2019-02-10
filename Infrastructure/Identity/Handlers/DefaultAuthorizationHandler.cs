@@ -11,6 +11,7 @@ namespace Infrastructure.Identity
 {
     public abstract class DefaultAuthorizationHandler<T>: AuthorizationHandler<OperationAuthorizationRequirement, T> where T: Entity
     {
+        protected virtual bool ValidateRightsOnEnityProperties { get; set; }
         protected UserManager<ApplicationUser> _userManager;
         protected IAppLogger<IAuthorziationHandler<T>> _logger;
 
@@ -25,7 +26,7 @@ namespace Infrastructure.Identity
             if (await DefaultChecksAsync(context, requirement, entity))
             {
                 // check entity validity on create and update operations
-                if ((requirement.Name == Operations.Create || requirement.Name == Operations.Update))
+                if (ValidateRightsOnEnityProperties && (requirement.Name == Operations.Create || requirement.Name == Operations.Update))
                 {
                     if (await ValidateRightsOnEntityPropertiesAsync(context, requirement, entity))
                         context.Succeed(requirement);

@@ -34,7 +34,7 @@ namespace OctopusStore.Controllers
                 {
                     await formFile.CopyToAsync(stream);
                     var itemImage = new ItemImage(formFile.FileName, formFile.ContentType, relatedId, stream);
-                    return GetViewModel<ItemImageViewModel>(await Service.CreateAsync(itemImage));
+                    return await GetViewModelAsync<ItemImageViewModel>(await Service.CreateAsync(itemImage));
                 }
                 catch (Exception exception)
                 {

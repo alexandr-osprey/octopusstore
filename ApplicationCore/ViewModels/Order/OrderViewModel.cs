@@ -12,6 +12,7 @@ namespace ApplicationCore.ViewModels
         public decimal Sum { get; set; }
         public int ItemVariantId { get; set; }
         public int Number { get; set; }
+        public string CustomerEmail { get; set; }
 
         public OrderViewModel() : base()
         {

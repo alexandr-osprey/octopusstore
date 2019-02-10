@@ -29,9 +29,10 @@ export class OrderService extends DataReadWriteService<Order> {
 
   public indexThumbnails(storeId: number): Observable<EntityIndex<OrderThumbnail>> {
     this.parameterService.navigateWithUpdatedParams([ParameterNames.storeId, storeId]);
+    let params = this.parameterService.getUpdatedParams([ParameterNames.storeId, storeId]);
     return this.getCustom<EntityIndex<OrderThumbnail>>(
       this.getUrlWithParameter(ParameterNames.thumbnails),
-      this.parameterService.getParams(),
+      params,
       this.defaultHttpHeaders);
   }
 }
