@@ -1,17 +1,24 @@
-<div *ngIf="currentCategory" class="row">
+<div *ngIf="allCategories" class="row">
   <div class="col">
     <!--<div *ngIf="administrating">
-    <button class="btn" (click)="create()">Create</button>
-  </div>-->
-  <div *ngFor="let category of allCategories">
-    <div> {{ category.title }}</div>
-  </div>
-    <div *ngFor="let parentCategory of categoryHierarchy.parentCategories">
+      <button class="btn" (click)="create()">Create</button>
+    </div>-->
+
+    <div *ngFor="let category of allCategories">
+      <button type="button" (click)="navigateParentCategory(category)" [attr.aria-expanded]="category.collapsed" >{{ category.title }}</button>
+      <ul class="list-unstyled" [ngbCollapse]="category.collapsed">
+        <li *ngFor="let subcategory of category.subcategories">
+          <button type="button" (click)="navigateSubcategory(subcategory)">{{ subcategory.title }}</button>
+        </li>
+      </ul>
+      <!--<div> {{ category.title }}</div>-->
+    </div>
+    <!--<div *ngFor="let parentCategory of categoryHierarchy.parentCategories">
       <a [routerLink] [queryParams]="getCategoryParams(parentCategory.id)">{{parentCategory.title}}</a>
       <a *ngIf="administrating && currentCategory.id==parentCategory.id" [routerLink]="['/categories', parentCategory.id, 'update']">Update</a>
     </div>
     <div *ngFor="let subcategory of categoryHierarchy.subcategories">
       <a [routerLink] [queryParams]="getCategoryParams(subcategory.id)">> {{subcategory.title}}</a>
-    </div>
+    </div>-->
   </div>
 </div>

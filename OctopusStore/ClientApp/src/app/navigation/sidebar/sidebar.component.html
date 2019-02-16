@@ -6,8 +6,8 @@
       </div>
       <ul class="list-unstyled components">
         <li class="active">
-          <button type="button" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-controls="itemsNavigationPane">Items</button>
-          <div id="itemsNavigationPane" [ngbCollapse]="isCollapsed">
+          <button type="button" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed">Items</button>
+          <div [ngbCollapse]="isCollapsed">
             <app-items-navigation-pane></app-items-navigation-pane>
           </div>
           <!--<ul class="list-unstyled" id="itemsNavigationPane" [ngbCollapse]="isCollapsed">

@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { Category } from '../category';
 import { CategoryService } from '../category.service';
 import { EntityIndex } from 'src/app/models/entity/entity-index';
+import { CategoryDisplayed } from '../category-displayed';
 
 @Component({
   selector: 'app-category-index',
@@ -15,12 +16,12 @@ import { EntityIndex } from 'src/app/models/entity/entity-index';
   styleUrls: ['./category-index.component.css'],
 })
 export class CategoryIndexComponent implements OnInit {
-  public allCategories: Category[];
-  protected categoryHierarchy: CategoryHierarchy;
-  protected currentCategory: Category;
-  protected parametersSubsription: Subscription;
-  protected categoryIdParamName = ParameterNames.categoryId;
-  @Input() administrating: boolean;
+  public allCategories: CategoryDisplayed[];
+  //protected categoryHierarchy: CategoryHierarchy;
+  //protected currentCategory: Category;
+  //protected parametersSubsription: Subscription;
+  //protected categoryIdParamName = ParameterNames.categoryId;
+  //@Input() administrating: boolean;
 
   constructor(
     private categoryService: CategoryService,
@@ -33,27 +34,26 @@ export class CategoryIndexComponent implements OnInit {
   }
 
   initializeComponent() {
-    this.parametersSubsription = this.parameterService.params$.pipe(
-      debounceTime(50))
-      .subscribe(
-      params => {
-        this.updateCategories();
-      }
-    );
+    //this.parametersSubsription = this.parameterService.params$.pipe(
+    //  debounceTime(50))
+    //  .subscribe(
+    //  params => {
+    //    this.updateCategories();
+    //  }
+    //);
     this.updateCategories();
   }
   updateCategories() {
     this.allCategories = [];
-    let categoryId: number = +this.parameterService.getParam(ParameterNames.categoryId);
-    if (!categoryId)
-      categoryId = this.categoryService.rootCategoryId;
-    if (!this.currentCategory || this.currentCategory.id != categoryId) {
-      this.categoryService.index(this.parameterService.getUpdatedParams([ParameterNames.categoryId, categoryId])).subscribe((data: EntityIndex<Category>) => {
-        data.entities.forEach(c => this.allCategories.push(new Category(c)));
-        this.currentCategory = this.allCategories.find(c => c.id == categoryId);
-        this.categoryHierarchy = new CategoryHierarchy(this.categoryService.rootCategoryId, this.currentCategory, this.allCategories);
-      });
-    }
+    this.categoryService.index().subscribe((data: EntityIndex<Category>) => {
+      this.allCategories = data.entities
+        .filter(c => c.parentCategoryId == this.categoryService.rootCategoryId)
+        .map(c => {
+          let nc = new CategoryDisplayed(c);
+          nc.subcategories = data.entities.filter(sc => sc.parentCategoryId == c.id).map(sc => new Category(sc))
+          return nc;
+        });
+    });
   }
   getCategoryParams(categoryId: number): any {
     let params = this.parameterService.getUpdatedParams(
@@ -64,8 +64,20 @@ export class CategoryIndexComponent implements OnInit {
     return params;
   }
 
-  create() {
-    let categoryId = this.parameterService.getParam(ParameterNames.categoryId);
-    this.router.navigate(['/categories/create'], { queryParams: { categoryId: categoryId } });
+  navigateParentCategory(categoryDisplayed: CategoryDisplayed) {
+    let oldState = categoryDisplayed.collapsed;
+    this.allCategories.forEach(c => c.collapsed = true);
+    categoryDisplayed.collapsed = !oldState;
+    let parameters = this.getCategoryParams(categoryDisplayed.id);
+    this.parameterService.navigateWithUpdatedParams(parameters);
   }
+
+  navigateSubcategory(subcategory: Category) {
+    let parameters = this.getCategoryParams(subcategory.id);
+    this.parameterService.navigateWithUpdatedParams(parameters);
+  }
+  //create() {
+  //  let categoryId = this.parameterService.getParam(ParameterNames.categoryId);
+  //  this.router.navigate(['/categories/create'], { queryParams: { categoryId: categoryId } });
+  //}
 }
