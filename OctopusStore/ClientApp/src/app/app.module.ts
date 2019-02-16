@@ -45,6 +45,7 @@ import { MeasurementUnitCreateUpdateComponent } from './measurement-unit/measure
 import { OrderCreateComponent } from './order/order-create/order-create.component';
 import { CartItemThumbnailIndexComponent } from './cart-item/cart-item-thumbnail-index/cart-item-thumbnail-index.component';
 import { OrderThumbnailIndexComponent } from './order/order-thumbnail-index/order-thumbnail-index.component';
+import { SidebarComponent } from './navigation/sidebar/sidebar.component';
 
 @NgModule({
   declarations: [
@@ -88,6 +89,7 @@ import { OrderThumbnailIndexComponent } from './order/order-thumbnail-index/orde
     MeasurementUnitCreateUpdateComponent,
     OrderCreateComponent,
     OrderThumbnailIndexComponent,
+    SidebarComponent,
   ],
   imports: [
     BrowserModule,

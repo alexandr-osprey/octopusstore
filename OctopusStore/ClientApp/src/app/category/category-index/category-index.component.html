@@ -1,14 +1,17 @@
 <div *ngIf="currentCategory" class="row">
-  <div class="col-12 col-md-12 categories">
-    <div *ngIf="administrating">
-      <button class="btn" (click)="create()">Create</button>
-    </div>
+  <div class="col">
+    <!--<div *ngIf="administrating">
+    <button class="btn" (click)="create()">Create</button>
+  </div>-->
+  <div *ngFor="let category of allCategories">
+    <div> {{ category.title }}</div>
+  </div>
     <div *ngFor="let parentCategory of categoryHierarchy.parentCategories">
-      <a [routerLink] [queryParams]="getCategoryParams(parentCategory.id)" [ngClass]="{'category': true, 'link': true, 'current-category': currentCategory.id==parentCategory.id, 'parent-category': currentCategory.id != parentCategory.id}">{{parentCategory.title}}</a>
+      <a [routerLink] [queryParams]="getCategoryParams(parentCategory.id)">{{parentCategory.title}}</a>
       <a *ngIf="administrating && currentCategory.id==parentCategory.id" [routerLink]="['/categories', parentCategory.id, 'update']">Update</a>
     </div>
-    <div  *ngFor="let subcategory of categoryHierarchy.subcategories">
-      <a [routerLink] [queryParams]="getCategoryParams(subcategory.id)" class="category subcategory link">> {{subcategory.title}}</a>
+    <div *ngFor="let subcategory of categoryHierarchy.subcategories">
+      <a [routerLink] [queryParams]="getCategoryParams(subcategory.id)">> {{subcategory.title}}</a>
     </div>
   </div>
 </div>
