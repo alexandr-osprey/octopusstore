@@ -1,19 +1,7 @@
-.ng-valid[required], .ng-valid.required {
-  border-left: 5px solid #42A948; /* green */
+html, body, app-root {
+  height: 100%;
 }
 
-.ng-invalid:not(form) {
-  border-left: 5px solid #a94442; /* red */
-}
-
-.link {
-  color: black;
-}
-
-.link:hover {
-  color: orange;
-}
-
-.not-updatable {
-  display: none;
+.height-full {
+  height: 100%;
 }

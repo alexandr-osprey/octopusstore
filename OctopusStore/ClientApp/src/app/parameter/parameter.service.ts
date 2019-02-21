@@ -41,23 +41,18 @@ export class ParameterService {
   public getUpdatedParams(...args: [string, any][]): [string, any][] {
     let params = this.getParams();
     args.forEach(pair => {
-
+      let k, v = null;
       if (Array.isArray(pair)) {
-        if (pair[1]) {
-          params[pair[0]] = pair[1];
-        } else {
-          delete params[pair[0]];
-        }
+        k = pair[0];
+        v = pair[1];
       } else {
-        if (typeof pair === 'object' && pair !== null) {
-          let keys = Object.keys(pair);
-          if (keys[0]) {
-            params[keys[0]] = pair[keys[0]];
-          }
-          else {
-            delete params[keys[0]];
-          }
-        };
+        k = Object.keys(pair)[0];
+        v = pair[k];
+      }
+      if (v) {
+        params[k] = v;
+      } else {
+        delete params[k];
       }
     });
     return params;

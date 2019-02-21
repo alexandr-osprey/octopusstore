@@ -46,6 +46,7 @@ import { OrderCreateComponent } from './order/order-create/order-create.componen
 import { CartItemThumbnailIndexComponent } from './cart-item/cart-item-thumbnail-index/cart-item-thumbnail-index.component';
 import { OrderThumbnailIndexComponent } from './order/order-thumbnail-index/order-thumbnail-index.component';
 import { SidebarComponent } from './navigation/sidebar/sidebar.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -93,11 +94,12 @@ import { SidebarComponent } from './navigation/sidebar/sidebar.component';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     NgbModule.forRoot(), 
     HttpClientModule,
     FormsModule,
-    AppLoadModule
+    AppLoadModule,
   ],
   providers: [{
     provide: ErrorHandler, 

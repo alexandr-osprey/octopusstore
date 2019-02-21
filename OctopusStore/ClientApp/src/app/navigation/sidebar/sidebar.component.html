@@ -1,15 +1,12 @@
-<div class="row">
-  <div class="col">
-    <nav id="sidebar">
+<div class="row height-full">
+  <div class="col height-full">
+    <nav id="sidebar" class="height-full">
       <div class="sidebar-header">
         <h3>Osprey Store</h3>
       </div>
       <ul class="list-unstyled components">
         <li class="active">
-          <button type="button" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed">Items</button>
-          <div [ngbCollapse]="isCollapsed">
-            <app-items-navigation-pane></app-items-navigation-pane>
-          </div>
+          <app-items-navigation-pane></app-items-navigation-pane>
           <!--<ul class="list-unstyled" id="itemsNavigationPane" [ngbCollapse]="isCollapsed">
           <li>
             <a href="#">Home 1</a>
