@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { ParameterNames } from '../../parameter/parameter-names';
 import { ParameterService } from '../../parameter/parameter.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Category } from '../category';
 import { CategoryService } from '../category.service';
 import { EntityIndex } from 'src/app/models/entity/entity-index';
@@ -20,13 +20,17 @@ import { trigger, style, state, animate, transition } from '@angular/animations'
     trigger('expandCollapse', [
       state('expanded', style({ height: '*', opacity: 1, display: 'block' })),
       state('collapsed', style({ height: 0, opacity: 0, display: 'none' })),
-      transition('* => *', [animate('350ms linear')])
+      transition('expanded => collapsed', [animate('350ms linear')]),
+      transition('collapsed => expanded', [animate('350ms linear')]),
+      //transition('collapsed => expanded', [animate('350ms linear')]),
     ]),
-   ],
+  ],
 })
 export class CategoryIndexComponent implements OnInit {
   public allCategories: CategoryDisplayed[];
+  currentCategory: Category;
   isOpen = true;
+  parametersSubscription: Subscription;
   //protected categoryHierarchy: CategoryHierarchy;
   //protected currentCategory: Category;
   //protected parametersSubsription: Subscription;
@@ -35,8 +39,13 @@ export class CategoryIndexComponent implements OnInit {
 
   constructor(
     private categoryService: CategoryService,
-    private router: Router,
+    private route: ActivatedRoute,
     private parameterService: ParameterService) {
+    this.parametersSubscription = this.parameterService.params$.subscribe(params => {
+      if (!this.currentCategory || this.currentCategory.id != +this.parameterService.getParam(ParameterNames.categoryId)) {
+        this.updateCategories();
+      };
+    });
   }
 
   ngOnInit() {
@@ -44,16 +53,13 @@ export class CategoryIndexComponent implements OnInit {
   }
 
   initializeComponent() {
-    //this.parametersSubsription = this.parameterService.params$.pipe(
-    //  debounceTime(50))
-    //  .subscribe(
-    //  params => {
-    //    this.updateCategories();
-    //  }
-    //);
-    this.updateCategories();
-  }
-  updateCategories() {
+    this.parameterService.params$.pipe(
+      debounceTime(50))
+      .subscribe(
+      params => {
+        this.updateCategories();
+      }
+    );
     this.categoryService.index().subscribe((data: EntityIndex<Category>) => {
       this.allCategories = data.entities
         .filter(c => c.parentCategoryId == this.categoryService.rootCategoryId)
@@ -62,7 +68,31 @@ export class CategoryIndexComponent implements OnInit {
           nc.subcategories = data.entities.filter(sc => sc.parentCategoryId == c.id).map(sc => new Category(sc))
           return nc;
         });
+      this.updateCategories();
     });
+  }
+
+  updateCategories() {
+    let categoryId = +this.parameterService.getParam(ParameterNames.categoryId);
+    if (categoryId) {
+      let selectedCategory = this.allCategories.find(c => c.id == categoryId);
+      if (selectedCategory) {
+        this.setCategoryDisplayed(selectedCategory);
+        this.currentCategory = selectedCategory;
+      } else {
+        let selectedSubcategory = this.allCategories.map(c => c.subcategories)
+          .reduce((a, b) => a.concat(b))
+          .find(c => c.id == categoryId);
+        if (selectedSubcategory) {
+          selectedCategory = this.allCategories.find(c => c.id == selectedSubcategory.parentCategoryId);
+          this.setCategoryDisplayed(selectedCategory);
+          if (selectedCategory) {
+            selectedCategory.currentSubcategory = selectedSubcategory;
+            this.currentCategory = selectedSubcategory;
+          }
+        }
+      }
+    };
   }
   getCategoryParams(categoryId: number): any {
     let params = this.parameterService.getUpdatedParams(
@@ -74,17 +104,25 @@ export class CategoryIndexComponent implements OnInit {
   }
 
   navigateParentCategory(categoryDisplayed: CategoryDisplayed) {
-    let oldState = categoryDisplayed.collapsed;
-    this.allCategories.forEach(c => c.collapsed = true);
-    categoryDisplayed.collapsed = !oldState;
-    categoryDisplayed.currentSubcategory = null;
     let parameters = this.getCategoryParams(categoryDisplayed.id);
     this.parameterService.navigateWithUpdatedParams(parameters);
   }
 
-  navigateSubcategory(category: CategoryDisplayed, subcategory: CategoryDisplayed) {
+  setCategoryDisplayed(categoryDisplayed: CategoryDisplayed) {
+    //this.allCategories.forEach(c => {
+    //  if (c.expanded && c != categoryDisplayed) {
+    //    c.expanded = false
+    //  }
+
+    //});
+    this.allCategories.forEach(c => {
+      c.expanded = false;
+    });
+    categoryDisplayed.expanded = true;
+  }
+
+  navigateSubcategory(category: CategoryDisplayed, subcategory: Category) {
     let parameters = this.getCategoryParams(subcategory.id);
-    category.currentSubcategory = subcategory;
     this.parameterService.navigateWithUpdatedParams(parameters);
   }
 

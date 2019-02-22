@@ -11,15 +11,20 @@
 
 .subcategory {
   background-color: #EEF5F9;
-  border-left: 4px solid transparent;
+  text-decoration: none;
+  transition: all 0.3s linear;
+  -o-transition: all 0.3s linear;
+  -webkit-transition: all 0.3s linear;
+  -moz-transition: all 0.3s linear;
 }
 
-.subcategory.active {
-  color: #fff;
-  background-color: #8e81f1;
-  border-left: 4px solid #3b25e6;
-  transition: height 2s ease-out;
-}
+  .subcategory.active {
+    color: #fff;
+    background-color: #8e81f1;
+  }
+  .subcategory.active > button {
+    border-left: 4px solid #3b25e6;
+  }
 
 ul li button {
   display: block;
@@ -30,10 +35,19 @@ ul li button {
   width: 100%;
   text-align: inherit;
   font-size: 0.9em;
-  text-decoration: none;
   font-weight: 300;
+  text-decoration: none;
   border-left: 4px solid transparent;
+  transition: all 0.3s linear;
+  -o-transition: all 0.3s linear;
+  -webkit-transition: all 0.3s linear;
+  -moz-transition: all 0.3s linear;
 }
+  ul li button:hover {
+    background: #796AEE;
+    border-left: 4px solid #3b25e6;
+    color: #fff
+  }
 
 
 

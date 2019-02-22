@@ -6,9 +6,9 @@
     </div>-->
     <ul class="list-unstyled">
       <li><button class="active">Home</button></li>
-      <li *ngFor="let category of allCategories" [ngClass]="{ 'active': !category.collapsed }" class="category">
+      <li *ngFor="let category of allCategories" [ngClass]="{ 'active': category.expanded }" class="category">
         <button type="button" (click)="navigateParentCategory(category)">{{ category.title }}</button>
-        <ul class="list-unstyled" [@expandCollapse]="category.collapsed ? 'collapsed' : 'expanded'">
+        <ul class="list-unstyled" [@expandCollapse]="category.expanded ? 'expanded' : 'collapsed'">
           <li *ngFor="let subcategory of category.subcategories" [ngClass]="{ 'active': category.currentSubcategory == subcategory }" class="subcategory">
             <button type="button" (click)="navigateSubcategory(category, subcategory)">{{ subcategory.title }}</button>
           </li>
