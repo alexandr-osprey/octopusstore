@@ -28,7 +28,7 @@ import { trigger, style, state, animate, transition } from '@angular/animations'
 })
 export class CategoryIndexComponent implements OnInit {
   public allCategories: CategoryDisplayed[];
-  currentCategory: Category;
+  public rootCategory: CategoryDisplayed;
   isOpen = true;
   parametersSubscription: Subscription;
   //protected categoryHierarchy: CategoryHierarchy;
@@ -42,9 +42,7 @@ export class CategoryIndexComponent implements OnInit {
     private route: ActivatedRoute,
     private parameterService: ParameterService) {
     this.parametersSubscription = this.parameterService.params$.subscribe(params => {
-      if (!this.currentCategory || this.currentCategory.id != +this.parameterService.getParam(ParameterNames.categoryId)) {
         this.updateCategories();
-      };
     });
   }
 
@@ -61,8 +59,9 @@ export class CategoryIndexComponent implements OnInit {
       }
     );
     this.categoryService.index().subscribe((data: EntityIndex<Category>) => {
+      this.rootCategory = new CategoryDisplayed({ id: this.categoryService.rootCategoryId, title: 'Items' })
       this.allCategories = data.entities
-        .filter(c => c.parentCategoryId == this.categoryService.rootCategoryId)
+        .filter(c => c.parentCategoryId == this.rootCategory.id)
         .map(c => {
           let nc = new CategoryDisplayed(c)
           nc.subcategories = data.entities.filter(sc => sc.parentCategoryId == c.id).map(sc => new Category(sc))
@@ -75,10 +74,13 @@ export class CategoryIndexComponent implements OnInit {
   updateCategories() {
     let categoryId = +this.parameterService.getParam(ParameterNames.categoryId);
     if (categoryId) {
+      if (categoryId == this.rootCategory.id) {
+        this.setCategoryDisplayed(this.rootCategory);
+        return;
+      };
       let selectedCategory = this.allCategories.find(c => c.id == categoryId);
       if (selectedCategory) {
         this.setCategoryDisplayed(selectedCategory);
-        this.currentCategory = selectedCategory;
       } else {
         let selectedSubcategory = this.allCategories.map(c => c.subcategories)
           .reduce((a, b) => a.concat(b))
@@ -88,7 +90,6 @@ export class CategoryIndexComponent implements OnInit {
           this.setCategoryDisplayed(selectedCategory);
           if (selectedCategory) {
             selectedCategory.currentSubcategory = selectedSubcategory;
-            this.currentCategory = selectedSubcategory;
           }
         }
       }
@@ -105,6 +106,11 @@ export class CategoryIndexComponent implements OnInit {
 
   navigateParentCategory(categoryDisplayed: CategoryDisplayed) {
     let parameters = this.getCategoryParams(categoryDisplayed.id);
+    this.parameterService.navigateWithUpdatedParams(parameters);
+  }
+
+  navigateRootCategory() {
+    let parameters = this.getCategoryParams(this.categoryService.rootCategoryId);
     this.parameterService.navigateWithUpdatedParams(parameters);
   }
 

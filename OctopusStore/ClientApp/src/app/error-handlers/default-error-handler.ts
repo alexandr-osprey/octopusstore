@@ -12,8 +12,9 @@ export class DefaultErrorHandler implements ErrorHandler {
   handleError(errorResponse) {
     const router = this.injector.get(Router);
     let message = '';
+    
     let urlToNavigateTo = "";
-    let status = errorResponse.status || errorResponse.rejection.status;
+    let status = errorResponse.status || (errorResponse.rejection && errorResponse.rejection.status);
     switch (status) {
       case 401:
         message = "Please sign in";
@@ -29,14 +30,15 @@ export class DefaultErrorHandler implements ErrorHandler {
         urlToNavigateTo = '/pageNotFound';
         break;
       default:
+        if (errorResponse.message) {
+          message = errorResponse.message;
+          if (errorResponse.stack)
+            message += errorResponse.stack;
+        }
         if (errorResponse.error) {
           if (errorResponse.error.message)
             message = errorResponse.error.message;
-          else
-            message = errorResponse.error;
-        } else {
-          message = errorResponse;
-        }
+        } 
         urlToNavigateTo = '/';
         break;
     }

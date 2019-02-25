@@ -5,7 +5,9 @@
       <button class="btn" (click)="create()">Create</button>
     </div>-->
     <ul class="list-unstyled">
-      <li><button class="active">Home</button></li>
+      <li [ngClass]="{ 'active': rootCategory.expanded }" class="category">
+        <button type="button" (click)="navigateRootCategory()">{{ rootCategory.title }}</button>
+      </li>
       <li *ngFor="let category of allCategories" [ngClass]="{ 'active': category.expanded }" class="category">
         <button type="button" (click)="navigateParentCategory(category)">{{ category.title }}</button>
         <ul class="list-unstyled" [@expandCollapse]="category.expanded ? 'expanded' : 'collapsed'">
