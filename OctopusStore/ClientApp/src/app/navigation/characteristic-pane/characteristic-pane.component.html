@@ -1,14 +1,16 @@
-<div *ngIf="characteristicValueCheckboxes" class="row">
-  <form>
-    <div class="form-group">
-      <label>{{characteristic.title}}</label>
-    </div>
-    <div class="form-group" *ngFor="let characteristicValue of characteristicValueCheckboxes">
-      <label for="characteristicValue_{{characteristicValue.id}}">{{ characteristicValue.title }}</label>
-      <input type="checkbox" name="characteristicValues_{{characteristic.id}}"
-             id="characteristicValue_{{characteristicValue.id}}"
-             (change)="characteristicValueChecked($event, characteristicValue)"
-             [(ngModel)]="characteristicValue.checked" [ngModelOptions]="{standalone: true}"/>
-    </div>
-  </form>
+<div *ngIf="characteristicValuesDisplayed" class="row">
+  <div class="col">
+    <form>
+      <div class="form-group">
+        <p class="characteristic-name">{{characteristic.title}}</p>
+      </div>
+      <div class="form-group" *ngFor="let characteristicValue of characteristicValuesDisplayed">
+        <button class="characteristic-value" [ngClass]="{ 'active': characteristicValue.selected }" (click)="characteristicValueClick(characteristicValue)">{{ characteristicValue.title }}</button>
+        <!--<input type="checkbox" name="characteristicValues_{{characteristic.id}}"
+               id="characteristicValue_{{characteristicValue.id}}"
+               (change)="characteristicValueChecked($event, characteristicValue)"
+               [(ngModel)]="characteristicValue.checked" [ngModelOptions]="{standalone: true}" />-->
+      </div>
+    </form>
+  </div>
 </div>

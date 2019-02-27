@@ -5,6 +5,7 @@ import { Characteristic } from 'src/app/characteristic/characteristic';
 import { CategoryService } from 'src/app/category/category.service';
 import { CharacteristicService } from 'src/app/characteristic/characteristic.service';
 import { CharacteristicValue } from 'src/app/characteristic-value/characteristic-value';
+import { Category } from 'src/app/category/category';
 
 @Component({
   selector: 'app-items-navigation-pane',
@@ -33,11 +34,16 @@ export class ItemsNavigationPaneComponent implements OnInit {
 
   getCharacteristics(init: boolean) {
     let newCategoryId: number = +this.parameterService.getParam(ParameterNames.categoryId);
-    if (newCategoryId == this.categoryId)
+    if (newCategoryId !== this.categoryId) {
+      this.selectedChacarteristicValueIds = [];
+    }
+    else {
       return;
+    }
     if (!newCategoryId)
       newCategoryId = this.categoryService.rootCategoryId;
     this.categoryId = newCategoryId;
+    
     this.characteristicService.index({ categoryId: this.categoryId }).subscribe(data => {
       if (data) {
         this.characteristics = [];
@@ -72,6 +78,6 @@ export class ItemsNavigationPaneComponent implements OnInit {
 
   applyFilter() {
     let p = this.selectedChacarteristicValueIds.join(';');
-    this.parameterService.navigateWithUpdatedParams([ParameterNames.characteristicsFilter, p], [ParameterNames.page, 1]);
+    this.parameterService.navigateWithUpdatedParams({ "characteristicsFilter": p, "page": 1 });
   }
 }

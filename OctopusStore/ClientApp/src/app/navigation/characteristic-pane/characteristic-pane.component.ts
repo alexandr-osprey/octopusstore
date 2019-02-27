@@ -2,9 +2,9 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ParameterService } from 'src/app/parameter/parameter.service';
 import { ParameterNames } from 'src/app/parameter/parameter-names';
 import { CharacteristicValue } from 'src/app/characteristic-value/characteristic-value';
-import { CharacteristicValueCheckbox } from 'src/app/characteristic-value/characteristic-value-checkbox';
 import { CharacteristicValueService } from 'src/app/characteristic-value/characteristic-value.service';
 import { Characteristic } from 'src/app/characteristic/characteristic';
+import { CharacteristicValueDisplayed } from './characteristic-value-displayed';
 
 @Component({
   selector: 'app-characteristic-pane',
@@ -15,7 +15,7 @@ export class CharacteristicPaneComponent implements OnInit {
   @Input() characteristic: Characteristic;
   @Output() characteristicValueSelected = new EventEmitter<CharacteristicValue>();
   @Output() characteristicValueUnselected = new EventEmitter<CharacteristicValue>();
-  public characteristicValueCheckboxes: CharacteristicValueCheckbox[] = [];
+  public characteristicValuesDisplayed: CharacteristicValueDisplayed[] = [];
 
   constructor(
     private characteristicValueService: CharacteristicValueService,
@@ -32,27 +32,36 @@ export class CharacteristicPaneComponent implements OnInit {
   }
 
   initializeComponent() {
-    this.characteristicValueCheckboxes = [];
+    this.characteristicValuesDisplayed = [];
     if (this.characteristic) {
       this.characteristicValueService.index({ characteristicId: this.characteristic.id })
         .subscribe(data => {
           data.entities.forEach(e => {
-            this.characteristicValueCheckboxes.push(new CharacteristicValueCheckbox(e));
+            this.characteristicValuesDisplayed.push(new CharacteristicValueDisplayed(e));
           });
           let filters: string = this.parameterService.getParam(ParameterNames.characteristicsFilter);
           if (filters) {
             let values = filters.split(';').map(v => +v);
-            let valuesToCheck = this.characteristicValueCheckboxes.filter(v => values.includes(v.id));
-            valuesToCheck.forEach(v => this.characteristicValueCheckboxes.find(c => c == v).checked = true);
+            let valuesToSelect = this.characteristicValuesDisplayed.filter(v => values.includes(v.id));
+            valuesToSelect.forEach(v => this.characteristicValuesDisplayed.find(c => c == v).selected = true);
           }
         });
+    }
+  }
+
+  characteristicValueClick(characteristicValue: CharacteristicValueDisplayed) {
+    characteristicValue.selected = !characteristicValue.selected;
+    if (characteristicValue.selected) {
+      this.characteristicValueSelected.emit(characteristicValue);
+    } else {
+      this.characteristicValueUnselected.emit(characteristicValue);
     }
   }
 
   characteristicValueChecked(evt, characteristicValue) {
     var target = evt.target;
     if (target.checked) {
-      this.characteristicValueSelected.emit(characteristicValue);
+      
      // doSelected(target);
      // this._prevSelected = target;
     } else {

@@ -22,6 +22,6 @@ export class AdministratingHomepageComponent implements OnInit {
   }
 
   categorySaved(category: Category) {
-    this.parameterService.navigateWithUpdatedParams([ParameterNames.categoryId, category.id]);
+    this.parameterService.navigateWithUpdatedParams({ "categoryId": category.id, });
   }
 }

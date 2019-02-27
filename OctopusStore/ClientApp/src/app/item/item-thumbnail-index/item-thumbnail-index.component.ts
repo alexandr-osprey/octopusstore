@@ -53,7 +53,7 @@ export class ItemThumbnailIndexComponent implements OnInit, OnDestroy {
   }
 
   getOrderByQueryParams(paramName: string): any {
-    let updatedParams = this.parameterService.getUpdatedParams([ParameterNames.orderBy, paramName]);
+    let updatedParams = this.parameterService.getUpdatedParamsCopy({"orderBy": paramName});
     updatedParams[ParameterNames.page] = 1;
     updatedParams[ParameterNames.orderByDescending] = this.getOrderByDescending(paramName);
     return updatedParams;

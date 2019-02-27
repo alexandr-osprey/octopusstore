@@ -43,8 +43,8 @@ export class CharacteristicIndexComponent implements OnInit {
   }
 
   getCharacteristicParams(characteristic: Characteristic): any {
-    let characteristicParams = this.parameterService.getUpdatedParams(
-      [ParameterNames.characteristicId, characteristic.id]);
+    let characteristicParams = this.parameterService.getUpdatedParamsCopy(
+      { "characteristicId": characteristic.id, });
     return characteristicParams;
   }
 

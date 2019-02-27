@@ -43,15 +43,13 @@ export class PaginatorComponent<T extends Entity> implements OnInit, OnChanges {
   }
 
   getPageSizeParams(pageSize: number): any {
-    let params = this.parameterService.getUpdatedParams(
-      [ParameterNames.pageSize, pageSize],
-      [ParameterNames.page, 1]);
+    let params = this.parameterService.getUpdatedParamsCopy(
+      { "pageSize": pageSize, "page": 1 });
     return params;
   }
 
   getPageParams(page: number): any {
-    let params = this.parameterService.getUpdatedParams(
-      [ParameterNames.page, page]);
+    let params = this.parameterService.getUpdatedParamsCopy({ "page": page });
     return params;
   }
 

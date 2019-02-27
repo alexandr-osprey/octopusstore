@@ -46,7 +46,7 @@ export class CartItemThumbnailIndexComponent implements OnInit {
   }
 
   public getItemVariantParams(itemVariant: ItemVariant) {
-    let params = this.parameterService.getUpdatedParams([ParameterNames.itemVariantId, itemVariant.id]);
+    let params = this.parameterService.getUpdatedParamsCopy({ "itemVariantId": itemVariant.id });
     return params;
   }
 

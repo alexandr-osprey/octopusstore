@@ -42,7 +42,7 @@ export class CategoryIndexComponent implements OnInit {
     private route: ActivatedRoute,
     private parameterService: ParameterService) {
     this.parametersSubscription = this.parameterService.params$.subscribe(params => {
-        this.updateCategories();
+      this.updateCategories();
     });
   }
 
@@ -54,10 +54,10 @@ export class CategoryIndexComponent implements OnInit {
     this.parameterService.params$.pipe(
       debounceTime(50))
       .subscribe(
-      params => {
-        this.updateCategories();
-      }
-    );
+        params => {
+          this.updateCategories();
+        }
+      );
     this.categoryService.index().subscribe((data: EntityIndex<Category>) => {
       this.rootCategory = new CategoryDisplayed({ id: this.categoryService.rootCategoryId, title: 'Items' })
       this.allCategories = data.entities
@@ -96,11 +96,12 @@ export class CategoryIndexComponent implements OnInit {
     };
   }
   getCategoryParams(categoryId: number): any {
-    let params = this.parameterService.getUpdatedParams(
-      [ParameterNames.categoryId, categoryId],
-      [ParameterNames.characteristicsFilter, null],
-      [ParameterNames.page, null],
-      [ParameterNames.characteristicId, null]);
+    let params = this.parameterService.getUpdatedParams({
+      "categoryId": categoryId,
+      "characteristicsFilter": null,
+      "page": null,
+      "characteristicId": null
+    });
     return params;
   }
 
@@ -111,7 +112,7 @@ export class CategoryIndexComponent implements OnInit {
 
   navigateRootCategory() {
     let parameters = this.getCategoryParams(this.categoryService.rootCategoryId);
-    this.parameterService.navigateWithUpdatedParams(parameters);
+    this.parameterService.navigateWithParams(parameters);
   }
 
   setCategoryDisplayed(categoryDisplayed: CategoryDisplayed) {
@@ -129,7 +130,7 @@ export class CategoryIndexComponent implements OnInit {
 
   navigateSubcategory(category: CategoryDisplayed, subcategory: Category) {
     let parameters = this.getCategoryParams(subcategory.id);
-    this.parameterService.navigateWithUpdatedParams(parameters);
+    this.parameterService.navigateWithParams(parameters);
   }
 
   getType(c: any): string {

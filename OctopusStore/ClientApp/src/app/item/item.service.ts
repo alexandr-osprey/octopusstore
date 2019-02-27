@@ -32,7 +32,7 @@ export class ItemService extends DataReadWriteService<Item> {
   public indexThumbnails(): Observable<EntityIndex<ItemThumbnail>> {
     return this.getCustom<EntityIndex<ItemThumbnail>>(
       this.getUrlWithParameter(ParameterNames.thumbnails),
-      this.parameterService.getParams(),
+      this.parameterService.getParamsCopy(),
       this.defaultHttpHeaders);
   }
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
-import { ParameterService } from '../../parameter/parameter.service';
+import { ParameterService, } from '../../parameter/parameter.service';
 import { ParameterNames } from '../../parameter/parameter-names';
 import { Store } from '../store';
 import { StoreService } from '../store.service';
@@ -30,7 +30,7 @@ export class StoreDetailComponent implements OnInit {
 
   initializeComponent() {
     let storeId = +this.route.snapshot.paramMap.get('id');
-    this.parameterService.navigateWithUpdatedParams([ParameterNames.storeId, storeId]);
+    this.parameterService.navigateWithUpdatedParams({ "storeId": storeId });
     if (storeId) {
       this.storeService.getDetail(storeId).subscribe((storeDetail: Store) => {
         this.storeDetail = new Store(storeDetail);

@@ -48,25 +48,3 @@ ul li button {
     border-left: 4px solid #3b25e6;
     color: #fff
   }
-
-
-
-  /*.expanded-arrow {
-    content: '\f104';
-    display: inline-block;
-    -webkit-transform: translateY(-50%);
-    transform: translateY(-50%);
-    font-family: 'FontAwesome';
-    right: 20px;
-    float: right;
-  }
-
-  .not-expanded-arrow {
-    content: '\f107';
-    display: inline-block;
-    -webkit-transform: translateY(-50%);
-    transform: translateY(-50%);
-    font-family: 'FontAwesome';
-    right: 20px;
-    float: right;
-  }*/

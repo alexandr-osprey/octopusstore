@@ -2,14 +2,17 @@
   <div class="col">
     <app-category-index></app-category-index>
   </div>
-  <!--<div class="col">
-    <div *ngIf="characteristics" class="col-12 col-md-12">
+
+</div>
+<div class="row">
+  <div class="col">
+    <div *ngIf="characteristics" class="col-12 col-md-12 characteristics">
+      <p>Characteristics</p>
       <div *ngFor="let characteristic of characteristics">
         <app-characteristic-pane [characteristic]="characteristic"
                                  (characteristicValueSelected)="characteristicValueSelected($event)"
                                  (characteristicValueUnselected)="characteristicValueUnselected($event)"></app-characteristic-pane>
       </div>
     </div>
-  </div>-->
+  </div>
 </div>
-

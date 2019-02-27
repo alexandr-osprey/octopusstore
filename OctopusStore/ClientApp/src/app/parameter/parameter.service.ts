@@ -30,7 +30,7 @@ export class ParameterService {
     //  });
   }
 
-  public getParams(): any {
+  public getParamsCopy(): any {
     let params: any = {};
     Object.assign(params, this.params);
     return params;
@@ -38,32 +38,33 @@ export class ParameterService {
   public getParam(key: string): any {
     return this.params[key];
   }
-  public getUpdatedParams(...args: [string, any][]): [string, any][] {
-    let params = this.getParams();
-    args.forEach(pair => {
-      let k, v = null;
-      if (Array.isArray(pair)) {
-        k = pair[0];
-        v = pair[1];
+
+  public getUpdatedParams(pairs: any): any {
+    return this.assignParams(this.params, pairs);
+  }
+
+  public getUpdatedParamsCopy(pairs: any): any {
+    return this.assignParams(this.getParamsCopy(), pairs);
+  }
+
+  private assignParams(params: any, pairs: any): any {
+    for (let key in pairs) {
+      if (pairs[key]) {
+        params[key] = pairs[key];
       } else {
-        k = Object.keys(pair)[0];
-        v = pair[k];
+        delete params[key];
       }
-      if (v) {
-        params[k] = v;
-      } else {
-        delete params[k];
-      }
-    });
+    }
     return params;
   }
 
-  public navigateWithUpdatedParams(...args: [string, any][]): void {
-    let params = this.getUpdatedParams(...args);
+  public navigateWithUpdatedParams(pairs: any): void {
+    let params = this.getUpdatedParams(pairs);
     this.router.navigate([ParameterService.getUrlWithoutParams(this.router)], { queryParams: params });
   }
 
-  public navigateWithParams(url: string, params: any = {}) {
+  public navigateWithParams(params: any, url: string = null) {
+    url = url ? url : ParameterService.getUrlWithoutParams(this.router);
     this.router.navigate([url], { queryParams: params });
   }
 
@@ -79,4 +80,6 @@ export class ParameterService {
     }
     return result;
   }
+
+
 }

@@ -1,9 +1,5 @@
 <div *ngIf="allCategories" class="row">
-
   <div class="col">
-    <!--<div *ngIf="administrating">
-      <button class="btn" (click)="create()">Create</button>
-    </div>-->
     <ul class="list-unstyled">
       <li [ngClass]="{ 'active': rootCategory.expanded }" class="category">
         <button type="button" (click)="navigateRootCategory()">{{ rootCategory.title }}</button>
@@ -15,16 +11,7 @@
             <button type="button" (click)="navigateSubcategory(category, subcategory)">{{ subcategory.title }}</button>
           </li>
         </ul>
-        <!--<div> {{ category.title }}</div>-->
       </li>
     </ul>
-
-    <!--<div *ngFor="let parentCategory of categoryHierarchy.parentCategories">
-      <a [routerLink] [queryParams]="getCategoryParams(parentCategory.id)">{{parentCategory.title}}</a>
-      <a *ngIf="administrating && currentCategory.id==parentCategory.id" [routerLink]="['/categories', parentCategory.id, 'update']">Update</a>
-    </div>
-    <div *ngFor="let subcategory of categoryHierarchy.subcategories">
-      <a [routerLink] [queryParams]="getCategoryParams(subcategory.id)">> {{subcategory.title}}</a>
-    </div>-->
   </div>
 </div>
