@@ -1,17 +1,19 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges } from '@angular/core';
 import { ParameterService } from 'src/app/parameter/parameter.service';
 import { ParameterNames } from 'src/app/parameter/parameter-names';
 import { CharacteristicValue } from 'src/app/characteristic-value/characteristic-value';
 import { CharacteristicValueService } from 'src/app/characteristic-value/characteristic-value.service';
 import { Characteristic } from 'src/app/characteristic/characteristic';
 import { CharacteristicValueDisplayed } from './characteristic-value-displayed';
+import { Category } from 'src/app/category/category';
 
 @Component({
   selector: 'app-characteristic-pane',
   templateUrl: './characteristic-pane.component.html',
   styleUrls: ['./characteristic-pane.component.css']
 })
-export class CharacteristicPaneComponent implements OnInit {
+export class CharacteristicPaneComponent implements OnInit, OnChanges {
+  @Input() currentCategory: Category;
   @Input() characteristic: Characteristic;
   @Output() characteristicValueSelected = new EventEmitter<CharacteristicValue>();
   @Output() characteristicValueUnselected = new EventEmitter<CharacteristicValue>();
@@ -25,10 +27,13 @@ export class CharacteristicPaneComponent implements OnInit {
 
   ngOnInit() {
     //this.initializeComponent();
+    this.initializeComponent();
   }
 
   ngOnChanges() {
-    this.initializeComponent();
+    if (this.characteristicValuesDisplayed.some(v => v.selected)) {
+      this.characteristicValuesDisplayed.filter(v => v.selected).forEach(v => v.selected = false);
+    }
   }
 
   initializeComponent() {

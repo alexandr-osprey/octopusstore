@@ -18,3 +18,9 @@ button {
   .active {
     border-left: 4px solid #007bff;
   }
+
+.characteristic-name {
+  padding-left: 10px;
+  text-align: inherit;
+
+}

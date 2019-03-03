@@ -1,10 +1,8 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { CategoryHierarchy } from './category-hierarchy';
-import { Subscription } from 'rxjs';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { debounceTime } from 'rxjs/operators';
 import { ParameterNames } from '../../parameter/parameter-names';
 import { ParameterService } from '../../parameter/parameter.service';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Category } from '../category';
 import { CategoryService } from '../category.service';
 import { EntityIndex } from 'src/app/models/entity/entity-index';
@@ -29,8 +27,7 @@ import { trigger, style, state, animate, transition } from '@angular/animations'
 export class CategoryIndexComponent implements OnInit {
   public allCategories: CategoryDisplayed[];
   public rootCategory: CategoryDisplayed;
-  isOpen = true;
-  parametersSubscription: Subscription;
+  @Output() categorySelectedEvent = new EventEmitter<Category>();
   //protected categoryHierarchy: CategoryHierarchy;
   //protected currentCategory: Category;
   //protected parametersSubsription: Subscription;
@@ -41,9 +38,6 @@ export class CategoryIndexComponent implements OnInit {
     private categoryService: CategoryService,
     private route: ActivatedRoute,
     private parameterService: ParameterService) {
-    this.parametersSubscription = this.parameterService.params$.subscribe(params => {
-      this.updateCategories();
-    });
   }
 
   ngOnInit() {
@@ -59,7 +53,7 @@ export class CategoryIndexComponent implements OnInit {
         }
       );
     this.categoryService.index().subscribe((data: EntityIndex<Category>) => {
-      this.rootCategory = new CategoryDisplayed({ id: this.categoryService.rootCategoryId, title: 'Items' })
+      this.rootCategory = new CategoryDisplayed({ id: this.categoryService.rootCategory.id, title: 'Items' })
       this.allCategories = data.entities
         .filter(c => c.parentCategoryId == this.rootCategory.id)
         .map(c => {
@@ -108,11 +102,13 @@ export class CategoryIndexComponent implements OnInit {
   navigateParentCategory(categoryDisplayed: CategoryDisplayed) {
     let parameters = this.getCategoryParams(categoryDisplayed.id);
     this.parameterService.navigateWithUpdatedParams(parameters);
+    this.categorySelectedEvent.emit(categoryDisplayed);
   }
 
   navigateRootCategory() {
-    let parameters = this.getCategoryParams(this.categoryService.rootCategoryId);
+    let parameters = this.getCategoryParams(this.categoryService.rootCategory.id);
     this.parameterService.navigateWithParams(parameters);
+    this.categorySelectedEvent.emit(this.categoryService.rootCategory)
   }
 
   setCategoryDisplayed(categoryDisplayed: CategoryDisplayed) {
@@ -131,6 +127,7 @@ export class CategoryIndexComponent implements OnInit {
   navigateSubcategory(category: CategoryDisplayed, subcategory: Category) {
     let parameters = this.getCategoryParams(subcategory.id);
     this.parameterService.navigateWithParams(parameters);
+    this.categorySelectedEvent.emit(subcategory);
   }
 
   getType(c: any): string {

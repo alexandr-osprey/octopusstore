@@ -25,11 +25,7 @@ import { SignedInAuthorizationGuard } from './guards/signed-in-authorization-gua
 
 
 const routes: Routes = [
-  {
-    path: '',
-    component: HomepageComponent,
-    pathMatch: 'full',
-  },
+
   {
     path: 'cart',
     component: CartItemThumbnailIndexComponent,
@@ -171,7 +167,11 @@ const routes: Routes = [
     path: 'stores/:id/detail',
     component: StoreDetailComponent,
   },
-
+  {
+    path: '',
+    component: HomepageComponent,
+    pathMatch: 'full',
+  },
   { path: 'pageNotFound', component: PageNotFoundComponent },
   { path: '**', component: PageNotFoundComponent }
 ]

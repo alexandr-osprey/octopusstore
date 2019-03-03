@@ -51,7 +51,7 @@ export class CategoryCreateUpdateComponent implements OnInit {
       if (data) {
         this.allowedCategories = [];
         data.entities.forEach(c => {
-          if (c.parentCategoryId == this.categoryService.rootCategoryId || c.id == this.categoryService.rootCategoryId) {
+          if (c.parentCategoryId == this.categoryService.rootCategory.id || c.id == this.categoryService.rootCategory.id) {
             this.allowedCategories.push(new Category(c));
           }
         });

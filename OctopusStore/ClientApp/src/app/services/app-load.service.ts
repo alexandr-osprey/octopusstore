@@ -12,7 +12,7 @@ export class AppLoadService {
     console.log("Before loading root category");
     const promise = this.httpClient.get<Category>('/api/categories/root').toPromise().then(data => {
       console.log("from api: " + data);
-      APP_SETTINGS.rootCategoryId = data.id;
+      APP_SETTINGS.rootCategory = data;
       return data;
     });
     return promise;

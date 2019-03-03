@@ -23,6 +23,14 @@ namespace UnitTests.Controllers
         }
 
         [Fact]
+        public async Task IndexWithoutParametersAsync()
+        {
+            var expected = new IndexViewModel<CharacteristicValueViewModel>(1, 1, Data.CharacteristicValues.Entities.Count(), from c in Data.CharacteristicValues.Entities select new CharacteristicValueViewModel(c));
+            var actual = await Controller.IndexAsync(null, null);
+            Equal(expected, actual);
+        }
+
+        [Fact]
         public async Task IndexByCategoryAsync()
         {
             var category = Data.Categories.Smartphones;

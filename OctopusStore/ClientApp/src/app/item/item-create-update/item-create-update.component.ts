@@ -80,7 +80,7 @@ export class ItemCreateUpdateComponent implements OnInit {
       data[1].entities.forEach(s => this.stores.push(new Store(s)));
       data[2].entities.forEach(m => this.measurementUnits.push(new MeasurementUnit(m)));
       data[3].entities.forEach(c => this.allCategories.push(new Category(c)));
-      this.parentCategories = this.allCategories.filter(c => c.parentCategoryId == this.categoryService.rootCategoryId);
+      this.parentCategories = this.allCategories.filter(c => c.parentCategoryId == this.categoryService.rootCategory.id);
       if (id) {
         this.itemService.get(id).subscribe((item: Item) => {
           if (item) {

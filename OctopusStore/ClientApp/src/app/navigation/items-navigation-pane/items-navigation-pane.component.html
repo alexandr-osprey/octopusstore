@@ -1,18 +1,25 @@
 <div class="row">
   <div class="col">
-    <app-category-index></app-category-index>
-  </div>
-
-</div>
-<div class="row">
-  <div class="col">
-    <div *ngIf="characteristics" class="col-12 col-md-12 characteristics">
-      <p>Characteristics</p>
-      <div *ngFor="let characteristic of characteristics">
-        <app-characteristic-pane [characteristic]="characteristic"
-                                 (characteristicValueSelected)="characteristicValueSelected($event)"
-                                 (characteristicValueUnselected)="characteristicValueUnselected($event)"></app-characteristic-pane>
+    <div class="row">
+      <div class="col">
+        <app-category-index></app-category-index>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <ul class="list-unstyled">
+          <li *ngFor="let category of allCategories">
+            <ul class="list-unstyled" [@fadeInFadeOut]="category == currentCategory ? 'fadeIn' : 'fadeOut'">
+              <li *ngFor="let characteristic of category.characteristics">
+                <app-characteristic-pane [currentCategory]="currentCategory" [characteristic]="characteristic"
+                                         (characteristicValueSelected)="characteristicValueSelected($event)"
+                                         (characteristicValueUnselected)="characteristicValueUnselected($event)"></app-characteristic-pane>
+              </li>
+            </ul>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
 </div>
+

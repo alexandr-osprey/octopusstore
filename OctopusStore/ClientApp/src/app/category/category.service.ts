@@ -12,7 +12,7 @@ import { MessageService } from '../message/message.service';
   providedIn: 'root'
 })
 export class CategoryService extends DataReadWriteService<Category> {
-  public rootCategoryId: number = APP_SETTINGS.rootCategoryId;
+  public rootCategory: Category = new Category(APP_SETTINGS.rootCategory);
 
   constructor(
     protected http: HttpClient,
@@ -22,14 +22,6 @@ export class CategoryService extends DataReadWriteService<Category> {
     super(http, router, identityService, messageService);
     this.remoteUrl = '/api/categories';
     this.serviceName = 'Category service';
-
-    this.getRoot().subscribe(c => {
-      if (c)
-        this.rootCategoryId = c.id;
-    });
   }
 
-  public getRoot(): Observable<Category> {
-    return this.getCustom(this.remoteUrl + '/root', {}, this.defaultHttpHeaders);
-  }
 }

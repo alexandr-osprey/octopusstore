@@ -5,16 +5,27 @@ import { Characteristic } from 'src/app/characteristic/characteristic';
 import { CategoryService } from 'src/app/category/category.service';
 import { CharacteristicService } from 'src/app/characteristic/characteristic.service';
 import { CharacteristicValue } from 'src/app/characteristic-value/characteristic-value';
+import { CategoryWithCharacteristicsDisplayed } from '../characteristic-pane/category-with-characteristics-displayed';
+import { EntityIndex } from 'src/app/models/entity/entity-index';
 import { Category } from 'src/app/category/category';
+import { trigger, state, transition, style, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-items-navigation-pane',
   templateUrl: './items-navigation-pane.component.html',
-  styleUrls: ['./items-navigation-pane.component.css']
+  styleUrls: ['./items-navigation-pane.component.css'],
+  animations: [
+    trigger('fadeInFadeOut', [
+      state('fadeIn', style({ visibility: 'visible', opacity: 1, display: 'block' })),
+      state('fadeOut', style({ visibility: 'hidden', opacity: 0, display: 'none' })),
+      transition('fadeOut => fadeIn', [animate('350ms linear')]),
+      transition('fadeIn => fadeOut', [animate('0ms linear')]),
+    ])
+  ],
 })
 export class ItemsNavigationPaneComponent implements OnInit {
-  protected categoryId: number;
-  protected characteristics: Characteristic[] = [];
+  protected currentCategory: CategoryWithCharacteristicsDisplayed;
+  protected allCategories: CategoryWithCharacteristicsDisplayed[] = [];
   protected selectedChacarteristicValueIds: number[] = [];
 
   constructor(private categoryService: CategoryService,
@@ -27,37 +38,42 @@ export class ItemsNavigationPaneComponent implements OnInit {
 
   initializeComponent() {
     this.parameterService.params$.subscribe(params => {
-      this.getCharacteristics(false);
-    });
-    this.getCharacteristics(true);
-  }
-
-  getCharacteristics(init: boolean) {
-    let newCategoryId: number = +this.parameterService.getParam(ParameterNames.categoryId);
-    if (newCategoryId !== this.categoryId) {
-      this.selectedChacarteristicValueIds = [];
-    }
-    else {
-      return;
-    }
-    if (!newCategoryId)
-      newCategoryId = this.categoryService.rootCategoryId;
-    this.categoryId = newCategoryId;
-    
-    this.characteristicService.index({ categoryId: this.categoryId }).subscribe(data => {
-      if (data) {
-        this.characteristics = [];
-        this.categoryId = newCategoryId;
-        data.entities.forEach(e => this.characteristics.push(new Characteristic(e)));
-        if (init) {
-          let filters: string = this.parameterService.getParam(ParameterNames.characteristicsFilter);
-          if (filters) {
-            this.selectedChacarteristicValueIds = filters.split(';').map(v => +v);
-          }
-          this.applyFilter();
-        }
+      let newCategoryId: number = +this.parameterService.getParam(ParameterNames.categoryId);
+      if (!this.currentCategory || newCategoryId !== this.currentCategory.id) {
+        this.selectedChacarteristicValueIds = [];
+        this.updateCurrentCategory();
+      }
+      else {
+        return;
       }
     });
+    this.categoryService.index().subscribe((data: EntityIndex<Category>) => {
+      if (data && data.entities) {
+        this.allCategories = data.entities
+          .map(c => {
+            let categoryDisplayed = new CategoryWithCharacteristicsDisplayed(c);
+            this.characteristicService.index({ "categoryId": categoryDisplayed.id }).subscribe((data2: EntityIndex<Characteristic>) => {
+              if (data2 && data2.entities) {
+                categoryDisplayed.characteristics = data2.entities.map(cs => new Characteristic(cs));
+              }
+            });
+            return categoryDisplayed;
+          });
+      }
+      this.updateCurrentCategory();
+      let filters: string = this.parameterService.getParam(ParameterNames.characteristicsFilter);
+      if (filters) {
+        this.selectedChacarteristicValueIds = filters.split(';').map(v => +v);
+      }
+      this.applyFilter();
+    });
+  }
+
+  updateCurrentCategory() {
+    let newCategoryId: number = +this.parameterService.getParam(ParameterNames.categoryId);
+    if (!newCategoryId)
+      newCategoryId = this.categoryService.rootCategory.id;
+    this.currentCategory = this.allCategories.find(c => c.id == newCategoryId);
   }
 
   characteristicValueSelected(characteristicValue: CharacteristicValue) {

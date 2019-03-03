@@ -1,3 +1,3 @@
 export let APP_SETTINGS = {
-  rootCategoryId: 1
+  rootCategory: null,
 }

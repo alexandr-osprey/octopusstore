@@ -70,7 +70,12 @@ export class ParameterService {
 
   public static getUrlWithoutParams(router: Router): string {
     let urlTree = router.parseUrl(router.url);
-    let urlWithoutParams = urlTree.root.children['primary'].segments.map(it => it.path).join('/');
+
+    let urlWithoutParams = router.url;
+    let children = urlTree.root.children['primary'];
+    if (children && children.segments) {
+      urlWithoutParams = children.segments.map(it => it.path).join('/');
+    }
     return urlWithoutParams;
   }
   protected paramMapToParams(params: ParamMap): any {

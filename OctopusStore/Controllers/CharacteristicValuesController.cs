@@ -43,9 +43,12 @@ namespace OctopusStore.Controllers
         [AllowAnonymous]
         public async Task<IndexViewModel<CharacteristicValueViewModel>> IndexAsync([FromQuery(Name = "categoryId")]int? categoryId, [FromQuery(Name = "characteristicId")]int? characteristicId)
         {
+            if (characteristicId.HasValue)
+                return await base.IndexAsync(new EntitySpecification<CharacteristicValue>(c => c.CharacteristicId == characteristicId));
             if (categoryId.HasValue)
                 return await base.IndexByFunctionNotPagedAsync(Service.EnumerateByCategoryAsync, new EntitySpecification<Category>(categoryId.Value));
-            return await base.IndexAsync(new EntitySpecification<CharacteristicValue>(c => c.CharacteristicId == characteristicId));
+
+            return await base.IndexAsync(new Specification<CharacteristicValue>());
         }
 
         [HttpPut]
