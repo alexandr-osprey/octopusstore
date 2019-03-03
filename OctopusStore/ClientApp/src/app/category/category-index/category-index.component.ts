@@ -27,7 +27,7 @@ import { trigger, style, state, animate, transition } from '@angular/animations'
 export class CategoryIndexComponent implements OnInit {
   public allCategories: CategoryDisplayed[];
   public rootCategory: CategoryDisplayed;
-  @Output() categorySelectedEvent = new EventEmitter<Category>();
+  @Output() categorySelected = new EventEmitter<Category>();
   //protected categoryHierarchy: CategoryHierarchy;
   //protected currentCategory: Category;
   //protected parametersSubsription: Subscription;
@@ -102,13 +102,13 @@ export class CategoryIndexComponent implements OnInit {
   navigateParentCategory(categoryDisplayed: CategoryDisplayed) {
     let parameters = this.getCategoryParams(categoryDisplayed.id);
     this.parameterService.navigateWithUpdatedParams(parameters);
-    this.categorySelectedEvent.emit(categoryDisplayed);
+    this.categorySelected.emit(categoryDisplayed);
   }
 
   navigateRootCategory() {
     let parameters = this.getCategoryParams(this.categoryService.rootCategory.id);
     this.parameterService.navigateWithParams(parameters);
-    this.categorySelectedEvent.emit(this.categoryService.rootCategory)
+    this.categorySelected.emit(this.categoryService.rootCategory)
   }
 
   setCategoryDisplayed(categoryDisplayed: CategoryDisplayed) {
@@ -127,15 +127,6 @@ export class CategoryIndexComponent implements OnInit {
   navigateSubcategory(category: CategoryDisplayed, subcategory: Category) {
     let parameters = this.getCategoryParams(subcategory.id);
     this.parameterService.navigateWithParams(parameters);
-    this.categorySelectedEvent.emit(subcategory);
+    this.categorySelected.emit(subcategory);
   }
-
-  getType(c: any): string {
-    return c.constructor.name;
-  }
-  //create() {
-  //  let categoryId = this.parameterService.getParam(ParameterNames.categoryId);
-  //  this.router.navigate(['/categories/create'], { queryParams: { categoryId: categoryId } });
-  //}
-
 }

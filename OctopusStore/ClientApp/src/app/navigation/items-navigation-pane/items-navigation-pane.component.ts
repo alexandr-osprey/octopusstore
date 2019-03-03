@@ -37,16 +37,6 @@ export class ItemsNavigationPaneComponent implements OnInit {
   }
 
   initializeComponent() {
-    this.parameterService.params$.subscribe(params => {
-      let newCategoryId: number = +this.parameterService.getParam(ParameterNames.categoryId);
-      if (!this.currentCategory || newCategoryId !== this.currentCategory.id) {
-        this.selectedChacarteristicValueIds = [];
-        this.updateCurrentCategory();
-      }
-      else {
-        return;
-      }
-    });
     this.categoryService.index().subscribe((data: EntityIndex<Category>) => {
       if (data && data.entities) {
         this.allCategories = data.entities
@@ -60,7 +50,7 @@ export class ItemsNavigationPaneComponent implements OnInit {
             return categoryDisplayed;
           });
       }
-      this.updateCurrentCategory();
+      this.setCurrentCategory(this.allCategories.find(c => c.id == +this.parameterService.getParam(ParameterNames.categoryId)));
       let filters: string = this.parameterService.getParam(ParameterNames.characteristicsFilter);
       if (filters) {
         this.selectedChacarteristicValueIds = filters.split(';').map(v => +v);
@@ -69,11 +59,17 @@ export class ItemsNavigationPaneComponent implements OnInit {
     });
   }
 
-  updateCurrentCategory() {
-    let newCategoryId: number = +this.parameterService.getParam(ParameterNames.categoryId);
-    if (!newCategoryId)
+  setCurrentCategory(category: Category) {
+    let newCategoryId: number = 0;
+    if (category) {
+      newCategoryId = category.id;
+    }
+    else {
       newCategoryId = this.categoryService.rootCategory.id;
-    this.currentCategory = this.allCategories.find(c => c.id == newCategoryId);
+    }
+    if (!this.currentCategory || newCategoryId !== this.currentCategory.id) {
+      this.currentCategory = this.allCategories.find(c => c.id == newCategoryId);
+    }
   }
 
   characteristicValueSelected(characteristicValue: CharacteristicValue) {

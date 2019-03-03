@@ -2,7 +2,7 @@
   <div class="col">
     <div class="row">
       <div class="col">
-        <app-category-index></app-category-index>
+        <app-category-index (categorySelected)="setCurrentCategory($event)"></app-category-index>
       </div>
     </div>
     <div class="row">
