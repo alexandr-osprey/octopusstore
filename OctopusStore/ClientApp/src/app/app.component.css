@@ -1,7 +1,6 @@
 .wrapper {
   background-color: whitesmoke;
   height: 100%;
-  overflow: hidden;
 }
 
 /*.wrapper .row {
@@ -15,5 +14,3 @@
 .main-background-color {
   background-color: aquamarine;
 }
-
-

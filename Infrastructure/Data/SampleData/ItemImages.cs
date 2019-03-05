@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Infrastructure.Data.SampleData
 {
-    public class ItemImages: SampleDataEntities<ItemImage>
+    public class ItemImages : SampleDataEntities<ItemImage>
     {
         public static string ItemImageContentType { get; } = @"image/jpeg";
         public static string PathToFiles { get; } = @"C:\files\";
@@ -23,7 +23,7 @@ namespace Infrastructure.Data.SampleData
         public ItemImage Shoes1 { get; protected set; }
         public ItemImage Jacket1 { get; protected set; }
 
-        public ItemImages(StoreContext storeContext, Items items): base(storeContext)
+        public ItemImages(StoreContext storeContext, Items items) : base(storeContext)
         {
             Items = items;
             Seed();
@@ -32,18 +32,25 @@ namespace Infrastructure.Data.SampleData
 
         protected override IEnumerable<ItemImage> GetSourceEntities()
         {
-            return new List<ItemImage>
+            var list = new List<ItemImage>();
+            int l = 6;
+            for (int i = 0; i < Items.Entities.Count; i += l)
             {
-                new ItemImage("iPhone_6___1", ItemImageContentType, Items.IPhone6.Id, null) { OwnerId = Users.JohnId, FullPath = Path.Combine(PathToFiles, Users.JohnId, "iPhone 6 - 1.jpg"),  },
-                new ItemImage("iPhone_6___2", ItemImageContentType, Items.IPhone6.Id, null) { OwnerId = Users.JohnId, FullPath = Path.Combine(PathToFiles, Users.JohnId, "iPhone 6 - 2.jpg") },
-                new ItemImage("iPhone_6___3", ItemImageContentType, Items.IPhone6.Id, null) { OwnerId = Users.JohnId, FullPath = Path.Combine(PathToFiles, Users.JohnId, "iPhone 6 - 3.jpg") },
-                new ItemImage("Samsung_7", ItemImageContentType, Items.Samsung7.Id, null) { OwnerId = Users.JohnId, FullPath = Path.Combine(PathToFiles, Users.JohnId, "Samsung 7.jpg") },
-                new ItemImage("Samsung_8", ItemImageContentType, Items.Samsung8.Id, null) { OwnerId = Users.JohnId, FullPath = Path.Combine(PathToFiles, Users.JohnId, "Samsung 8.jpg") },
-                new ItemImage("Pebble", ItemImageContentType, Items.PebbleWatch.Id, null) { OwnerId = Users.JohnId, FullPath = Path.Combine(PathToFiles, Users.JohnId, "Pebble.jpg") },
+                list.AddRange(
+                    new List<ItemImage>
+                    {
+                        new ItemImage("iPhone_6___1", ItemImageContentType, Items.Entities[i].Id, null) { OwnerId = Users.JohnId, FullPath = Path.Combine(PathToFiles, Users.JohnId, "iPhone 6 - 1.jpg"),  },
+                        new ItemImage("iPhone_6___2", ItemImageContentType, Items.Entities[i].Id, null) { OwnerId = Users.JohnId, FullPath = Path.Combine(PathToFiles, Users.JohnId, "iPhone 6 - 2.jpg") },
+                        new ItemImage("iPhone_6___3", ItemImageContentType, Items.Entities[i].Id, null) { OwnerId = Users.JohnId, FullPath = Path.Combine(PathToFiles, Users.JohnId, "iPhone 6 - 3.jpg") },
+                        new ItemImage("Samsung_7", ItemImageContentType, Items.Entities[i + 1].Id, null) { OwnerId = Users.JohnId, FullPath = Path.Combine(PathToFiles, Users.JohnId, "Samsung 7.jpg") },
+                        new ItemImage("Samsung_8", ItemImageContentType, Items.Entities[i + 2].Id, null) { OwnerId = Users.JohnId, FullPath = Path.Combine(PathToFiles, Users.JohnId, "Samsung 8.jpg") },
+                        new ItemImage("Pebble", ItemImageContentType, Items.Entities[i + 3].Id, null) { OwnerId = Users.JohnId, FullPath = Path.Combine(PathToFiles, Users.JohnId, "Pebble.jpg") },
 
-                new ItemImage("Shoes", ItemImageContentType, Items.Shoes.Id, null) { OwnerId = Users.JohnId, FullPath = Path.Combine(PathToFiles, Users.JenniferId, "Shoes.jpg") },
-                new ItemImage("Jacket", ItemImageContentType, Items.Jacket.Id, null) { OwnerId = Users.JohnId, FullPath = Path.Combine(PathToFiles, Users.JenniferId, "Jacket.jpg") }
+                        new ItemImage("Shoes", ItemImageContentType, Items.Entities[i + 4].Id, null) { OwnerId = Users.JohnId, FullPath = Path.Combine(PathToFiles, Users.JenniferId, "Shoes.jpg") },
+                        new ItemImage("Jacket", ItemImageContentType, Items.Entities[i + 5].Id, null) { OwnerId = Users.JohnId, FullPath = Path.Combine(PathToFiles, Users.JenniferId, "Jacket.jpg") }
+                    });
             };
+            return list;
         }
 
         protected override void AfterSeed(IEnumerable<ItemImage> entities)

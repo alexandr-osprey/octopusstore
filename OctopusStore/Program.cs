@@ -32,6 +32,7 @@ namespace OctopusStore
                 catch (Exception ex)
                 {
                     logger.Error(ex, "Error seeding database");
+                    throw;
                 }
             }
             host.Run();

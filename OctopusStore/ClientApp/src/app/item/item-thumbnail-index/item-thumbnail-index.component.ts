@@ -17,6 +17,7 @@ export class ItemThumbnailIndexComponent implements OnInit, OnDestroy {
   itemThumbnailIndex: EntityIndex<ItemThumbnail>;
   parametersSubsription: Subscription;
   itemThumbnailsSubsription: Subscription;
+  ii: number[] = [];
 
   constructor(
     private itemService: ItemService,
@@ -27,7 +28,7 @@ export class ItemThumbnailIndexComponent implements OnInit, OnDestroy {
       //distinctUntilChanged(),
     ).subscribe(
       params => {
-        this.getItems();
+        this.getItems(Operation.Initial);
       }
     );
   }
@@ -36,8 +37,9 @@ export class ItemThumbnailIndexComponent implements OnInit, OnDestroy {
 
   initializeComponent() {
     //this.parameterService.clearParams();
-    this.getItems();
-    
+    this.getItems(Operation.Initial);
+    for (let i = 0; i < 100; i++)
+      this.ii.push(i);
   }
 
   ngOnInit() {
@@ -59,7 +61,11 @@ export class ItemThumbnailIndexComponent implements OnInit, OnDestroy {
     return updatedParams;
   }
 
-  
+  onScrollDown() {
+    this.getItems(Operation.Append)
+    for (let i = 0; i < 100; i++)
+      this.ii.push(i);
+  }
 
   getOrderByDescending(paramName: string): boolean {
     let param = this.parameterService.getParam(ParameterNames.orderBy) == paramName;
@@ -75,13 +81,28 @@ export class ItemThumbnailIndexComponent implements OnInit, OnDestroy {
   }
 
 
-  getItems(): void {
+  getItems(operation: Operation): void {
     this.itemService.indexThumbnails().subscribe((data: EntityIndex<ItemThumbnail>) => {
+      let e: ItemThumbnail[] = [];
+      if (this.itemThumbnailIndex && this.itemThumbnailIndex.entities) {
+        e = this.itemThumbnailIndex.entities;
+      }
       this.itemThumbnailIndex = data;
+      if (operation == Operation.Prepend) {
+        this.itemThumbnailIndex.entities = e.concat(this.itemThumbnailIndex.entities);
+      } else if (operation == Operation.Append) {
+        this.itemThumbnailIndex.entities = this.itemThumbnailIndex.entities.concat(e);
+      }
     });
   }
   ngOnDestroy() {
     // prevent memory leak when component destroyed
     this.parametersSubsription.unsubscribe();
   }
+}
+
+enum Operation {
+  Initial,
+  Append,
+  Prepend,
 }

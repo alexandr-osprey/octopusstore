@@ -26,7 +26,7 @@ namespace OctopusStore.Controllers
         protected IAppLogger<IController<TEntity, TViewModel>> Logger { get; }
         protected string EntityName { get; } = typeof(TEntity).Name;
         protected int MaxTake { get; } = 200;
-        protected int DefaultTake { get; } = 50;
+        protected int DefaultTake { get; } = 60;
         public IScopedParameters ScopedParameters { get; }
 
         public CRUDController(

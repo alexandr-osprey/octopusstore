@@ -28,6 +28,7 @@
     "font-awesome": "^4.7.0",
     "jwt-decode": "^2.2.0",
     "ng": "0.0.0",
+    "ngx-infinite-scroll": "^7.0.1",
     "popper.js": "^1.14.7",
     "rxjs": "^6.4.0",
     "rxjs-compat": "^6.4.0",

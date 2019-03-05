@@ -69,6 +69,7 @@ export class ItemsNavigationPaneComponent implements OnInit {
     }
     if (!this.currentCategory || newCategoryId !== this.currentCategory.id) {
       this.currentCategory = this.allCategories.find(c => c.id == newCategoryId);
+      this.selectedChacarteristicValueIds = [];
     }
   }
 

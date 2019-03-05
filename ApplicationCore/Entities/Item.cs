@@ -39,6 +39,7 @@ namespace ApplicationCore.Entities
 
         protected Item(Item item): base(item)
         {
+            Id = 0;
             Title = item.Title;
             CategoryId = item.CategoryId;
             StoreId = item.StoreId;
@@ -49,7 +50,7 @@ namespace ApplicationCore.Entities
 
         public Item ShallowClone()
         {
-            return (Item)MemberwiseClone();
+            return new Item(this);
         }
     }
 }

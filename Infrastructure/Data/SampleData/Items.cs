@@ -31,7 +31,7 @@ namespace Infrastructure.Data.SampleData
 
         protected override IEnumerable<Item> GetSourceEntities()
         {
-            return new List<Item>()
+            var list = new List<Item>()
             {
                 new Item { Title = "iPhone 6", BrandId = Brands.Apple.Id, CategoryId = Categories.Smartphones.Id,
                     MeasurementUnitId = MeasurementUnits.Pcs.Id, StoreId = Stores.Johns.Id, OwnerId = Stores.Johns.OwnerId, Description = "desc" },
@@ -47,6 +47,17 @@ namespace Infrastructure.Data.SampleData
                 new Item { Title = "Jacket", BrandId = Brands.Armani.Id, CategoryId = Categories.Jackets.Id,
                     MeasurementUnitId = MeasurementUnits.Pcs.Id, StoreId = Stores.Jennifers.Id, OwnerId = Stores.Jennifers.OwnerId, Description = "desc" },
             };
+            return list
+                .Concat(list.Select(i => i.ShallowClone()))
+                .Concat(list.Select(i => i.ShallowClone()))
+                .Concat(list.Select(i => i.ShallowClone()))
+                .Concat(list.Select(i => i.ShallowClone()))
+                .Concat(list.Select(i => i.ShallowClone()))
+                .Concat(list.Select(i => i.ShallowClone()))
+                .Concat(list.Select(i => i.ShallowClone()))
+                .Concat(list.Select(i => i.ShallowClone()))
+                .Concat(list.Select(i => i.ShallowClone()))
+                ;
         }
 
         protected override IQueryable<Item> GetQueryable()

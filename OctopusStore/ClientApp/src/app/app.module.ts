@@ -47,6 +47,7 @@ import { CartItemThumbnailIndexComponent } from './cart-item/cart-item-thumbnail
 import { OrderThumbnailIndexComponent } from './order/order-thumbnail-index/order-thumbnail-index.component';
 import { SidebarComponent } from './navigation/sidebar/sidebar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 @NgModule({
   declarations: [
@@ -90,7 +91,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MeasurementUnitCreateUpdateComponent,
     OrderCreateComponent,
     OrderThumbnailIndexComponent,
-    SidebarComponent,
+    SidebarComponent
   ],
   imports: [
     BrowserModule,
@@ -100,6 +101,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     HttpClientModule,
     FormsModule,
     AppLoadModule,
+    InfiniteScrollModule,
   ],
   providers: [{
     provide: ErrorHandler, 
