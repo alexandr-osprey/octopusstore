@@ -7,6 +7,8 @@ using ApplicationCore.Specifications;
 using ApplicationCore.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -93,10 +95,19 @@ namespace OctopusStore.Controllers
             {
                 //spec.AddInclude(i => i.ItemVariants);
                 if (spec.OrderByDesc)
-                    spec.OrderByExpressions.Add(i => (from v in i.ItemVariants select v.Price).Max());
+                    spec.OrderByExpressions.Add(i => SafeMax(i.ItemVariants.Select(v => v.Price)));
                 else
-                    spec.OrderByExpressions.Add(i => (from v in i.ItemVariants select v.Price).Min());
+                    spec.OrderByExpressions.Add(i => SafeMin(i.ItemVariants.Select(v => v.Price)));
             }
+        }
+
+        protected decimal SafeMin(IEnumerable<decimal> seq)
+        {
+            return seq.Any() ? seq.Min() : 0;
+        }
+        protected decimal SafeMax(IEnumerable<decimal> seq)
+        {
+            return seq.Any() ? seq.Max() : 0;
         }
     }
 }

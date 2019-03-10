@@ -8,6 +8,7 @@ import { MessageService } from "../message/message.service";
 })
 export class ParameterService {
   protected params: any = {};
+  protected oldParams: any = {};
   protected paramsSource = new Subject<any>();
   public params$ = this.paramsSource.asObservable();
 
@@ -17,6 +18,7 @@ export class ParameterService {
     protected router: Router) {
     this.router.events.subscribe(val => {
       if (val instanceof NavigationEnd) {
+        this.oldParams = this.params;
         this.params = this.paramMapToParams(this.route.snapshot.queryParamMap);
         Object.entries(this.params).forEach((pair) =>
           console.log(pair[0] + ": " + pair[1])
@@ -41,6 +43,10 @@ export class ParameterService {
 
   public getUpdatedParams(pairs: any): any {
     return this.assignParams(this.params, pairs);
+  }
+
+  public isParamChanged(name: string): boolean {
+    return this.oldParams[name] !== this.params[name];
   }
 
   public getUpdatedParamsCopy(pairs: any): any {

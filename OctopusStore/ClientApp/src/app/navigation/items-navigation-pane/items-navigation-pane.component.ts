@@ -55,7 +55,7 @@ export class ItemsNavigationPaneComponent implements OnInit {
       if (filters) {
         this.selectedChacarteristicValueIds = filters.split(';').map(v => +v);
       }
-      this.applyFilter();
+      this.applyFilter(false);
     });
   }
 
@@ -89,8 +89,11 @@ export class ItemsNavigationPaneComponent implements OnInit {
     }
   }
 
-  applyFilter() {
-    let p = this.selectedChacarteristicValueIds.join(';');
-    this.parameterService.navigateWithUpdatedParams({ "characteristicsFilter": p, "page": 1 });
+  applyFilter(resetPage: boolean = true) {
+    let parameters: any = { "characteristicsFilter": this.selectedChacarteristicValueIds.join(';') };
+    if (resetPage) {
+      parameters["page"] = null;
+    }
+    this.parameterService.navigateWithUpdatedParams(parameters);
   }
 }

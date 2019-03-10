@@ -47,7 +47,7 @@ namespace Infrastructure.Data.SampleData
                 new Item { Title = "Jacket", BrandId = Brands.Armani.Id, CategoryId = Categories.Jackets.Id,
                     MeasurementUnitId = MeasurementUnits.Pcs.Id, StoreId = Stores.Jennifers.Id, OwnerId = Stores.Jennifers.OwnerId, Description = "desc" },
             };
-            return list
+            var result = list
                 .Concat(list.Select(i => i.ShallowClone()))
                 .Concat(list.Select(i => i.ShallowClone()))
                 .Concat(list.Select(i => i.ShallowClone()))
@@ -56,8 +56,14 @@ namespace Infrastructure.Data.SampleData
                 .Concat(list.Select(i => i.ShallowClone()))
                 .Concat(list.Select(i => i.ShallowClone()))
                 .Concat(list.Select(i => i.ShallowClone()))
-                .Concat(list.Select(i => i.ShallowClone()))
-                ;
+                .Concat(list.Select(i => i.ShallowClone()));
+            result = result.Concat(result.Select(i => i.ShallowClone()));
+            result = result.Concat(result.Select(i => i.ShallowClone()));
+            result = result.Concat(result.Select(i => i.ShallowClone()));
+            result = result.Concat(result.Select(i => i.ShallowClone()));
+            result = result.Concat(result.Select(i => i.ShallowClone()));
+            result = result.Concat(result.Select(i => i.ShallowClone()));
+            return result;
         }
 
         protected override IQueryable<Item> GetQueryable()
