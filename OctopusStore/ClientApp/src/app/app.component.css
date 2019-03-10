@@ -14,3 +14,14 @@
 .main-background-color {
   background-color: aquamarine;
 }
+
+.sidebar {
+  -ms-flex: 0 0 250px;
+  flex: 0 0 250px;
+}
+
+@media(max-width: 576px) {
+  .sidebar {
+    display: none;
+  }
+}
