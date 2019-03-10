@@ -1,10 +1,11 @@
 <div *ngIf="index" class="row">
-  <div class="col-12 col-md-9">
-    <div>
-      <a [routerLink] [queryParams]="getOrderByPriceQueryParams()">Price</a>
-    </div>
-    <div >
-      <div class="row" infinite-scroll
+  <div class="col">
+    <div class="content">
+      <div>
+        <a [routerLink] [queryParams]="getOrderByPriceQueryParams()">Price</a>
+      </div>
+      <div>
+        <div class="row" infinite-scroll
              [infiniteScrollDistance]="2"
              [infiniteScrollUpDistance]="2"
              [infiniteScrollThrottle]="500"
@@ -13,12 +14,13 @@
              (scrolledUp)="onScrollUp()">
 
           <app-item-thumbnail *ngFor="let itemThumbnail of shownItems" [itemThumbnail]="itemThumbnail" class="item-thumbnail item-thumbnail-of-page-{{ itemThumbnail.page }} col-12 col-sm-12 col-md-6 col-lg-4 col-xl-3"></app-item-thumbnail>
-      </div>
-      <!--<div class="row fixed-row-bottom">
-        <div class="col-md-12">
-          <app-paginator [delegate]="this"></app-paginator>
         </div>
-      </div>-->
+        <!--<div class="row fixed-row-bottom">
+      <div class="col-md-12">
+        <app-paginator [delegate]="this"></app-paginator>
+      </div>
+    </div>-->
+      </div>
     </div>
   </div>
 </div>
