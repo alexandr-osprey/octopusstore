@@ -44,6 +44,7 @@ export class ItemThumbnailIndexComponent implements OnInit, OnDestroy, AfterView
           || this.parameterService.isParamChanged(ParameterNames.orderBy)
           || this.parameterService.isParamChanged(ParameterNames.orderByDescending)
           || this.parameterService.isParamChanged(ParameterNames.orderByDescending)
+          || this.parameterService.isParamChanged(ParameterNames.searchValue)
           || !this.loadedPages.some(p => p == page)) {
           this.getItems();
           if (!this.parameterService.isParamChanged(ParameterNames.page)) {

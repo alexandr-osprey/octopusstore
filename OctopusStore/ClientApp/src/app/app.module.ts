@@ -31,7 +31,6 @@ import { IdentitySignOutComponent } from './identity/identity-sign-out/identity-
 import { IdentitySignUpComponent } from './identity/identity-sing-up/identity-sign-up.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { CharacteristicPaneComponent } from './navigation/characteristic-pane/characteristic-pane.component';
-import { AdministratingHomepageComponent } from './administrating/administrating-homepage/administrating-homepage.component';
 import { CategoryCreateUpdateComponent } from './category/category-create-update/category-create-update.component';
 import { AppLoadModule } from './app-load';
 import { CharacteristicIndexComponent } from './characteristic/characteristic-index/characteristic-index.component';
@@ -48,6 +47,7 @@ import { OrderThumbnailIndexComponent } from './order/order-thumbnail-index/orde
 import { SidebarComponent } from './navigation/sidebar/sidebar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { AdministratingContentComponent } from './administrating/administrating-content/administrating-content.component';
 
 @NgModule({
   declarations: [
@@ -79,7 +79,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
     PageNotFoundComponent,
     CartItemThumbnailIndexComponent,
     CharacteristicPaneComponent,
-    AdministratingHomepageComponent,
+    AdministratingContentComponent,
     CategoryCreateUpdateComponent,
     CharacteristicIndexComponent,
     CharacteristicCreateUpdateComponent,

@@ -1,64 +1,68 @@
-<header class="position-relative blue accent-3 text-white" >
-  <div class="container-fluid">
-    <div class="row p-t-b-10">
-
-    </div>
-
-    <!--<div class="row">
-      <div class="title col-12 col-md-2">
-        <p id="header_title">Octopus Store</p>
+<header class="row">
+  <div class="col-3 col-xl-2">
+    <p class="name">
+      <a [routerLink]="['/']">Osprey Store</a>
+    </p>
+  </div>
+  <div class="search col-5 col-xl-7">
+    <form class="form-inline">
+      <input type="text" class="form-control" [(ngModel)]="searchValue" name="searchValue"/>
+      <button type="submit" (click)="search()" class="btn btn-primary">Search</button>
+    </form>
+  </div>
+  <div class="col-4 col-xl-3 account-control">
+    <div class="row">
+      <div class="not-signed-in-actions col" *ngIf="!signedIn">
+        <button [routerLink]="['/', 'signUp']" class="btn btn-danger">Register</button>
+        <button [routerLink]="['/', 'signIn']" class="btn btn-primary">Sign In</button>
       </div>
-      <div class="search col-12 col-md-10">
-        <form class="form-inline">
-          <input id="header_search" type="text" class="form-control" />
-          <button type="submit" class="btn btn-primary">Search</button>
-        </form>
-      </div>
-      <div class="col-12 col-md-12">
-        <div class="dropdown">
-          <button id="items" class="dropbtn">
-            Items
-            <i class="fa fa-caret-down"></i>
-          </button>
-          <div class="dropdown-content">
-            <a [routerLink]="['/items']">Items</a>
-            <a [routerLink]="['/items/create']">Create item</a>
+      <div class="signed-in-actions col" *ngIf="signedIn">
+        <div class="row">
+          <div class="col-6">
+            <p>{{email}}</p>
+            <a *ngIf="isContentAdministrator" [routerLink]="['/administrating', 'content']">Content administrating</a>
           </div>
-        </div> 
-        <div class="dropdown">
-          <button id="stores" class="dropbtn">
-            Stores
-          </button>
-          <div class="dropdown-content">
-            <a class="dropdown-item" [routerLink]="['/stores']">Stores</a>
-            <a class="dropdown-item" [routerLink]="['/stores/create']">Create store</a>
+          <div class="col-6">
+            <button (click)="signOut()" class="btn btn-secondary">Sign Out</button>
           </div>
-        </div>
-        <div>
-          <a [routerLink]="['/cart']">Cart</a>
-        </div>
-        <div *ngIf="isContentAdministrator">
-          <a [routerLink]="['/administrating']">Administrating</a>
         </div>
       </div>
     </div>
   </div>
-  <div class="col-12 col-md-3">
-    <div *ngIf="!signedIn" class="row">
-      <div class="col-12 col-md-6">
-        <a [routerLink]="['/', 'signUp']" class="link">Register</a>
-      </div>
-      <div class="col-12 col-md-6">
-        <a [routerLink]="['/', 'signIn']" class="link">Sign In</a>
-      </div>
+</header>
+
+<!--<div class="row">
+    <div class="title col-12 col-md-2">
+      <p id="header_title">Octopus Store</p>
     </div>
-    <div *ngIf="signedIn" class="row">
+
+    <div class="col-12 col-md-12">
+      <div class="dropdown">
+        <button id="items" class="dropbtn">
+          Items
+          <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-content">
+          <a [routerLink]="['/items']">Items</a>
+          <a [routerLink]="['/items/create']">Create item</a>
+        </div>
+      </div>
+      <div class="dropdown">
+        <button id="stores" class="dropbtn">
+          Stores
+        </button>
+        <div class="dropdown-content">
+          <a class="dropdown-item" [routerLink]="['/stores']">Stores</a>
+          <a class="dropdown-item" [routerLink]="['/stores/create']">Create store</a>
+        </div>
+      </div>
       <div>
-        <p>{{email}}</p>
+        <a [routerLink]="['/cart']">Cart</a>
       </div>
-      <div class="col-12 col-md-6">
-        <button  (click)="signOut()" class="link">Sign Out</button>
+      <div *ngIf="isContentAdministrator">
+        <a [routerLink]="['/administrating']">Administrating</a>
       </div>
-    </div>-->
+    </div>
   </div>
-  </header>
+</div>
+>-->

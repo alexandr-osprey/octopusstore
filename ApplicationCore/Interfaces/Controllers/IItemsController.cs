@@ -8,8 +8,8 @@ namespace ApplicationCore.Interfaces.Controllers
     {
         Task<ItemDetailViewModel> ReadDetailAsync(int id);
         Task<IndexViewModel<ItemThumbnailViewModel>> IndexThumbnailsAsync(
-            int? page, int? pageSize, string title, int? categoryId, int? storeId, int? brandId, string orderBy, string characteristicsFilter, bool? orderByDescending);
+            int? page, int? pageSize, string searchValue, int? categoryId, int? storeId, int? brandId, string orderBy, string characteristicsFilter, bool? orderByDescending);
         Task<IndexViewModel<ItemViewModel>> IndexAsync(
-            int? page, int? pageSize, string title, int? categoryId, int? storeId, int? brandId, string orderBy, string characteristicsFilter, bool? orderByDescending);
+            int? page, int? pageSize, string searchValue, int? categoryId, int? storeId, int? brandId, string orderBy, string characteristicsFilter, bool? orderByDescending);
     }
 }

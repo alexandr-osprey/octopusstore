@@ -4,3 +4,13 @@
 .content {
   padding-left: 15px;
 }
+.sidebar {
+  -ms-flex: 0 0 250px;
+  flex: 0 0 250px;
+}
+
+@media(max-width: 500px) {
+  .sidebar {
+    display: none;
+  }
+}

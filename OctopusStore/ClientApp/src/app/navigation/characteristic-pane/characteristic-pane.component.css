@@ -15,9 +15,9 @@ button {
   -webkit-transition: all 0.3s linear;
   -moz-transition: all 0.3s linear;
 }
-  .active {
-    border-left: 4px solid #007bff;
-  }
+.active {
+  border-left: 4px solid #71c0ee;
+}
 
 .characteristic-name {
   padding-left: 10px;

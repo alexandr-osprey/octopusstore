@@ -36,7 +36,7 @@ namespace OctopusStore.Controllers
         public async Task<IndexViewModel<ItemThumbnailViewModel>> IndexThumbnailsAsync(
             int? page,
             int? pageSize,
-            string title,
+            string searchValue,
             int? categoryId,
             int? storeId,
             int? brandId,
@@ -45,7 +45,7 @@ namespace OctopusStore.Controllers
             bool? orderByDescending)
         {
             var spec = await Service.GetIndexSpecificationByParameters(page ?? 1, pageSize ?? DefaultTake, 
-                title, categoryId, storeId, brandId, ParseIds(characteristicsFilter));
+                searchValue, categoryId, storeId, brandId, ParseIds(characteristicsFilter));
             ApplyOrderingToSpec(spec, orderBy, orderByDescending);
             return await base.IndexAsync<ItemThumbnailViewModel>(new ItemThumbnailIndexSpecification(spec));
         }
@@ -55,7 +55,7 @@ namespace OctopusStore.Controllers
         public async Task<IndexViewModel<ItemViewModel>> IndexAsync(
             int? page,
             int? pageSize,
-            string title,
+            string searchValue,
             int? categoryId,
             int? storeId,
             int? brandId,
@@ -64,7 +64,7 @@ namespace OctopusStore.Controllers
             bool? orderByDescending)
         {
             var spec = await Service.GetIndexSpecificationByParameters(page ?? 1, pageSize ?? DefaultTake, 
-                title, categoryId, storeId, brandId, ParseIds(characteristicsFilter));
+                searchValue, categoryId, storeId, brandId, ParseIds(characteristicsFilter));
             ApplyOrderingToSpec(spec, orderBy, orderByDescending);
             return await base.IndexAsync(spec);
         }

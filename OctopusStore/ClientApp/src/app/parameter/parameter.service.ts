@@ -1,7 +1,8 @@
-import { ActivatedRoute, ParamMap, Router, NavigationEnd } from "@angular/router";
+import { ActivatedRoute, ParamMap, Router, NavigationEnd, UrlTree } from "@angular/router";
 import { Injectable } from "@angular/core";
 import { Subject } from "rxjs";
 import { MessageService } from "../message/message.service";
+import { filter } from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +10,7 @@ import { MessageService } from "../message/message.service";
 export class ParameterService {
   protected params: any = {};
   protected oldParams: any = {};
+  private history = [];
   protected paramsSource = new Subject<any>();
   public params$ = this.paramsSource.asObservable();
 
@@ -24,6 +26,10 @@ export class ParameterService {
           console.log(pair[0] + ": " + pair[1])
         );
         this.paramsSource.next(this.params);
+        //let p = this.getUrlWithoutParams(this.router.parseUrl(this.getPreviousUrl()));
+        //if (this.getCurrentUrlWithoutParams() !== this.getUrlWithoutParams(this.router.parseUrl(this.getPreviousUrl()))) {
+        //  window.scrollTo(0, 0);
+        //}
       }
     });
     //this.route.queryParamMap.subscribe(
@@ -53,6 +59,22 @@ export class ParameterService {
     return this.assignParams(this.getParamsCopy(), pairs);
   }
 
+  public loadRouting(): void {
+    this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe(({ urlAfterRedirects }: NavigationEnd) => {
+        this.history = [...this.history, urlAfterRedirects];
+      });
+  }
+
+  public getHistory(): string[] {
+    return this.history;
+  }
+
+  public getPreviousUrl(): string {
+    return this.history[this.history.length - 2] || '/index';
+  }
+
   private assignParams(params: any, pairs: any): any {
     for (let key in pairs) {
       if (pairs[key]) {
@@ -66,24 +88,28 @@ export class ParameterService {
 
   public navigateWithUpdatedParams(pairs: any): void {
     let params = this.getUpdatedParams(pairs);
-    this.router.navigate([ParameterService.getUrlWithoutParams(this.router)], { queryParams: params });
+    this.router.navigate([this.getCurrentUrlWithoutParams()], { queryParams: params });
   }
 
   public navigateWithParams(params: any, url: string = null) {
-    url = url ? url : ParameterService.getUrlWithoutParams(this.router);
+    url = url ? url : this.getCurrentUrlWithoutParams();
     this.router.navigate([url], { queryParams: params });
   }
 
-  public static getUrlWithoutParams(router: Router): string {
-    let urlTree = router.parseUrl(router.url);
+  public getCurrentUrlWithoutParams(): string {
+    let urlTree = this.router.parseUrl(this.router.url);
+    return this.getUrlWithoutParams(urlTree);
+  }
 
-    let urlWithoutParams = router.url;
+  public getUrlWithoutParams(urlTree: UrlTree): string {
+    let urlWithoutParams = this.router.url;
     let children = urlTree.root.children['primary'];
     if (children && children.segments) {
       urlWithoutParams = children.segments.map(it => it.path).join('/');
     }
     return urlWithoutParams;
   }
+
   protected paramMapToParams(params: ParamMap): any {
     let result: any = {};
     for (var _i = 0; _i < params.keys.length; _i++) {

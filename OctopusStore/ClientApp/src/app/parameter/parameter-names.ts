@@ -9,7 +9,7 @@ export class ParameterNames {
   public static characteristicId: string = "characteristicId";
   public static categoryId: string = "categoryId";
   public static storeId: string = "storeId";
-  public static title: string = "title";
+  public static searchValue: string = "searchValue";
   public static itemid: string = "itemId";
   public static itemVariantId: string = "itemVariantId";
   public static characteristicsFilter: string = "characteristicsFilter";

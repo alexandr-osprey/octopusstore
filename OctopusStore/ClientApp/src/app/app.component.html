@@ -1,6 +1,12 @@
-<div class="row height-full">
-  <app-sidebar class="col sidebar"></app-sidebar>
-  <div class="col">
-    <router-outlet></router-outlet>
+<div class="container-fluid">
+  <nav class="navbar fixed-top navbar-light bg-faded">
+    <app-header></app-header>
+    <!--<p>sdfsaf</p>-->
+  </nav>
+  <div class="row height-full">
+    <div class="col">
+      <router-outlet></router-outlet>
+    </div>
   </div>
 </div>
+

@@ -1,27 +1,15 @@
-.wrapper {
-  background-color: whitesmoke;
-  height: 100%;
+.container-fluid > div {
+  margin-top: 100px;
 }
 
-/*.wrapper .row {
-  height: 100%;
+nav {
+  padding: 0;
 }
 
-.wrapper .row > * {
-  height: 100%;
-}*/
-
-.main-background-color {
-  background-color: aquamarine;
+nav app-header {
+  width: 100%;
 }
 
-.sidebar {
-  -ms-flex: 0 0 250px;
-  flex: 0 0 250px;
-}
-
-@media(max-width: 500px) {
-  .sidebar {
-    display: none;
-  }
+.row {
+  margin-top: 100px;
 }

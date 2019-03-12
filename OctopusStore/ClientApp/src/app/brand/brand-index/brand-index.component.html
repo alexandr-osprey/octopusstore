@@ -1,6 +1,7 @@
 <div class="row">
   <div class="col-md-12">
     <div *ngIf="administrating">
+      <p>Brands</p>
       <button class="btn" (click)="create()">Create</button>
     </div>
     <div *ngFor="let brand of brands">

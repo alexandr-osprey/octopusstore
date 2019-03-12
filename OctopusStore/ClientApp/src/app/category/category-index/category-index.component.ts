@@ -2,7 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { debounceTime } from 'rxjs/operators';
 import { ParameterNames } from '../../parameter/parameter-names';
 import { ParameterService } from '../../parameter/parameter.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Category } from '../category';
 import { CategoryService } from '../category.service';
 import { EntityIndex } from 'src/app/models/entity/entity-index';
@@ -28,6 +28,7 @@ export class CategoryIndexComponent implements OnInit {
   public allCategories: CategoryDisplayed[];
   public rootCategory: CategoryDisplayed;
   @Output() categorySelected = new EventEmitter<Category>();
+  @Input() administrating: boolean;
   //protected categoryHierarchy: CategoryHierarchy;
   //protected currentCategory: Category;
   //protected parametersSubsription: Subscription;
@@ -36,7 +37,7 @@ export class CategoryIndexComponent implements OnInit {
 
   constructor(
     private categoryService: CategoryService,
-    private route: ActivatedRoute,
+    private router: Router,
     private parameterService: ParameterService) {
   }
 
@@ -94,7 +95,8 @@ export class CategoryIndexComponent implements OnInit {
       "categoryId": categoryId,
       "characteristicsFilter": null,
       "page": null,
-      "characteristicId": null
+      "characteristicId": null,
+      "searchValue": null,
     });
     return params;
   }
@@ -103,12 +105,14 @@ export class CategoryIndexComponent implements OnInit {
     let parameters = this.getCategoryParams(categoryDisplayed.id);
     this.parameterService.navigateWithUpdatedParams(parameters);
     this.categorySelected.emit(categoryDisplayed);
+    categoryDisplayed.currentSubcategory = null;
   }
 
   navigateRootCategory() {
     let parameters = this.getCategoryParams(this.categoryService.rootCategory.id);
     this.parameterService.navigateWithParams(parameters);
-    this.categorySelected.emit(this.categoryService.rootCategory)
+    this.categorySelected.emit(this.categoryService.rootCategory);
+    this.allCategories.forEach(c => c.currentSubcategory = null);
   }
 
   setCategoryDisplayed(categoryDisplayed: CategoryDisplayed) {
@@ -128,5 +132,9 @@ export class CategoryIndexComponent implements OnInit {
     let parameters = this.getCategoryParams(subcategory.id);
     this.parameterService.navigateWithParams(parameters);
     this.categorySelected.emit(subcategory);
+  }
+
+  create() {
+    this.router.navigate(['/categories/create']);
   }
 }

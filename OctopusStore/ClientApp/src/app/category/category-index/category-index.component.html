@@ -1,14 +1,22 @@
 <div *ngIf="allCategories" class="row">
   <div class="col">
+    <div *ngIf="administrating">
+      <p>Categories</p>
+      <button class="btn" (click)="create()">Create</button>
+    </div>
     <ul class="list-unstyled">
       <li [ngClass]="{ 'active': rootCategory.expanded }" class="category">
-        <button type="button" (click)="navigateRootCategory()">{{ rootCategory.title }}</button>
+        <button  type="button" (click)="navigateRootCategory()" [ngClass]="{ 'inline': administrating }">{{ rootCategory.title }}</button>
+        <a *ngIf="administrating" [routerLink]="['/categories', rootCategory.id, 'update']">  Update</a>
       </li>
       <li *ngFor="let category of allCategories" [ngClass]="{ 'active': category.expanded }" class="category">
-        <button type="button" (click)="navigateParentCategory(category)">{{ category.title }}</button>
+        <span><button type="button" (click)="navigateParentCategory(category)" [ngClass]="{ 'inline': administrating }">{{ category.title }}</button></span>
+        
+        <a *ngIf="administrating" [routerLink]="['/categories', category.id, 'update']">  Update</a>
         <ul class="list-unstyled" [@expandCollapse]="category.expanded ? 'expanded' : 'collapsed'">
           <li *ngFor="let subcategory of category.subcategories" [ngClass]="{ 'active': category.currentSubcategory == subcategory }" class="subcategory">
-            <button type="button" (click)="navigateSubcategory(category, subcategory)">{{ subcategory.title }}</button>
+            <button type="button" (click)="navigateSubcategory(category, subcategory)" [ngClass]="{ 'inline': administrating }">{{ subcategory.title }}</button>
+            <a *ngIf="administrating" [routerLink]="['/categories', subcategory.id, 'update']">  Update</a>
           </li>
         </ul>
       </li>

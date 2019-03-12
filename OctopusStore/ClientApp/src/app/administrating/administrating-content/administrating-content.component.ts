@@ -5,11 +5,11 @@ import { ParameterNames } from 'src/app/parameter/parameter-names';
 import { Category } from 'src/app/category/category';
 
 @Component({
-  selector: 'app-administrating-homepage',
-  templateUrl: './administrating-homepage.component.html',
-  styleUrls: ['./administrating-homepage.component.css']
+  selector: 'app-administrating-content',
+  templateUrl: './administrating-content.component.html',
+  styleUrls: ['./administrating-content.component.css']
 })
-export class AdministratingHomepageComponent implements OnInit {
+export class AdministratingContentComponent implements OnInit {
   constructor(private rouer: Router, private parameterService: ParameterService) { }
 
   ngOnInit() {

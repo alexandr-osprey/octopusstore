@@ -11,7 +11,6 @@ import { IdentitySignInComponent } from './identity/identity-sign-in/identity-si
 import { CreateUpdateAuthorizationGuard } from './guards/create-update-authorization-guard';
 import { IdentitySignUpComponent } from './identity/identity-sing-up/identity-sign-up.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { AdministratingHomepageComponent } from './administrating/administrating-homepage/administrating-homepage.component';
 import { AdministratorAuthorizationGuard } from './guards/administrator-authorization-guard';
 import { CategoryCreateUpdateComponent } from './category/category-create-update/category-create-update.component';
 import { CharacteristicCreateUpdateComponent } from './characteristic/characteristic-create-update/characteristic-create-update.component';
@@ -22,6 +21,7 @@ import { CartItemThumbnailIndexComponent } from './cart-item/cart-item-thumbnail
 import { OrderCreateComponent } from './order/order-create/order-create.component';
 import { OrderThumbnailIndexComponent } from './order/order-thumbnail-index/order-thumbnail-index.component';
 import { SignedInAuthorizationGuard } from './guards/signed-in-authorization-guard';
+import { AdministratingContentComponent } from './administrating/administrating-content/administrating-content.component';
 
 
 const routes: Routes = [
@@ -32,8 +32,8 @@ const routes: Routes = [
     pathMatch: 'full',
   },
   {
-    path: 'administrating',
-    component: AdministratingHomepageComponent,
+    path: 'administrating/content',
+    component: AdministratingContentComponent,
     canActivate: [AdministratorAuthorizationGuard],
     pathMatch: 'full',
   },
@@ -47,12 +47,12 @@ const routes: Routes = [
     component: IdentitySignInComponent,
     pathMatch: 'full'
   },
-  {
-    path: 'administrating',
-    pathMatch: 'full',
-    canActivate: [AdministratorAuthorizationGuard],
-    component: AdministratingHomepageComponent,
-  },
+  //{
+  //  path: 'administrating',
+  //  pathMatch: 'full',
+  //  canActivate: [AdministratorAuthorizationGuard],
+  //  component: ContentAdministratingComponent,
+  //},
   {
     path: 'brands/create',
     pathMatch: 'full',
