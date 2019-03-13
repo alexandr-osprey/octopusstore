@@ -17,15 +17,13 @@
         <button [routerLink]="['/', 'signIn']" class="btn btn-primary">Sign In</button>
       </div>
       <div class="signed-in-actions col" *ngIf="signedIn">
-        <div class="row">
-          <div class="col-6">
+          <div>
             <p>{{email}}</p>
-            <a *ngIf="isContentAdministrator" [routerLink]="['/administrating', 'content']">Content administrating</a>
+            <p><a *ngIf="isContentAdministrator" [routerLink]="['/administrating', 'content']">Content administrating</a></p>
           </div>
-          <div class="col-6">
+          <div>
             <button (click)="signOut()" class="btn btn-secondary">Sign Out</button>
           </div>
-        </div>
       </div>
     </div>
   </div>

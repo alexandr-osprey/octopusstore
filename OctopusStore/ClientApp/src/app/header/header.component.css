@@ -29,7 +29,7 @@ form > button {
   min-width: 80px;
 }
 .account-control {
-  margin-top: 20px;
+  margin-top: 10px;
 }
 .not-signed-in-actions > button {
   width: 40%;
@@ -40,6 +40,10 @@ form > button {
 
 .signed-in-actions > div {
   display: inline;
+}
+
+.signed-in-actions * p {
+  margin: 0px;
 }
 
 .signed-in-actions > button {
