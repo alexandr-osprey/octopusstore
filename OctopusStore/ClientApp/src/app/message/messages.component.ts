@@ -9,7 +9,6 @@ import { Message } from './message'
   styleUrls: ['./messages.component.css']
 })
 export class MessagesComponent implements OnInit {
-  protected messageSubscription: Subscription;
   protected messages: Message[] = [];
   protected messageTimeout = 3 * 1000;
 
@@ -20,7 +19,7 @@ export class MessagesComponent implements OnInit {
   }
 
   initializeComponent() {
-    this.messageSubscription = this.messageService.message$.subscribe(message => {
+    this.messageService.message$.subscribe(message => {
       console.log('message ' + message.content);
       console.log('befor push message array length: ' + this.messages.length);
       this.delay(100).then(() => this.messages.push(message));

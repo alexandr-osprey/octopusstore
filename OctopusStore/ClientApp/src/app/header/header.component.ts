@@ -25,19 +25,12 @@ export class HeaderComponent implements OnInit {
     private router: Router)
   {
     this.signedIn = this.identityService.signedIn;
-    this.email = this.identityService.currentUserEmail;
-    this.isContentAdministrator = this.identityService.isContentAdministrator();
-    let administratedStoreIds = this.identityService.getUserAdministredStoreIds();
-    if (administratedStoreIds.length > 0) {
-      this.storeId = administratedStoreIds[0];
-      this.isStoreAdministrator = true;
-    }
+    this.fillActions();
       
     this.signedInSubscription = this.identityService.signedIn$.subscribe(
       signedIn => {
         this.signedIn = signedIn;
-        this.email = this.identityService.currentUserEmail;
-        this.isContentAdministrator = this.identityService.isContentAdministrator();
+        this.fillActions();
       });
   }
 
@@ -61,6 +54,17 @@ export class HeaderComponent implements OnInit {
           "page": null,
           "categoryId": this.parameterService.getParam(ParameterNames.categoryId)
         }, "/items");
+    }
+  }
+
+  fillActions() {
+    this.email = this.identityService.currentUserEmail;
+    this.isContentAdministrator = this.identityService.isContentAdministrator();
+    this.isContentAdministrator = this.identityService.isContentAdministrator();
+    let administratedStoreIds = this.identityService.getUserAdministredStoreIds();
+    if (administratedStoreIds.length > 0) {
+      this.storeId = administratedStoreIds[0];
+      this.isStoreAdministrator = true;
     }
   }
 }
