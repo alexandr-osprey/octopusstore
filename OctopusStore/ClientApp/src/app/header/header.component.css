@@ -39,14 +39,14 @@ form > button {
 }
 
 .signed-in-actions > div {
-  display: inline;
+  float: left
 }
 
 .signed-in-actions * p {
   margin: 0px;
 }
 
-.signed-in-actions > button {
+.signed-in-actions > span {
   margin-left: 16px;
   display: inline;
   min-width: 90px;

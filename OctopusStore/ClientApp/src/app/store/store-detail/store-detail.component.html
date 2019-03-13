@@ -21,7 +21,8 @@
       <label for="description">Description</label>
       <p name="description">{{ storeDetail.description }}</p>
     </div>
-    <a *ngIf="authorizedToUpdate" [routerLink]="[getUpdateLink(storeDetail.id)]" class="link">Update</a>
+    <p><a *ngIf="authorizedToUpdate" [routerLink]="[getUpdateLink(storeDetail.id)]" class="link">Update</a></p>
+    <p><a *ngIf="authorizedToUpdate" [routerLink]="['/items', 'create']" class="link">Create Item</a></p>
   </div>
   <div class="col-12 col-md-12">
     <app-item-thumbnail-index></app-item-thumbnail-index>

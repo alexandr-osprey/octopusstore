@@ -17,6 +17,7 @@ export class HeaderComponent implements OnInit {
   searchValue: string;
   isContentAdministrator: boolean;
   isStoreAdministrator: boolean;
+  storeId: number;
 
   constructor(
     private identityService: IdentityService,
@@ -27,6 +28,11 @@ export class HeaderComponent implements OnInit {
     this.email = this.identityService.currentUserEmail;
     this.isContentAdministrator = this.identityService.isContentAdministrator();
     let administratedStoreIds = this.identityService.getUserAdministredStoreIds();
+    if (administratedStoreIds.length > 0) {
+      this.storeId = administratedStoreIds[0];
+      this.isStoreAdministrator = true;
+    }
+      
     this.signedInSubscription = this.identityService.signedIn$.subscribe(
       signedIn => {
         this.signedIn = signedIn;

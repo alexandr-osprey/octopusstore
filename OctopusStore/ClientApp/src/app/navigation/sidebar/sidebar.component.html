@@ -1,6 +1,6 @@
 <div class="row height-full">
   <div class="col height-full">
-    <nav id="sidebar" class="height-full">
+    <nav id="sidebar" [ngClass]="{ 'not-fixed': storeView }" class="height-full">
       <ul class="list-unstyled components">
         <li class="active">
           <app-items-navigation-pane></app-items-navigation-pane>

@@ -48,7 +48,6 @@ import { SidebarComponent } from './navigation/sidebar/sidebar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { AdministratingContentComponent } from './administrating/administrating-content/administrating-content.component';
-import { AdministratingStoreComponent } from './administrating/administrating-store/administrating-store.component';
 
 @NgModule({
   declarations: [
@@ -93,7 +92,6 @@ import { AdministratingStoreComponent } from './administrating/administrating-st
     OrderCreateComponent,
     OrderThumbnailIndexComponent,
     SidebarComponent,
-    AdministratingStoreComponent
   ],
   imports: [
     BrowserModule,

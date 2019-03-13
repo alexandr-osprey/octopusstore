@@ -4,26 +4,27 @@
       <a [routerLink]="['/']">Osprey Store</a>
     </p>
   </div>
-  <div class="search col-5 col-xl-7">
+  <div class="search col-4 col-xl-7">
     <form class="form-inline">
-      <input type="text" class="form-control" [(ngModel)]="searchValue" name="searchValue"/>
+      <input type="text" class="form-control" [(ngModel)]="searchValue" name="searchValue" />
       <button type="submit" (click)="search()" class="btn btn-primary">Search</button>
     </form>
   </div>
-  <div class="col-4 col-xl-3 account-control">
+  <div class="col-5 col-xl-3 account-control">
     <div class="row">
       <div class="not-signed-in-actions col" *ngIf="!signedIn">
         <button [routerLink]="['/', 'signUp']" class="btn btn-danger">Register</button>
         <button [routerLink]="['/', 'signIn']" class="btn btn-primary">Sign In</button>
       </div>
       <div class="signed-in-actions col" *ngIf="signedIn">
-          <div>
-            <p>{{email}}</p>
-            <p><a *ngIf="isContentAdministrator" [routerLink]="['/administrating', 'content']">Content administrating</a></p>
-          </div>
-          <div>
-            <button (click)="signOut()" class="btn btn-secondary">Sign Out</button>
-          </div>
+        <div>
+          <p>{{email}}</p>
+          <p><a *ngIf="isContentAdministrator" [routerLink]="['/administrating', 'content']">Content administrating</a></p>
+          <p><a *ngIf="isStoreAdministrator" [routerLink]="['/stores', storeId, 'detail']">Manage store</a></p>
+        </div>
+        <span>
+          <button (click)="signOut()" class="btn btn-secondary">Sign Out</button>
+        </span>
       </div>
     </div>
   </div>
