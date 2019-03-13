@@ -19,8 +19,6 @@ export class ItemThumbnailIndexComponent implements OnInit, OnDestroy, AfterView
   shownItems: DisplayedItemThumbnail[] = [];
   parametersSubsription: Subscription;
   loadedPages: number[] = [];
-  //nextPageNavigatedSource = new Subject<any>();
-  //nextPageNavigated$ = this.nextPageNavigatedSource.asObservable();
   nextNavigationOperation = Operation.Initial;
 
   constructor(
@@ -45,9 +43,11 @@ export class ItemThumbnailIndexComponent implements OnInit, OnDestroy, AfterView
           || this.parameterService.isParamChanged(ParameterNames.orderByDescending)
           || this.parameterService.isParamChanged(ParameterNames.orderByDescending)
           || this.parameterService.isParamChanged(ParameterNames.searchValue)
+          || this.parameterService.isParamChanged(ParameterNames.pageSize)
           || !this.loadedPages.some(p => p == page)) {
           this.getItems();
-          if (!this.parameterService.isParamChanged(ParameterNames.page)) {
+          if (this.parameterService.isParamChanged(ParameterNames.page)
+            || this.parameterService.isParamChanged(ParameterNames.pageSize)) {
             this.scrollToTop();
           }
         }
@@ -152,7 +152,7 @@ export class ItemThumbnailIndexComponent implements OnInit, OnDestroy, AfterView
     let scrollToTop = window.setInterval(() => {
       let pos = window.pageYOffset;
       if (pos > 0) {
-        window.scrollTo(0, pos - 50); // how far to scroll on each step
+        window.scrollTo(0, pos - 100); // how far to scroll on each step
       } else {
         window.clearInterval(scrollToTop);
       }
