@@ -19,17 +19,14 @@ header {
 form {
   margin-top: 20px;
 }
-form > input {
-  width: 65%;
-  margin-right: 16px;
-  
-}
+  form > input {
+    width: 60%;
+    margin-right: 8px;
+    margin-left: 8px;
+  }
 form > button {
   width: 15%;
-  min-width: 80px;
-}
-.account-control {
-  margin-top: 10px;
+  min-width: 70px;
 }
 .not-signed-in-actions > button {
   width: 40%;
@@ -37,17 +34,49 @@ form > button {
   /*display: inline;*/
   min-width: 90px;
 }
-
-.signed-in-actions > div {
-  float: left
+.icon {
+  width: 40px;
+  margin-top: 8px;
 }
 
-.signed-in-actions * p {
-  margin: 0px;
+@media(max-width: 768px) {
+  .name {
+    margin-top: 8px;
+    margin-left: 8px;
+    margin-bottom: -8px;
+  }
 }
 
-.signed-in-actions > span {
-  margin-left: 16px;
-  display: inline;
-  min-width: 90px;
+@media(max-width: 321px) {
+  .account-control {
+    margin-left: -5%;
+  }
 }
+
+@media(min-width: 992px) {
+  /*.icon {
+    margin-top: 10px;
+    margin-left: -20px;
+  }*/
+  .account-control {
+    margin-top: 16px;
+  }
+}
+
+  .signed-in-actions > div {
+    float: left
+  }
+
+  #signed-inactions-menu {
+    left: -66px !important;
+  }
+
+  .signed-in-actions * p {
+    margin: 0px;
+  }
+
+  .signed-in-actions > span {
+    margin-left: 16px;
+    display: inline;
+    min-width: 90px;
+  }

@@ -1,8 +1,8 @@
-import { ItemVariant } from "../item-variant/item-variant";
-import { Item } from "../item/item";
-import { MeasurementUnit } from "../measurement-unit/measurement-unit";
-import { Store } from "../store/store";
 import { CartItem } from "./cart-item";
+import { ItemVariant } from "src/app/item-variant/item-variant";
+import { MeasurementUnit } from "src/app/measurement-unit/measurement-unit";
+import { Item } from "src/app/item/item";
+import { Store } from "src/app/store/store";
 
 export class CartItemThumbnail extends CartItem {
   itemVariant: ItemVariant;

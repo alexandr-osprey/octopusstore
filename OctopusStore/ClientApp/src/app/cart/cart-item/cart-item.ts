@@ -1,4 +1,4 @@
-import { Entity } from "../models/entity/entity";
+import { Entity } from "src/app/models/entity/entity";
 
 export class CartItem extends Entity {
   itemVariantId: number;

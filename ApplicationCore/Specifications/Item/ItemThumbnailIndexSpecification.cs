@@ -18,7 +18,8 @@ namespace ApplicationCore.Specifications
         {
             AddInclude(i => i.Images);
             AddInclude(i => i.ItemVariants);
-            Description += " includes Images, ItemVariants";
+            AddInclude(i => i.Brand);
+            Description += " includes Images, ItemVariants, Brand";
         }
     }
 }

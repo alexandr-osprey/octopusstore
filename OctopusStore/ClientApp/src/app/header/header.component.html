@@ -1,29 +1,46 @@
 <header class="row">
-  <div class="col-3 col-xl-2">
-    <p class="name">
-      <a [routerLink]="['/']">Osprey Store</a>
-    </p>
-  </div>
-  <div class="search col-4 col-xl-7">
-    <form class="form-inline">
-      <input type="text" class="form-control" [(ngModel)]="searchValue" name="searchValue" />
-      <button type="submit" (click)="search()" class="btn btn-primary">Search</button>
-    </form>
-  </div>
-  <div class="col-5 col-xl-3 account-control">
+
+  <div class="search col-9 col-sm-10">
     <div class="row">
+      <div class="col-12  col-md-4 col-lg-3">
+        <p class="name">
+          <a [routerLink]="['/']">Osprey Store</a>
+        </p>
+      </div>
+      <div class="col-12 col-md-8 col-lg-9">
+        <form class="form-inline">
+          <input type="text" class="form-control" [(ngModel)]="searchValue" name="searchValue" />
+          <button type="submit" (click)="search()" class="btn btn-primary">Search</button>
+        </form>
+      </div>
+    </div>
+
+  </div>
+  <div class="col-3 col-sm-2 account-control">
+    <div class="row">
+      <div class="col-12 col-lg-6">
+        <img class="icon" src="assets/cart.svg" />
+      </div>
+      
       <div class="not-signed-in-actions col" *ngIf="!signedIn">
         <button [routerLink]="['/', 'signUp']" class="btn btn-danger">Register</button>
         <button [routerLink]="['/', 'signIn']" class="btn btn-primary">Sign In</button>
       </div>
-      <div class="signed-in-actions col" *ngIf="signedIn">
+      <div class="signed-in-actions col-12 col-lg-6" *ngIf="signedIn">
         <div>
-          <p>{{email}}</p>
-          <p><a *ngIf="isContentAdministrator" [routerLink]="['/administrating', 'content']">Content administrating</a></p>
-          <p><a *ngIf="isStoreAdministrator" [routerLink]="['/stores', storeId, 'detail']">Manage store</a></p>
+          <img class="icon" src="assets/more.svg" />
         </div>
+        <!--<div ngbDropdown class="d-inline-block">
+          <button class="btn btn-primary" id="signed-inactions-menu" ngbDropdownToggle>Actions</button>
+          <div ngbDropdownMenu placement="bottom-right" id="signed-inactions-menu" aria-labelledby="signed-inactions-menu">
+            <p class="dropdown-item">{{email}}</p>
+            <a class="dropdown-item" *ngIf="isContentAdministrator" [routerLink]="['/administrating', 'content']">Administrating</a>
+            <a class="dropdown-item" *ngIf="isStoreAdministrator" [routerLink]="['/stores', storeId, 'detail']">Manage store</a>
+            <button (click)="signOut()" class="btn btn-secondary dropdown-item">Sign Out</button>
+          </div>
+        </div>-->
         <span>
-          <button (click)="signOut()" class="btn btn-secondary">Sign Out</button>
+
         </span>
       </div>
     </div>

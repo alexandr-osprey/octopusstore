@@ -2,19 +2,19 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Subject, Observable } from 'rxjs';
-import { IdentityService } from '../identity/identity.service';
-import { ItemService } from '../item/item.service';
-import { MeasurementUnitService } from '../measurement-unit/measurement-unit.service';
-import { ItemVariantService } from '../item-variant/item-variant.service';
-import { MessageService } from '../message/message.service';
 import { CartItem } from './cart-item';
-import { DataReadWriteService } from '../services/data-read-write.service';
 import { CartItemThumbnail } from './cart-item-thumbnail';
-import { MeasurementUnit } from '../measurement-unit/measurement-unit';
-import { EntityIndex } from '../models/entity/entity-index';
-import { ItemVariant } from '../item-variant/item-variant';
-import { Item } from '../item/item';
-import { ParameterNames } from '../parameter/parameter-names';
+import { DataReadWriteService } from 'src/app/services/data-read-write.service';
+import { IdentityService } from 'src/app/identity/identity.service';
+import { ItemService } from 'src/app/item/item.service';
+import { MeasurementUnitService } from 'src/app/measurement-unit/measurement-unit.service';
+import { ItemVariantService } from 'src/app/item-variant/item-variant.service';
+import { MessageService } from 'src/app/message/message.service';
+import { MeasurementUnit } from 'src/app/measurement-unit/measurement-unit';
+import { EntityIndex } from 'src/app/models/entity/entity-index';
+import { ItemVariant } from 'src/app/item-variant/item-variant';
+import { Item } from 'src/app/item/item';
+import { ParameterNames } from 'src/app/parameter/parameter-names';
 
 @Injectable({
   providedIn: 'root'

@@ -6,8 +6,9 @@ namespace ApplicationCore.ViewModels
 {
     public class ItemThumbnailViewModel: ItemViewModel
     {
-        public IEnumerable<decimal> Prices { get; set; }
         public IEnumerable<ItemImageViewModel> Images { get; set; }
+        public BrandViewModel Brand { get; set; }
+        public IEnumerable<ItemVariantViewModel> ItemVariants { get; set; }
 
         public ItemThumbnailViewModel(): base()
         {
@@ -15,8 +16,9 @@ namespace ApplicationCore.ViewModels
 
         public ItemThumbnailViewModel(Item item): base(item)
         {
-            Images = from image in item.Images select new ItemImageViewModel(image);
-            Prices = from variant in item.ItemVariants select variant.Price;
+            Images = item.Images.Select(i => new ItemImageViewModel(i));
+            ItemVariants = item.ItemVariants.Select(v => new ItemVariantViewModel(v));
+            Brand = new BrandViewModel(item.Brand);
         }
     }
 }

@@ -17,11 +17,11 @@ import { CharacteristicCreateUpdateComponent } from './characteristic/characteri
 import { CharacteristicValueCreateUpdateComponent } from './characteristic-value/characteristic-value-create-update/characteristic-value-create-update.component';
 import { BrandCreateUpdateComponent } from './brand/brand-create-update/brand-create-update.component';
 import { MeasurementUnitCreateUpdateComponent } from './measurement-unit/measurement-unit-create-update/measurement-unit-create-update.component';
-import { CartItemThumbnailIndexComponent } from './cart-item/cart-item-thumbnail-index/cart-item-thumbnail-index.component';
 import { OrderCreateComponent } from './order/order-create/order-create.component';
 import { OrderThumbnailIndexComponent } from './order/order-thumbnail-index/order-thumbnail-index.component';
 import { SignedInAuthorizationGuard } from './guards/signed-in-authorization-guard';
 import { AdministratingContentComponent } from './administrating/administrating-content/administrating-content.component';
+import { CartItemThumbnailIndexComponent } from './cart/cart-item/cart-item-thumbnail-index/cart-item-thumbnail-index.component';
 
 
 const routes: Routes = [

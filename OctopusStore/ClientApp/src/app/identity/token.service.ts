@@ -91,7 +91,9 @@ export class TokenService {
   }
 
   public markAsInvalid() {
-    this.tokenPair.invalid = true;
+    if (this.tokenPair) {
+      this.tokenPair.invalid = true;
+    }
   }
 
 

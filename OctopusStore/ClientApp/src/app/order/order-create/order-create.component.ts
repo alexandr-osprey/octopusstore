@@ -4,12 +4,12 @@ import { Location } from '@angular/common';
 import { Order } from '../order';
 import { MessageService } from 'src/app/message/message.service';
 import { OrderService } from '../order.service';
-import { CartItemService } from 'src/app/cart-item/cart-item.service';
-import { CartItem } from 'src/app/cart-item/cart-item';
 import { EntityIndex } from 'src/app/models/entity/entity-index';
 import 'rxjs/add/observable/zip';
 import { Observable } from 'rxjs';
 import { forEach } from '@angular/router/src/utils/collection';
+import { CartItem } from 'src/app/cart/cart-item/cart-item';
+import { CartItemService } from 'src/app/cart/cart-item/cart-item.service';
 
 @Component({
   selector: 'app-order-create',

@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ParameterNames } from '../../parameter/parameter-names';
-import { ParameterService } from '../../parameter/parameter.service';
 import { CartItemThumbnail } from '../cart-item-thumbnail';
 import { CartItemService } from '../cart-item.service';
 import { Item } from 'src/app/item/item';
 import { ItemVariant } from 'src/app/item-variant/item-variant';
 import { CartItem } from '../cart-item';
 import { Router } from '@angular/router';
+import { ParameterService } from 'src/app/parameter/parameter.service';
 
 @Component({
   selector: 'app-cart-item-thumbnail-index',
