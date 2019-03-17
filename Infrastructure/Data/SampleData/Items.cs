@@ -47,22 +47,22 @@ namespace Infrastructure.Data.SampleData
                 new Item { Title = "Jacket", BrandId = Brands.Armani.Id, CategoryId = Categories.Jackets.Id,
                     MeasurementUnitId = MeasurementUnits.Pcs.Id, StoreId = Stores.Jennifers.Id, OwnerId = Stores.Jennifers.OwnerId, Description = "desc" },
             };
-            var result = list
-                .Concat(list.Select(i => i.ShallowClone()))
-                .Concat(list.Select(i => i.ShallowClone()))
-                .Concat(list.Select(i => i.ShallowClone()))
-                .Concat(list.Select(i => i.ShallowClone()))
-                .Concat(list.Select(i => i.ShallowClone()))
-                .Concat(list.Select(i => i.ShallowClone()))
-                .Concat(list.Select(i => i.ShallowClone()))
-                .Concat(list.Select(i => i.ShallowClone()))
-                .Concat(list.Select(i => i.ShallowClone()));
-            result = result.Concat(result.Select(i => i.ShallowClone()));
-            result = result.Concat(result.Select(i => i.ShallowClone()));
-            result = result.Concat(result.Select(i => i.ShallowClone()));
-            result = result.Concat(result.Select(i => i.ShallowClone()));
-            result = result.Concat(result.Select(i => i.ShallowClone()));
-            result = result.Concat(result.Select(i => i.ShallowClone()));
+            var result = list;
+            //    .Concat(list.Select(i => i.ShallowClone()))
+            //    .Concat(list.Select(i => i.ShallowClone()))
+            //    .Concat(list.Select(i => i.ShallowClone()))
+            //    .Concat(list.Select(i => i.ShallowClone()))
+            //    .Concat(list.Select(i => i.ShallowClone()))
+            //    .Concat(list.Select(i => i.ShallowClone()))
+            //    .Concat(list.Select(i => i.ShallowClone()))
+            //    .Concat(list.Select(i => i.ShallowClone()))
+            //    .Concat(list.Select(i => i.ShallowClone()));
+            //result = result.Concat(result.Select(i => i.ShallowClone()));
+            //result = result.Concat(result.Select(i => i.ShallowClone()));
+            //result = result.Concat(result.Select(i => i.ShallowClone()));
+            //result = result.Concat(result.Select(i => i.ShallowClone()));
+            //result = result.Concat(result.Select(i => i.ShallowClone()));
+            //result = result.Concat(result.Select(i => i.ShallowClone()));
             return result;
         }
 

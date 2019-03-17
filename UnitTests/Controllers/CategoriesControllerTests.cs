@@ -1,4 +1,4 @@
-﻿using OctopusStore;
+﻿using OspreyStore;
 using ApplicationCore.Entities;
 using ApplicationCore.Specifications;
 using Microsoft.EntityFrameworkCore;

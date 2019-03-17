@@ -8,7 +8,7 @@ using System.Net;
 using System.Security.Authentication;
 using System.Threading.Tasks;
 
-namespace OctopusStore.Middleware
+namespace OspreyStore.Middleware
 {
     public class ErrorHandlingMiddleware 
     {

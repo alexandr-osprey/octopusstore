@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
-namespace OctopusStore.Controllers
+namespace OspreyStore.Controllers
 {
     [Produces("application/json")]
     [Route("api/[controller]")]

@@ -11,7 +11,7 @@
     <!-- Set this to true if you enable server-side prerendering -->
     <BuildServerSideRenderer>false</BuildServerSideRenderer>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <StartupObject>OctopusStore.Program</StartupObject>
+    <StartupObject>OspreyStore.Program</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>

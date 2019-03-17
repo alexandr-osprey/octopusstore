@@ -12,7 +12,7 @@ using System;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OctopusStore
+namespace OspreyStore
 {
     public static class IdentityConfiguration
     {

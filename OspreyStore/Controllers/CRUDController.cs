@@ -14,7 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace OctopusStore.Controllers
+namespace OspreyStore.Controllers
 {
     public class CRUDController<TService, TEntity, TViewModel> : Controller, IController<TEntity, TViewModel>
         where TService : IService<TEntity>

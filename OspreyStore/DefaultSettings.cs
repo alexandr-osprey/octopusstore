@@ -1,4 +1,4 @@
-﻿namespace OctopusStore
+﻿namespace OspreyStore
 {
     public static class DefaultSettings
     {

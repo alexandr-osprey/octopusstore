@@ -10,7 +10,7 @@ using ApplicationCore.Interfaces.Controllers;
 using ApplicationCore.Exceptions;
 using System.Linq;
 
-namespace OctopusStore.Controllers
+namespace OspreyStore.Controllers
 {
     [Produces("application/json")]
     [Route("api/[controller]")]

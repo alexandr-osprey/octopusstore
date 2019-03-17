@@ -11,7 +11,7 @@ using ApplicationCore.Interfaces;
 using ApplicationCore.Interfaces.Services;
 using ApplicationCore.Interfaces.Controllers;
 
-namespace OctopusStore.Controllers
+namespace OspreyStore.Controllers
 {
     [Route("api/[controller]")]
     public class ItemImagesController: CRUDController<IItemImageService, ItemImage, ItemImageViewModel>, IItemImagesController

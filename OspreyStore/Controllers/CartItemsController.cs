@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
-namespace OctopusStore.Controllers
+namespace OspreyStore.Controllers
 {
     [Produces("application/json")]
     [Route("api/[controller]")]

@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.27428.2037
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests", "UnitTests\UnitTests.csproj", "{926DA07F-1B0D-4A35-BC20-5168ABA36291}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OctopusStore", "OctopusStore\OctopusStore.csproj", "{3BAE64B2-A6AC-46C6-A551-9BB0C540C2CA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OspreyStore", "OspreyStore\OspreyStore.csproj", "{3BAE64B2-A6AC-46C6-A551-9BB0C540C2CA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApplicationCore", "ApplicationCore\ApplicationCore.csproj", "{8A94D84A-4B1C-41E6-8365-40A4FD883AA0}"
 EndProject

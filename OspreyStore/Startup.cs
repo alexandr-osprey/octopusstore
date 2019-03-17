@@ -10,7 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using Microsoft.Extensions.Logging;
-using OctopusStore.Middleware;
+using OspreyStore.Middleware;
 using Microsoft.AspNetCore.Mvc.Authorization;
 //using Infrastructure.Identity;
 using Infrastructure;
@@ -19,7 +19,7 @@ using Infrastructure.Identity;
 using ApplicationCore.Entities;
 using ApplicationCore.Interfaces.Services;
 
-namespace OctopusStore
+namespace OspreyStore
 {
     public class Startup
     {
