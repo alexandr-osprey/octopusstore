@@ -23,10 +23,11 @@ namespace OspreyStore.Controllers
         public StoresController(
             IStoreService storeService,
             IActivatorService activatorService,
+            IIdentityService identityService,
             IScopedParameters scopedParameters,
             IAuthorizationParameters<Store> authoriationParameters,
             IAppLogger<IController<Store, StoreViewModel>> logger)
-           : base(storeService, activatorService, scopedParameters, logger)
+           : base(storeService, activatorService, identityService, scopedParameters, logger)
         {
             AuthorziationParameters = authoriationParameters;
         }

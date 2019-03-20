@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit, HostBinding  } from '@angular/core';
 import { ParameterService } from '../../parameter/parameter.service';
 import { debounceTime } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
@@ -14,7 +14,9 @@ import { DisplayedItemThumbnail } from '../displayed-item-thumbnail';
   styleUrls: ['./item-thumbnail-index.component.css'],
   providers: [ItemService]
 })
+
 export class ItemThumbnailIndexComponent implements OnInit, OnDestroy, AfterViewInit {
+  @HostBinding('class') classes = 'flex-fill';
   index: EntityIndex<ItemThumbnail>;
   shownItems: DisplayedItemThumbnail[] = [];
   parametersSubsription: Subscription;

@@ -8,6 +8,7 @@ using ApplicationCore.ViewModels;
 using ApplicationCore.Interfaces;
 using ApplicationCore.Interfaces.Services;
 using ApplicationCore.Interfaces.Controllers;
+using ApplicationCore.Identity;
 
 namespace OspreyStore.Controllers
 {
@@ -18,9 +19,10 @@ namespace OspreyStore.Controllers
         public ItemVariantsController(
             IItemVariantService itemVariantService,
             IActivatorService activatorService,
+            IIdentityService identityService,
             IScopedParameters scopedParameters,
             IAppLogger<IController<ItemVariant, ItemVariantViewModel>> logger)
-           : base(itemVariantService, activatorService, scopedParameters, logger)
+           : base(itemVariantService, activatorService, identityService, scopedParameters, logger)
         {
         }
 

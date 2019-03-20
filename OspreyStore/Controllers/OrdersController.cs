@@ -9,6 +9,7 @@ using ApplicationCore.Interfaces.Services;
 using ApplicationCore.Interfaces.Controllers;
 using ApplicationCore.Exceptions;
 using System.Linq;
+using ApplicationCore.Identity;
 
 namespace OspreyStore.Controllers
 {
@@ -21,9 +22,10 @@ namespace OspreyStore.Controllers
             IOrderService orderService,
             ICartItemService cartItemService,
             IActivatorService activatorService,
+            IIdentityService identityService,
             IScopedParameters scopedParameters,
             IAppLogger<IController<Order, OrderViewModel>> logger)
-           : base(orderService, activatorService, scopedParameters, logger)
+           : base(orderService, activatorService, identityService, scopedParameters, logger)
         {
         }
 
@@ -61,7 +63,7 @@ namespace OspreyStore.Controllers
         protected override async Task PopulateViewModelWithRelatedDataAsync<TCustomViewModel>(TCustomViewModel viewModel)
         {
             var order = await Service.ReadSingleAsync(new EntitySpecification<Order>(viewModel.GetHashCode()));
-            string email = await Service.IdentityService.GetUserEmail(order.OwnerId);
+            string email = await IdentityService.GetUserEmail(order.OwnerId);
             viewModel.CustomerEmail = email;
         }
     }

@@ -1,5 +1,6 @@
 ﻿using ApplicationCore.Entities;
 using ApplicationCore.Extensions;
+using ApplicationCore.Identity;
 using ApplicationCore.Interfaces;
 using ApplicationCore.Interfaces.Controllers;
 using ApplicationCore.Interfaces.Services;
@@ -22,9 +23,10 @@ namespace OspreyStore.Controllers
             IItemService service,
             IActivatorService activatorService,
             IScopedParameters scopedParameters,
+            IIdentityService identityService,
             IAuthorizationService authorizationService,
             IAppLogger<IController<Item, ItemViewModel>> logger)
-           : base(service, activatorService, scopedParameters, logger)
+           : base(service, activatorService, identityService, scopedParameters, logger)
         {
         }
 

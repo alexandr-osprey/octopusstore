@@ -20,7 +20,6 @@ import { ItemVariantDetailComponent } from './item-variant/item-variant-detail/i
 import { ItemImageGalleryComponent } from './item-image/item-image-gallery/item-image-gallery.component';
 import { ItemImageCreateUpdateComponent } from './item-image/item-image-create-update/item-image-create-update.component';
 import { ItemImageDisplayComponent } from './item-image/item-image-display/item-image-display.component';
-import { ItemsNavigationPaneComponent } from './navigation/items-navigation-pane/items-navigation-pane.component';
 import { HomepageComponent } from './homepage/homepage/homepage.component';
 import { StoreCreateUpdateComponent } from './store/store-create-update/store-create-update.component';
 import { StoreDetailComponent } from './store/store-detail/store-detail.component';
@@ -68,7 +67,6 @@ import { CartItemThumbnailIndexComponent } from './cart/cart-item/cart-item-thum
     ItemPropertyDetailComponent,
     ItemImageCreateUpdateComponent,
     ItemImageDisplayComponent,
-    ItemsNavigationPaneComponent,
     HomepageComponent,
     StoreCreateUpdateComponent,
     StoreDetailComponent,

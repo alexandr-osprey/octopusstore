@@ -29,14 +29,15 @@ namespace UnitTests.Services
             return new List<Store>() { store };
         }
 
-        protected override IEnumerable<Store> GetCorrectNewEntites()
-        {
-            Service.ScopedParameters.ClaimsPrincipal = Users.User1Principal;
-            return new List<Store>()
-            {
-                new Store() { Title = "New store",  Address = "New address", Description = "New desc "}
-            };
-        }
+        //protected override IEnumerable<Store> GetCorrectNewEntites()
+        //{
+        //    ScopedParameters.ClaimsPrincipal = Users.User1Principal;
+        //    return new List<Store>()
+        //    {
+        //        new Store() { Title = "New store",  Address = "New address", Description = "New desc "}
+        //    };
+        //    ScopedParameters.ClaimsPrincipal = Users.JohnPrincipal;
+        //}
 
         protected override Specification<Store> GetEntitiesToDeleteSpecification()
         {

@@ -7,6 +7,7 @@ using ApplicationCore.ViewModels;
 using ApplicationCore.Interfaces;
 using ApplicationCore.Interfaces.Services;
 using ApplicationCore.Interfaces.Controllers;
+using ApplicationCore.Identity;
 
 namespace OspreyStore.Controllers
 {
@@ -18,9 +19,10 @@ namespace OspreyStore.Controllers
             IMeasurementUnitService measurementUnitService,
             IActivatorService activatorService,
             IAuthorizationService authorizationService,
+            IIdentityService identityService,
             IScopedParameters scopedParameters,
             IAppLogger<IController<MeasurementUnit, MeasurementUnitViewModel>> logger)
-           : base(measurementUnitService, activatorService, scopedParameters, logger)
+           : base(measurementUnitService, activatorService, identityService, scopedParameters, logger)
         {
         }
 

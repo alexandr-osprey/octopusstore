@@ -7,6 +7,7 @@ using ApplicationCore.ViewModels;
 using ApplicationCore.Interfaces;
 using ApplicationCore.Interfaces.Services;
 using ApplicationCore.Interfaces.Controllers;
+using ApplicationCore.Identity;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -19,9 +20,10 @@ namespace OspreyStore.Controllers
         public BrandsController(
             IBrandService  brandService,
             IActivatorService activatorService,
+            IIdentityService identityService,
             IScopedParameters scopedParameters,
             IAppLogger<IController<Brand, BrandViewModel>> logger)
-           : base(brandService, activatorService, scopedParameters, logger)
+           : base(brandService, activatorService, identityService, scopedParameters, logger)
         {
         }
 

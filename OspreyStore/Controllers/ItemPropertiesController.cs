@@ -9,6 +9,7 @@ using ApplicationCore.ViewModels;
 using ApplicationCore.Interfaces;
 using ApplicationCore.Interfaces.Services;
 using ApplicationCore.Interfaces.Controllers;
+using ApplicationCore.Identity;
 
 namespace OspreyStore.Controllers
 {
@@ -19,9 +20,10 @@ namespace OspreyStore.Controllers
         public ItemPropertiesController(
             IItemPropertyService itemPropertyService,
             IActivatorService activatorService,
+            IIdentityService identityService,
             IScopedParameters scopedParameters,
             IAppLogger<IController<ItemProperty, ItemPropertyViewModel>> logger)
-           : base(itemPropertyService, activatorService, scopedParameters, logger)
+           : base(itemPropertyService, activatorService, identityService, scopedParameters, logger)
         {
         }
 

@@ -1,13 +1,9 @@
 <app-messages></app-messages>
-<div class="container-fluid">
-  <nav class="navbar fixed-top navbar-light bg-faded">
-    <app-header></app-header>
-    <!--<p>sdfsaf</p>-->
-  </nav>
-  <div class="row height-full">
-    <div class="col">
-      <router-outlet></router-outlet>
-    </div>
-  </div>
+<div class="d-flex flex-column align-items-stretch h-100">
+    <app-header class="header"></app-header>
+  <!--<div style="background-color: red; height: 4000px;">
+    sdfsdf
+  </div>-->
+    <router-outlet></router-outlet>
+  
 </div>
-

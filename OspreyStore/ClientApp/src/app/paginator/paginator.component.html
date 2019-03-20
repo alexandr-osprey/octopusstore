@@ -1,5 +1,5 @@
-<div class="row paginator" *ngIf="index && index.entities.length">
-  <div class="col-auto col-md-auto">
+<div class="paginator" *ngIf="index && index.entities.length">
+  <div class="">
     <ul class="pagination">
       <li class="page-item"><a [routerLink] [queryParams]="getPageParams(index.page - 1)" [ngClass]="{'hidden': index.page == 1 }" class="page-link">Previous</a></li>
       <li *ngFor="let page of pageNumbers" class="page-item"><a [routerLink] [queryParams]="getPageParams(page)" [ngClass]="{'current-page-button': page==index.page}" class="page-link">{{ page }}</a></li>

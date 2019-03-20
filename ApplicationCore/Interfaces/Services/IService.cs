@@ -19,13 +19,13 @@ namespace ApplicationCore.Interfaces.Services
         /// </summary>
         string Name { get; set; }
 
-        DbContext Context { get; }
+        //DbContext Context { get; }
         /// <summary>
         /// Manager authorization and authentication
         /// </summary>
-        IIdentityService IdentityService { get; }
+        //IIdentityService IdentityService { get; }
 
-        IScopedParameters ScopedParameters { get; }
+        //IScopedParameters ScopedParameters { get; }
 
         /// <summary>
         /// Adds entity to repository

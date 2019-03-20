@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using ApplicationCore.Interfaces;
 using ApplicationCore.Interfaces.Services;
 using ApplicationCore.Interfaces.Controllers;
+using ApplicationCore.Identity;
 
 namespace OspreyStore.Controllers
 {
@@ -19,9 +20,10 @@ namespace OspreyStore.Controllers
         public ItemImagesController(
             IItemImageService service,
             IActivatorService activatorService,
+            IIdentityService identityService,
             IScopedParameters scopedParameters,
             IAppLogger<IController<ItemImage, ItemImageViewModel>> logger)
-           : base(service, activatorService, scopedParameters, logger)
+           : base(service, activatorService, identityService, scopedParameters, logger)
         {
         }
 

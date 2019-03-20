@@ -12,7 +12,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Tokens;
 using Moq;
 using Newtonsoft.Json;
 using OspreyStore;
@@ -65,6 +64,10 @@ namespace UnitTests
         protected StoreContext Context { get; }
         protected AppIdentityDbContext IdentityContext { get; }
         protected TestSampleData Data { get; }
+        protected static IScopedParameters ScopedParameters { get; } = new ScopedParameters()
+        {
+            ClaimsPrincipal = Users.JohnPrincipal
+        };
 
         public TestBase(ITestOutputHelper output)
         {
@@ -100,9 +103,9 @@ namespace UnitTests
             //Services.AddSingleton(_ => new TokenValidationParameters());
             //Services.AddDbContext<AppIdentityDbContext>();
             //Services.AddIdentity<ApplicationUser, IdentityRole>()
-              //  .AddEntityFrameworkStores<AppIdentityDbContext>()
-              //  .AddDefaultTokenProviders();
-           // Services.AddScoped<IIdentityService, IdentityService>();
+            //  .AddEntityFrameworkStores<AppIdentityDbContext>()
+            //  .AddDefaultTokenProviders();
+            // Services.AddScoped<IIdentityService, IdentityService>();
             Services.AddScoped<UserManager<ApplicationUser>, UserManager<ApplicationUser>>();
             Services.AddScoped<SignInManager<ApplicationUser>, SignInManager<ApplicationUser>>();
             Services.AddScoped<IAuthorizationService, DefaultAuthorizationService>();
@@ -110,11 +113,7 @@ namespace UnitTests
             Services.AddScoped<IAuthorizationHandlerProvider, DefaultAuthorizationHandlerProvider>();
             Services.AddScoped<IAuthorizationHandlerContextFactory, DefaultAuthorizationHandlerContextFactory>();
             Services.AddScoped<IAuthorizationEvaluator, DefaultAuthorizationEvaluator>();
-            var scopedParameters = new ScopedParameters()
-            {
-                ClaimsPrincipal = Users.JohnPrincipal
-            };
-            Services.AddSingleton<IScopedParameters>(scopedParameters);
+            Services.AddSingleton<IScopedParameters>(ScopedParameters);
             IdentityConfiguration.ConfigureServices(Services, AppSetting);
 
 
@@ -129,7 +128,7 @@ namespace UnitTests
             //services.AddDbContext<StoreContext>(options => options.UseInMemoryDatabase(Guid.NewGuid().ToString()));
 
             Startup.ConfigureDI(Services);
-            
+
             //Services.AddScoped<IAuthorizationParameters<CartItem>, AuthoriationParametersWithoutAuthorization<CartItem>>();
 
             var conf = new Mock<IConfiguration>();

@@ -23,6 +23,7 @@ namespace OspreyStore.Controllers
     {
         protected TService Service { get; }
         protected IActivatorService ActivatorService { get; }
+        protected IIdentityService IdentityService { get; }
         protected IAppLogger<IController<TEntity, TViewModel>> Logger { get; }
         protected string EntityName { get; } = typeof(TEntity).Name;
         protected int MaxTake { get; } = 200;
@@ -32,6 +33,7 @@ namespace OspreyStore.Controllers
         public CRUDController(
             TService service,
             IActivatorService activatorService,
+            IIdentityService identityService,
             IScopedParameters scopedParameters,
             IAppLogger<IController<TEntity, TViewModel>> logger)
         {
@@ -39,6 +41,7 @@ namespace OspreyStore.Controllers
             ActivatorService = activatorService;
             ScopedParameters = scopedParameters;
             Logger = logger;
+            IdentityService = identityService;
             Logger.Name = EntityName + "Controller";
         }
         public override void OnActionExecuting(ActionExecutingContext filterContext)
@@ -78,7 +81,7 @@ namespace OspreyStore.Controllers
         public virtual async Task<Response> CheckUpdateAuthorizationAsync(int id)
         {
             var entity = await Service.ReadSingleAsync(new EntitySpecification<TEntity>(id));
-            await Service.IdentityService.AuthorizeAsync(User, entity, OperationAuthorizationRequirements.Update, true);
+            await IdentityService.AuthorizeAsync(User, entity, OperationAuthorizationRequirements.Update, true);
             return new Response("You are authorized to update");
         }
 

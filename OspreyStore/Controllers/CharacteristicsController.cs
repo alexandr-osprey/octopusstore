@@ -7,6 +7,7 @@ using ApplicationCore.ViewModels;
 using ApplicationCore.Interfaces;
 using ApplicationCore.Interfaces.Services;
 using ApplicationCore.Interfaces.Controllers;
+using ApplicationCore.Identity;
 
 namespace OspreyStore.Controllers
 {
@@ -17,9 +18,10 @@ namespace OspreyStore.Controllers
         public CharacteristicsController(
             ICharacteristicService service,
             IActivatorService activatorService,
+            IIdentityService identityService,
             IScopedParameters scopedParameters,
             IAppLogger<IController<Characteristic, CharacteristicViewModel>> logger)
-           : base(service, activatorService, scopedParameters, logger)
+           : base(service, activatorService, identityService, scopedParameters, logger)
         {
         }
 

@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using ApplicationCore.Interfaces.Services;
 using ApplicationCore.Interfaces.Controllers;
+using ApplicationCore.Identity;
 
 namespace OspreyStore.Controllers
 {
@@ -19,9 +20,10 @@ namespace OspreyStore.Controllers
         public CategoriesController(
             ICategoryService service,
             IActivatorService activatorService,
+            IIdentityService identityService,
             IScopedParameters scopedParameters,
             IAppLogger<IController<Category,CategoryViewModel>> logger)
-           : base(service, activatorService, scopedParameters, logger)
+           : base(service, activatorService, identityService, scopedParameters, logger)
         {
         }
 

@@ -1,5 +1,6 @@
 ﻿using ApplicationCore.Entities;
 using ApplicationCore.Exceptions;
+using ApplicationCore.Identity;
 using ApplicationCore.Interfaces;
 using ApplicationCore.Interfaces.Controllers;
 using ApplicationCore.Interfaces.Services;
@@ -18,9 +19,10 @@ namespace OspreyStore.Controllers
         public CartItemsController(
             ICartItemService cartItemService,
             IActivatorService activatorService,
+            IIdentityService identityService,
             IScopedParameters scopedParameters,
             IAppLogger<IController<CartItem, CartItemViewModel>> logger)
-           : base(cartItemService, activatorService, scopedParameters, logger)
+           : base(cartItemService, activatorService, identityService, scopedParameters, logger)
         {
         }
 
