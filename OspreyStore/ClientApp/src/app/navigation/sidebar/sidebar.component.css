@@ -1,10 +1,10 @@
 #sidebar {
   background-color: white;
-  -webkit-box-shadow: 1px 1px 1px rgba(0,0,0,0.1);
-  box-shadow: 1px 1px 1px rgba(0,0,0,0.1);
-  height: 100%;
+  /*-webkit-box-shadow: 1px 1px 1px rgba(0,0,0,0.1);*/
+  /*box-shadow: 1px 1px 1px rgba(0,0,0,0.1);*/
+  /*height: 100%;*/
   color: #686a76;
-  position: fixed;
+  /*position: fixed;*/
   width: 220px;
 }
 #sidebar p {
@@ -13,5 +13,5 @@
 }
 
 .not-fixed {
-  position: initial !important;
+  /*position: initial !important;*/
 }

@@ -1,14 +1,12 @@
-<<div class="d-flex flex-fill" *ngIf="index">
-  <!--<div class="col sidebar">
-    <app-sidebar></app-sidebar>
-  </div>-->
+<div class="d-flex flex-fill align-items-stretch" *ngIf="index" style="min-height: 100%">
+  <app-sidebar class="h-100"></app-sidebar>
   <div class="d-flex flex-fill">
     <div>
       <a [routerLink] [queryParams]="getOrderByPriceQueryParams()">Price</a>
     </div>
     <div class="d-flex flex-column flex-fill">
-      <app-item-thumbnail *ngFor="let itemThumbnail of shownItems" [itemThumbnail]="itemThumbnail" class="flex-fill item-thumbnail item-thumbnail-of-page-{{ itemThumbnail.page }}"></app-item-thumbnail>
-      <app-paginator [index]="index"></app-paginator>
+      <app-item-thumbnail *ngFor="let itemThumbnail of shownItems" [itemThumbnail]="itemThumbnail" class="item-thumbnail item-thumbnail-of-page-{{ itemThumbnail.page }}"></app-item-thumbnail>
+      <app-paginator class="" [index]="index"></app-paginator>
     </div>
   </div>
 </div>

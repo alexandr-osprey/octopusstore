@@ -1,12 +1,13 @@
 .category {
-  border-left: 4px solid transparent;
+  /*border-left: 4px solid transparent;*/
 }
-
-  .category.active > button {
+  .category.active > button,
+  .category.active > span > button {
     /*color: #fff;*/
     /*background-color: #009efb;*/
     border-left: 8px solid #009efb;
     transition: height 2s ease-out;
+    /*background-color: red;*/
   }
 
 .subcategory {

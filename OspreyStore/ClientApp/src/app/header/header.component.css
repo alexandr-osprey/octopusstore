@@ -14,7 +14,7 @@ header {
 }
 
 .icon {
-  min-height: 3rem;
+  min-height: 2.5rem;
 }
 
 @media(max-width: 767px) {

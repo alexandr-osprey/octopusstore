@@ -1,22 +1,14 @@
-<div id="sidebar" [ngClass]="{ 'not-fixed': storeView }" class="row height-full">
-  <div class="col">
-    <div class="row">
-      <app-category-index class="col" (categorySelected)="setCurrentCategory($event)"></app-category-index>
-    </div>
-    <div class="row">
-      <div class="col">
-        <ul class="list-unstyled">
-          <li *ngFor="let category of allCategories">
-            <ul class="list-unstyled" [@fadeInFadeOut]="category == currentCategory ? 'fadeIn' : 'fadeOut'">
-              <li *ngFor="let characteristic of category.characteristics">
-                <app-characteristic-pane [currentCategory]="currentCategory" [characteristic]="characteristic"
-                                         (characteristicValueSelected)="characteristicValueSelected($event)"
-                                         (characteristicValueUnselected)="characteristicValueUnselected($event)"></app-characteristic-pane>
-              </li>
-            </ul>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
+<div id="sidebar" [ngClass]="{ 'not-fixed': storeView }" class="d-flex flex-column h-100">
+  <app-category-index  (categorySelected)="setCurrentCategory($event)"></app-category-index>
+  <ul class="list-unstyled">
+    <li *ngFor="let category of allCategories">
+      <ul class="list-unstyled" [@fadeInFadeOut]="category == currentCategory ? 'fadeIn' : 'fadeOut'">
+        <li *ngFor="let characteristic of category.characteristics">
+          <app-characteristic-pane [currentCategory]="currentCategory" [characteristic]="characteristic"
+                                   (characteristicValueSelected)="characteristicValueSelected($event)"
+                                   (characteristicValueUnselected)="characteristicValueUnselected($event)"></app-characteristic-pane>
+        </li>
+      </ul>
+    </li>
+  </ul>
 </div>
