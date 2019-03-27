@@ -1,40 +1,35 @@
-<p>Shopping cart</p>
-<div class="row" *ngIf="cartItemThumbnails">
-  <table class="table col-12 col-md-12">
-    <tbody>
-      <tr *ngFor="let cartItemThumbnail of cartItemThumbnails">
-        <td>
-          <a [routerLink]="[getItemUrl(cartItemThumbnail.item)]" [queryParams]="getItemVariantParams(cartItemThumbnail.itemVariant)">{{ cartItemThumbnail.itemVariant.title }}</a>
-        </td>
-        <td>{{ cartItemThumbnail.itemVariant.price }}</td>
-        <td>
-          <form>
-            <div class="form-group">
-              <button (click)="minusCartItem(cartItemThumbnail.itemVariant)" class="btn">-</button>
-              <input type="number" class="form-control number" (change)="setCartItemThumbnail(cartItemThumbnail)"
-                     id="'itemVariant_'cartItemThumbnail.itemVariant.id" name="itemVariant_'cartItemThumbnail.itemVariant.id"
-                     [(ngModel)]="cartItemThumbnail.number"/>
-              <button (click)="plusCartItem(cartItemThumbnail.itemVariant)" class="btn">+</button>
-            </div>
-            
-          </form>
-        </td>
-        <td>
-          <p>{{ cartItemThumbnail.measurementUnit.title }}</p>
-        </td>
-        <td>
-          {{ cartItemThumbnail.itemVariant.price * cartItemThumbnail.number }}
-        </td>
-        <td>
-          <button (click)="removeCartItem(cartItemThumbnail)" class="btn">Remove</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <div>
-    <p>{{ sum }}</p>
+<div class="d-flex flex-row mt-5 flex-grow-1 flex-wrap " *ngIf="cartItemThumbnails">
+  <div class="d-flex flex-row col-12 col-lg-9 col-xl-10 flex-wrap mb-5">
+    <div class="d-flex col-12 flex-row flex-wrap mt-3 cart-item pt-3" *ngFor="let cartItemThumbnail of cartItemThumbnails">
+      <a class="col-12 col-md-5 col-lg-6 order-0" [routerLink]="[getItemUrl(cartItemThumbnail.item)]" [queryParams]="getItemVariantParams(cartItemThumbnail.itemVariant)">{{ cartItemThumbnail.itemVariant.title }}</a>
+      <p class="col-6 col-sm-2 col-md-1 order-1 m-0 pt-2">
+        ${{ cartItemThumbnail.itemVariant.price }}
+      </p>
+      <button (click)="removeCartItem(cartItemThumbnail)" class="btn col-6 col-sm-2 col-md-1 order-2 order-sm-4 align-middle">Remove</button>
+      <div class="col-8 col-sm-5 col-md-4 flex-wrap order-2 p-0">
+        <button (click)="minusCartItem(cartItemThumbnail.itemVariant)" class="btn col-3 p-1">-</button>
+        <input type="number" class="form-control col number" (change)="setCartItemThumbnail(cartItemThumbnail)"
+               id="'itemVariant_'cartItemThumbnail.itemVariant.id" name="itemVariant_'cartItemThumbnail.itemVariant.id"
+               [(ngModel)]="cartItemThumbnail.number" />
+        <button (click)="plusCartItem(cartItemThumbnail.itemVariant)" class="btn align-middle col-3 p-1">+</button>
+      </div>
+      <p class="col-4 col-sm-2 col-md-1 align-middle text-center m-0 pt-2 order-4 order-sm-2">${{ cartItemThumbnail.itemVariant.price * cartItemThumbnail.number }}</p>
+    </div>
   </div>
-  <div>
-    <button class="btn" (click)="createOrder()">Create order</button>
+  <div class="flex-column col-12 col-lg-3 col-xl-2 flex-wrap align-items-start pt-3 ">
+    <div class="d-flex flex-column actions p-1 pt-3 pb-3">
+      <p class="text-center">Subtotal ({{totalQuantity}} items): ${{ totalPrice }}</p>
+      <button class="btn btn-primary align-self-center w-75" (click)="createOrder()">Create order</button>
+    </div>
+    
   </div>
 </div>
+
+<!--<div class="d-flex flex-grow-1 flex-wrap">
+  <div class="col-12">
+    1
+  </div>
+  <div class="col-12">
+    2
+  </div>
+</div>-->

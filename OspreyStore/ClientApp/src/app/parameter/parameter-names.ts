@@ -5,6 +5,7 @@ export class ParameterNames {
   //paging
   public static page: string = "page";
   public static pageSize: string = "pageSize";
+
   //filters
   public static characteristicId: string = "characteristicId";
   public static categoryId: string = "categoryId";
@@ -22,4 +23,6 @@ export class ParameterNames {
 
   public static orderBy: string = "orderBy";
   public static orderByDescending = "orderByDescending";
+
+  public static sidebarHidden: string = "sidebarHidden";
 }

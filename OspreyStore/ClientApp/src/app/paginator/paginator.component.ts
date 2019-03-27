@@ -3,6 +3,7 @@ import { ParameterService } from '../parameter/parameter.service';
 import { ParameterNames } from '../parameter/parameter-names';
 import { Entity } from '../models/entity/entity';
 import { EntityIndex } from '../models/entity/entity-index';
+import { PageNotFoundComponent } from '../page-not-found/page-not-found.component';
 
 @Component({
   selector: 'app-paginator',
@@ -15,6 +16,8 @@ export class PaginatorComponent<T extends Entity> implements OnInit, OnChanges {
   pageSizes: number[];
   pageSizeParamName: string = ParameterNames.pageSize;
   pageParamName: string = ParameterNames.page;
+  showFirst = false;
+  showLast = false;
 
   constructor(
     private parameterService: ParameterService) {
@@ -30,6 +33,16 @@ export class PaginatorComponent<T extends Entity> implements OnInit, OnChanges {
       let leftmost = Math.max(1, this.index.page - pageRange - r);
       let rightmost = Math.min(this.index.page + pageRange + l + 1, this.index.totalPages + 1);
       this.pageNumbers = PaginatorComponent.range(leftmost, rightmost);
+      if (this.pageNumbers[0] == 3)
+        this.pageNumbers.unshift(1, 2);
+      if (this.pageNumbers[0] == 2)
+        this.pageNumbers.unshift(1);
+      if (this.pageNumbers[this.pageNumbers.length - 1] == this.index.totalPages - 2)
+        this.pageNumbers.push(this.index.totalPages - 1, this.index.totalPages);
+      if (this.pageNumbers[this.pageNumbers.length - 1] == this.index.totalPages - 1)
+        this.pageNumbers.push(this.index.totalPages);
+      this.showFirst = !this.pageNumbers.some(n => n == 1);
+      this.showLast = !this.pageNumbers.some(n => n == this.index.totalPages);
       this.pageSizes = [1, 4, 5, 10, 60];
     }
   }

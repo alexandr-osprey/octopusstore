@@ -1,15 +1,13 @@
 .name {
-  font-size: 1.5em;
+  font-size: 1.5rem;
+  color: #FFFFFF;
+  text-decoration: none;
+  border-bottom-style: none;
 }
-  .name a {
-    color: #FFFFFF;
-    text-decoration: none;
-    border-bottom-style: none;
-  }
 header {
-  height: 100px;
-  background: rgb(0,158,251);
-  background: linear-gradient(90deg, rgba(0,158,251,1) 0%, rgba(0,158,251,1) 5%, rgba(175,225,255,1) 100%);
+  height: auto;
+  background: #007bff;
+  /*background: linear-gradient(90deg, rgba(0,158,251,1) 0%, rgba(0,158,251,1) 5%, rgba(175,225,255,1) 100%);*/
   color: #fff;
 }
 
@@ -17,13 +15,12 @@ header {
   min-height: 2.5rem;
 }
 
-@media(max-width: 767px) {
-  
-  header {
-    height: 150px;
-  }
+.account-control {
 }
 
+button {
+  border-color: white;
+}
 
   /*#signed-inactions-menu {
     left: -66px !important;

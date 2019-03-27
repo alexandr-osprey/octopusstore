@@ -7,21 +7,32 @@ import { ItemService } from '../item.service';
 import { EntityIndex } from 'src/app/models/entity/entity-index';
 import { ItemThumbnail } from '../item-thumbnail';
 import { DisplayedItemThumbnail } from '../displayed-item-thumbnail';
+import { trigger, style, state, animate, transition } from '@angular/animations';
 
 @Component({
   selector: 'app-item-thumbnail-index',
   templateUrl: './item-thumbnail-index.component.html',
   styleUrls: ['./item-thumbnail-index.component.css'],
-  providers: [ItemService]
+  providers: [ItemService],
+  animations: [
+    trigger('expandCollapse', [
+      state('expanded', style({ width: '*', opacity: 1, display: 'block' })),
+      state('collapsed', style({ width: 0, opacity: 0, display: 'none' })),
+      transition('expanded => collapsed', [animate('350ms linear')]),
+      transition('collapsed => expanded', [animate('350ms linear')]),
+      //transition('collapsed => expanded', [animate('350ms linear')]),
+    ]),
+  ],
 })
 
 export class ItemThumbnailIndexComponent implements OnInit, OnDestroy, AfterViewInit {
-  @HostBinding('class') classes = 'flex-fill';
+  @HostBinding('class') classes = 'flex-grow-1';
   index: EntityIndex<ItemThumbnail>;
   shownItems: DisplayedItemThumbnail[] = [];
   parametersSubsription: Subscription;
   loadedPages: number[] = [];
   nextNavigationOperation = Operation.Initial;
+  sidebarHidden: boolean = true;
 
   constructor(
     private itemService: ItemService,
@@ -52,12 +63,18 @@ export class ItemThumbnailIndexComponent implements OnInit, OnDestroy, AfterView
             || this.parameterService.isParamChanged(ParameterNames.pageSize)) {
             this.scrollToTop();
           }
+        };
+        if (this.parameterService.isParamChanged(ParameterNames.sidebarHidden)) {
+          this.sidebarHidden = this.parameterService.getParam(ParameterNames.sidebarHidden);
         }
       }
     );
     //this.parameterService.clearParams();
     this.getItems();
+    this.sidebarHidden = this.parameterService.getParam(ParameterNames.sidebarHidden);
   }
+
+
 
   ngAfterViewInit() {
     let page = +this.parameterService.getParam("page");

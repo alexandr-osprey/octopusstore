@@ -1,8 +1,9 @@
-import { ActivatedRoute, ParamMap, Router, NavigationEnd, UrlTree } from "@angular/router";
+import { ActivatedRoute, ParamMap, Router, NavigationEnd, UrlTree, NavigationStart } from "@angular/router";
 import { Injectable } from "@angular/core";
 import { Subject } from "rxjs";
 import { MessageService } from "../message/message.service";
 import { filter } from "rxjs/operators";
+import { unescape } from "querystring";
 
 @Injectable({
   providedIn: 'root'
@@ -19,8 +20,10 @@ export class ParameterService {
     protected route: ActivatedRoute,
     protected router: Router) {
     this.router.events.subscribe(val => {
-      if (val instanceof NavigationEnd) {
+      if (val instanceof NavigationStart) {
         this.oldParams = this.params;
+      }
+      if (val instanceof NavigationEnd) {
         this.params = this.paramMapToParams(this.route.snapshot.queryParamMap);
         Object.entries(this.params).forEach((pair) =>
           console.log(pair[0] + ": " + pair[1])
@@ -46,13 +49,15 @@ export class ParameterService {
   public getParam(key: string): any {
     return this.params[key];
   }
-
-  public getUpdatedParams(pairs: any): any {
-    return this.assignParams(this.params, pairs);
-  }
+  
+  //public getUpdatedParams(pairs: any): any {
+  //  return this.assignParams(this.params, pairs);
+  //}
 
   public isParamChanged(name: string): boolean {
-    return this.oldParams[name] !== this.params[name];
+    let oldExists = this.oldParams[name] !== undefined;
+    let currentExists = this.params[name] !== undefined;
+    return (oldExists !== currentExists) || (this.oldParams[name] != this.params[name]);
   }
 
   public getUpdatedParamsCopy(pairs: any): any {
@@ -87,7 +92,7 @@ export class ParameterService {
   }
 
   public navigateWithUpdatedParams(pairs: any): void {
-    let params = this.getUpdatedParams(pairs);
+    let params = this.getUpdatedParamsCopy(pairs);
     this.router.navigate([this.getCurrentUrlWithoutParams()], { queryParams: params });
   }
 

@@ -2,7 +2,11 @@
   <div class="">
     <ul class="pagination">
       <li class="page-item"><a [routerLink] [queryParams]="getPageParams(index.page - 1)" [ngClass]="{'hidden': index.page == 1 }" class="page-link">Previous</a></li>
+      <li *ngIf="showFirst" class="page-item"><a [routerLink] [queryParams]="getPageParams(1)" class="page-link">1</a></li>
+      <li *ngIf="showFirst" class="page-item"><a class="page-link">...</a></li>
       <li *ngFor="let page of pageNumbers" class="page-item"><a [routerLink] [queryParams]="getPageParams(page)" [ngClass]="{'current-page-button': page==index.page}" class="page-link">{{ page }}</a></li>
+      <li *ngIf="showLast" class="page-item"><a class="page-link">...</a></li>
+      <li *ngIf="showLast" class="page-item"><a [routerLink] [queryParams]="getPageParams(index.totalPages)" class="page-link">{{ index.totalPages }}</a></li>
       <li class="page-item"><a [routerLink] [queryParams]="getPageParams(index.page + 1)" [ngClass]="{'hidden': index.page == index.totalPages}" class="page-link">Next</a></li>
     </ul>
     <div class="page-size" >

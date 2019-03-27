@@ -90,8 +90,9 @@ export class CategoryIndexComponent implements OnInit {
       }
     };
   }
+
   getCategoryParams(categoryId: number): any {
-    let params = this.parameterService.getUpdatedParams({
+    let params = this.parameterService.getUpdatedParamsCopy({
       "categoryId": categoryId,
       "characteristicsFilter": null,
       "page": null,

@@ -47,7 +47,7 @@ export class HeaderComponent implements OnInit {
   }
 
   search() {
-    if (this.searchValue) {
+    if (this.searchValue || this.searchValue === "") {
       this.parameterService.navigateWithParams(
         {
           "searchValue": this.searchValue,
@@ -55,6 +55,11 @@ export class HeaderComponent implements OnInit {
           "categoryId": this.parameterService.getParam(ParameterNames.categoryId)
         }, "/items");
     }
+  }
+
+  switchSidebar() {
+    let currentState: boolean = this.parameterService.getParam(ParameterNames.sidebarHidden);
+    this.parameterService.navigateWithUpdatedParams({ "sidebarHidden": !currentState });
   }
 
   fillActions() {

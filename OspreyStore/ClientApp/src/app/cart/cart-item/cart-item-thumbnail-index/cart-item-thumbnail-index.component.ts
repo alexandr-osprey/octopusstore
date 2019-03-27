@@ -14,7 +14,8 @@ import { ParameterService } from 'src/app/parameter/parameter.service';
 })
 export class CartItemThumbnailIndexComponent implements OnInit {
   protected cartItemThumbnails: CartItemThumbnail[] = [];
-  protected sum: number = 0;
+  protected totalPrice: number = 0;
+  protected totalQuantity: number = 0;
 
   constructor(
     private cartItemService: CartItemService,
@@ -30,9 +31,11 @@ export class CartItemThumbnailIndexComponent implements OnInit {
     this.cartItemService.cartItemThumbnails$.subscribe(
       (thumnails: CartItemThumbnail[]) => {
         this.cartItemThumbnails = thumnails;
-        this.sum = 0;
+        this.totalPrice = 0;
+        this.totalQuantity = 0;
         this.cartItemThumbnails.forEach(c => {
-          this.sum += c.number * c.itemVariant.price;
+          this.totalPrice += c.number * c.itemVariant.price;
+          this.totalQuantity += c.number;
         });
       }
     );

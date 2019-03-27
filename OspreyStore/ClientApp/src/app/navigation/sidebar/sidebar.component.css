@@ -3,15 +3,12 @@
   /*-webkit-box-shadow: 1px 1px 1px rgba(0,0,0,0.1);*/
   /*box-shadow: 1px 1px 1px rgba(0,0,0,0.1);*/
   /*height: 100%;*/
+  width: 200px;
   color: #686a76;
   /*position: fixed;*/
-  width: 220px;
 }
 #sidebar p {
   font-size: 1.2em;
   padding-top: 16px;
 }
 
-.not-fixed {
-  /*position: initial !important;*/
-}
