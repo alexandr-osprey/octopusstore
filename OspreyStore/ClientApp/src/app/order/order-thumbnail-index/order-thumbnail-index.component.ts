@@ -6,6 +6,7 @@ import { OrderThumbnail } from '../order-thumbnail';
 import { OrderStatus, Order } from '../order';
 import { IdentityService } from 'src/app/identity/identity.service';
 import { MessageService } from 'src/app/message/message.service';
+import { ParameterNames } from 'src/app/parameter/parameter-names';
 
 @Component({
   selector: 'app-order-thumbnail-index',
@@ -14,15 +15,7 @@ import { MessageService } from 'src/app/message/message.service';
 })
 export class OrderThumbnailIndexComponent implements OnInit {
   orderIndex: EntityIndex<OrderThumbnail>;
-  private _currentFilter: Filter;
-  public get currentFilter(): Filter {
-    return this._currentFilter;
-  }
-  public set currentFilter(f: Filter) {
-    this._currentFilter = f;
-    this.getOrders();
-  }
-  filterValues: Filter[];
+  private isStoreView = false;
   userStoreId: number;
   isStoreAdministrator: boolean;
 
@@ -39,21 +32,18 @@ export class OrderThumbnailIndexComponent implements OnInit {
   }
 
   initializeComponent() {
-    this.filterValues = [];
     let storeIds = this.identityService.getUserAdministredStoreIds();
+    this.isStoreView = this.parameterService.getParam(ParameterNames.storeId) as boolean;
     if (storeIds.length > 0) {
       this.userStoreId = storeIds[0];
-      this.filterValues.push(Filter.MyStore);
       this.isStoreAdministrator = this.identityService.isStoreAdministrator(this.userStoreId);
     }
-    this.filterValues.push(Filter.MyOwn);
-    this.currentFilter = this.filterValues[0];
     this.getOrders();
   }
 
   getOrders() {
     let storeId = 0;
-    if (this.currentFilter == Filter.MyStore) {
+    if (this.isStoreView) {
       storeId = this.userStoreId;
     }
     this.orderService.indexThumbnails(storeId).subscribe((data) => {
@@ -75,21 +65,21 @@ export class OrderThumbnailIndexComponent implements OnInit {
     });
   }
 
-  shouldShowActionButtons(order: Order) {
-    return this.isStoreAdministrator && this.currentFilter == Filter.MyStore && order.status == OrderStatus.Created;
+  shouldShowCancelButton(order: Order) {
+    return (this.isStoreView && this.isStoreAdministrator && order.status == OrderStatus.Created)
+      || (!this.isStoreView && order.status == OrderStatus.Created);
+  }
+
+  shouldShowFinishButton(order: Order) {
+    return (this.isStoreView && this.isStoreAdministrator && order.status == OrderStatus.Created);
   }
 
   getStatusString(status: OrderStatus): string {
     return OrderStatus[status];
   }
 
-  getFilterString(filter: Filter): string {
-    return Filter[filter];
+  setView(isStoreView: boolean) {
+    this.isStoreView = isStoreView;
+    this.getOrders();
   }
-
-}
-
-export enum Filter {
-  MyOwn,
-  MyStore
 }

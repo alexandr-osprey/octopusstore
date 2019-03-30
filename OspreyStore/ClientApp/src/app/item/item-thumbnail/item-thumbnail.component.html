@@ -1,21 +1,17 @@
-<div class="d-flex flex-row">
-  <div *ngIf="itemThumbnail.images[0]" class="col-6 col-sm-4 col-lg-2" >
+  <app-item-image-display class="card-img-top h-75" [(itemImage)]="itemThumbnail.images[0]"></app-item-image-display>
+  <!--<div *ngIf="itemThumbnail.images[0]" class="col-6 col-sm-5 col-md-4 col-lg-3 col-xl-2" >
     <app-item-image-display [(itemImage)]="itemThumbnail.images[0]"></app-item-image-display>
-  </div>
-  <div class="col">
-    <div>
-      <a [routerLink]="[getDetailUrl(itemThumbnail.id)]" class="item-thumbnail__title">
-        {{ itemThumbnail.title }}
-      </a>
-    </div>
-    <div>
+  </div>-->
+  <div class="card-body">
+    <a [routerLink]="[getDetailUrl(itemThumbnail.id)]" class="card-title">
+      {{ itemThumbnail.title }}
+    </a>
+    <div class="cart-text ">
       <p>by {{ itemThumbnail.brand.title }}</p>
+      <!--<p>{{ itemThumbnail.variantsTitles }}</p>-->
     </div>
-    <div>
-      <p>
-        {{ itemThumbnail.variantsTitles }}
-      </p>
-    </div>
-    <div *ngIf="itemThumbnail.minPrice">{{ itemThumbnail.minPrice }} <span *ngIf="itemThumbnail.minPrice != itemThumbnail.maxPrice"> - {{ itemThumbnail.maxPrice }}</span></div>
+    <!--<ul class="list-group list-group-flush">
+      <li *ngFor="let v of itemThumbnail.itemVariants" class="list-group-item"> {{ v.title }}</li>
+    </ul>-->
+    <!--<div *ngIf="itemThumbnail.minPrice">{{ itemThumbnail.minPrice }} <span *ngIf="itemThumbnail.minPrice != itemThumbnail.maxPrice"> - {{ itemThumbnail.maxPrice }}</span></div>-->
   </div>
-</div>

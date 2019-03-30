@@ -47,6 +47,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { AdministratingContentComponent } from './administrating/administrating-content/administrating-content.component';
 import { CartItemThumbnailIndexComponent } from './cart/cart-item/cart-item-thumbnail-index/cart-item-thumbnail-index.component';
+import { ActionsComponent } from './navigation/actions/actions.component';
 
 @NgModule({
   declarations: [
@@ -90,6 +91,7 @@ import { CartItemThumbnailIndexComponent } from './cart/cart-item/cart-item-thum
     OrderCreateComponent,
     OrderThumbnailIndexComponent,
     SidebarComponent,
+    ActionsComponent,
   ],
   imports: [
     BrowserModule,

@@ -2,3 +2,7 @@ app-sidebar {
   padding: 0;
 }
 
+.item-thumbnail {
+  width: 15rem;
+  /*height: 20rem;*/
+}

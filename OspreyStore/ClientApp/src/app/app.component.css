@@ -9,3 +9,27 @@ router-outlet + ::ng-deep * {
 body {
   overflow: hidden;
 }
+
+@media(max-width:575px) {
+  .content {
+    margin-top: 146px;
+  }
+}
+
+@media(min-width:576px) {
+  .content {
+    margin-top: 108px;
+  }
+}
+
+@media(min-width:767px) {
+  .content {
+    margin-top: 60px;
+  }
+}
+
+
+
+app-actions {
+  z-index: 100;
+}

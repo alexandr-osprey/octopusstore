@@ -40,12 +40,6 @@ export class HeaderComponent implements OnInit {
     });
   }
 
-  signOut() {
-    this.isContentAdministrator = false;
-    this.identityService.signOut();
-    this.router.navigate([""]);
-  }
-
   search() {
     if (this.searchValue || this.searchValue === "") {
       this.parameterService.navigateWithParams(
@@ -57,9 +51,19 @@ export class HeaderComponent implements OnInit {
     }
   }
 
+  shouldShowSidebar(): boolean {
+    let url = this.parameterService.getCurrentUrlWithoutParams();
+    return url.startsWith("items");
+  }
+
   switchSidebar() {
     let currentState: boolean = this.parameterService.getParam(ParameterNames.sidebarHidden);
     this.parameterService.navigateWithUpdatedParams({ "sidebarHidden": !currentState });
+  }
+
+  switchActions() {
+    let currentState: boolean = this.parameterService.getParam(ParameterNames.actionsShown);
+    this.parameterService.navigateWithUpdatedParams({ "actionsShown": !currentState });
   }
 
   fillActions() {

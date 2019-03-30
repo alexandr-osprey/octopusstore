@@ -25,4 +25,5 @@ export class ParameterNames {
   public static orderByDescending = "orderByDescending";
 
   public static sidebarHidden: string = "sidebarHidden";
+  public static actionsShown: string = "actionsShown";
 }
