@@ -1,4 +1,4 @@
-import { ErrorHandler, Injectable, Injector } from '@angular/core';
+import { ErrorHandler, Injectable, Injector, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 import { MessageService } from '../message/message.service';
 
@@ -7,7 +7,8 @@ export class DefaultErrorHandler implements ErrorHandler {
 
   constructor(
     private injector: Injector,
-    private messageService: MessageService) { }
+    private messageService: MessageService,
+    private zone: NgZone) { }
 
   handleError(errorResponse) {
     const router = this.injector.get(Router);
@@ -18,7 +19,7 @@ export class DefaultErrorHandler implements ErrorHandler {
     switch (status) {
       case 401:
         message = "Please sign in";
-        urlToNavigateTo = '/signIn';
+        urlToNavigateTo = '/signIn/';
         break;
       case 403:
         // report a bug later on!
@@ -44,8 +45,10 @@ export class DefaultErrorHandler implements ErrorHandler {
     }
     if (message.length)
       this.messageService.sendError(message);
-    if (urlToNavigateTo.length)
-      router.navigate([urlToNavigateTo]);
+    if (urlToNavigateTo.length) {
+      this.zone.run(() => { this.injector.get(Router).navigate([urlToNavigateTo]); });
+    }
+      
     return errorResponse;
   }
 }

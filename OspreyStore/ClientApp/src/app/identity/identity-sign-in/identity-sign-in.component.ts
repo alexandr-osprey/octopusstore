@@ -5,6 +5,7 @@ import { IdentityService } from '../identity.service';
 import { MessageService } from 'src/app/message/message.service';
 import { Credentials } from '../credentials';
 import { TokenPair } from '../token-pair';
+import { NgZone } from '@angular/core';
 
 
 @Component({
@@ -12,17 +13,15 @@ import { TokenPair } from '../token-pair';
   templateUrl: './identity-sign-in.component.html',
   styleUrls: ['./identity-sign-in.component.css']
 })
-export class IdentitySignInComponent implements OnInit {
+export class IdentitySignInComponent {
   credentials: Credentials;
 
   constructor(
     private identityService: IdentityService,
     private router: Router,
-    private messageService: MessageService)
+    private messageService: MessageService,
+    )
   {
-  }
-
-  ngOnInit() {
     this.credentials = new Credentials();
   }
 
