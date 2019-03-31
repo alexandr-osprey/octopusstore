@@ -12,19 +12,19 @@ body {
 
 @media(max-width:575px) {
   .content {
-    margin-top: 146px;
+    margin-top: 154px;
   }
 }
 
 @media(min-width:576px) {
   .content {
-    margin-top: 108px;
+    margin-top: 116px;
   }
 }
 
 @media(min-width:767px) {
   .content {
-    margin-top: 60px;
+    margin-top: 64px;
   }
 }
 

@@ -9,8 +9,21 @@
   <div class="col-12 col-md-4 col-lg-3 d-flex flex-row mt-2 align-content-center account-control">
     <input *ngIf="shouldShowSidebar()" type="image" class="icon col" src="assets/sidebar.svg" (click)="switchSidebar()" />
     <input type="image" [routerLink]="['/cart']" class="icon col" src="assets/cart.svg" />
-    <button [routerLink]="['/signUp']" class="btn col-5 btn-danger" *ngIf="!signedIn">Sign In</button>
-    <input type="image" class="icon col" src="assets/actions.svg" *ngIf="signedIn" (click)="switchActions()"/>
+    <!--<button [routerLink]="['/signUp']" class="btn col-5 btn-danger" *ngIf="!signedIn">Sign In</button>-->
+    <div ngbDropdown class="d-inline-block menu  col icon">
+      <input type="image" class="icon col btn btn-outline-primary p-0" src="assets/actions.svg" ngbDropdownToggle id="dropdownBasic1" />
+      <div *ngIf="signedIn" class="dropdown-menu-right" ngbDropdownMenu aria-labelledby="dropdownBasic1">
+        <button ngbDropdownItem class="btn btn-light w-100">Store Orders</button>
+        <button ngbDropdownItem class="btn btn-light w-100">Own Orders</button>
+        <div class="dropdown-divider"></div>
+        <button ngbDropdownItem class="btn btn-danger w-100" (click)="signOut()">Sign Out</button>
+      </div>
+      <div *ngIf="!signedIn" class="dropdown-menu-right" ngbDropdownMenu aria-labelledby="dropdownBasic1">
+        <button ngbDropdownItem class="btn btn-primary w-100" [routerLink]="['/signIn']">Sign In</button>
+        <button ngbDropdownItem class="btn btn-danger w-100" [routerLink]="['/signUp']">Sign Up</button>
+      </div>
+    </div>
+    <!--<input type="image" class="icon col" src="assets/actions.svg" *ngIf="signedIn" (click)="switchActions()"/>-->
     <div class="signed-in-actions" *ngIf="false">
       <div>
 

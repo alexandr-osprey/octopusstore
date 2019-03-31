@@ -51,6 +51,11 @@ export class HeaderComponent implements OnInit {
     }
   }
 
+  signOut() {
+    this.identityService.signOut();
+    this.router.navigate([""]);
+  }
+
   shouldShowSidebar(): boolean {
     let url = this.parameterService.getCurrentUrlWithoutParams();
     return url.startsWith("items");

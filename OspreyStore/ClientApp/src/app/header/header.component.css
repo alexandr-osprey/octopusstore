@@ -13,6 +13,13 @@ header {
 
 .icon {
   min-height: 2.5rem;
+  max-height: 3.0rem;
+  min-width: 3.5rem;
+}
+
+.dropdown-menu-right {
+  right: 0 !important;
+  left: auto !important;
 }
 
 .account-control {
