@@ -7,7 +7,7 @@ namespace ApplicationCore.Entities
     /// <summary>
     /// Category for grouping Items. May be build into hierarchy.
     /// </summary>
-    public class Category: Entity, IGenericMemberwiseClonable<Category>
+    public class Category: Entity, ShallowClonable<Category>
     {
         public string Title { get; set; }
         public int ParentCategoryId { get; set; }

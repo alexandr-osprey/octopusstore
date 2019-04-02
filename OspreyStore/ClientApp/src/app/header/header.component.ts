@@ -16,7 +16,6 @@ export class HeaderComponent implements OnInit {
   email: string;
   searchValue: string;
   isContentAdministrator: boolean;
-  isStoreAdministrator: boolean;
   storeId: number;
 
   constructor(
@@ -51,6 +50,9 @@ export class HeaderComponent implements OnInit {
     }
   }
 
+  getStoreParams(): any {
+    return { "storeId": this.storeId };
+  }
   signOut() {
     this.identityService.signOut();
     this.router.navigate([""]);
@@ -78,7 +80,6 @@ export class HeaderComponent implements OnInit {
     let administratedStoreIds = this.identityService.getUserAdministredStoreIds();
     if (administratedStoreIds.length > 0) {
       this.storeId = administratedStoreIds[0];
-      this.isStoreAdministrator = true;
     }
   }
 }

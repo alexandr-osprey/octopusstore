@@ -23,5 +23,19 @@ namespace Infrastructure.Identity
 
         protected override Task<bool> CreateAsync(AuthorizationHandlerContext context, Order entity) => Task.FromResult(IsAuthenticated(context));
         protected override async Task<bool> ReadAsync(AuthorizationHandlerContext context, Order entity) => IsAuthenticated(context) && (IsOwner(context, entity) || await IsStoreAdministratorAsync(context, entity));
+        protected override async Task<bool> UpdateAsync(AuthorizationHandlerContext context, Order entity)
+        {
+            bool result = await base.UpdateAsync(context, entity);
+            if (result)
+                return true;
+            var entry = _storeContext.Entry(entity);
+            // owner may set Cancelled status
+            if (entry.State == Microsoft.EntityFrameworkCore.EntityState.Modified
+                && IsOwner(context, entity) && entity.Status == OrderStatus.Cancelled)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }

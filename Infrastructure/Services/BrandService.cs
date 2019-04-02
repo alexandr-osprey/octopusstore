@@ -7,6 +7,7 @@ using ApplicationCore.Interfaces;
 using ApplicationCore.Interfaces.Services;
 using ApplicationCore.Specifications;
 using Infrastructure.Data;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Infrastructure.Services
 {
@@ -22,9 +23,10 @@ namespace Infrastructure.Services
         {
         }
 
-        protected override async Task ValidationWithExceptionAsync(Brand brand)
+        protected override async Task ValidateWithExceptionAsync(EntityEntry<Brand> entry)
         {
-            await base.ValidationWithExceptionAsync(brand);
+            await base.ValidateWithExceptionAsync(entry);
+            var brand = entry.Entity;
             var entityEntry = Context.Entry(brand);
             if (string.IsNullOrWhiteSpace(brand.Title))
                 throw new EntityValidationException("Title not specified");

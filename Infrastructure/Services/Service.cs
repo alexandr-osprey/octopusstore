@@ -43,12 +43,15 @@ namespace Infrastructure.Services
 
         public virtual async Task<TEntity> CreateAsync(TEntity entity)
         {
-            await ValidationWithExceptionAsync(entity);
+            var entry = Context.Entry(entity);
+            var result = await Context.Add(Logger, entity, true, false);
+            await ValidateWithExceptionAsync(entry);
             entity.OwnerId = ScopedParameters.CurrentUserId ?? throw new Exception("User identity not provided for entity creation");
             await ValidateCustomUniquinessWithException(entity);
             if (AuthoriationParameters.CreateAuthorizationRequired)
-                await AuthorizeWithException(entity, AuthoriationParameters.CreateOperationRequirement);
-            var result = await Context.CreateAsync(Logger, entity);
+                await AuthorizeWithException(AuthoriationParameters.CreateOperationRequirement, entity);
+            await ModifyBeforeSaveAsync(entry);
+            await Context.SaveChangesAsync();
             Logger.Trace("{Name} added entity {entity}", Name, result);
             return result;
         }
@@ -57,7 +60,7 @@ namespace Infrastructure.Services
         {
             var entity = await Context.ReadSingleBySpecAsync(Logger, spec, true);
             if (AuthoriationParameters.ReadAuthorizationRequired)
-                await AuthorizeWithException(entity, AuthoriationParameters.ReadOperationRequirement);
+                await AuthorizeWithException(AuthoriationParameters.ReadOperationRequirement, entity);
             Logger.Trace("{Name} retreived single entity {entity} by spec: {spec}", Name, entity, spec);
             return entity;
         }
@@ -66,7 +69,7 @@ namespace Infrastructure.Services
         {
             entity = await Context.ReadSingleAsync(Logger, entity, true);
             if (AuthoriationParameters.ReadAuthorizationRequired)
-                await AuthorizeWithException(entity, AuthoriationParameters.ReadOperationRequirement);
+                await AuthorizeWithException(AuthoriationParameters.ReadOperationRequirement, entity);
             Logger.Trace("{Name} retreived single entity {entity}", Name, entity);
             return entity;
         }
@@ -76,11 +79,15 @@ namespace Infrastructure.Services
             if (entity == null)
                 throw new EntityValidationException("Entity not provided");
             var entityEntry = Context.Entry(entity);
+            
             if (entityEntry.State == EntityState.Detached)
                 throw new EntityValidationException($"Entity {entity} not being tracked");
-            await ValidationWithExceptionAsync(entity);
+            await ValidateWithExceptionAsync(entityEntry);
             if (AuthoriationParameters.UpdateAuthorizationRequired)
-                await AuthorizeWithException(entity, AuthoriationParameters.UpdateOperationRequirement);
+            {
+                await AuthorizeWithException(AuthoriationParameters.UpdateOperationRequirement, entity);
+            }
+            await ModifyBeforeSaveAsync(entityEntry);
             var result = await Context.UpdateSingleAsync(Logger, entity);
             Logger.Trace("{Name} updated entity {entity}", Name, result);
             return result;
@@ -154,7 +161,7 @@ namespace Infrastructure.Services
         protected virtual async Task DeleteSingleAsync(TEntity entity)
         {
             if (AuthoriationParameters.DeleteAuthorizationRequired)
-                await AuthorizeWithException(entity, AuthoriationParameters.DeleteOperationRequirement);
+                await AuthorizeWithException(AuthoriationParameters.DeleteOperationRequirement, entity);
             await DeleteRelatedEntitiesAsync(entity);
             await Context.DeleteAsync(Logger, entity, false);
             Logger.Trace("{Name} deleted {entity}", Name, entity);
@@ -171,10 +178,10 @@ namespace Infrastructure.Services
             await Task.CompletedTask;
         }
 
-        protected virtual Task ValidationWithExceptionAsync(TEntity entity)
+        protected virtual Task ValidateWithExceptionAsync(EntityEntry<TEntity> entry)
         {
-            if (entity == null)
-                throw new EntityValidationException("Entity not provided");
+            if (entry == null)
+                throw new ArgumentNullException(nameof(entry));
             return Task.CompletedTask;
         }
 
@@ -209,34 +216,41 @@ namespace Infrastructure.Services
             return result;
         }
 
+        protected virtual Task ModifyBeforeSaveAsync(EntityEntry<TEntity> entry)
+        {
+            if (entry == null)
+                throw new ArgumentNullException(nameof(entry));
+            return Task.CompletedTask;
+        }
+
         protected async Task<IEnumerable<TCustom>> ReadAuthorizedOnlyFilter<TCustom>(IEnumerable<TCustom> entities) where TCustom: class
         {
             var authorizedEntities = new List<TCustom>();
             foreach (var entity in entities)
-                if (await Authorize(entity, AuthoriationParameters.ReadOperationRequirement))
+                if (await Authorize(AuthoriationParameters.ReadOperationRequirement, entity))
                     authorizedEntities.Add(entity);
             return authorizedEntities;
         }
 
-        protected async Task AuthorizeWithException<TCustom>(TCustom entity, OperationAuthorizationRequirement requirement) where TCustom: class
+        protected async Task AuthorizeWithException<TCustom>(OperationAuthorizationRequirement requirement, TCustom finalValue) where TCustom : class
         {
-            if (!await Authorize(entity, requirement))
+            if (!await Authorize(requirement, finalValue))
             {
-                string message = $"{entity} {requirement.Name} authorization failure";
+                string message = $"{finalValue} {requirement.Name} authorization failure";
                 Logger.Trace(message);
                 throw new AuthorizationException(message);
             }
         }
 
-        protected async Task AuthorizeWithException<TCustom>(object key, OperationAuthorizationRequirement requirement) where TCustom: class
-        {
-            var entity = Context.ReadByKeyAsync<TCustom, Service<TEntity>>(Logger, key, true);
-            await AuthorizeWithException(entity, requirement);
-        }
+        //protected async Task AuthorizeWithException<TCustom>(object key, OperationAuthorizationRequirement requirement) where TCustom: class
+        //{
+        //    var entity = Context.ReadByKeyAsync<TCustom, Service<TEntity>>(Logger, key, true);
+        //    await AuthorizeWithException(entity, requirement);
+        //}
 
-        protected async Task<bool> Authorize(object obj, OperationAuthorizationRequirement requirement)
+        protected async Task<bool> Authorize<T>(OperationAuthorizationRequirement requirement, T finalValue) where T : class
         {
-            return await IdentityService.AuthorizeAsync(ScopedParameters.ClaimsPrincipal, obj, requirement);
+            return await IdentityService.AuthorizeAsync(ScopedParameters.ClaimsPrincipal, requirement, finalValue, false);
         }
 
         protected bool IsPropertyModified<TProperty>(EntityEntry<TEntity> entityEntry, Expression<Func<TEntity, TProperty>> propertyExpression, bool isUpdatable = true)
@@ -251,7 +265,7 @@ namespace Infrastructure.Services
                 if (isModified && !isUpdatable)
                     throw new EntityValidationException($"Property {statusProperty.Metadata.Name} is not updatable");
             }
-            else if (entityEntry.State == EntityState.Detached || entityEntry.State == EntityState.Added)
+            else if (entityEntry.State == EntityState.Added)
                 isModified = true;
             return isModified;
         }

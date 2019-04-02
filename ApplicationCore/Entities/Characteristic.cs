@@ -7,7 +7,7 @@ namespace ApplicationCore.Entities
     /// <summary>
     /// Characteristic of a category. Like Storage for Smartphones or Weight for bycicles.
     /// </summary>
-    public class Characteristic: Entity, IGenericMemberwiseClonable<Characteristic>
+    public class Characteristic: Entity, ShallowClonable<Characteristic>
     {
         public string Title { get; set; }
         public int CategoryId { get; set; }

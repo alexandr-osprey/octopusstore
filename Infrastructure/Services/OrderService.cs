@@ -8,7 +8,6 @@ using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Infrastructure.Services
@@ -25,24 +24,14 @@ namespace Infrastructure.Services
         {
         }
 
-        public override async Task<Order> CreateAsync(Order order)
+        protected override async Task ValidateWithExceptionAsync(EntityEntry<Order> orderEntry)
         {
-            await base.ValidationWithExceptionAsync(order);
-            // set sum from database, not model
-            var itemVariant = await GetItemVariantAsync(order);
-            order.Sum = itemVariant.Price * order.Number;
-            return await base.CreateAsync(order);
-        }
-
-        protected override async Task ValidationWithExceptionAsync(Order order)
-        {
-            await base.ValidationWithExceptionAsync(order);
+            await base.ValidateWithExceptionAsync(orderEntry);
+            var order = orderEntry.Entity;
             if (order.Sum < 0)
                 throw new EntityValidationException($"Order sum can't be negative");
             if (order.Number <= 0)
                 throw new EntityValidationException("Number must be positive");
-            var orderEntry = Context.Entry(order);
-
             if (IsPropertyModified(orderEntry, o => o.ItemVariantId, false))
             {
                 if (IsPropertyModified(orderEntry, o => o.ItemVariantId, false))
@@ -51,6 +40,32 @@ namespace Infrastructure.Services
                 }
             }
             ValidateStatusWithException(orderEntry);
+        }
+
+
+        protected override async Task ModifyBeforeSaveAsync(EntityEntry<Order> entry)
+        {
+            await base.ModifyBeforeSaveAsync(entry);
+            var order = entry.Entity;
+            if (entry.State == EntityState.Added)
+            {
+
+                // set sum from database, not model
+                var itemVariant = await GetItemVariantAsync(order);
+                order.Sum = itemVariant.Price * order.Number;
+                order.DateTimeCreated = DateTime.UtcNow;
+            }
+            var statusProperty = entry.Property(o => o.Status);
+            if (statusProperty.IsModified)
+            {
+                if (statusProperty.OriginalValue == OrderStatus.Created)
+                {
+                    if (statusProperty.CurrentValue == OrderStatus.Cancelled)
+                        order.DateTimeCancelled = DateTime.UtcNow;
+                    else if (statusProperty.CurrentValue == OrderStatus.Finished)
+                        order.DateTimeFinished = DateTime.UtcNow;
+                }
+            }
         }
 
 
@@ -69,14 +84,10 @@ namespace Infrastructure.Services
             {
                 if (statusProperty.CurrentValue == OrderStatus.Created)
                     throw new EntityValidationException("Can't set Created status Manually");
-                if (statusProperty.OriginalValue == OrderStatus.Created)
+                if (statusProperty.OriginalValue == OrderStatus.Created
+                    && !(statusProperty.CurrentValue == OrderStatus.Cancelled || statusProperty.CurrentValue == OrderStatus.Finished))
                 {
-                    if (statusProperty.CurrentValue == OrderStatus.Cancelled)
-                        orderEntry.Entity.DateTimeCancelled = DateTime.UtcNow;
-                    else if (statusProperty.CurrentValue == OrderStatus.Finished)
-                        orderEntry.Entity.DateTimeFinished = DateTime.UtcNow;
-                    else
-                        throw new EntityValidationException("Unsupported order status " + orderEntry.Entity.Status);
+                    throw new EntityValidationException("Unsupported order status " + orderEntry.Entity.Status);
                 }
                 else if (statusProperty.OriginalValue == OrderStatus.Finished)
                     throw new EntityValidationException("Order already finished, can't change status");

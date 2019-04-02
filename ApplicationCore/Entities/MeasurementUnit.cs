@@ -7,7 +7,7 @@ namespace ApplicationCore.Entities
     /// <summary>
     /// Unit to measure Item
     /// </summary>
-    public class MeasurementUnit: Entity, IGenericMemberwiseClonable<MeasurementUnit>
+    public class MeasurementUnit: Entity, ShallowClonable<MeasurementUnit>
     {
         public string Title { get; set; }
 

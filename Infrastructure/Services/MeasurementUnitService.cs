@@ -6,6 +6,7 @@ using ApplicationCore.Interfaces;
 using ApplicationCore.Interfaces.Services;
 using ApplicationCore.Specifications;
 using Infrastructure.Data;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Infrastructure.Services
 {
@@ -29,10 +30,10 @@ namespace Infrastructure.Services
             await Context.SaveChangesAsync(Logger, "Relink MeasurementUnit");
         }
 
-        protected override async Task ValidationWithExceptionAsync(MeasurementUnit measurementUnit)
+        protected override async Task ValidateWithExceptionAsync(EntityEntry<MeasurementUnit> entry)
         {
-            await base.ValidationWithExceptionAsync(measurementUnit);
-            if (string.IsNullOrWhiteSpace(measurementUnit.Title))
+            await base.ValidateWithExceptionAsync(entry);
+            if (string.IsNullOrWhiteSpace(entry.Entity.Title))
                 throw new EntityValidationException("Incorrect title");
         }
     }

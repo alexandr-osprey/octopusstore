@@ -4,10 +4,10 @@
     /// Generic interface for shallow cloning objects
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public interface IGenericMemberwiseClonable<T> where T: class
+    public interface ShallowClonable<T> where T: class
     {
         /// <summary>
-        /// Wraps Object's MemberwiseClone into a typed function
+        /// Shallow clones object
         /// </summary>
         /// <returns></returns>
         T ShallowClone();

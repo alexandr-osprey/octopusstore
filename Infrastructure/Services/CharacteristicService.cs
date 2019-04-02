@@ -5,6 +5,7 @@ using ApplicationCore.Interfaces;
 using ApplicationCore.Interfaces.Services;
 using ApplicationCore.Specifications;
 using Infrastructure.Data;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -47,10 +48,10 @@ namespace Infrastructure.Services
             await Context.SaveChangesAsync(Logger, "Relink Characteristic");
         }
 
-        protected override async Task ValidationWithExceptionAsync(Characteristic characteristic)
+        protected override async Task ValidateWithExceptionAsync(EntityEntry<Characteristic> entityEntry)
         {
-            await base.ValidationWithExceptionAsync(characteristic);
-            var entityEntry = Context.Entry(characteristic);
+            await base.ValidateWithExceptionAsync(entityEntry);
+            var characteristic = entityEntry.Entity;
             if (string.IsNullOrWhiteSpace(characteristic.Title))
                 throw new EntityValidationException("Title not specified");
             if (IsPropertyModified(entityEntry, c => c.CategoryId, false) 

@@ -54,14 +54,18 @@ export class OrderThumbnailIndexComponent implements OnInit {
   cancelOrder(order: Order) {
     order.status = OrderStatus.Cancelled;
     this.orderService.put(order).subscribe((data) => {
-      this.messageService.sendSuccess("Order cancelled");
+      if (data) {
+        this.messageService.sendSuccess("Order cancelled");
+      }
     });
   }
 
   finishOrder(order: Order) {
     order.status = OrderStatus.Finished;
     this.orderService.put(order).subscribe((data) => {
-      this.messageService.sendSuccess("Order finished");
+      if (data) {
+        this.messageService.sendSuccess("Order finished");
+      }
     });
   }
 

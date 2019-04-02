@@ -2,7 +2,7 @@
 
 namespace ApplicationCore.Entities
 {
-    public class CartItem: Entity, IGenericMemberwiseClonable<CartItem>
+    public class CartItem: Entity, ShallowClonable<CartItem>
     {
         public int ItemVariantId { get; set; }
         public int Number { get; set; }

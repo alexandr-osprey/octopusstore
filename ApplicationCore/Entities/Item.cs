@@ -7,7 +7,7 @@ namespace ApplicationCore.Entities
     /// <summary>
     /// Item for selling
     /// </summary>
-    public class Item: Entity, IGenericMemberwiseClonable<Item>
+    public class Item: Entity, ShallowClonable<Item>
     {
         public string Title { get; set; }
         public int CategoryId { get; set; }

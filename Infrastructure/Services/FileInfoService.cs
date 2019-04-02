@@ -6,6 +6,7 @@ using ApplicationCore.Interfaces.Services;
 using ApplicationCore.Specifications;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.IO;
 using System.Threading.Tasks;
@@ -86,15 +87,15 @@ namespace Infrastructure.Services
             await base.DeleteRelatedEntitiesAsync(entity);
         }
 
-        protected override async Task ValidationWithExceptionAsync(TFileInfo fileInfo)
+        protected override async Task ValidateWithExceptionAsync(EntityEntry<TFileInfo> entityEntry)
         {
-            await base.ValidationWithExceptionAsync(fileInfo);
-            var entityEntry = Context.Entry(fileInfo);
+            await base.ValidateWithExceptionAsync(entityEntry);
+            var fileInfo = entityEntry.Entity;
             if (string.IsNullOrWhiteSpace(fileInfo.Title))
                 throw new EntityValidationException("Incorrect title");
             if (IsPropertyModified(entityEntry, f => f.ContentType, false) && !fileInfo.ContentTypeAllowed)
                 throw new EntityValidationException($"Unsupported content type: { fileInfo.ContentType }");
-            if (entityEntry.State == EntityState.Detached || entityEntry.State == EntityState.Added)
+            if (entityEntry.State == EntityState.Added)
                 ValidateFile(fileInfo);
             else
             {

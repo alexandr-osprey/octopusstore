@@ -11,7 +11,7 @@ namespace ApplicationCore.Entities
         Cancelled
     }
 
-    public class Order : Entity, IGenericMemberwiseClonable<Order>
+    public class Order : Entity, ShallowClonable<Order>
     {
         public DateTime DateTimeCreated { get; set; }
         public DateTime DateTimeFinished { get; set; }

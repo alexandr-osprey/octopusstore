@@ -13,8 +13,10 @@
     <div ngbDropdown class="d-inline-block menu  col icon">
       <input type="image" class="icon col btn btn-outline-primary p-0" src="assets/actions.svg" ngbDropdownToggle id="dropdownBasic1" />
       <div *ngIf="signedIn" class="dropdown-menu-right" ngbDropdownMenu aria-labelledby="dropdownBasic1">
-        <button ngbDropdownItem class="btn btn-light w-100">Store Orders</button>
-        <button ngbDropdownItem class="btn btn-light w-100">Own Orders</button>
+        <p class="text-center">{{ email }}</p>
+        <div class="dropdown-divider"></div>
+        <button *ngIf="storeId" ngbDropdownItem class="btn btn-light w-100" [routerLink]="['/orders']" [queryParams]="getStoreParams()">Store Orders</button>
+        <button ngbDropdownItem class="btn btn-light w-100" [routerLink]="['/orders']">Own Orders</button>
         <div class="dropdown-divider"></div>
         <button ngbDropdownItem class="btn btn-danger w-100" (click)="signOut()">Sign Out</button>
       </div>

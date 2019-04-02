@@ -7,7 +7,7 @@ namespace ApplicationCore.Entities
     /// <summary>
     /// Basic information about a Brand
     /// </summary>
-    public class Brand: Entity, IGenericMemberwiseClonable<Brand>
+    public class Brand: Entity, ShallowClonable<Brand>
     {
         public string Title { get; set; }
 

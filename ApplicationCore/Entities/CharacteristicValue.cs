@@ -7,7 +7,7 @@ namespace ApplicationCore.Entities
     /// <summary>
     /// Value of characteristic
     /// </summary>
-    public class CharacteristicValue: Entity, IGenericMemberwiseClonable<CharacteristicValue>
+    public class CharacteristicValue: Entity, ShallowClonable<CharacteristicValue>
     {
         public string Title { get; set; }
         public int CharacteristicId { get; set; }

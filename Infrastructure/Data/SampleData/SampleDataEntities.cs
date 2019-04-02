@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Infrastructure.Data.SampleData
 {
-    public abstract class SampleDataEntities<T> where T: Entity, IGenericMemberwiseClonable<T>
+    public abstract class SampleDataEntities<T> where T: Entity, ShallowClonable<T>
     {
         protected StoreContext Context { get; }
         protected abstract IEnumerable<T> GetSourceEntities();

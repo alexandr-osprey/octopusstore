@@ -48,6 +48,7 @@ namespace ApplicationCore.ViewModels
         {
             modelToUpdate.Sum = Sum;
             modelToUpdate.Number = Number;
+            modelToUpdate.Status = Status;
             return modelToUpdate;
         }
     }

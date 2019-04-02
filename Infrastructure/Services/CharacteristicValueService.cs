@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using ApplicationCore.Identity;
 using ApplicationCore.Exceptions;
 using ApplicationCore.Interfaces.Services;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Infrastructure.Services
 {
@@ -47,10 +48,10 @@ namespace Infrastructure.Services
             await Context.SaveChangesAsync(Logger, "Relink CharacteristicValue");
         }
 
-        protected override async Task ValidationWithExceptionAsync(CharacteristicValue characteristicValue)
+        protected override async Task ValidateWithExceptionAsync(EntityEntry<CharacteristicValue> entityEntry)
         {
-            await base.ValidationWithExceptionAsync(characteristicValue);
-            var entityEntry = Context.Entry(characteristicValue);
+            await base.ValidateWithExceptionAsync(entityEntry);
+            var characteristicValue = entityEntry.Entity;
             if (string.IsNullOrWhiteSpace(characteristicValue.Title))
                 throw new EntityValidationException("Incorrect title");
             if (IsPropertyModified(entityEntry, c => c.CharacteristicId, false) 

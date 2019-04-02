@@ -56,7 +56,7 @@ namespace ApplicationCore.Identity
         /// <param name="obj"></param>
         /// <param name="authorizationRequirement"></param>
         /// <returns></returns>
-        Task<bool> AuthorizeAsync(ClaimsPrincipal claimsPrincipal, object obj, OperationAuthorizationRequirement authorizationRequirement, bool throwExcpetion = false);
+        Task<bool> AuthorizeAsync<T>(ClaimsPrincipal claimsPrincipal, OperationAuthorizationRequirement authorizationRequirement, T finalValue, bool throwException) where T : class;
         Task<bool> HasClaimAsync(string userId, Claim claim);
         Task<bool> HasClaimAsync(string userId, string claimType, string claimValue);
         Task<bool> IsStoreAdministratorAsync(string userId, int storeId);

@@ -18,7 +18,7 @@ namespace UnitTests
     public abstract class ServiceTests<TEntity, TService>
        : TestBase<TEntity>
         where TService: IService<TEntity>
-        where TEntity: Entity, IGenericMemberwiseClonable<TEntity>
+        where TEntity: Entity, ShallowClonable<TEntity>
     {
         protected TService Service { get; }
 

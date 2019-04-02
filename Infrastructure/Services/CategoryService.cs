@@ -5,6 +5,7 @@ using ApplicationCore.Interfaces;
 using ApplicationCore.Interfaces.Services;
 using ApplicationCore.Specifications;
 using Infrastructure.Data;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -124,10 +125,10 @@ namespace Infrastructure.Services
             await Context.SaveChangesAsync(Logger, "Relink Category");
         }
 
-        protected override async Task ValidationWithExceptionAsync(Category category)
+        protected override async Task ValidateWithExceptionAsync(EntityEntry<Category> entityEntry)
         {
-            await base.ValidationWithExceptionAsync(category);
-            var entityEntry = Context.Entry(category);
+            await base.ValidateWithExceptionAsync(entityEntry);
+            var category = entityEntry.Entity;
             if (string.IsNullOrWhiteSpace(category.Title))
                 throw new EntityValidationException("Title not specified");
             if (string.IsNullOrWhiteSpace(category.Description))

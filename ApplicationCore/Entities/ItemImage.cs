@@ -6,7 +6,7 @@ namespace ApplicationCore.Entities
     /// <summary>
     /// Image of an Item
     /// </summary>
-    public class ItemImage: Image<Item>, IGenericMemberwiseClonable<ItemImage>
+    public class ItemImage: Image<Item>, ShallowClonable<ItemImage>
     {
         public ItemImage(): base()
         {

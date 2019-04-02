@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using ApplicationCore.Identity;
 using ApplicationCore.Exceptions;
 using ApplicationCore.Interfaces.Services;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Infrastructure.Services
 {
@@ -58,9 +59,10 @@ namespace Infrastructure.Services
             return await CategoryService.EnumerateSubcategoriesAsync(new EntitySpecification<Category>(categoryId));
         }
 
-        protected override async Task ValidationWithExceptionAsync(Item item)
+        protected override async Task ValidateWithExceptionAsync(EntityEntry<Item> entry)
         {
-            await base.ValidationWithExceptionAsync(item);
+            await base.ValidateWithExceptionAsync(entry);
+            var item = entry.Entity;
             if (string.IsNullOrWhiteSpace(item.Title))
                 throw new EntityValidationException("Incorrect title");
             if (string.IsNullOrWhiteSpace(item.Description))

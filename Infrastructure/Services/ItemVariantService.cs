@@ -5,6 +5,7 @@ using ApplicationCore.Interfaces;
 using ApplicationCore.Interfaces.Services;
 using ApplicationCore.Specifications;
 using Infrastructure.Data;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System.Threading.Tasks;
 
 namespace Infrastructure.Services
@@ -29,17 +30,17 @@ namespace Infrastructure.Services
             await Context.SaveChangesAsync(Logger, "Relink ItemVariant");
         }
 
-        protected override async Task ValidationWithExceptionAsync(ItemVariant itemVariant)
+        protected override async Task ValidateWithExceptionAsync(EntityEntry<ItemVariant> entry)
         {
-            await base.ValidationWithExceptionAsync(itemVariant);
-            if (string.IsNullOrWhiteSpace(itemVariant.Title))
+            await base.ValidateWithExceptionAsync(entry);
+            if (string.IsNullOrWhiteSpace(entry.Entity.Title))
                 throw new EntityValidationException($"Incorrect title. ");
-            if (itemVariant.Price <= 0)
+            if (entry.Entity.Price <= 0)
                 throw new EntityValidationException($"Price can't be zero or less. ");
-            var entityEntry = Context.Entry(itemVariant);
-            if (IsPropertyModified(entityEntry, v => v.ItemId, false) 
-                && !await Context.ExistsBySpecAsync(Logger, new EntitySpecification<Item>(itemVariant.ItemId)))
-                throw new EntityValidationException($"Item with Id {itemVariant.ItemId} does not exist. ");
+            var entityEntry = Context.Entry(entry);
+            if (IsPropertyModified(entry, v => v.ItemId, false) 
+                && !await Context.ExistsBySpecAsync(Logger, new EntitySpecification<Item>(entry.Entity.ItemId)))
+                throw new EntityValidationException($"Item with Id {entry.Entity.ItemId} does not exist. ");
         }
     }
 }

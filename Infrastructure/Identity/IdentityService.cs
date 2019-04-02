@@ -127,12 +127,12 @@ namespace Infrastructure.Identity
             return await GenerateTokenPair(user);
         }
 
-        public async Task<bool> AuthorizeAsync(ClaimsPrincipal claimsPrincipal, object obj, OperationAuthorizationRequirement authorizationRequirement, bool throwException = false)
+        public async Task<bool> AuthorizeAsync<T>(ClaimsPrincipal claimsPrincipal, OperationAuthorizationRequirement authorizationRequirement, T finalValue, bool throwException) where T : class
         {
-            var result = await _authorizationService.AuthorizeAsync(claimsPrincipal, obj, authorizationRequirement);
+            var result = await _authorizationService.AuthorizeAsync(claimsPrincipal, finalValue, authorizationRequirement);
             if (throwException && !result.Succeeded)
             {
-                string message = $"{obj} {authorizationRequirement.Name} authorization failure";
+                string message = $"{finalValue} {authorizationRequirement.Name} authorization failure";
                 _logger.Trace(message);
                 throw new AuthorizationException(message);
             }
@@ -267,7 +267,7 @@ namespace Infrastructure.Identity
         protected async Task<string> GenerateAndSaveRefreshToken(ApplicationUser user)
         {
             var newRefreshToken = await GenerateJwtToken(user, _tokenLifetimeSeconds * 4);
-            await _identityContext.CreateAsync(_logger, new RefreshToken { OwnerId = user.Id, Token = newRefreshToken }, false);
+            await _identityContext.Add(_logger, new RefreshToken { OwnerId = user.Id, Token = newRefreshToken }, false);
             return newRefreshToken;
         }
 

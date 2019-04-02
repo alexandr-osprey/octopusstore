@@ -5,6 +5,7 @@ using ApplicationCore.Interfaces;
 using ApplicationCore.Interfaces.Services;
 using ApplicationCore.Specifications;
 using Infrastructure.Data;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System.Threading.Tasks;
 
 namespace Infrastructure.Services
@@ -48,10 +49,10 @@ namespace Infrastructure.Services
                 throw new EntityAlreadyExistsException($"Cart item with variant {cartItem.ItemVariantId} already exists");
         }
 
-        protected override async Task ValidationWithExceptionAsync(CartItem cartItem)
+        protected override async Task ValidateWithExceptionAsync(EntityEntry<CartItem> entityEntry)
         {
-            await base.ValidationWithExceptionAsync(cartItem);
-            var entityEntry = Context.Entry(cartItem);
+            await base.ValidateWithExceptionAsync(entityEntry);
+            var cartItem = entityEntry.Entity;
             if (IsPropertyModified(entityEntry, c => c.ItemVariantId, false) 
                 && !await Context.ExistsBySpecAsync(Logger, new EntitySpecification<ItemVariant>(cartItem.ItemVariantId)))
                 throw new EntityValidationException($"Item variant {cartItem.ItemVariantId} does not exist");

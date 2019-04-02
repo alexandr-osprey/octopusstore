@@ -82,7 +82,7 @@ namespace Infrastructure.Data
         /// <param name="entityToAdd"></param>
         /// <param name="checkExistence"></param>
         /// <returns></returns>
-        public static async Task<TEntity> CreateAsync<TEntity, TService>(this DbContext context, IAppLogger<TService> logger, TEntity entityToAdd, bool checkExistence = true) where TEntity: class
+        public static async Task<TEntity> Add<TEntity, TService>(this DbContext context, IAppLogger<TService> logger, TEntity entityToAdd, bool checkExistence = true, bool save = true) where TEntity: class
         {
             TEntity created = null;
             if (entityToAdd == null)
@@ -92,11 +92,14 @@ namespace Infrastructure.Data
             try
             {
                 created = context.Set<TEntity>().Add(entityToAdd).Entity;
-                await context.SaveChangesAsync();
+                if (save)
+                {
+                    await context.SaveChangesAsync();
+                }
             }
             catch (Exception exception)
             {
-                throw exception.LogAndGetDbException(logger, $"Function: {nameof(CreateAsync)}, entity: {entityToAdd}");
+                throw exception.LogAndGetDbException(logger, $"Function: {nameof(Add)}, entity: {entityToAdd}");
             }
             return created;
         }

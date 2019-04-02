@@ -5,6 +5,7 @@ using ApplicationCore.Interfaces;
 using ApplicationCore.Interfaces.Services;
 using ApplicationCore.Specifications;
 using Infrastructure.Data;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.Linq;
 using System.Security.Claims;
@@ -30,11 +31,9 @@ namespace Infrastructure.Services
 
         public override async Task<Store> CreateAsync(Store entity)
         {
-            await base.ValidationWithExceptionAsync(entity);
-            entity.RegistrationDate = DateTime.Now;
-            var store = await base.CreateAsync(entity);
+            await base.CreateAsync(entity);
             await IdentityService.AddClaim(entity.OwnerId, new Claim(CustomClaimTypes.StoreAdministrator, entity.Id.ToString()));
-            return store;
+            return entity;
         }
 
         protected override async Task ValidateCustomUniquinessWithException(Store store)
@@ -62,9 +61,10 @@ namespace Infrastructure.Services
             await base.DeleteRelatedEntitiesAsync(store);
         }
 
-        protected override async Task ValidationWithExceptionAsync(Store store)
+        protected override async Task ValidateWithExceptionAsync(EntityEntry<Store> entry)
         {
-            await base.ValidationWithExceptionAsync(store);
+            await base.ValidateWithExceptionAsync(entry);
+            var store = entry.Entity;
             if (string.IsNullOrWhiteSpace(store.Title))
                 throw new EntityValidationException("Incorrect title");
             if (string.IsNullOrWhiteSpace(store.Description))
@@ -73,6 +73,18 @@ namespace Infrastructure.Services
                 throw new EntityValidationException("Incorrect address");
             var entityEntry = Context.Entry(store);
             IsPropertyModified(entityEntry, s => s.RegistrationDate, false);
+        }
+
+
+        protected override async Task ModifyBeforeSaveAsync(EntityEntry<Store> entry)
+        {
+            await base.ModifyBeforeSaveAsync(entry);
+            if (entry.State == Microsoft.EntityFrameworkCore.EntityState.Added)
+            {
+                var store = entry.Entity;
+                store.RegistrationDate = DateTime.Now;
+            }
+
         }
 
         public override async Task RelinkRelatedAsync(int id, int idToRelinkTo)

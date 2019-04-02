@@ -11,9 +11,7 @@ export class DefaultErrorHandler implements ErrorHandler {
     private zone: NgZone) { }
 
   handleError(errorResponse) {
-    const router = this.injector.get(Router);
     let message = '';
-    
     let urlToNavigateTo = "";
     let status = errorResponse.status || (errorResponse.rejection && errorResponse.rejection.status);
     switch (status) {
@@ -23,8 +21,8 @@ export class DefaultErrorHandler implements ErrorHandler {
         break;
       case 403:
         // report a bug later on!
-        //message = "You are not authorized for this operation";
-        //urlToNavigateTo = '/';
+        message = "You are not authorized for this operation";
+        urlToNavigateTo = '/';
         break;
       case 404:
         message = "Requested resource not found";
@@ -48,7 +46,6 @@ export class DefaultErrorHandler implements ErrorHandler {
     if (urlToNavigateTo.length) {
       this.zone.run(() => { this.injector.get(Router).navigate([urlToNavigateTo]); });
     }
-      
     return errorResponse;
   }
 }

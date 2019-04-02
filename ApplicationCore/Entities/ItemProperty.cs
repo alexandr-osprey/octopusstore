@@ -5,7 +5,7 @@ namespace ApplicationCore.Entities
     /// <summary>
     /// Property Value of and Item Variant. For example 32GB of Storage in iPhone variant.
     /// </summary>
-    public class ItemProperty: Entity, IGenericMemberwiseClonable<ItemProperty>
+    public class ItemProperty: Entity, ShallowClonable<ItemProperty>
     {
         public int ItemVariantId { get; set; }
         public int CharacteristicValueId { get; set; }

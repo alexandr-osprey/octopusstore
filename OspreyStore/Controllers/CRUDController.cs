@@ -81,7 +81,7 @@ namespace OspreyStore.Controllers
         public virtual async Task<Response> CheckUpdateAuthorizationAsync(int id)
         {
             var entity = await Service.ReadSingleAsync(new EntitySpecification<TEntity>(id));
-            await IdentityService.AuthorizeAsync(User, entity, OperationAuthorizationRequirements.Update, true);
+            await IdentityService.AuthorizeAsync(User, OperationAuthorizationRequirements.Update, entity, true);
             return new Response("You are authorized to update");
         }
 

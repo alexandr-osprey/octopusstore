@@ -16,7 +16,7 @@
       <p class="col-4 col-sm-2 col-md-1 align-middle text-center m-0 pt-2 pr-2 pl-1 order-4 order-sm-2">${{ cartItemThumbnail.itemVariant.price * cartItemThumbnail.number }}</p>
     </div>
   </div>
-  <div class="flex-column col-12 col-lg-3 col-xl-2 flex-wrap align-items-start pt-3 ">
+  <div *ngIf="totalPrice" class="flex-column col-12 col-lg-3 col-xl-2 flex-wrap align-items-start pt-3 ">
     <div class="d-flex flex-column actions p-1 pt-3 pb-3">
       <p class="text-center">Subtotal ({{totalQuantity}} items): ${{ totalPrice }}</p>
       <button class="btn btn-primary align-self-center w-75" (click)="createOrder()">Create order</button>

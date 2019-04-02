@@ -8,7 +8,7 @@ namespace ApplicationCore.Entities
     /// <summary>
     /// Store for seller
     /// </summary>
-    public class Store: Entity, IGenericMemberwiseClonable<Store>
+    public class Store: Entity, ShallowClonable<Store>
     {
         public string Title { get; set; }
         public string Description { get; set; }

@@ -6,6 +6,7 @@ using ApplicationCore.Interfaces.Services;
 using ApplicationCore.Specifications;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -47,10 +48,10 @@ namespace Infrastructure.Services
             return await ItemVariantService.EnumerateRelatedEnumAsync(itemVariantSpec, (v => v.ItemProperties));
         }
 
-        protected override async Task ValidationWithExceptionAsync(ItemProperty itemProperty)
+        protected override async Task ValidateWithExceptionAsync(EntityEntry<ItemProperty> entityEntry)
         {
-            await base.ValidationWithExceptionAsync(itemProperty);
-            var entityEntry = Context.Entry(itemProperty);
+            await base.ValidateWithExceptionAsync(entityEntry);
+            var itemProperty = entityEntry.Entity;
             if (IsPropertyModified(entityEntry, p => p.ItemVariantId, false) 
                 | IsPropertyModified(entityEntry, p => p.CharacteristicValueId, false))
             {

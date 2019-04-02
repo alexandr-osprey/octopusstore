@@ -7,7 +7,7 @@ namespace ApplicationCore.Entities
     /// <summary>
     /// Variant of an Item containing it's Characteristic Values, price and title
     /// </summary>
-    public class ItemVariant : Entity, IGenericMemberwiseClonable<ItemVariant>
+    public class ItemVariant : Entity, ShallowClonable<ItemVariant>
     {
         public string Title { get; set; }
         public decimal Price { get; set; }

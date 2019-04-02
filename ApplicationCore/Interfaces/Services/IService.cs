@@ -52,9 +52,9 @@ namespace ApplicationCore.Interfaces.Services
         /// Updates an existing entity with entity provided. Existence of entity should be verified in advance.
         /// Throws an exception from repository if entity does not exist.
         /// </summary>
-        /// <param name="entity"></param>
+        /// <param name="finalEntity"></param>
         /// <returns></returns>
-        Task<TEntity> UpdateAsync(TEntity entity);
+        Task<TEntity> UpdateAsync(TEntity finalEntity);
 
         /// <summary>
         /// Deletes a single entity. Existence of entity should be verified in advance.
