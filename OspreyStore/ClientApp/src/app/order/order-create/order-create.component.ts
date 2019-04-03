@@ -38,12 +38,16 @@ export class OrderCreateComponent implements OnInit {
     if (id != 0)
       this.isUpdating = true;
     this.cartItemService.index().subscribe((data: EntityIndex<CartItem>) => {
-      if (data != null) {
+      if (data) {
         this.cartItems = data.entities;
         let observables: Observable<any>;
         observables = Observable.zip(...this.cartItems.map(i =>
           this.orderService.post(new Order({ itemVariantId: i.itemVariantId, number: i.number }))
         ));
+        let cartObservables = Observable.zip(...this.cartItems.map(c => this.cartItemService.delete(c.id)));
+        cartObservables.subscribe((data) => {
+          console.log("cart items cleaned")
+        });
         observables.subscribe((data) => {
           if (data != null) {
             this.router.navigate(['/orders']);

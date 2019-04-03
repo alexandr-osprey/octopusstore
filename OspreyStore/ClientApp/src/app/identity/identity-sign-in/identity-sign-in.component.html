@@ -1,6 +1,5 @@
-<div class="row">
-  <div class="col-12 col-md-12">
-    <form #credentialsForm="ngForm">
+<div class="d-flex w-100">
+    <form #credentialsForm="ngForm" class="col-12 col-md-4 ml-auto mr-auto">
       <div class="form-group">
         <label for="email">Email</label>
         <input type="email" class="form-control" id="email" required
@@ -13,5 +12,4 @@
       </div>
       <button class="btn btn-primary" (click)="signIn()">Sign In</button>
     </form>
-  </div>
 </div>

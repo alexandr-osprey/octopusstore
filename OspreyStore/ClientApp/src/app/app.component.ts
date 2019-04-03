@@ -12,7 +12,7 @@ export class AppComponent implements OnInit {
   title = 'app';
   areActionsActive: boolean = false;
 
-  public constructor(private parameterService: ParameterService) { }
+  public constructor() { }
 
 
   ngOnInit() {
@@ -20,11 +20,6 @@ export class AppComponent implements OnInit {
   }
 
   initializeComponent() {
-    this.parameterService.params$.subscribe(_ => {
-      if (this.parameterService.isParamChanged(ParameterNames.actionsShown)) {
-        this.areActionsActive = this.parameterService.getParam(ParameterNames.actionsShown) as boolean;
-      }
-    });
   }
   //public constructor() {
   //  document.getElementsByTagName("html")[0].style.height = "100%";

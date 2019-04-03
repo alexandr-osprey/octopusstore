@@ -26,7 +26,6 @@ import { StoreDetailComponent } from './store/store-detail/store-detail.componen
 import { StoreIndexComponent } from './store/store-index/store-index.component';
 import { IdentitySignInComponent } from './identity/identity-sign-in/identity-sign-in.component';
 import { DefaultErrorHandler } from './error-handlers/default-error-handler';
-import { IdentitySignOutComponent } from './identity/identity-sign-out/identity-sign-out.component';
 import { IdentitySignUpComponent } from './identity/identity-sing-up/identity-sign-up.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { CharacteristicPaneComponent } from './navigation/characteristic-pane/characteristic-pane.component';
@@ -73,7 +72,6 @@ import { CartItemThumbnailIndexComponent } from './cart/cart-item/cart-item-thum
     StoreIndexComponent,
     IdentitySignUpComponent,
     IdentitySignInComponent,
-    IdentitySignOutComponent,
     PageNotFoundComponent,
     CartItemThumbnailIndexComponent,
     CharacteristicPaneComponent,

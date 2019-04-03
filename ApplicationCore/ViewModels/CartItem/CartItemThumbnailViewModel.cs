@@ -1,4 +1,5 @@
 ﻿using ApplicationCore.Entities;
+using System.Linq;
 
 namespace ApplicationCore.ViewModels
 {
@@ -8,6 +9,7 @@ namespace ApplicationCore.ViewModels
         public ItemViewModel Item { get; set; }
         public MeasurementUnitViewModel MeasurementUnit { get; set; }
         public StoreViewModel Store { get; set; }
+        public ItemImageViewModel ItemImage { get; set; }
 
         public CartItemThumbnailViewModel(): base()
         {
@@ -20,6 +22,7 @@ namespace ApplicationCore.ViewModels
             MeasurementUnit = new MeasurementUnitViewModel(cartItem.ItemVariant.Item.MeasurementUnit);
             Number = cartItem.Number;
             Store = new StoreViewModel(cartItem.ItemVariant.Item.Store);
+            ItemImage = new ItemImageViewModel(cartItem.ItemVariant.Item.Images.FirstOrDefault());
         }
     }
 }
