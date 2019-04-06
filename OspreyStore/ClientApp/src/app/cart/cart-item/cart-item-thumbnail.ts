@@ -8,7 +8,7 @@ import { ItemImage } from "src/app/item-image/item-image";
 export class CartItemThumbnail extends CartItem {
   itemVariant: ItemVariant;
   item: Item;
-  measurementUnit: MeasurementUnit;
+  //measurementUnit: MeasurementUnit;
   store: Store;
   itemImage: ItemImage;
 
@@ -17,7 +17,7 @@ export class CartItemThumbnail extends CartItem {
     Object.assign(this, init);
     this.itemVariant = new ItemVariant(init.itemVariant);
     this.item = new Item(init.item);
-    this.measurementUnit = new MeasurementUnit(init.measurementUnit);
+    //this.measurementUnit = new MeasurementUnit(init.measurementUnit);
     this.itemImage = new ItemImage(init.itemImage);
   }
 }

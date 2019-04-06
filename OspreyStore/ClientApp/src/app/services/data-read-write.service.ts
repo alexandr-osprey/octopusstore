@@ -164,6 +164,10 @@ export abstract class DataReadWriteService <TEntity extends Entity> {
     return `${url}/${parameter}`;
   }
 
+  public delay(ms: number): Promise<{}> {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
   protected handleError<T>(customSource: Subject<T>, errorResponse: any) {
     let message = "";
     switch (errorResponse.status) {

@@ -1,33 +1,26 @@
-<div class="row" *ngIf="itemDetail">
-  <div class="d-lg-none col-12 col-md-12">
+<div class="d-flex flex-row w-100 flex-wrap col-mt-1" *ngIf="itemDetail">
+  <!--<div class="d-lg-none col-12 col-md-12">
     <button class="btn btn-link link" (click)="goBack()">Back</button>
-  </div>
-  <div *ngIf="displayedImages && displayedImages[0]" class="col-md-6">
-    <div class="item-details__images">
-      <app-item-image-gallery [images]="displayedImages"></app-item-image-gallery>
+  </div>-->
+  <app-item-image-gallery *ngIf="displayedImages" class="col-sm-12 col-md-6 order-md-0 order-1" [images]="displayedImages"></app-item-image-gallery>
+  <div class="col-sm-12 col-md-6 order-md-1 order-0">
+    <p class="title">{{ itemDetail.title | uppercase }}</p>
+    <p class="brand">by {{ itemDetail.brand.title }}</p>
+    <div class="mb-3">
+      <span class="price-title">Price: $</span>
+      <span class="price">{{ currentPrice }}</span>
     </div>
-  </div>
-  <div class="col-md-6 item-details__main-properties">
-    <div class="item-details__brand">
-      <p>{{ itemDetail.brand.title }}</p>
+    
+    <div class="mb-3">
+      <button (click)="addToCart()" class="btn btn-primary">Add to cart</button>
+      <button *ngIf="shouldShowRemoveFromCart" (click)="removeFromCart()" class="btn btn-info ml-2">Remove From cart</button>
+      <p *ngIf="numberInCart">In cart: {{ numberInCart }}</p>
     </div>
-    <div class="item-details__title">
-      <p>{{ itemDetail.title | uppercase }}</p>
-    </div>
-    <div [hidden]="!currentPrice" class="item-details__current-price">
-      <p>Price: {{ currentPrice }}</p>
-    </div>
-    <div>
-      <button (click)="addToCart()" class="btn">Add to cart</button>
-      <button (click)="removeFromCart()" class="btn">Remove From cart</button>
-    </div>
-    <div class="item-details__store">{{ itemDetail.store.title }}</div>
-    <div class="item-details__description">
+    <p>{{ itemDetail.store.title }}</p>
+    <p>
       {{itemDetail.description}}
-    </div>
-    <div>
-      <a *ngIf="authorizedToUpdate" [routerLink]="[getUpdateLink(itemDetail.id)]" class="link">Update</a>
-    </div>
+    </p>
+    <a *ngIf="authorizedToUpdate" [routerLink]="[getUpdateLink(itemDetail.id)]">Update</a>
     <app-item-variant-detail [itemDetail]="itemDetail" (itemVariantSelected)="itemVariantSelected($event)"></app-item-variant-detail>
   </div>
 </div>

@@ -11,7 +11,7 @@ import { ItemImage } from './item-image';
 @Injectable({
   providedIn: 'root'
 })
-export class ItemImageService extends ImageService<Item> {
+export class ItemImageService extends ImageService<Item, ItemImage> {
   public postFilePrefix = '/api/items/';
   public postFileSuffix = 'itemImage';
 

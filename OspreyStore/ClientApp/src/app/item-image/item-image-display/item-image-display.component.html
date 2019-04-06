@@ -1,1 +1,1 @@
-<img class="w-100" [src]="itemImageUrl" />
+<img class="w-100" [src]="itemImageUrl" *ngFor="let url of [itemImageUrl]" [@slideInRight]/>

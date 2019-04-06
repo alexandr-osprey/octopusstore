@@ -21,7 +21,7 @@ import { ParameterNames } from 'src/app/parameter/parameter-names';
 })
 export class CartItemService extends DataReadWriteService<CartItem> {
   protected localStorageKey: string = "cartItemLocalStorage";
-  protected cartItemThumbnails: CartItemThumbnail[] = [];
+  public cartItemThumbnails: CartItemThumbnail[] = [];
   protected measurementUnits: MeasurementUnit[] = [];
   protected cartItemThumbnailsSource = new Subject<any>();
   public cartItemThumbnails$ = this.cartItemThumbnailsSource.asObservable();
@@ -84,7 +84,7 @@ export class CartItemService extends DataReadWriteService<CartItem> {
         this.updateCartItemThumbnail(existing);
         this.updateCartItemThumbnailLocal(existing);
       } else {
-        this.getCartItemThumbnail(cartItemToAdd)
+        this.createCartItemThumbnail(cartItemToAdd)
           .subscribe((newCartItem: CartItemThumbnail) => {
             this.updateCartItemThumbnail(newCartItem);
             this.updateCartItemThumbnailLocal(newCartItem);
@@ -95,7 +95,7 @@ export class CartItemService extends DataReadWriteService<CartItem> {
     return cartItemSubject.asObservable();
   }
 
-  protected getCartItemThumbnail(cartItemToAdd: CartItem): Observable<CartItemThumbnail> {
+  protected createCartItemThumbnail(cartItemToAdd: CartItem): Observable<CartItemThumbnail> {
     let result = new Subject<CartItemThumbnail>();
     this.itemVariantService.get(cartItemToAdd.itemVariantId)
       .subscribe((variant: ItemVariant) => {
@@ -103,8 +103,7 @@ export class CartItemService extends DataReadWriteService<CartItem> {
           this.itemService.get(variant.itemId)
             .subscribe((item: Item) => {
               if (item) {
-                let unit = this.measurementUnits.find(u => u.id == item.measurementUnitId);
-                let newCartItem = new CartItemThumbnail({ item: item, itemVariant: variant, measurementUnit: unit, number: cartItemToAdd.number });
+                let newCartItem = new CartItemThumbnail({ item: item, itemVariant: variant, itemVariantId: variant.id, number: cartItemToAdd.number });
                 result.next(newCartItem);
               }
             });
@@ -217,10 +216,6 @@ export class CartItemService extends DataReadWriteService<CartItem> {
       result = JSON.parse(saved);
     }
     return result;
-  }
-
-  protected delay(ms: number): Promise<{}> {
-    return new Promise(resolve => setTimeout(resolve, ms));
   }
 
   protected addLocalCartItemsToServer() {

@@ -6,7 +6,7 @@ import { Entity } from '../models/entity/entity';
 import { IdentityService } from '../identity/identity.service';
 import { MessageService } from '../message/message.service';
 
-export abstract class ImageService<TEntity extends Entity> extends FileInfoService<Image<TEntity>> {
+export abstract class ImageService<TEntity extends Entity, TImage extends Image<TEntity>> extends FileInfoService<TImage> {
 
   constructor(
     protected http: HttpClient,
