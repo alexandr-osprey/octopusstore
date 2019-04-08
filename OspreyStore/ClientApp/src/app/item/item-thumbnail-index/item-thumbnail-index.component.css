@@ -6,3 +6,13 @@ app-sidebar {
   width: 15rem;
   /*height: 20rem;*/
 }
+
+.fab {
+  width: 3rem;
+  position: fixed;
+  bottom: 8rem;
+  right: 1rem;
+}
+
+app-item-thumbnail {
+}

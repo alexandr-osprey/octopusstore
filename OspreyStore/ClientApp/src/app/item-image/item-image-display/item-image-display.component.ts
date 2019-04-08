@@ -9,7 +9,7 @@ import { trigger, transition, style, animate } from '@angular/animations';
   styleUrls: ['./item-image-display.component.css'],
   animations: [
     trigger(
-      'slideInRight',
+      'fadeInOut',
       [
         transition(
           ':enter', [

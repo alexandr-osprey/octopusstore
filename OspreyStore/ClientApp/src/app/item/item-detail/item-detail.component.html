@@ -1,4 +1,4 @@
-<div class="d-flex flex-row w-100 flex-wrap col-mt-1" *ngIf="itemDetail">
+<div class="d-flex flex-row w-100 flex-wrap mt-1" *ngIf="itemDetail">
   <!--<div class="d-lg-none col-12 col-md-12">
     <button class="btn btn-link link" (click)="goBack()">Back</button>
   </div>-->
@@ -13,8 +13,9 @@
     
     <div class="mb-3">
       <button (click)="addToCart()" class="btn btn-primary">Add to cart</button>
-      <button *ngIf="shouldShowRemoveFromCart" (click)="removeFromCart()" class="btn btn-info ml-2">Remove From cart</button>
+      <button *ngIf="shouldShowRemoveFromCart" (click)="removeFromCart()" class="btn btn-outline-primary ml-2">Remove From cart</button>
       <p *ngIf="numberInCart">In cart: {{ numberInCart }}</p>
+      <p *ngIf="!numberInCart">Not in cart</p>
     </div>
     <p>{{ itemDetail.store.title }}</p>
     <p>

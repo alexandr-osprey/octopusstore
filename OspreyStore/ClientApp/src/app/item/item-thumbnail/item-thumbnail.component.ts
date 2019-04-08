@@ -10,15 +10,6 @@ import { setTimeout } from 'timers';
   selector: 'app-item-thumbnail',
   templateUrl: './item-thumbnail.component.html',
   styleUrls: ['./item-thumbnail.component.css'],
-  animations: [
-    trigger('expandCollapse', [
-      state('expanded', style({ height: '*', opacity: 1, display: 'block' })),
-      state('collapsed', style({ height: 0, opacity: 0, display: 'none' })),
-      transition('expanded => collapsed', [animate('1150ms linear')]),
-      transition('collapsed => expanded', [animate('1650ms linear')]),
-      //transition('collapsed => expanded', [animate('350ms linear')]),
-    ]),
-  ],
 })
 export class ItemThumbnailComponent implements OnInit {
   @Input() itemThumbnail: ItemThumbnail;
@@ -53,7 +44,7 @@ export class ItemThumbnailComponent implements OnInit {
     if (this.currentImageSlideshowId != timestamp)
       return;
 
-    let delay = 1500;
+    let delay = 2 * 1000;
 
     this.itemService.delay(delay).then(() => {
       if (this.currentImageSlideshowId) {

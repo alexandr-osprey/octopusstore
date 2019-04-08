@@ -43,7 +43,7 @@ export class PaginatorComponent<T extends Entity> implements OnInit, OnChanges {
         this.pageNumbers.push(this.index.totalPages);
       this.showFirst = !this.pageNumbers.some(n => n == 1);
       this.showLast = !this.pageNumbers.some(n => n == this.index.totalPages);
-      this.pageSizes = [1, 4, 5, 10, 60];
+      this.pageSizes = [1, 2, 4, 5, 10, 60];
     }
   }
 

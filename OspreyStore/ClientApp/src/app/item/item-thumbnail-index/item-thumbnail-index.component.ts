@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, AfterViewInit, HostBinding  } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit, HostBinding, HostListener  } from '@angular/core';
 import { ParameterService } from '../../parameter/parameter.service';
 import { debounceTime } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
@@ -31,8 +31,15 @@ export class ItemThumbnailIndexComponent implements OnInit, OnDestroy, AfterView
   shownItems: DisplayedItemThumbnail[] = [];
   parametersSubsription: Subscription;
   loadedPages: number[] = [];
-  nextNavigationOperation = Operation.Initial;
+  //nextNavigationOperation = Operation.Initial;
   sidebarHidden: boolean = true;
+  fabHidden: boolean = true;
+
+  @HostListener('window:scroll', ['$event']) // for window scroll events
+  onScroll(event) {
+    this.fabHidden = window.scrollY < 500;
+    //console.log("ScrollY: " + window.scrollY);
+  }
 
   constructor(
     private itemService: ItemService,
@@ -42,8 +49,19 @@ export class ItemThumbnailIndexComponent implements OnInit, OnDestroy, AfterView
   error: string;
   //navigationSubscription;
 
-  initializeComponent() {
-    this.nextNavigationOperation = Operation.Initial;
+  ngAfterViewInit() {
+    let page = +this.parameterService.getParam("page");
+    page = page ? page : 1;
+    //this.bindWaypoints(page);
+  }
+
+  isSortingActive(paramName: string) {
+
+  }
+
+  ngOnInit() {
+    //window.addEventListener('scroll', this.scroll, true);
+    //this.nextNavigationOperation = Operation.Initial;
     this.parametersSubsription = this.parameterService.params$.pipe(
       debounceTime(10),
       //distinctUntilChanged(),
@@ -57,12 +75,12 @@ export class ItemThumbnailIndexComponent implements OnInit, OnDestroy, AfterView
           || this.parameterService.isParamChanged(ParameterNames.orderByDescending)
           || this.parameterService.isParamChanged(ParameterNames.searchValue)
           || this.parameterService.isParamChanged(ParameterNames.pageSize)
-          || !this.loadedPages.some(p => p == page)) {
-          this.getItems();
+          || (page && !this.loadedPages.some(p => p == page))) {
           if (this.parameterService.isParamChanged(ParameterNames.page)
             || this.parameterService.isParamChanged(ParameterNames.pageSize)) {
-            this.scrollToTop();
+            this.scrollToTopFast();
           }
+          this.getItems();
         };
         if (this.parameterService.isParamChanged(ParameterNames.sidebarHidden)) {
           this.sidebarHidden = this.parameterService.getParam(ParameterNames.sidebarHidden);
@@ -72,18 +90,6 @@ export class ItemThumbnailIndexComponent implements OnInit, OnDestroy, AfterView
     //this.parameterService.clearParams();
     this.getItems();
     this.sidebarHidden = this.parameterService.getParam(ParameterNames.sidebarHidden);
-  }
-
-
-
-  ngAfterViewInit() {
-    let page = +this.parameterService.getParam("page");
-    page = page ? page : 1;
-    //this.bindWaypoints(page);
-  }
-
-  ngOnInit() {
-    this.initializeComponent();
   }
 
   getOrderByPriceQueryParams(): any {
@@ -97,24 +103,13 @@ export class ItemThumbnailIndexComponent implements OnInit, OnDestroy, AfterView
   getOrderByQueryParams(paramName: string): any {
     let updatedParams = this.parameterService.getUpdatedParamsCopy({"orderBy": paramName});
     updatedParams[ParameterNames.page] = 1;
-    updatedParams[ParameterNames.orderByDescending] = this.getOrderByDescending(paramName);
+    updatedParams[ParameterNames.orderByDescending] = this.getOrderB
+
+    yDescending(paramName);
     return updatedParams;
   }
 
-  onScrollDown() {
-    this.nextNavigationOperation = Operation.Append;
-    let nextPage = this.index.page + 1;
-    if (this.index.totalPages >= nextPage) {
-      this.parameterService.navigateWithParams(this.getPageParams(nextPage));
-    }
-  }
-  onScrollUp() {
-    this.nextNavigationOperation = Operation.Prepend;
-    let nextPage = this.index.page - 1;
-    if (nextPage > 0) {
-      this.parameterService.navigateWithParams(this.getPageParams(nextPage));
-    }
-  }
+
 
   getOrderByDescending(paramName: string): boolean {
     let param = this.parameterService.getParam(ParameterNames.orderBy) == paramName;
@@ -140,15 +135,15 @@ export class ItemThumbnailIndexComponent implements OnInit, OnDestroy, AfterView
     this.itemService.indexThumbnails().subscribe((data: EntityIndex<ItemThumbnail>) => {
       this.index = data;
       this.index.entities = data.entities.map(e => new ItemThumbnail(e));
-      if (this.nextNavigationOperation == Operation.Prepend) {
-        this.appendItems(this.index);
-      } else if (this.nextNavigationOperation == Operation.Append) {
-        this.prependItems(this.index);
-      } else {
+      //if (this.nextNavigationOperation == Operation.Prepend) {
+      //  this.appendItems(this.index);
+      //} else if (this.nextNavigationOperation == Operation.Append) {
+      //  this.prependItems(this.index);
+      //} else {
         this.replaceItems(this.index);
-      }
+      //}
       this.loadedPages.push(data.page);
-      this.nextNavigationOperation = Operation.Initial;
+      //this.nextNavigationOperation = Operation.Initial;
       //this.bindWaypoints(this.index.page);
     });
   }
@@ -167,11 +162,15 @@ export class ItemThumbnailIndexComponent implements OnInit, OnDestroy, AfterView
   //  }
   //}
 
-  scrollToTop() {
+  scrollToTopFast() {
+    this.scrollToTop(200);
+  }
+
+  scrollToTop(speed: number) {
     let scrollToTop = window.setInterval(() => {
       let pos = window.pageYOffset;
       if (pos > 0) {
-        window.scrollTo(0, pos - 400); // how far to scroll on each step
+        window.scrollTo(0, pos - speed); // how far to scroll on each step
       } else {
         window.clearInterval(scrollToTop);
       }
@@ -207,9 +206,24 @@ export class ItemThumbnailIndexComponent implements OnInit, OnDestroy, AfterView
     // prevent memory leak when component destroyed
     this.parametersSubsription.unsubscribe();
   }
+
+  //onScrollDown() {
+  //  this.nextNavigationOperation = Operation.Append;
+  //  let nextPage = this.index.page + 1;
+  //  if (this.index.totalPages >= nextPage) {
+  //    this.parameterService.navigateWithParams(this.getPageParams(nextPage));
+  //  }
+  //}
+  //onScrollUp() {
+  //  this.nextNavigationOperation = Operation.Prepend;
+  //  let nextPage = this.index.page - 1;
+  //  if (nextPage > 0) {
+  //    this.parameterService.navigateWithParams(this.getPageParams(nextPage));
+  //  }
+  //}
 }
-export enum Operation {
-  Initial,
-  Append,
-  Prepend,
-}
+//export enum Operation {
+//  Initial,
+//  Append,
+//  Prepend,
+//}
