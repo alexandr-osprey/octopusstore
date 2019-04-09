@@ -1,0 +1,27 @@
+<div *ngIf="item.id" class="row justify-content-start">
+  <div class="col-auto col-md-auto">
+    <form class="upload-image-form" #itemVariantImageForm="ngForm">
+      <div class="form-group">
+        <input style="display: none"
+               type="file" (change)="onFileChanged($event)"
+               #fileInput id="file" name="file">
+        <button class="btn btn-light" (click)="fileInput.click()">Select File</button>
+      </div>
+      <button type="submit" class="btn btn-primary" [disabled]="!itemVariantImageForm.form.valid" (click)="saveitemVariantImage()">Save item image</button>
+    </form>
+  </div>
+  <div *ngFor="let itemVariantImage of itemVariantImages; index as i" [attr.data.index]="i" class="col-auto col-md-auto">
+    <form class="item-image__form">
+      <div class="item-image__image">
+        <app-item-variant-image-display [itemVariantImage]="itemVariantImage"></app-item-variant-image-display>
+      </div>
+      <div class="form-group">
+        <input type="text" class="item-image__title" [(ngModel)]="itemVariantImage.title" id="item-image__title_{{i}}" name="item-image__title_{{i}}" />
+        <div class="item-image__buttons">
+          <button type="submit" class="btn btn-primary" (click)="updateItemVariantImage(itemVariantImage)">Update</button>
+          <button type="button" class="btn btn-danger" (click)="deleteItemVariantImage(itemVariantImage)">Delete</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

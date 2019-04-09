@@ -6,14 +6,14 @@ using ApplicationCore.Interfaces.Services;
 
 namespace Infrastructure.Services
 {
-    public class ItemImageService: ImageService<ItemImage, Item>, IItemImageService
+    public class ItemVariantImageService: ImageService<ItemVariantImage, ItemVariant>, IItemVariantImageService
     {
-        public ItemImageService(
+        public ItemVariantImageService(
             StoreContext context,
             IIdentityService identityService,
             IScopedParameters scopedParameters,
-            IAuthorizationParameters<ItemImage> authoriationParameters,
-            IAppLogger<Service<ItemImage>> logger)
+            IAuthorizationParameters<ItemVariantImage> authoriationParameters,
+            IAppLogger<Service<ItemVariantImage>> logger)
            : base(context, identityService, scopedParameters, authoriationParameters, logger)
         {
         }

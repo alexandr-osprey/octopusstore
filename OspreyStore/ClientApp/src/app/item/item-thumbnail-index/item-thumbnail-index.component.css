@@ -14,5 +14,10 @@ app-sidebar {
   right: 1rem;
 }
 
-app-item-thumbnail {
+.arrow-up {
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid #007bff;
 }

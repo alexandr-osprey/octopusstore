@@ -16,7 +16,7 @@ using System.Collections.Generic;
 
 namespace UnitTests.Controllers
 {
-    public class ItemImageControllerTests: ControllerTests<ItemImage, ItemImageViewModel, IItemImagesController, IItemImageService>
+    public class ItemImageControllerTests: ControllerTests<ItemVariantImage, ItemVariantImageViewModel, IItemVariantImagesController, IItemVariantImageService>
     {
         public ItemImageControllerTests(ITestOutputHelper output): base(output)
         {
@@ -79,8 +79,8 @@ namespace UnitTests.Controllers
         {
             var imageExpected = Data.ItemImages.Jacket1;
             imageExpected.Title = "UPDATED";
-            var expected = new ItemImageViewModel(imageExpected);
-            var actual = await Controller.UpdateAsync(new ItemImageViewModel(imageExpected));
+            var expected = new ItemVariantImageViewModel(imageExpected);
+            var actual = await Controller.UpdateAsync(new ItemVariantImageViewModel(imageExpected));
             Equal(expected, actual);
             var imageActual = await GetQueryable().FirstOrDefaultAsync(i => i.Id == imageExpected.Id);
             imageExpected.RelatedEntity = null;
@@ -93,7 +93,7 @@ namespace UnitTests.Controllers
         {
             var item = Data.Items.Shoes;
             var imagesExpected = await GetQueryable().Where(i => i.RelatedId == item.Id).ToListAsync();
-            var expected = new IndexViewModel<ItemImageViewModel>(1, 1, imagesExpected.Count, from i in imagesExpected select new ItemImageViewModel(i));
+            var expected = new IndexViewModel<ItemVariantImageViewModel>(1, 1, imagesExpected.Count, from i in imagesExpected select new ItemVariantImageViewModel(i));
             var actual = await Controller.IndexAsync(item.Id);
             Equal(expected, actual);
         }
@@ -119,7 +119,7 @@ namespace UnitTests.Controllers
             return ms;
         }
 
-        protected override Task AssertUpdateSuccessAsync(ItemImage beforeUpdate, ItemImageViewModel expected, ItemImageViewModel actual)
+        protected override Task AssertUpdateSuccessAsync(ItemVariantImage beforeUpdate, ItemVariantImageViewModel expected, ItemVariantImageViewModel actual)
         {
             Assert.Equal(expected.Title, actual.Title);
             Assert.Equal(beforeUpdate.RelatedId, actual.RelatedId);
@@ -127,14 +127,14 @@ namespace UnitTests.Controllers
             return Task.CompletedTask;
         }
 
-        protected override IEnumerable<ItemImage> GetCorrectEntitiesToCreate()
+        protected override IEnumerable<ItemVariantImage> GetCorrectEntitiesToCreate()
         {
-            return new List<ItemImage>();
+            return new List<ItemVariantImage>();
         }
 
-        protected override ItemImageViewModel ToViewModel(ItemImage entity)
+        protected override ItemVariantImageViewModel ToViewModel(ItemVariantImage entity)
         {
-            return new ItemImageViewModel()
+            return new ItemVariantImageViewModel()
             {
                 Id = entity.Id,
                 RelatedId = entity.RelatedId,
@@ -143,11 +143,11 @@ namespace UnitTests.Controllers
             };
         }
 
-        protected override IEnumerable<ItemImageViewModel> GetCorrectViewModelsToUpdate()
+        protected override IEnumerable<ItemVariantImageViewModel> GetCorrectViewModelsToUpdate()
         {
-            return new List<ItemImageViewModel>()
+            return new List<ItemVariantImageViewModel>()
             {
-                new ItemImageViewModel()
+                new ItemVariantImageViewModel()
                 {
                     Id = Data.ItemImages.IPhone61.Id,
                     RelatedId = 999,

@@ -20,7 +20,7 @@
 
         protected void AddInclude()
         {
-            AddInclude(c => c.ItemVariant.Item.Images);
+            AddInclude(c => c.ItemVariant.Images);
             AddInclude(c => c.ItemVariant.Item.Store);
             AddInclude(c => c.ItemVariant.Item.MeasurementUnit);
         }

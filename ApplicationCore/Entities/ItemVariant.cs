@@ -14,6 +14,7 @@ namespace ApplicationCore.Entities
         public int ItemId { get; set; }
 
         public virtual Item Item { get; set; }
+        public virtual ICollection<ItemVariantImage> Images { get; set; } = new List<ItemVariantImage>();
         public virtual ICollection<ItemProperty> ItemProperties { get; set; } = new List<ItemProperty>();
 
         public ItemVariant() : base()

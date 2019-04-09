@@ -1,7 +1,7 @@
 <div class="d-flex flex-row mt-5 w-100 flex-wrap " *ngIf="cartItemThumbnails.length">
   <div class="d-flex flex-row col-12 col-lg-9 col-xl-10 flex-wrap mb-5">
     <div class="d-flex col-12 flex-row flex-wrap mt-3 cart-item pt-3 align-items-center" *ngFor="let cartItemThumbnail of cartItemThumbnails">
-      <app-item-image-display class="col-4 col-md-2 col-lg-2 col-xl-1" [(itemImage)]="cartItemThumbnail.itemImage"></app-item-image-display>
+      <app-item-variant-image-display class="col-4 col-md-2 col-lg-2 col-xl-1" [(itemVariantImage)]="cartItemThumbnail.itemVariantImage"></app-item-variant-image-display>
       <a class="col-8 col-md-3 col-lg-3 col-xl-4 order-0 " [routerLink]="[getItemUrl(cartItemThumbnail.item)]" [queryParams]="getItemVariantParams(cartItemThumbnail.itemVariant)">
         {{ cartItemThumbnail.itemVariant.title }}
       </a>

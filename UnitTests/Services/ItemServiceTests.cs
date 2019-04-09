@@ -44,7 +44,7 @@ namespace UnitTests.Services
 
         protected override async Task AssertRelatedDeleted(Item entity)
         {
-            Assert.False(await Context.Set<ItemImage>().AnyAsync(i => i.RelatedId == entity.Id));
+            Assert.False(await Context.Set<ItemVariantImage>().AnyAsync(i => i.RelatedId == entity.Id));
         }
         protected override Specification<Item> GetEntitiesToDeleteSpecification()
         {

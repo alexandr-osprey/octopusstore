@@ -2,18 +2,18 @@
 
 namespace ApplicationCore.ViewModels
 {
-    public class ItemImageViewModel: ImageViewModel<ItemImage, Item>
+    public class ItemVariantImageViewModel: ImageViewModel<ItemVariantImage, ItemVariant>
     {
-        public ItemImageViewModel(): base()
+        public ItemVariantImageViewModel(): base()
         {
         }
-        public ItemImageViewModel(ItemImage itemImage): base(itemImage)
+        public ItemVariantImageViewModel(ItemVariantImage itemVariantImage): base(itemVariantImage)
         {
         }
 
-        public override ItemImage ToModel()
+        public override ItemVariantImage ToModel()
         {
-            var image = new ItemImage(Title, ContentType, RelatedId)
+            var image = new ItemVariantImage(Title, ContentType, RelatedId)
             {
                 Id = Id
             };

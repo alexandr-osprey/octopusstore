@@ -1,14 +1,14 @@
 import { Item } from './item';
-import { ItemImage } from '../item-image/item-image';
 import { Brand } from '../brand/brand';
 import { ItemVariant } from '../item-variant/item-variant';
+import { ItemVariantImage } from '../item-variant-image/item-variant-image';
 
 export class ItemThumbnail extends Item {
   itemVariants: ItemVariant[];
   prices: number[];
   minPrice: number;
   maxPrice: number;
-  images: ItemImage[];
+  images: ItemVariantImage[];
   brand: Brand;
   variantsTitles: string;
 

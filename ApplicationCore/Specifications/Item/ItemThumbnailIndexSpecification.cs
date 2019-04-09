@@ -16,8 +16,8 @@ namespace ApplicationCore.Specifications
         }
         protected void SetProperties()
         {
-            AddInclude(i => i.Images);
             AddInclude(i => i.ItemVariants);
+            AddInclude("ItemVariants.Images");
             AddInclude(i => i.Brand);
             Description += " includes Images, ItemVariants, Brand";
         }

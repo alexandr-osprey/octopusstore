@@ -3,12 +3,11 @@ import { ActivatedRoute } from '@angular/router';
 import { ItemDetail } from '../item-detail';
 import { ItemService } from '../item.service';
 import { ItemVariant } from 'src/app/item-variant/item-variant';
-import { ItemImage } from 'src/app/item-image/item-image';
 import { IdentityService } from 'src/app/identity/identity.service';
 import { CartItem } from 'src/app/cart/cart-item/cart-item';
 import { CartItemService } from 'src/app/cart/cart-item/cart-item.service';
 import { CartItemThumbnail } from 'src/app/cart/cart-item/cart-item-thumbnail';
-import { setTimeout } from 'timers';
+import { ItemVariantImage } from 'src/app/item-variant-image/item-variant-image';
 
 @Component({
   selector: 'app-item-detail',
@@ -23,7 +22,7 @@ export class ItemDetailComponent implements OnInit, AfterContentInit {
   public shouldShowRemoveFromCart: boolean;
   public numberInCart: number;
 
-  public displayedImages: ItemImage[];
+  //public displayedImages: ItemVariantImage[];
   public currentPrice: number;
   public loaded: boolean;
 
@@ -46,7 +45,7 @@ export class ItemDetailComponent implements OnInit, AfterContentInit {
       this.itemService.getDetail(itemId).subscribe((data: ItemDetail) => {
         if (data) {
           this.itemDetail = new ItemDetail(data);
-          this.displayedImages = this.itemDetail.images;
+          //this.displayedImages = this.itemDetail.images;
           this.authorizedToUpdate = this.identityService.checkUpdateAuthorization(data.store.id);
         }
       });

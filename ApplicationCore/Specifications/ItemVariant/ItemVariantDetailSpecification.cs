@@ -7,6 +7,7 @@ namespace ApplicationCore.Specifications
         public ItemVariantDetailSpecification(int id): base(id)
         {
             AddInclude("ItemProperties.CharacteristicValue.Characteristic");
+            AddInclude(v => v.Images);
         }
     }
 }

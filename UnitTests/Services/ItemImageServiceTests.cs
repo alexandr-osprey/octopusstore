@@ -11,7 +11,7 @@ using Xunit.Abstractions;
 
 namespace UnitTests.Services
 {
-    public class ItemImageServiceTests : ServiceTests<ItemImage, IItemImageService>
+    public class ItemImageServiceTests : ServiceTests<ItemVariantImage, IItemVariantImageService>
     {
         public ItemImageServiceTests(ITestOutputHelper output)
            : base(output)
@@ -19,30 +19,30 @@ namespace UnitTests.Services
             _imageToCreateFrom = Data.ItemImages.Samsung71;
         }
 
-        protected ItemImage _imageToCreateFrom;
+        protected ItemVariantImage _imageToCreateFrom;
 
-        protected override IEnumerable<ItemImage> GetCorrectNewEntites()
+        protected override IEnumerable<ItemVariantImage> GetCorrectNewEntites()
         {
-            return new List<ItemImage>()
+            return new List<ItemVariantImage>()
             {
-                new ItemImage("testImage1", _imageToCreateFrom.ContentType, _imageToCreateFrom.RelatedId, Service.GetStream(_imageToCreateFrom))
+                new ItemVariantImage("testImage1", _imageToCreateFrom.ContentType, _imageToCreateFrom.RelatedId, Service.GetStream(_imageToCreateFrom))
             };
         }
 
-        protected override IEnumerable<ItemImage> GetIncorrectNewEntites()
+        protected override IEnumerable<ItemVariantImage> GetIncorrectNewEntites()
         {
             var itemImage = Data.ItemImages.IPhone63;
-            return new List<ItemImage>()
+            return new List<ItemVariantImage>()
             {
-                new ItemImage("", @"image/jpg", itemImage.RelatedId, Service.GetStream(itemImage)),
-                new ItemImage("test", @"image/jpg", 999, Service.GetStream(itemImage)),
-                new ItemImage("test", @"image/jpg", itemImage.RelatedId, null),
-                new ItemImage("test",  @"image/exe", itemImage.RelatedId, Service.GetStream(itemImage)),
+                new ItemVariantImage("", @"image/jpg", itemImage.RelatedId, Service.GetStream(itemImage)),
+                new ItemVariantImage("test", @"image/jpg", 999, Service.GetStream(itemImage)),
+                new ItemVariantImage("test", @"image/jpg", itemImage.RelatedId, null),
+                new ItemVariantImage("test",  @"image/exe", itemImage.RelatedId, Service.GetStream(itemImage)),
             };
         }
 
         //[Fact]
-        protected override async Task AssertCreateSuccessAsync(ItemImage itemImage)
+        protected override async Task AssertCreateSuccessAsync(ItemVariantImage itemImage)
         {
             await base.AssertCreateSuccessAsync(itemImage);
             Assert.True(Context.ItemImages.Contains(itemImage));
@@ -84,25 +84,25 @@ namespace UnitTests.Services
         //        File.Delete(itemImage.FullPath);
         //    await Task.CompletedTask;
         //}
-        protected override async Task AssertRelatedDeleted(ItemImage itemImage)
+        protected override async Task AssertRelatedDeleted(ItemVariantImage itemImage)
         {
             await base.AssertRelatedDeleted(itemImage);
             Assert.False(File.Exists(itemImage.FullPath));
         }
 
-        protected override IEnumerable<ItemImage> GetCorrectEntitesForUpdate()
+        protected override IEnumerable<ItemVariantImage> GetCorrectEntitesForUpdate()
         {
             Data.ItemImages.Samsung81.Title = "Updated 1";
-            return new List<ItemImage>() { Data.ItemImages.Samsung81 };
+            return new List<ItemVariantImage>() { Data.ItemImages.Samsung81 };
         }
 
-        protected override IEnumerable<ItemImage> GetIncorrectEntitesForUpdate()
+        protected override IEnumerable<ItemVariantImage> GetIncorrectEntitesForUpdate()
         {
             Data.ItemImages.Samsung81.Title = "";
             Data.ItemImages.IPhone61.ContentType = "txt";
             Data.ItemImages.IPhone62.DirectoryPath = "path";
             Data.ItemImages.IPhone63.FullPath = "fullpath";
-            return new List<ItemImage>()
+            return new List<ItemVariantImage>()
             {
                 Data.ItemImages.Samsung81,
                 Data.ItemImages.IPhone61,
@@ -111,9 +111,9 @@ namespace UnitTests.Services
             };
         }
 
-        protected override Specification<ItemImage> GetEntitiesToDeleteSpecification()
+        protected override Specification<ItemVariantImage> GetEntitiesToDeleteSpecification()
         {
-            return new Specification<ItemImage>(i => i.Title.Contains("Samsung"));
+            return new Specification<ItemVariantImage>(i => i.Title.Contains("Samsung"));
         }
     }
 }

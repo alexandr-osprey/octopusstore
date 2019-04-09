@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace ApplicationCore.Interfaces.Controllers
 {
-    public interface IItemImagesController: IController<ItemImage, ItemImageViewModel>
+    public interface IItemVariantImagesController: IController<ItemVariantImage, ItemVariantImageViewModel>
     {
-        Task<ItemImageViewModel> PostFormAsync(int relatedId, IFormFile formFile);
+        Task<ItemVariantImageViewModel> PostFormAsync(int relatedId, IFormFile formFile);
         Task<FileStreamResult> GetFileAsync(int id);
-        Task<IndexViewModel<ItemImageViewModel>> IndexAsync(int itemId);
+        Task<IndexViewModel<ItemVariantImageViewModel>> IndexAsync(int itemId);
     }
 }

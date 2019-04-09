@@ -15,28 +15,28 @@ using ApplicationCore.Identity;
 namespace OspreyStore.Controllers
 {
     [Route("api/[controller]")]
-    public class ItemImagesController: CRUDController<IItemImageService, ItemImage, ItemImageViewModel>, IItemImagesController
+    public class ItemVariantImagesController: CRUDController<IItemVariantImageService, ItemVariantImage, ItemVariantImageViewModel>, IItemVariantImagesController
     {
-        public ItemImagesController(
-            IItemImageService service,
+        public ItemVariantImagesController(
+            IItemVariantImageService service,
             IActivatorService activatorService,
             IIdentityService identityService,
             IScopedParameters scopedParameters,
-            IAppLogger<IController<ItemImage, ItemImageViewModel>> logger)
+            IAppLogger<IController<ItemVariantImage, ItemVariantImageViewModel>> logger)
            : base(service, activatorService, identityService, scopedParameters, logger)
         {
         }
 
-        [HttpPost("/api/items/{relatedId:int}/itemImage")]
-        public async Task<ItemImageViewModel> PostFormAsync(int relatedId, [FromForm]IFormFile formFile)
+        [HttpPost("/api/itemVariants/{relatedId:int}/image")]
+        public async Task<ItemVariantImageViewModel> PostFormAsync(int relatedId, [FromForm]IFormFile formFile)
         {
             using (var stream = new MemoryStream())
             {
                 try
                 {
                     await formFile.CopyToAsync(stream);
-                    var itemImage = new ItemImage(formFile.FileName, formFile.ContentType, relatedId, stream);
-                    return await GetViewModelAsync<ItemImageViewModel>(await Service.CreateAsync(itemImage));
+                    var itemImage = new ItemVariantImage(formFile.FileName, formFile.ContentType, relatedId, stream);
+                    return await GetViewModelAsync<ItemVariantImageViewModel>(await Service.CreateAsync(itemImage));
                 }
                 catch (Exception exception)
                 {
@@ -48,15 +48,15 @@ namespace OspreyStore.Controllers
         }
 
         [HttpPut]
-        public override async Task<ItemImageViewModel> UpdateAsync([FromBody]ItemImageViewModel itemImageViewModel) => await base.UpdateAsync(itemImageViewModel);
+        public override async Task<ItemVariantImageViewModel> UpdateAsync([FromBody]ItemVariantImageViewModel itemImageViewModel) => await base.UpdateAsync(itemImageViewModel);
 
         [AllowAnonymous]
         [HttpGet]
-        public async Task<IndexViewModel<ItemImageViewModel>> IndexAsync([FromQuery(Name = "itemId")]int itemId)
+        public async Task<IndexViewModel<ItemVariantImageViewModel>> IndexAsync([FromQuery(Name = "itemId")]int itemId)
         {
-            var spec = new Specification<ItemImage>((i => i.RelatedId == itemId))
+            var spec = new Specification<ItemVariantImage>((i => i.RelatedId == itemId))
             {
-                Description = $"ItemImage with RelatedId={itemId}"
+                Description = $"ItemVariantImage with RelatedId={itemId}"
             };
             return await base.IndexNotPagedAsync(spec);
         }
@@ -65,14 +65,16 @@ namespace OspreyStore.Controllers
         [HttpGet("{id:int}/file")]
         public async Task<FileStreamResult> GetFileAsync(int id)
         {
+            if (id == 0)
+                return null;
             try
             {
-                var image = await Service.ReadSingleAsync(new EntitySpecification<ItemImage>(id));
+                var image = await Service.ReadSingleAsync(new EntitySpecification<ItemVariantImage>(id));
                 return new FileStreamResult(Service.GetStream(image), image.ContentType);
             }
             catch (Exception exception)
             {
-                string message = $"Error retrieving item image id = {id}.";
+                string message = $"Error retrieving item variant image id = {id}.";
                 Logger.Warn(exception, message);
                 throw new Exception(message);
             }
@@ -80,10 +82,10 @@ namespace OspreyStore.Controllers
 
         [AllowAnonymous]
         [HttpGet("{id:int}")]
-        public override async Task<ItemImageViewModel> ReadAsync(int id) => await base.ReadAsync(id);
+        public override async Task<ItemVariantImageViewModel> ReadAsync(int id) => await base.ReadAsync(id);
 
         [HttpDelete("{id:int}")]
-        public override async Task<Response> DeleteAsync(int id) => await base.DeleteSingleAsync(new EntitySpecification<ItemImage>(id));
+        public override async Task<Response> DeleteAsync(int id) => await base.DeleteSingleAsync(new EntitySpecification<ItemVariantImage>(id));
 
         [HttpGet("{id:int}/checkUpdateAuthorization")]
         public override async Task<Response> CheckUpdateAuthorizationAsync(int id) => await base.CheckUpdateAuthorizationAsync(id);

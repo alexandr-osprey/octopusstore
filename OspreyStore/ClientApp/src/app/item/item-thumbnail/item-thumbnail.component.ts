@@ -2,9 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { ParameterNames } from '../../parameter/parameter-names';
 import { ItemThumbnail } from '../item-thumbnail';
 import { ItemService } from '../item.service';
-import { trigger, style, state, animate, transition } from '@angular/animations';
-import { ItemImage } from 'src/app/item-image/item-image';
-import { setTimeout } from 'timers';
+import { ItemVariantImage } from 'src/app/item-variant-image/item-variant-image';
 
 @Component({
   selector: 'app-item-thumbnail',
@@ -13,7 +11,7 @@ import { setTimeout } from 'timers';
 })
 export class ItemThumbnailComponent implements OnInit {
   @Input() itemThumbnail: ItemThumbnail;
-  currentImage: ItemImage;
+  currentImage: ItemVariantImage;
   currentImageSlideshowId: number;
 
   constructor(private itemService: ItemService) {

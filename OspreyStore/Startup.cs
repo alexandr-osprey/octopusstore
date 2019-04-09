@@ -106,7 +106,7 @@ namespace OspreyStore
             services.AddScoped<IStoreService, StoreService>();
             services.AddScoped<IItemService, ItemService>();
             services.AddScoped<IItemPropertyService, ItemPropertyService>();
-            services.AddScoped<IItemImageService, ItemImageService>();
+            services.AddScoped<IItemVariantImageService, ItemVariantImageService>();
             services.AddScoped<ICharacteristicService, CharacteristicService>();
             services.AddScoped<ICharacteristicValueService, CharacteristicValueService>();
             services.AddScoped<ICartItemService, CartItemService>();

@@ -20,7 +20,6 @@ namespace ApplicationCore.Entities
         public virtual Store Store { get; set; }
         public virtual Brand Brand { get; set; }
         public virtual MeasurementUnit MeasurementUnit { get; set; }
-        public virtual ICollection<ItemImage> Images { get; set; } = new List<ItemImage>();
         public virtual ICollection<ItemVariant> ItemVariants { get; set; } = new List<ItemVariant>();
 
         public Item(): base()

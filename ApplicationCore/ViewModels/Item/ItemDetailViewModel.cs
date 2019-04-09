@@ -11,7 +11,7 @@ namespace ApplicationCore.ViewModels
         public BrandViewModel Brand { get; set; }
         public MeasurementUnitViewModel MeasurementUnit { get; set; }
         public IEnumerable<ItemVariantViewModel> ItemVariants { get; set; }
-        public IEnumerable<ItemImageViewModel> Images { get; set; }
+        //public IEnumerable<ItemVariantImageViewModel> Images { get; set; }
 
         public ItemDetailViewModel(Item item): base(item)
         {
@@ -20,7 +20,7 @@ namespace ApplicationCore.ViewModels
             Brand = new BrandViewModel(item.Brand);
             MeasurementUnit = new MeasurementUnitViewModel(item.MeasurementUnit);
             ItemVariants = (from itemVariant in item.ItemVariants select new ItemVariantViewModel(itemVariant));
-            Images = (from image in item.Images select new ItemImageViewModel(image));
+            //Images = item.ItemVariants.SelectMany(v => v.Images).Select(i => new ItemVariantImageViewModel(i));
         }
     }
 }

@@ -19,7 +19,7 @@ namespace Infrastructure.Data
         public DbSet<CharacteristicValue> CharacteristicValues { get; set; }
         public DbSet<Store> Stores { get; set; }
         public DbSet<Item> Items { get; set; }
-        public DbSet<ItemImage> ItemImages { get; set; }
+        public DbSet<ItemVariantImage> ItemImages { get; set; }
         public DbSet<ItemVariant> ItemVariants { get; set; }
         public DbSet<ItemProperty> ItemProperties { get; set; }
         public DbSet<CartItem> CartItems { get; set; }
@@ -47,7 +47,7 @@ namespace Infrastructure.Data
             builder.Entity<CharacteristicValue>(ConfigureCharacteristicValue);
             builder.Entity<Store>(ConfigureStore);
             builder.Entity<Item>(ConfigureItem);
-            builder.Entity<ItemImage>(ConfigureItemImage);
+            builder.Entity<ItemVariantImage>(ConfigureItemImage);
             builder.Entity<ItemVariant>(ConfigureItemVariant);
             builder.Entity<ItemProperty>(ConfigureItemProperty);
             builder.Entity<Order>(ConfigureOrder);
@@ -118,22 +118,23 @@ namespace Infrastructure.Data
             //builder.HasOne(ci => ci.Store)
             //    .WithMany()
             //    .HasForeignKey(ci => ci.StoreId);
+
+            //builder.Property(i => i.In)
+        }
+        private void ConfigureItemImage(EntityTypeBuilder<ItemVariantImage> builder)
+        {
+            builder.Property(t => t.Title).IsRequired(true);
+            builder.Property(t => t.OwnerId).IsRequired(true);
+            builder.ToTable(nameof(ItemVariantImage));
+        }
+        private void ConfigureItemVariant(EntityTypeBuilder<ItemVariant> builder)
+        {
+            builder.Property(t => t.Title).IsRequired();
             builder.HasMany(i => i.Images)
                 .WithOne(i => i.RelatedEntity)
                 .HasForeignKey(i => i.RelatedId)
                 .IsRequired(true)
                 .OnDelete(DeleteBehavior.Cascade);
-            //builder.Property(i => i.In)
-        }
-        private void ConfigureItemImage(EntityTypeBuilder<ItemImage> builder)
-        {
-            builder.Property(t => t.Title).IsRequired(true);
-            builder.Property(t => t.OwnerId).IsRequired(true);
-            builder.ToTable(nameof(ItemImage));
-        }
-        private void ConfigureItemVariant(EntityTypeBuilder<ItemVariant> builder)
-        {
-            builder.Property(t => t.Title).IsRequired();
             builder.ToTable(nameof(ItemVariant));
         }
         private void ConfigureItemProperty(EntityTypeBuilder<ItemProperty> builder)

@@ -17,9 +17,6 @@ import { ItemThumbnailIndexComponent } from './item/item-thumbnail-index/item-th
 import { ItemDetailComponent } from './item/item-detail/item-detail.component';
 import { ItemPropertyDetailComponent } from './item-property/item-property-detail/item-property-detail.component';
 import { ItemVariantDetailComponent } from './item-variant/item-variant-detail/item-variant-detail.component';
-import { ItemImageGalleryComponent } from './item-image/item-image-gallery/item-image-gallery.component';
-import { ItemImageCreateUpdateComponent } from './item-image/item-image-create-update/item-image-create-update.component';
-import { ItemImageDisplayComponent } from './item-image/item-image-display/item-image-display.component';
 import { HomepageComponent } from './homepage/homepage/homepage.component';
 import { StoreCreateUpdateComponent } from './store/store-create-update/store-create-update.component';
 import { StoreDetailComponent } from './store/store-detail/store-detail.component';
@@ -46,6 +43,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { AdministratingContentComponent } from './administrating/administrating-content/administrating-content.component';
 import { CartItemThumbnailIndexComponent } from './cart/cart-item/cart-item-thumbnail-index/cart-item-thumbnail-index.component';
+import { ItemVariantImageGalleryComponent } from './item-variant-image/item-variant-image-gallery/item-variant-image-gallery.component';
+import { ItemVariantImageCreateUpdateComponent } from './item-variant-image/item-variant-image-create-update/item-variant-image-create-update.component';
+import { ItemVariantImageDisplayComponent } from './item-variant-image/item-variant-image-display/item-variant-image-display.component';
 
 @NgModule({
   declarations: [
@@ -58,14 +58,14 @@ import { CartItemThumbnailIndexComponent } from './cart/cart-item/cart-item-thum
     CategoryIndexComponent,
     MessagesComponent,
     PaginatorComponent,
-    ItemImageGalleryComponent,
+    ItemVariantImageGalleryComponent,
     ItemCreateUpdateComponent,
     ItemVariantCreateUpdateComponent,
     ItemVariantDetailComponent,
     ItemPropertyCreateUpdateComponent,
     ItemPropertyDetailComponent,
-    ItemImageCreateUpdateComponent,
-    ItemImageDisplayComponent,
+    ItemVariantImageCreateUpdateComponent,
+    ItemVariantImageDisplayComponent,
     HomepageComponent,
     StoreCreateUpdateComponent,
     StoreDetailComponent,

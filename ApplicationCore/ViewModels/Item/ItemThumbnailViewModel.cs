@@ -6,7 +6,7 @@ namespace ApplicationCore.ViewModels
 {
     public class ItemThumbnailViewModel: ItemViewModel
     {
-        public IEnumerable<ItemImageViewModel> Images { get; set; }
+        public IEnumerable<ItemVariantImageViewModel> Images { get; set; }
         public BrandViewModel Brand { get; set; }
         public IEnumerable<ItemVariantViewModel> ItemVariants { get; set; }
 
@@ -16,7 +16,7 @@ namespace ApplicationCore.ViewModels
 
         public ItemThumbnailViewModel(Item item): base(item)
         {
-            Images = item.Images.Select(i => new ItemImageViewModel(i));
+            Images = item.ItemVariants.SelectMany(v => v.Images).Select(i => new ItemVariantImageViewModel(i));
             ItemVariants = item.ItemVariants.Select(v => new ItemVariantViewModel(v));
             Brand = new BrandViewModel(item.Brand);
         }

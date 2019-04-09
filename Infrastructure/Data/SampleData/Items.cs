@@ -72,7 +72,7 @@ namespace Infrastructure.Data.SampleData
                 .Include(i => i.Brand)
                 .Include(i => i.Category)
                 .Include(i => i.ItemVariants)
-                .Include(i => i.Images)
+                //.Include(i => i.Images)
                 .Include(i => i.Store)
                 .Include(i => i.MeasurementUnit);
         }

@@ -15,7 +15,7 @@
         public ItemVariants ItemVariants { get; }
         public CartItems CartItems { get; }
         public ItemProperties ItemProperties { get; }
-        public ItemImages ItemImages { get; }
+        public ItemVariantImages ItemImages { get; }
         public Orders Orders { get; }
         public Users Users { get; }
 
@@ -36,7 +36,7 @@
             ItemVariants = new ItemVariants(Context, Items);
             CartItems = new CartItems(Context, ItemVariants);
             ItemProperties = new ItemProperties(Context, ItemVariants, CharacteristicValues);
-            ItemImages = new ItemImages(Context, Items);
+            ItemImages = new ItemVariantImages(Context, ItemVariants);
             Orders = new Orders(Context, ItemVariants);
         }
     }

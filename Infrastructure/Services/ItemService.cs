@@ -13,13 +13,13 @@ namespace Infrastructure.Services
 {
     public class ItemService: Service<Item>, IItemService
     {
-        protected IItemImageService ItemImageService { get; }
+        protected IItemVariantImageService ItemImageService { get; }
         protected ICategoryService CategoryService { get; }
 
         public ItemService(
             StoreContext context,
             IIdentityService identityService,
-            IItemImageService itemImageService,
+            IItemVariantImageService itemImageService,
             ICategoryService categoryService,
             IScopedParameters scopedParameters,
             IAuthorizationParameters<Item> authoriationParameters,
@@ -35,7 +35,7 @@ namespace Infrastructure.Services
 
         public override async Task DeleteRelatedEntitiesAsync(Item item)
         {
-            var imageDeleteSpec = new Specification<ItemImage>(i => i.RelatedId == item.Id)
+            var imageDeleteSpec = new Specification<ItemVariantImage>(i => i.RelatedId == item.Id)
             {
                 Description = $"ItemImage with item id={item.Id}"
             };
@@ -48,9 +48,6 @@ namespace Infrastructure.Services
             var itemVariants = await Context.EnumerateRelatedEnumAsync(Logger, new EntitySpecification<Item>(id), b => b.ItemVariants);
             foreach (var variant in itemVariants)
                 variant.ItemId = idToRelinkTo;
-            var itemImages = await Context.EnumerateRelatedEnumAsync(Logger, new EntitySpecification<Item>(id), b => b.Images);
-            foreach (var image in itemImages)
-                image.RelatedId = idToRelinkTo;
             await Context.SaveChangesAsync(Logger, "Relink Item");
         }
 
