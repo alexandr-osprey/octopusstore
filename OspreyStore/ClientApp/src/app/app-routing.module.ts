@@ -30,22 +30,27 @@ const routes: Routes = [
     path: 'cart',
     component: CartItemThumbnailIndexComponent,
     pathMatch: 'full',
+    //data: { animation: 'AboutPage' },
+    data: { animation: 'cart' }
   },
   {
     path: 'administrating/content',
     component: AdministratingContentComponent,
     canActivate: [AdministratorAuthorizationGuard],
     pathMatch: 'full',
+    data: { animation: 'administrating-content' },
   },
   {
     path: 'signUp',
     component: IdentitySignUpComponent,
-    pathMatch: 'full'
+    pathMatch: 'full',
+    data: { animation: 'signUp' },
   },
   {
     path: 'signIn',
     component: IdentitySignInComponent,
-    pathMatch: 'full'
+    pathMatch: 'full',
+    data: { animation: 'signIn' },
   },
   //{
   //  path: 'administrating',
@@ -58,54 +63,63 @@ const routes: Routes = [
     pathMatch: 'full',
     canActivate: [AdministratorAuthorizationGuard],
     component: BrandCreateUpdateComponent,
+    data: { animation: 'brands-create' },
   },
   {
     path: 'brands/:id/update',
     pathMatch: 'full',
     canActivate: [AdministratorAuthorizationGuard],
     component: BrandCreateUpdateComponent,
+    data: { animation: 'brands-update' },
   },
   {
     path: 'categories/create',
     pathMatch: 'full',
     canActivate: [AdministratorAuthorizationGuard],
     component: CategoryCreateUpdateComponent,
+    data: { animation: 'categories-create' },
   },
   {
     path: 'categories/:id/update',
     pathMatch: 'full',
     canActivate: [AdministratorAuthorizationGuard],
     component: CategoryCreateUpdateComponent,
+    data: { animation: 'categories-update' },
   },
   {
     path: 'characteristics/create',
     pathMatch: 'full',
     canActivate: [AdministratorAuthorizationGuard],
     component: CharacteristicCreateUpdateComponent,
+    data: { animation: 'characteristics-create' },
   },
   {
     path: 'characteristics/:id/update',
     pathMatch: 'full',
     canActivate: [AdministratorAuthorizationGuard],
     component: CharacteristicCreateUpdateComponent,
+    data: { animation: 'characteristics-update' },
   },
   {
     path: 'characteristicValues/create',
     pathMatch: 'full',
     canActivate: [AdministratorAuthorizationGuard],
     component: CharacteristicValueCreateUpdateComponent,
+    data: { animation: 'characteristicValues-create' },
   },
   {
     path: 'characteristicValues/:id/update',
     pathMatch: 'full',
     canActivate: [AdministratorAuthorizationGuard],
     component: CharacteristicValueCreateUpdateComponent,
+    data: { animation: 'characteristicValues-update' },
   },
   {
     path: 'items/create',
     pathMatch: 'full',
     canActivate: [CreateUpdateAuthorizationGuard],
     component: ItemCreateUpdateComponent,
+    data: { animation: 'items-create' },
   },
   {
     path: 'items/:id/update',
@@ -116,11 +130,15 @@ const routes: Routes = [
   {
     path: 'items/:id/detail',
     component: ItemDetailComponent,
-    pathMatch: 'full'
+    pathMatch: 'full',
+    //data: { animation: 'isLeft' }
+    data: { animation: 'items-detail' },
   },
   {
     path: 'items',
     component: ItemThumbnailIndexComponent,
+    //data: { animation: 'isLeft' }
+    data: { animation: 'items' },
   },
   {
     path: 'measurementUnits/create',
@@ -139,6 +157,7 @@ const routes: Routes = [
     component: StoreCreateUpdateComponent,
     pathMatch: 'full',
     canActivate: [CreateUpdateAuthorizationGuard],
+    //data: { animation: 'isLeft' }
   },
   {
     path: 'stores/:id/update',
@@ -166,6 +185,7 @@ const routes: Routes = [
   {
     path: 'stores/:id/detail',
     component: StoreDetailComponent,
+    data: { animation: 'isLeft' }
   },
   {
     path: '',

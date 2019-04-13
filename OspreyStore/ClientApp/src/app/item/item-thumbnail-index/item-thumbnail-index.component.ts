@@ -17,11 +17,20 @@ import { trigger, style, state, animate, transition } from '@angular/animations'
   animations: [
     trigger('expandCollapse', [
       state('expanded', style({ width: '*', opacity: 1, display: 'block' })),
-      state('collapsed', style({ width: 0, opacity: 0, display: 'none' })),
-      transition('expanded => collapsed', [animate('350ms linear')]),
-      transition('collapsed => expanded', [animate('350ms linear')]),
+      state('collapsed', style({ width: '0', opacity: 1, display: 'none'  })),
+      transition('expanded => collapsed', [animate('250ms linear')]),
+      transition('collapsed => expanded', [animate('250ms linear')]),
       //transition('collapsed => expanded', [animate('350ms linear')]),
     ]),
+    trigger('slideInOut', [
+      transition(':enter', [
+        style({ transform: 'translateX(-100%)' }),
+        animate('250ms ease-in', style({ transform: 'translateX(0%)' }))
+      ]),
+      transition(':leave', [
+        animate('250ms ease-in', style({ transform: 'translateX(-100%)' }))
+      ])
+    ])
   ],
 })
 
@@ -32,7 +41,7 @@ export class ItemThumbnailIndexComponent implements OnInit, OnDestroy, AfterView
   parametersSubsription: Subscription;
   loadedPages: number[] = [];
   //nextNavigationOperation = Operation.Initial;
-  sidebarHidden: boolean = true;
+  sidebarHidden: boolean = false;
   fabHidden: boolean = true;
 
   @HostListener('window:scroll', ['$event']) // for window scroll events
@@ -89,7 +98,10 @@ export class ItemThumbnailIndexComponent implements OnInit, OnDestroy, AfterView
     );
     //this.parameterService.clearParams();
     this.getItems();
-    this.sidebarHidden = this.parameterService.getParam(ParameterNames.sidebarHidden);
+    // avoiding interference with parent animation
+    this.itemService.delay(5000).then(() => {
+      this.sidebarHidden = this.parameterService.getParam(ParameterNames.sidebarHidden);
+    });
   }
 
   getOrderByPriceQueryParams(): any {

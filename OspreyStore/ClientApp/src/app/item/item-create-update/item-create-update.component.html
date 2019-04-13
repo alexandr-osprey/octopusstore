@@ -1,4 +1,4 @@
-<div *ngIf="item" class="d-flex flex-row flex-wrap">
+<div *ngIf="item" class="d-flex flex-row flex-wrap w-100">
   <div class="col-12 col-md-4">
     <form #itemForm="ngForm">
       <div class="form-group">
@@ -57,7 +57,4 @@
   <div class="col-12 col-md-8">
     <app-item-variant-create-update [item]="item"></app-item-variant-create-update>
   </div>
-  <!--<div class="col-12 col-md-12">
-    <app-item-image-create-update [item]="item"></app-item-image-create-update>
-  </div>-->
 </div>

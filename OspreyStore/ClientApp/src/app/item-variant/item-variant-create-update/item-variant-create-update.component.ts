@@ -78,6 +78,8 @@ export class ItemVariantCreateUpdateComponent implements OnInit {
             this.currentVariant = this.addItemVariant();
         }
       });
+    } else {
+      this.itemVariants = this.itemVariants.filter(v => v != this.currentVariant);
     }
   }
 

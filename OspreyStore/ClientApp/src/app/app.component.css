@@ -10,7 +10,7 @@ body {
   overflow: hidden;
 }
 
-@media(max-width:575px) {
+/*@media(max-width:575px) {
   .content {
     margin-top: 154px;
   }
@@ -26,10 +26,14 @@ body {
   .content {
     margin-top: 64px;
   }
-}
+}*/
 
 
 
 app-actions {
   z-index: 100;
+}
+
+.content {
+  overflow: hidden;
 }

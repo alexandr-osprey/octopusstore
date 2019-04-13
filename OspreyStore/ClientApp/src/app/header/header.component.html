@@ -16,7 +16,10 @@
         <p class="text-center">{{ email }}</p>
         <div class="dropdown-divider"></div>
         <button *ngIf="storeId" ngbDropdownItem class="btn btn-light w-100" [routerLink]="['/orders']" [queryParams]="getStoreParams()">Store Orders</button>
+        <button *ngIf="storeId" ngbDropdownItem class="btn btn-light w-100" [routerLink]="['/stores/', storeId, 'detail']">My Store</button>
         <button ngbDropdownItem class="btn btn-light w-100" [routerLink]="['/orders']">Own Orders</button>
+        <button *ngIf="!storeId" ngbDropdownItem class="btn btn-light w-100" [routerLink]="['/stores/create']">Create Store</button>
+        <button *ngIf="storeId" ngbDropdownItem class="btn btn-light w-100" [routerLink]="['/items/create']">Create Item</button>
         <div class="dropdown-divider"></div>
         <button ngbDropdownItem class="btn btn-danger w-100" (click)="signOut()">Sign Out</button>
       </div>

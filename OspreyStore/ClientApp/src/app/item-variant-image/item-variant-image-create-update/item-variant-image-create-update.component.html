@@ -1,4 +1,4 @@
-<div *ngIf="item.id" class="row justify-content-start">
+<div *ngIf="itemVariant && itemVariant.id" class="d-flex flex-row justify-content-start flex-wrap">
   <div class="col-auto col-md-auto">
     <form class="upload-image-form" #itemVariantImageForm="ngForm">
       <div class="form-group">
@@ -10,7 +10,7 @@
       <button type="submit" class="btn btn-primary" [disabled]="!itemVariantImageForm.form.valid" (click)="saveitemVariantImage()">Save item image</button>
     </form>
   </div>
-  <div *ngFor="let itemVariantImage of itemVariantImages; index as i" [attr.data.index]="i" class="col-auto col-md-auto">
+  <div *ngFor="let itemVariantImage of displayedImages; index as i" [attr.data.index]="i" class="col-auto col-md-auto">
     <form class="item-image__form">
       <div class="item-image__image">
         <app-item-variant-image-display [itemVariantImage]="itemVariantImage"></app-item-variant-image-display>

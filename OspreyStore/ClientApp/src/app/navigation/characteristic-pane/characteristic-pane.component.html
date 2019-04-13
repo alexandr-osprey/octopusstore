@@ -1,12 +1,8 @@
-<div *ngIf="characteristicValuesDisplayed" class="row">
+<div class="d-flex flex-row">
   <div class="col">
     <p class="characteristic-name">{{characteristic.title}}</p>
     <div *ngFor="let characteristicValue of characteristicValuesDisplayed">
       <button class="characteristic-value" [ngClass]="{ 'active': characteristicValue.selected }" (click)="characteristicValueClick(characteristicValue)">{{ characteristicValue.title }}</button>
-      <!--<input type="checkbox" name="characteristicValues_{{characteristic.id}}"
-             id="characteristicValue_{{characteristicValue.id}}"
-             (change)="characteristicValueChecked($event, characteristicValue)"
-             [(ngModel)]="characteristicValue.checked" [ngModelOptions]="{standalone: true}" />-->
     </div>
   </div>
 </div>

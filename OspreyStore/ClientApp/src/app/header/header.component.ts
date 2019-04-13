@@ -60,7 +60,7 @@ export class HeaderComponent implements OnInit {
 
   shouldShowSidebar(): boolean {
     let url = this.parameterService.getCurrentUrlWithoutParams();
-    return url == "items";
+    return url == "items" || (url.startsWith("stores") && url.endsWith("detail"));
   }
 
   switchSidebar() {

@@ -93,7 +93,7 @@ namespace OspreyStore
             services.AddScoped<IAuthorizationHandler, CategoryAuthorizationHandler>();
             services.AddScoped<IAuthorizationHandler, CharacteristicAuthorizationHandler>();
             services.AddScoped<IAuthorizationHandler, CharacteristicValueAuthorizationHandler>();
-            services.AddScoped<IAuthorizationHandler, ItemImageAuthorizationHandler>();
+            services.AddScoped<IAuthorizationHandler, ItemVariantImageAuthorizationHandler>();
             services.AddScoped<IAuthorizationHandler, ItemVariantAuthorizationHandler>();
             services.AddScoped<IAuthorizationHandler, ItemPropertyAuthorizationHandler>();
             services.AddScoped<IAuthorizationHandler, MeasurementUnitAuthorizationHandler>();

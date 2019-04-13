@@ -36,11 +36,12 @@ namespace Infrastructure.Services
         protected override async Task ValidateWithExceptionAsync(EntityEntry<ItemVariant> entry)
         {
             await base.ValidateWithExceptionAsync(entry);
-            if (string.IsNullOrWhiteSpace(entry.Entity.Title))
+            var itemVariant = entry.Entity;
+            if (string.IsNullOrWhiteSpace(itemVariant.Title))
                 throw new EntityValidationException($"Incorrect title. ");
-            if (entry.Entity.Price <= 0)
+            if (itemVariant.Price <= 0)
                 throw new EntityValidationException($"Price can't be zero or less. ");
-            var entityEntry = Context.Entry(entry);
+            var entityEntry = Context.Entry(itemVariant);
             if (IsPropertyModified(entry, v => v.ItemId, false) 
                 && !await Context.ExistsBySpecAsync(Logger, new EntitySpecification<Item>(entry.Entity.ItemId)))
                 throw new EntityValidationException($"Item with Id {entry.Entity.ItemId} does not exist. ");

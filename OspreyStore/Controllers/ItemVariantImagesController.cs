@@ -52,11 +52,12 @@ namespace OspreyStore.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        public async Task<IndexViewModel<ItemVariantImageViewModel>> IndexAsync([FromQuery(Name = "itemId")]int itemId)
+        [HttpGet("/api/itemVariants/{itemVariantId}/images")]
+        public async Task<IndexViewModel<ItemVariantImageViewModel>> IndexAsync([FromQuery(Name = "itemVariantId")]int itemVariantId)
         {
-            var spec = new Specification<ItemVariantImage>((i => i.RelatedId == itemId))
+            var spec = new Specification<ItemVariantImage>((i => i.RelatedId == itemVariantId))
             {
-                Description = $"ItemVariantImage with RelatedId={itemId}"
+                Description = $"ItemVariantImage with RelatedId={itemVariantId}"
             };
             return await base.IndexNotPagedAsync(spec);
         }

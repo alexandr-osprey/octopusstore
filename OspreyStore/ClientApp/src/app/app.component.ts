@@ -1,12 +1,16 @@
-import { Component, OnInit } from '@angular/core';
-import { ParameterService } from './parameter/parameter.service';
-import { ParameterNames } from './parameter/parameter-names';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import {  slideInAnimation } from './route-animations';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
+  changeDetection: ChangeDetectionStrategy.Default,
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
-  animations: [],
+  animations: [
+   // slider,
+     slideInAnimation,
+  ],
 })
 export class AppComponent implements OnInit {
   title = 'app';
@@ -20,6 +24,10 @@ export class AppComponent implements OnInit {
   }
 
   initializeComponent() {
+  }
+
+  prepareRoute(outlet: RouterOutlet) {
+    return outlet && outlet.activatedRouteData && outlet.activatedRouteData['animation'];
   }
   //public constructor() {
   //  document.getElementsByTagName("html")[0].style.height = "100%";

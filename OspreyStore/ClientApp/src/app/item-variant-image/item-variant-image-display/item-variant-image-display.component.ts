@@ -38,11 +38,13 @@ export class ItemVariantImageDisplayComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
-    console.log('image enter ' + this.itemVariantImage.id);
     this.initializeComponent();
   }
 
   initializeComponent() {
-    this.itemVariantImageUrl = this.itemImageService.getImageUrl(this.itemVariantImage.id);
+    if (this.itemVariantImage) {
+      this.itemVariantImageUrl = this.itemImageService.getImageUrl(this.itemVariantImage.id);
+      console.log('image enter ' + this.itemVariantImage.id);
+    }
   }
 }

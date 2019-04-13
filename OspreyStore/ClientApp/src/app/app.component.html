@@ -1,8 +1,7 @@
 <app-messages></app-messages>
 <div class="d-flex flex-column align-items-stretch h-100" >
-    <app-header class="header fixed-top"></app-header>
-    <div class="content">
-      <!--<app-actions class="position-fixed w-100 h-100"  [ngClass]="{ 'd-none': !areActionsActive }"></app-actions>-->
-      <router-outlet></router-outlet>
+    <app-header class="header"></app-header>
+    <div [@routeAnimations]="prepareRoute(outlet)" class="content">
+      <router-outlet #outlet="outlet"></router-outlet>
     </div>
 </div>

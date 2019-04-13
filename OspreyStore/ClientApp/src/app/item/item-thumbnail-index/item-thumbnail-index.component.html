@@ -1,13 +1,14 @@
-<div class="d-flex flex-fill align-items-stretch w-100" *ngIf="index" (scroll)="onScroll()">
-  <app-sidebar [@expandCollapse]="sidebarHidden ? 'collapsed' : 'expanded' " ></app-sidebar>
-  <div class="d-flex flex-fill flex-column">
+<div class="d-flex flex-fill align-items-stretch w-100" (scroll)="onScroll()">
+  <app-sidebar [@expandCollapse]="sidebarHidden ? 'collapsed' : 'expanded' "></app-sidebar>  <!---->
+  <div class="d-flex flex-fill flex-column" *ngIf="index">
     <div class="m-2 ml-4">
       <button class="btn btn-outline-primary" [routerLink] [queryParams]="getOrderByPriceQueryParams()">Price</button>
     </div>
+    <!--<img src="https://babeltechreviews.com/wp-content/uploads/2018/07/rendition1.img_.jpg" />-->
     <div class="d-flex flex-row ml-4 flex-wrap">
       <app-item-thumbnail *ngFor="let itemThumbnail of shownItems" [itemThumbnail]="itemThumbnail" class="card item-thumbnail mr-5 mb-5 item-thumbnail-of-page-{{ itemThumbnail.page }} pb-3"></app-item-thumbnail>
     </div>
     <app-paginator class="m-2" [index]="index"></app-paginator>
   </div>
-  <input type="image" (click)="scrollToTop(100)" [@expandCollapse]="fabHidden ? 'collapsed' : 'expanded' " class="fab" src="assets/fab.svg"/>
+  <input type="image" (click)="scrollToTop(100)" [@expandCollapse]="fabHidden ? 'collapsed' : 'expanded' " class="fab" src="assets/fab.svg" />
 </div>

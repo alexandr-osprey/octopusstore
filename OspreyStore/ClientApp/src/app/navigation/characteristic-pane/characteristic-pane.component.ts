@@ -39,18 +39,21 @@ export class CharacteristicPaneComponent implements OnInit, OnChanges {
   initializeComponent() {
     this.characteristicValuesDisplayed = [];
     if (this.characteristic) {
-      this.characteristicValueService.index({ characteristicId: this.characteristic.id })
-        .subscribe(data => {
-          data.entities.forEach(e => {
-            this.characteristicValuesDisplayed.push(new CharacteristicValueDisplayed(e));
+      this.characteristicValueService.delay(400).then(() => {
+        this.characteristicValueService.index({ characteristicId: this.characteristic.id })
+          .subscribe(data => {
+            data.entities.forEach(e => {
+              this.characteristicValuesDisplayed.push(new CharacteristicValueDisplayed(e));
+            });
+            let filters: string = this.parameterService.getParam(ParameterNames.characteristicsFilter);
+            if (filters) {
+              let values = filters.split(';').map(v => +v);
+              let valuesToSelect = this.characteristicValuesDisplayed.filter(v => values.includes(v.id));
+              valuesToSelect.forEach(v => this.characteristicValuesDisplayed.find(c => c == v).selected = true);
+            }
           });
-          let filters: string = this.parameterService.getParam(ParameterNames.characteristicsFilter);
-          if (filters) {
-            let values = filters.split(';').map(v => +v);
-            let valuesToSelect = this.characteristicValuesDisplayed.filter(v => values.includes(v.id));
-            valuesToSelect.forEach(v => this.characteristicValuesDisplayed.find(c => c == v).selected = true);
-          }
-        });
+      });
+
     }
   }
 

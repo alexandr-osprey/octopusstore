@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, OnChanges } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { MessageService } from 'src/app/message/message.service';
 import { EntityIndex } from 'src/app/models/entity/entity-index';
@@ -11,44 +11,48 @@ import { ItemVariant } from 'src/app/item-variant/item-variant';
   templateUrl: './item-variant-image-create-update.component.html',
   styleUrls: ['./item-variant-image-create-update.component.css']
 })
-export class ItemVariantImageCreateUpdateComponent implements OnInit {
+export class ItemVariantImageCreateUpdateComponent implements OnChanges {
   itemVariantImageIndexIndexSubscription: Subscription;
   itemVariantImageSubscription: Subscription;
   itemVariantImageFormData: FormData;
-  itemVariantImages: ItemVariantImage[];
+  allItemVariantImages = new Map<number, ItemVariantImage[]>();
+  displayedImages: ItemVariantImage[] = [];
   @Input() itemVariant: ItemVariant;
 
 
   constructor(
     private itemVariantImageService: ItemVariantImageService,
     private messageService: MessageService) {
-    this.itemVariantImages = [];
   }
 
-  ngOnInit() {
+  ngOnChanges() {
     this.initializeComponent()
   }
 
   initializeComponent() {
-    if (this.itemVariant.id) {
-      this.itemVariantImageService.index({ itemId: this.itemVariant.id }).subscribe((itemVariantImageIndex: EntityIndex<ItemVariantImage>) => {
-        itemVariantImageIndex.entities.forEach(i => this.itemVariantImages.push(new ItemVariantImage(i)));
-      });
+    if (this.itemVariant && this.itemVariant.id) {
+      if (!this.allItemVariantImages.has(this.itemVariant.id)) {
+        this.itemVariantImageService.index({ "itemVariantId": this.itemVariant.id }).subscribe((itemVariantImageIndex: EntityIndex<ItemVariantImage>) => {
+          this.allItemVariantImages.set(this.itemVariant.id, itemVariantImageIndex.entities.map(i => new ItemVariantImage(i)));
+          this.displayedImages = this.allItemVariantImages.get(this.itemVariant.id);
+        });        
+      }
+      this.displayedImages = this.allItemVariantImages.get(this.itemVariant.id);
     }
   }
-  saveItemVariantImage() {
+  saveitemVariantImage() {
     this.itemVariantImageService.postFile(this.itemVariantImageFormData, this.itemVariant.id).subscribe((data: ItemVariantImage) => {
       if (data) {
-        this.itemVariantImages.push(new ItemVariantImage(data));
+        this.allItemVariantImages.get(this.itemVariant.id).push(new ItemVariantImage(data));
         this.messageService.sendSuccess("Item variant image saved");
       }
     });
   }
   updateItemVariantImage(itemVariantImage: ItemVariantImage) {
-    let i = this.itemVariantImages.indexOf(itemVariantImage);
+    let i = this.allItemVariantImages.get(this.itemVariant.id).indexOf(itemVariantImage);
     this.itemVariantImageService.postOrPut(itemVariantImage).subscribe((data: ItemVariantImage) => {
       if (data) {
-        this.itemVariantImages[i] = new ItemVariantImage(data);
+        this.allItemVariantImages.get(this.itemVariant.id)[i] = new ItemVariantImage(data);
         this.messageService.sendSuccess("Item variant image updated");
       }
     });;
@@ -61,7 +65,10 @@ export class ItemVariantImageCreateUpdateComponent implements OnInit {
     if (itemVariantImage.id) {
       this.itemVariantImageService.delete(itemVariantImage.id).subscribe((data) => {
         if (data) {
-          this.itemVariantImages = this.itemVariantImages.filter(i => i != itemVariantImage);
+          let images = this.allItemVariantImages.get(this.itemVariant.id);
+          let imagesLeft = images.filter(i => i != itemVariantImage);
+          this.allItemVariantImages.set(this.itemVariant.id, imagesLeft);
+          this.displayedImages = imagesLeft;
           this.messageService.sendSuccess("Item variant image deleted");
         }
       })

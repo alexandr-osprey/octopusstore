@@ -20,8 +20,11 @@ export class ItemThumbnailComponent implements OnInit {
   ngOnInit() {
     if (this.itemThumbnail) {
       this.setMinMaxPrices(this.itemThumbnail);
-      this.itemThumbnail.images[0].shown = true;
-      this.currentImage = this.itemThumbnail.images[0];
+      if (this.itemThumbnail.images[0]) {
+        this.itemThumbnail.images[0].shown = true;
+        this.currentImage = this.itemThumbnail.images[0];
+      }
+
     }
   }
 

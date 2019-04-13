@@ -1,7 +1,7 @@
 <div *ngIf="images" class="row images">
   <div class="thumbnails-bar col-3 col-md-3">
     <div *ngFor="let thumbnailImage of images" class="thumbnail">
-      <app-item-variant-image-display [itemVariantImage]="thumbnailImage" (mouseenter)="thumbnailHover(thumbnailImage)" (mouseleave)="thumbnailLeave()" (click)="thumbnailClick(thumbnailImage)"> </app-item-variant-image-display>
+      <app-item-variant-image-display [itemVariantImage]="thumbnailImage" (click)="thumbnailClick(thumbnailImage)"> </app-item-variant-image-display>
     </div>
   </div>
   <div class="displayed-image col-9 col-md-9">

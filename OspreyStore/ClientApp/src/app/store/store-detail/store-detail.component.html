@@ -1,5 +1,5 @@
-<div *ngIf="storeDetail" class="row">
-  <div class="d-lg-none col-12 col-md-12">
+<div *ngIf="storeDetail" class="d-flex flex-row flex-wrap">
+  <div class="d-lg-none col-12">
     <button class="btn btn-link link" (click)="goBack()">Back</button>
   </div>
   <div class="col-12 col-md-12">
@@ -24,7 +24,7 @@
     <p><a *ngIf="authorizedToUpdate" [routerLink]="[getUpdateLink(storeDetail.id)]" class="link">Update</a></p>
     <p><a *ngIf="authorizedToUpdate" [routerLink]="['/items', 'create']" class="link">Create Item</a></p>
   </div>
-  <div class="col-12 col-md-12">
+  <div class="col-12">
     <app-item-thumbnail-index></app-item-thumbnail-index>
   </div>
 </div>

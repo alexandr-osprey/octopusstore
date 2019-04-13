@@ -1,8 +1,8 @@
-<div class="d-flex flex-row w-100 flex-wrap mt-1" *ngIf="itemDetail">
+<div class="d-flex flex-row w-100 flex-wrap mt-1 h-100" *ngIf="itemDetail">
   <!--<div class="d-lg-none col-12 col-md-12">
     <button class="btn btn-link link" (click)="goBack()">Back</button>
   </div>-->
-  <app-item-variant-image-gallery  class="col-sm-12 col-md-6 order-md-0 order-1"></app-item-variant-image-gallery>
+  <app-item-variant-image-gallery  class="col-sm-12 col-md-6 order-md-0 order-1 h-75"></app-item-variant-image-gallery>
   <div class="col-sm-12 col-md-6 order-md-1 order-0">
     <p class="title">{{ itemDetail.title | uppercase }}</p>
     <p class="brand">by {{ itemDetail.brand.title }}</p>
