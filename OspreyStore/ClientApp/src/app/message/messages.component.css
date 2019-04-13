@@ -1,6 +1,6 @@
 .messages {
   position: fixed;
-  top: 200px;
+  top: 150px;
   right: 8px;
   z-index: 1000;
 }

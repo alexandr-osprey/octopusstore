@@ -151,41 +151,46 @@ const routes: Routes = [
     pathMatch: 'full',
     canActivate: [AdministratorAuthorizationGuard],
     component: MeasurementUnitCreateUpdateComponent,
+    data: { animation: 'measurementUnits-update' }
   },
   {
     path: 'stores/create',
     component: StoreCreateUpdateComponent,
     pathMatch: 'full',
     canActivate: [CreateUpdateAuthorizationGuard],
-    //data: { animation: 'isLeft' }
+    data: { animation: 'stores-create' }
   },
   {
     path: 'stores/:id/update',
     component: StoreCreateUpdateComponent,
     pathMatch: 'full',
     canActivate: [CreateUpdateAuthorizationGuard],
+    data: { animation: 'stores-update' }
   },
   {
     path: 'stores',
     component: StoreIndexComponent,
     canActivate: [CreateUpdateAuthorizationGuard],
+    data: { animation: 'stores' }
   },
   {
     path: 'orders/create',
     component: OrderCreateComponent,
     pathMatch: 'full',
     canActivate: [CreateUpdateAuthorizationGuard],
+    data: { animation: 'orders-create' }
   },
   {
     path: 'orders',
     //pathMatch: 'full',
     component: OrderThumbnailIndexComponent,
     canActivate: [SignedInAuthorizationGuard],
+    data: { animation: 'orders' }
   },
   {
     path: 'stores/:id/detail',
     component: StoreDetailComponent,
-    data: { animation: 'isLeft' }
+    data: { animation: 'stores-detail' }
   },
   {
     path: '',
