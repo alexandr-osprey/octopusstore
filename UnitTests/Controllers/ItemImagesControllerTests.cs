@@ -25,7 +25,7 @@ namespace UnitTests.Controllers
         [Fact]
         public async Task CreateImageAsync()
         {
-            var item = Data.Items.Samsung7;
+            var item = Data.Items.SamsungS10;
             var imageToCopy = Data.ItemImages.Samsung81;
             var imageMock = new Mock<IFormFile>();
             var filename = Path.GetFileName(imageToCopy.FullPath);

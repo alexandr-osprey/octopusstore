@@ -45,8 +45,8 @@ namespace UnitTests.Controllers
             int pageSize = 5;
             HashSet<CharacteristicValue> characteristicValues = new HashSet<CharacteristicValue>
             {
-                Data.CharacteristicValues.GB32,
-                Data.CharacteristicValues.HD
+                Data.CharacteristicValues.SmartphoneStorage32GB,
+                Data.CharacteristicValues.SmartphoneResolutionHD
             };
             string filter = string.Join(';', (from c in characteristicValues select c.Id.ToString()));
             var actual = (await Controller.IndexAsync(page, pageSize, null, null, null, null, null, filter, null));
@@ -67,8 +67,8 @@ namespace UnitTests.Controllers
             int pageSize = 5;
             HashSet<CharacteristicValue> characteristicValues = new HashSet<CharacteristicValue>
             {
-                Data.CharacteristicValues.GB32,
-                Data.CharacteristicValues.HD
+                Data.CharacteristicValues.SmartphoneStorage32GB,
+                Data.CharacteristicValues.SmartphoneResolutionHD
             };
             string filter = string.Join(';', (from c in characteristicValues select c.Id.ToString()));
             var actual = (await Controller.IndexThumbnailsAsync(page, pageSize, null, null, null, null, null, filter, null));
@@ -94,7 +94,7 @@ namespace UnitTests.Controllers
             HashSet<CharacteristicValue> wrongCharacteristicValues = new HashSet<CharacteristicValue>
             {
                 Data.CharacteristicValues.XXL,
-                Data.CharacteristicValues.HD
+                Data.CharacteristicValues.SmartphoneResolutionHD
             };
             string filter = string.Join(';', (from c in wrongCharacteristicValues select c.Id.ToString()));
 
@@ -141,7 +141,7 @@ namespace UnitTests.Controllers
         [Fact]
         public async Task IndexWithAllFiltersAsync()
         {
-            var samsung7 = Data.Items.Samsung7;
+            var samsung7 = Data.Items.SamsungS10;
 
             int page = 1;
             int pageSize = 5;
@@ -161,7 +161,7 @@ namespace UnitTests.Controllers
         [Fact]
         public async Task IndexWithAllFiltersThumbnailsAsync()
         {
-            var samsung7 = Data.Items.Samsung7;
+            var samsung7 = Data.Items.SamsungS10;
 
             int page = 1;
             int pageSize = 5;
@@ -181,7 +181,7 @@ namespace UnitTests.Controllers
         [Fact]
         public async Task IndexByCategoryAsync()
         {
-            var clothesCategory = Data.Categories.Clothes;
+            var clothesCategory = Data.Categories.WomensClothing;
             var categories = new HashSet<Category>();
             await GetCategorySubcategoriesAsync(clothesCategory.Id, categories);
             //var categories =  //await CategoryService.EnumerateSubcategoriesAsync(new CategoryDetailSpecification(clothesCategory.Id));
@@ -283,9 +283,9 @@ namespace UnitTests.Controllers
         public async Task ReadDetailAsync()
         {
             var expectedItem = await GetQueryable()
-                .FirstOrDefaultAsync(i => i.Id == Data.Items.Samsung7.Id);
+                .FirstOrDefaultAsync(i => i.Id == Data.Items.SamsungS10.Id);
             var expected = new ItemDetailViewModel(expectedItem);
-            var actual = await Controller.ReadDetailAsync(Data.Items.Samsung7.Id);
+            var actual = await Controller.ReadDetailAsync(Data.Items.SamsungS10.Id);
             Equal(expected, actual);
         }
 
@@ -342,7 +342,7 @@ namespace UnitTests.Controllers
             {
                 new ItemViewModel()
                 {
-                    Id = Data.Items.Samsung8.Id,
+                    Id = Data.Items.SamsungS9.Id,
                     BrandId = 9999,
                     CategoryId = 898,
                     MeasurementUnitId = 32,

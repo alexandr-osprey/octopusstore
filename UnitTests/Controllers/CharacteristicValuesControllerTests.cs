@@ -81,7 +81,7 @@ namespace UnitTests.Controllers
             {
                 new CharacteristicValueViewModel()
                 {
-                    Id = Data.CharacteristicValues.GB64.Id,
+                    Id = Data.CharacteristicValues.SmartphoneStorage64GB.Id,
                     CharacteristicId = 999,
                     Title = "UPDATED"
                 }

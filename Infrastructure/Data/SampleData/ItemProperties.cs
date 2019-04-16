@@ -44,25 +44,25 @@ namespace Infrastructure.Data.SampleData
             return new List<ItemProperty>
             {
                 // iphone 32
-                new ItemProperty(ItemVariants.IPhone632GB.Id, CharacteristicValues.GB32.Id) { OwnerId = Users.JohnId },
-                new ItemProperty(ItemVariants.IPhone632GB.Id, CharacteristicValues.HD.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.IPhone632GB.Id, CharacteristicValues.SmartphoneStorage32GB.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.IPhone632GB.Id, CharacteristicValues.SmartphoneResolutionHD.Id) { OwnerId = Users.JohnId },
                 // iphone 64
-                new ItemProperty(ItemVariants.IPhone664GB.Id, CharacteristicValues.GB32.Id) { OwnerId = Users.JohnId },
-                new ItemProperty(ItemVariants.IPhone664GB.Id, CharacteristicValues.FullHD.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.IPhone664GB.Id, CharacteristicValues.SmartphoneStorage32GB.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.IPhone664GB.Id, CharacteristicValues.SmartphoneResolutionFullHD.Id) { OwnerId = Users.JohnId },
                 //samsung 7 32 hd
-                new ItemProperty(ItemVariants.Samsung716GBHD.Id, CharacteristicValues.GB16.Id) { OwnerId = Users.JohnId },
-                new ItemProperty(ItemVariants.Samsung716GBHD.Id, CharacteristicValues.HD.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.Samsung716GBHD.Id, CharacteristicValues.SmartphoneStorage16GB.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.Samsung716GBHD.Id, CharacteristicValues.SmartphoneResolutionHD.Id) { OwnerId = Users.JohnId },
                 //samsung 7 32 full hd
-                new ItemProperty(ItemVariants.Samsung732GBFullHD.Id, CharacteristicValues.GB32.Id) { OwnerId = Users.JohnId },
-                new ItemProperty(ItemVariants.Samsung732GBFullHD.Id, CharacteristicValues.FullHD.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.Samsung732GBFullHD.Id, CharacteristicValues.SmartphoneStorage32GB.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.Samsung732GBFullHD.Id, CharacteristicValues.SmartphoneResolutionFullHD.Id) { OwnerId = Users.JohnId },
                 //samsung 8 64 hd
-                new ItemProperty(ItemVariants.Samsung832GBHD.Id, CharacteristicValues.GB32.Id) { OwnerId = Users.JohnId },
-                new ItemProperty(ItemVariants.Samsung832GBHD.Id, CharacteristicValues.HD.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.Samsung832GBHD.Id, CharacteristicValues.SmartphoneStorage32GB.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.Samsung832GBHD.Id, CharacteristicValues.SmartphoneResolutionHD.Id) { OwnerId = Users.JohnId },
                 //samsung 8 64 full hd
-                new ItemProperty(ItemVariants.Samsung832GBFullHD.Id, CharacteristicValues.GB32.Id) { OwnerId = Users.JohnId },
-                new ItemProperty(ItemVariants.Samsung832GBFullHD.Id, CharacteristicValues.FullHD.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.Samsung832GBFullHD.Id, CharacteristicValues.SmartphoneStorage32GB.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.Samsung832GBFullHD.Id, CharacteristicValues.SmartphoneResolutionFullHD.Id) { OwnerId = Users.JohnId },
                 //pebble 100mAh
-                new ItemProperty(ItemVariants.Pebble1000mAh.Id, CharacteristicValues.MAh1000.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.Pebble1000mAh.Id, CharacteristicValues.SmartphoneBattery1000.Id) { OwnerId = Users.JohnId },
 
                 //shoes X much fashion
                 new ItemProperty(ItemVariants.ShoesXMuchFashion.Id, CharacteristicValues.X.Id) { OwnerId = Users.JenniferId },

@@ -32,7 +32,7 @@ namespace UnitTests.Services
         {
             return new List<ItemVariant>()
             {
-                new ItemVariant() { ItemId = Data.Items.IPhone6.Id, Title = "title 1", Price = 500 },
+                new ItemVariant() { ItemId = Data.Items.IPhoneXR.Id, Title = "title 1", Price = 500 },
             };
         }
 
@@ -54,7 +54,7 @@ namespace UnitTests.Services
 
         protected override IEnumerable<ItemVariant> GetIncorrectEntitesForUpdate()
         {
-            Data.ItemVariants.JacketBlack.ItemId = Data.Items.IPhone6.Id;
+            Data.ItemVariants.JacketBlack.ItemId = Data.Items.IPhoneXR.Id;
             Data.ItemVariants.IPhone632GB.Title = "";
             Data.ItemVariants.IPhone664GB.Price = 0;
             return new List<ItemVariant>()

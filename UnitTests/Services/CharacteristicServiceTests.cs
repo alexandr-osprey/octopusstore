@@ -20,7 +20,7 @@ namespace UnitTests.Services
         {
             return new List<Characteristic>()
             {
-                new Characteristic() { Title = "title 1", CategoryId = Data.Categories.Jackets.Id },
+                new Characteristic() { Title = "title 1", CategoryId = Data.Categories.WomensDresses.Id },
                 new Characteristic() { Title = "title 2", CategoryId = Data.Categories.Smartphones.Id },
             };
         }
@@ -29,7 +29,7 @@ namespace UnitTests.Services
         {
             return new List<Characteristic>()
             {
-                new Characteristic() { Title = null, CategoryId = Data.Categories.Jackets.Id },
+                new Characteristic() { Title = null, CategoryId = Data.Categories.WomensDresses.Id },
                 new Characteristic() { Title = "new2", CategoryId = 0 },
             };
         }
@@ -58,11 +58,11 @@ namespace UnitTests.Services
 
         protected override IEnumerable<Characteristic> GetIncorrectEntitesForUpdate()
         {
-            Data.Characteristics.Size.Title = "";
+            Data.Characteristics.WomenFootwearSize.Title = "";
             Data.Characteristics.Colour.CategoryId = Data.Categories.Electronics.Id;
             return new List<Characteristic>()
             {
-                Data.Characteristics.Size,
+                Data.Characteristics.WomenFootwearSize,
                 Data.Characteristics.Colour
             };
         }

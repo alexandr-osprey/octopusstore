@@ -39,14 +39,14 @@ namespace UnitTests.Services
 
         protected override IEnumerable<Brand> GetIncorrectEntitesForUpdate()
         {
-            Data.Brands.Armani.Title = null;
+            Data.Brands.UnitedColorsOfBenetton.Title = null;
             Data.Brands.Apple.Title = "";
-            Data.Brands.CK.Title = " ";
+            Data.Brands.CalvinKlein.Title = " ";
             return new List<Brand>()
             {
-                Data.Brands.Armani,
+                Data.Brands.UnitedColorsOfBenetton,
                 Data.Brands.Apple,
-                Data.Brands.CK
+                Data.Brands.CalvinKlein
             };
         }
 

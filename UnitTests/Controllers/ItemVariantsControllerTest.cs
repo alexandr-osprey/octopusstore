@@ -20,7 +20,7 @@ namespace UnitTests.Controllers
         [Fact]
         public async Task IndexByItemAsync()
         {
-            int itemId = Data.Items.IPhone6.Id;
+            int itemId = Data.Items.IPhoneXR.Id;
             var variants = Data.ItemVariants.Entities.Where(i => i.ItemId == itemId);
             var expected = new IndexViewModel<ItemVariantViewModel>(1, 1, variants.Count(), from v in variants select new ItemVariantViewModel(v));
             var actual = await Controller.IndexAsync(itemId);

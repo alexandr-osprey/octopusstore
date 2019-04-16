@@ -30,7 +30,7 @@ namespace UnitTests.Controllers
         [Fact]
         public async Task IndexByItemAsync()
         {
-            var item = Data.Items.IPhone6;
+            var item = Data.Items.IPhoneXR;
             var itemVariants = Data.ItemVariants.Entities.Where(i => i.ItemId == item.Id);
             var values = Data.ItemProperties.Entities.Where(i => (from iv in itemVariants select iv.Id).Contains(i.ItemVariantId));
             var expected = new IndexViewModel<ItemPropertyViewModel>(1, 1, values.Count(), from v in values select new ItemPropertyViewModel(v));
@@ -51,7 +51,7 @@ namespace UnitTests.Controllers
             return new List<ItemProperty>()
             {
                 new ItemProperty() { ItemVariantId = Data.ItemVariants.JacketBlack.Id, CharacteristicValueId = Data.CharacteristicValues.MuchFashion.Id },
-                new ItemProperty() { ItemVariantId = Data.ItemVariants.Pebble1000mAh.Id, CharacteristicValueId = Data.CharacteristicValues.GB16.Id },
+                new ItemProperty() { ItemVariantId = Data.ItemVariants.Pebble1000mAh.Id, CharacteristicValueId = Data.CharacteristicValues.SmartphoneStorage16GB.Id },
             };
         }
 

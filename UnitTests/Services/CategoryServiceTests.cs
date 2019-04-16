@@ -54,7 +54,7 @@ namespace UnitTests.Services
         [Fact]
         public async Task EnumerateSubcategoriesAsync()
         {
-            var clothesCategory = Data.Categories.Clothes;
+            var clothesCategory = Data.Categories.WomensClothing;
             HashSet<Category> expected = new HashSet<Category>();
             await GetCategorySubcategoriesAsync(clothesCategory.Id, expected);
 
@@ -65,7 +65,7 @@ namespace UnitTests.Services
         [Fact]
         public async Task EnumerateParentCategoriesAsync()
         {
-            var clothesCategory = Data.Categories.Clothes;
+            var clothesCategory = Data.Categories.WomensClothing;
             HashSet<Category> expected = new HashSet<Category>();
             await GetCategoryParentsAsync(clothesCategory.Id, expected);
 
@@ -110,7 +110,7 @@ namespace UnitTests.Services
         public async Task DeleteSingleWithRelatedRelinkAsync()
         {
             var category = Data.Categories.Electronics;
-            int idToRelinkTo = Data.Categories.Clothes.Id;
+            int idToRelinkTo = Data.Categories.WomensClothing.Id;
             var items = Data.Items.Entities.Where(i => i.Category == category).ToList();
             var subcategories = category.Subcategories.ToList();
             var characteristics = Data.Characteristics.Entities.Where(i => i.Category == category).ToList();
@@ -133,7 +133,7 @@ namespace UnitTests.Services
 
         protected override IEnumerable<Category> GetIncorrectNewEntites()
         {
-            var parentId = Data.Categories.Clothes.Id;
+            var parentId = Data.Categories.WomensClothing.Id;
             return new List<Category>()
             {
                 //new Category() { OwnerId = null, Description = "Category 2", Title = "Category 2", ParentCategoryId = 1 },
@@ -145,23 +145,23 @@ namespace UnitTests.Services
 
         protected override IEnumerable<Category> GetCorrectEntitesForUpdate()
         {
-            Data.Categories.Shoes.Title = "Tit1";
-            Data.Categories.Shoes.Description = "Desc1";
-            return new List<Category>() { Data.Categories.Shoes };
+            Data.Categories.WomensFootwear.Title = "Tit1";
+            Data.Categories.WomensFootwear.Description = "Desc1";
+            return new List<Category>() { Data.Categories.WomensFootwear };
         }
 
         protected override IEnumerable<Category> GetIncorrectEntitesForUpdate()
         {
             Data.Categories.Electronics.Description = " ";
-            Data.Categories.Jackets.Title = "";
-            Data.Categories.Smartphones.ParentCategoryId = Data.Categories.Clothes.Id;
-            Data.Categories.Clothes.IsRoot = !Data.Categories.Clothes.IsRoot;
+            Data.Categories.WomensDresses.Title = "";
+            Data.Categories.Smartphones.ParentCategoryId = Data.Categories.WomensClothing.Id;
+            Data.Categories.WomensClothing.IsRoot = !Data.Categories.WomensClothing.IsRoot;
             return new List<Category>()
             {
                 Data.Categories.Electronics,
-                Data.Categories.Jackets,
+                Data.Categories.WomensDresses,
                 Data.Categories.Smartphones,
-                Data.Categories.Clothes
+                Data.Categories.WomensClothing
             };
         }
 

@@ -39,7 +39,7 @@ namespace UnitTests.Controllers
         [Fact]
         public async Task IndexShoesAsync()
         {
-            var category = Data.Categories.Shoes;
+            var category = Data.Categories.WomensFootwear;
             var categories = await _categoryService.EnumerateParentCategoriesAsync(new EntitySpecification<Category>(category.Id));
             var categoryIds = from c in categories select c.Id;
             var characteristics = await GetQueryable().Where(c => categoryIds.Contains(c.CategoryId)).ToListAsync();

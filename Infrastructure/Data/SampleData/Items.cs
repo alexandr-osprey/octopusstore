@@ -12,12 +12,26 @@ namespace Infrastructure.Data.SampleData
         protected Categories Categories { get; }
         protected MeasurementUnits MeasurementUnits { get; }
 
-        public Item IPhone6  { get; protected set; }
-        public Item Samsung7  { get; protected set; }
-        public Item Samsung8  { get; protected set; }
-        public Item PebbleWatch  { get; protected set; }
-        public Item Shoes  { get; protected set; }
-        public Item Jacket  { get; protected set; }
+        public Item IPhoneXR  { get; protected set; }
+        public Item IPhone8Plus { get; protected set; }
+        public Item SamsungS9  { get; protected set; }
+        public Item SamsungS10  { get; protected set; }
+        public Item AppleWatchSeries4  { get; protected set; }
+        public Item SamsungGalaxyWatch { get; protected set; }
+
+        public Item ReebokFastTempo { get; protected set; }
+        public Item ReebokDMXRun10 { get; protected set; }
+
+        public Item MarcOPoloShoes1 { get; protected set; }
+        public Item MarcOPoloShoes2 { get; protected set; }
+
+        public Item UCBDress1 { get; protected set; }
+        public Item UCBDress2 { get; protected set; }
+
+        public Item DanielePatriciBag1 { get; protected set; }
+        public Item DanielePatriciBag2 { get; protected set; }
+
+        public Item DanielePatriciClutch1 { get; protected set; }
 
         public Items(StoreContext storeContext, Brands brands, Stores stores, Categories categories, MeasurementUnits measurementUnits): base(storeContext)
         {
@@ -33,19 +47,51 @@ namespace Infrastructure.Data.SampleData
         {
             var list = new List<Item>()
             {
-                new Item { Title = "iPhone 6", BrandId = Brands.Apple.Id, CategoryId = Categories.Smartphones.Id,
-                    MeasurementUnitId = MeasurementUnits.Pcs.Id, StoreId = Stores.Johns.Id, OwnerId = Stores.Johns.OwnerId, Description = "desc" },
-                new Item { Title = "Samsung 7", BrandId = Brands.Samsung.Id, CategoryId = Categories.Smartphones.Id,
-                    MeasurementUnitId = MeasurementUnits.Pcs.Id,StoreId = Stores.Johns.Id, OwnerId = Stores.Johns.OwnerId, Description = "desc" },
-                new Item { Title = "Samsung 8", BrandId = Brands.Samsung.Id, CategoryId = Categories.Smartphones.Id,
-                    MeasurementUnitId = MeasurementUnits.Pcs.Id, StoreId = Stores.Johns.Id, OwnerId = Stores.Johns.OwnerId, Description = "desc" },
-                new Item { Title = "Pebble Watch", BrandId = Brands.Pebble.Id, CategoryId = Categories.Smartwatches.Id,
-                    MeasurementUnitId = MeasurementUnits.Pcs.Id, StoreId = Stores.Johns.Id, OwnerId = Stores.Johns.OwnerId, Description = "desc" },
+                new Item { Title = "Apple iPhone XR", BrandId = Brands.Apple.Id, CategoryId = Categories.Smartphones.Id,
+                    MeasurementUnitId = MeasurementUnits.Pcs.Id, StoreId = Stores.Johns.Id, OwnerId = Stores.Johns.OwnerId, Description = "This Apple iPhone XR GSM Unlocked Smartphone 4G LTE iOS Smartphone " +
+                        "is fully functional and will work with T-Mobile, AT&T and all other GSM networks" },
+                new Item { Title = "Apple iPhone XR", BrandId = Brands.Apple.Id, CategoryId = Categories.Smartphones.Id,
+                    MeasurementUnitId = MeasurementUnits.Pcs.Id, StoreId = Stores.Johns.Id, OwnerId = Stores.Johns.OwnerId, Description = "This Apple iPhone 8 Plus GSM Unlocked Smartphone 4G LTE iOS Smartphone " +
+                        "is fully functional and will work with T-Mobile, AT&T and all other GSM networks" },
+                new Item { Title = "Samsung Galaxy S9", BrandId = Brands.Samsung.Id, CategoryId = Categories.Smartphones.Id,
+                    MeasurementUnitId = MeasurementUnits.Pcs.Id,StoreId = Stores.Johns.Id, OwnerId = Stores.Johns.OwnerId, Description = "Factory Unlocked will work with any network" },
+                new Item { Title = "Samsung Galaxy S10", BrandId = Brands.Samsung.Id, CategoryId = Categories.Smartphones.Id,
+                    MeasurementUnitId = MeasurementUnits.Pcs.Id, StoreId = Stores.Johns.Id, OwnerId = Stores.Johns.OwnerId, Description = "Factory Unlocked will work with any network" },
 
-                new Item { Title = "Shoes", BrandId = Brands.CK.Id, CategoryId = Categories.Shoes.Id,
-                    MeasurementUnitId = MeasurementUnits.Pcs.Id, StoreId = Stores.Jennifers.Id, OwnerId = Stores.Jennifers.OwnerId, Description = "desc" },
-                new Item { Title = "Jacket", BrandId = Brands.Armani.Id, CategoryId = Categories.Jackets.Id,
-                    MeasurementUnitId = MeasurementUnits.Pcs.Id, StoreId = Stores.Jennifers.Id, OwnerId = Stores.Jennifers.OwnerId, Description = "desc" },
+                new Item { Title = "Apple Watch", BrandId = Brands.Apple.Id, CategoryId = Categories.Smartwatches.Id,
+                    MeasurementUnitId = MeasurementUnits.Pcs.Id, StoreId = Stores.Johns.Id, OwnerId = Stores.Johns.OwnerId, Description = "GLONASS, Galileo, and QZSS, Barometric altimeter, Optical heart sensor, Electrical heart sensor, " +
+                    "Improved accelerometer up to 32 g‑forces, Improved gyroscope, Ambient light sensor, LTPO OLED Retina display with Force Touch (1000 nits), " +
+                    "Digital Crown with haptic feedback, Louder speaker, Ion-X strengthened glass, Sapphire crystal and ceramic back" },
+                new Item { Title = "Samsung Galaxy Watch", BrandId = Brands.Samsung.Id, CategoryId = Categories.Smartwatches.Id,
+                    MeasurementUnitId = MeasurementUnits.Pcs.Id, StoreId = Stores.Johns.Id, OwnerId = Stores.Johns.OwnerId, Description = "Go nonstop for days on a single charge. The wireless charger " +
+                    "lets you power up without slowing down. (Average expected performance based on typical use. Results may vary.) Available in two sizes and three colors, the Galaxy Watch offers stylish watch faces so realistic they hardly look digital. " +
+                    "Plus, choose from a collection of interchangeable bands Pairs with both Android and iOS smartphones via Bluetooth connection" },
+
+                new Item { Title = "Reebok Fast Tempo", BrandId = Brands.Reebok.Id, CategoryId = Categories.WomensDresses.Id,
+                    MeasurementUnitId = MeasurementUnits.Pcs.Id, StoreId = Stores.Jennifers.Id, OwnerId = Stores.Jennifers.OwnerId, Description = "Whether you're pushing through an interval class or headed out on a short run, these men's shoes provide the ultimate in flexibility while keeping your foot stable. " +
+                    "The breathable Flexweave upper has targeted areas of support and stretch for multidirectional movement." +
+                    " An internal midfoot strap secures the fit, and lightweight cushioning keeps you comfortable." },
+                new Item { Title = "Reebok DMX Run 10", BrandId = Brands.Reebok.Id, CategoryId = Categories.WomensDresses.Id,
+                    MeasurementUnitId = MeasurementUnits.Pcs.Id, StoreId = Stores.Jennifers.Id, OwnerId = Stores.Jennifers.OwnerId, Description = "The innovators from the Reebok continue to release contemporary must-haves and classic reissues. " +
+                    "The Reebok DMX Run 10 has been revived from the vault, this time as a lifestyle sneaker. This classic shoe displays a futuristic design with durable details." },
+
+                new Item { Title = "Marc O' Polo Shoes", BrandId = Brands.MarcOPolo.Id, CategoryId = Categories.WomensFootwear.Id,
+                    MeasurementUnitId = MeasurementUnits.Pcs.Id, StoreId = Stores.Jennifers.Id, OwnerId = Stores.Jennifers.OwnerId, Description = "Brand new leather shoes" },
+                new Item { Title = "Marc O' Polo Shoes", BrandId = Brands.MarcOPolo.Id, CategoryId = Categories.WomensFootwear.Id,
+                    MeasurementUnitId = MeasurementUnits.Pcs.Id, StoreId = Stores.Jennifers.Id, OwnerId = Stores.Jennifers.OwnerId, Description = "Brand new leather shoes" },
+
+                new Item { Title = "United Colors Of Benetton Dress", BrandId = Brands.UnitedColorsOfBenetton.Id, CategoryId = Categories.WomensDresses.Id,
+                    MeasurementUnitId = MeasurementUnits.Pcs.Id, StoreId = Stores.Jennifers.Id, OwnerId = Stores.Jennifers.OwnerId, Description = "Light summer dress" },
+                new Item { Title = "United Colors Of Benetton Dress", BrandId = Brands.UnitedColorsOfBenetton.Id, CategoryId = Categories.WomensDresses.Id,
+                    MeasurementUnitId = MeasurementUnits.Pcs.Id, StoreId = Stores.Jennifers.Id, OwnerId = Stores.Jennifers.OwnerId, Description = "Light summer dress" },
+
+                new Item { Title = "Danielle Patrici Bag", BrandId = Brands.DanielePatrici.Id, CategoryId = Categories.WomensAccesories.Id,
+                    MeasurementUnitId = MeasurementUnits.Pcs.Id, StoreId = Stores.Jennifers.Id, OwnerId = Stores.Jennifers.OwnerId, Description = "Comfortable everyday bag" },
+                new Item { Title = "Danielle Patrici Bag", BrandId = Brands.DanielePatrici.Id, CategoryId = Categories.WomensAccesories.Id,
+                    MeasurementUnitId = MeasurementUnits.Pcs.Id, StoreId = Stores.Jennifers.Id, OwnerId = Stores.Jennifers.OwnerId, Description = "Comfortable everyday bag" },
+
+                new Item { Title = "Danielle Patrici Clutch", BrandId = Brands.DanielePatrici.Id, CategoryId = Categories.WomensAccesories.Id,
+                    MeasurementUnitId = MeasurementUnits.Pcs.Id, StoreId = Stores.Jennifers.Id, OwnerId = Stores.Jennifers.OwnerId, Description = "Comfortable everyday bag" },
             };
             var result = list;
             //    .Concat(list.Select(i => i.ShallowClone()))
@@ -80,12 +126,21 @@ namespace Infrastructure.Data.SampleData
         public override void Init()
         {
             base.Init();
-            IPhone6 = Entities[0];
-            Samsung7 = Entities[1];
-            Samsung8 = Entities[2];
-            PebbleWatch = Entities[3];
-            Shoes = Entities[4];
-            Jacket = Entities[5];
+            IPhoneXR = Entities[0];
+            IPhone8Plus = Entities[1];
+            SamsungS9 = Entities[2];
+            SamsungS10 = Entities[3];
+            AppleWatchSeries4 = Entities[4];
+            SamsungGalaxyWatch = Entities[5];
+            ReebokFastTempo = Entities[6];
+            ReebokDMXRun10 = Entities[7];
+            MarcOPoloShoes1 = Entities[8];
+            MarcOPoloShoes2 = Entities[9];
+            UCBDress1 = Entities[10];
+            UCBDress2 = Entities[11];
+            DanielePatriciBag1 = Entities[12];
+            DanielePatriciBag2 = Entities[13];
+            DanielePatriciClutch1 = Entities[14];
         }
     }
 }

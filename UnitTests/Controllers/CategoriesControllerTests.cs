@@ -35,7 +35,7 @@ namespace UnitTests.Controllers
         [Fact]
         public async Task IndexClothesAsync()
         {
-            var clothes = Data.Categories.Clothes;
+            var clothes = Data.Categories.WomensClothing;
             var actual = await Controller.IndexAsync(clothes.Id, null);
             var spec = new EntitySpecification<Category>(clothes.Id);
             var flatCategories = await Service.EnumerateHierarchyAsync(spec);
@@ -82,7 +82,7 @@ namespace UnitTests.Controllers
             return new List<Category>()
             {
                 new Category() { ParentCategoryId = Data.Categories.Root.Id, Title = "Cat 1", CanHaveItems = false, Description = "desc" },
-                new Category() { ParentCategoryId = Data.Categories.Clothes.Id, Title = "Cat 2", CanHaveItems = true, Description = "desc" },
+                new Category() { ParentCategoryId = Data.Categories.WomensClothing.Id, Title = "Cat 2", CanHaveItems = true, Description = "desc" },
             };
         }
 
@@ -104,10 +104,10 @@ namespace UnitTests.Controllers
             {
                 new CategoryViewModel()
                 {
-                    Id = Data.Categories.Shoes.Id,
+                    Id = Data.Categories.WomensFootwear.Id,
                     Description = "UPDATED",
-                    IsRoot = Data.Categories.Shoes.IsRoot,
-                    ParentCategoryId = Data.Categories.Shoes.ParentCategoryId,
+                    IsRoot = Data.Categories.WomensFootwear.IsRoot,
+                    ParentCategoryId = Data.Categories.WomensFootwear.ParentCategoryId,
                     Title ="UPDATED"
                 }
             };

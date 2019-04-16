@@ -9,17 +9,55 @@ namespace Infrastructure.Data.SampleData
     {
         protected Items Items { get; }
 
-        public ItemVariant IPhone632GB  { get; protected set; }
-        public ItemVariant IPhone664GB  { get; protected set; }
-        public ItemVariant Samsung716GBHD  { get; protected set; }
-        public ItemVariant Samsung732GBFullHD  { get; protected set; }
-        public ItemVariant Samsung832GBHD  { get; protected set; }
-        public ItemVariant Samsung832GBFullHD  { get; protected set; }
-        public ItemVariant Pebble1000mAh  { get; protected set; }
-        public ItemVariant ShoesXMuchFashion  { get; protected set; }
-        public ItemVariant ShoesXXLMuchFashion  { get; protected set; }
-        public ItemVariant JacketBlack  { get; protected set; }
-        public ItemVariant JacketWhite  { get; protected set; }
+        public ItemVariant IPhoneXR64GBWhite  { get; protected set; }
+        public ItemVariant IPhoneXR64GBRed { get; protected set; }
+        public ItemVariant IPhoneXR128GBWhite { get; protected set; }
+        public ItemVariant IPhoneXR128GBRed { get; protected set; }
+
+        public ItemVariant IPhone8Plus64GBWhite { get; protected set; }
+        public ItemVariant IPhone8Plus64GBRed { get; protected set; }
+        public ItemVariant IPhone8Plus128GBWhite { get; protected set; }
+        public ItemVariant IPhone8Plus128GBRed { get; protected set; }
+
+        public ItemVariant SamsungS964GBWhite { get; protected set; }
+        public ItemVariant SamsungS964GBRed { get; protected set; }
+        public ItemVariant SamsungS9128GBWhite { get; protected set; }
+        public ItemVariant SamsungS9128GBRed { get; protected set; }
+
+        public ItemVariant SamsungS1064GBWhite { get; protected set; }
+        public ItemVariant SamsungS1064GBRed { get; protected set; }
+        public ItemVariant SamsungS10128GBWhite { get; protected set; }
+        public ItemVariant SamsungS10128GBRed { get; protected set; }
+
+        public ItemVariant AppleWatchSeries4White { get; protected set; }
+        public ItemVariant AppleWatchSeries4Black { get; protected set; }
+
+        public ItemVariant SamsungGalaxyWatchWhite { get; protected set; }
+        public ItemVariant SamsungGalaxyWatchBlack { get; protected set; }
+
+        public ItemVariant ReebokFastTempoWhite { get; protected set; }
+        public ItemVariant ReebokFastTempoBlack { get; protected set; }
+
+        public ItemVariant ReebokDMXRun10White { get; protected set; }
+        public ItemVariant ReebokDMXRun10Black { get; protected set; }
+
+        public ItemVariant MarcOPoloShoes1White { get; protected set; }
+        public ItemVariant MarcOPoloShoes1Black { get; protected set; }
+
+        public ItemVariant MarcOPoloShoes2White { get; protected set; }
+        public ItemVariant MarcOPoloShoes2Black { get; protected set; }
+
+        public ItemVariant UCBDress1White { get; protected set; }
+        public ItemVariant UCBDress1Yellow { get; protected set; }
+
+        public ItemVariant UCBDress2Yellow { get; protected set; }
+        public ItemVariant UCBDress2White { get; protected set; }
+
+        public ItemVariant DanielePatriciBag1 { get; protected set; }
+
+        public ItemVariant DanielePatriciBag2 { get; protected set; }
+
+        public ItemVariant DanielePatriciClutch1 { get; protected set; }
 
         public ItemVariants(StoreContext storeContext, Items items): base(storeContext)
         {
@@ -32,18 +70,55 @@ namespace Infrastructure.Data.SampleData
         {
             return new List<ItemVariant>
             {
-                new ItemVariant { Title = "iPhone 6 32GB", Price = 700, ItemId = Items.IPhone6.Id, OwnerId = Users.JohnId }, //0
-                new ItemVariant { Title = "iPhone 6 64GB", Price = 800, ItemId = Items.IPhone6.Id, OwnerId = Users.JohnId }, //1
-                new ItemVariant { Title = "Samsung 7 16GB HD", Price = 500, ItemId = Items.Samsung7.Id, OwnerId = Users.JohnId }, //2
-                new ItemVariant { Title = "Samsung 7 32GB Full HD", Price = 550, ItemId = Items.Samsung7.Id, OwnerId = Users.JohnId }, //3
-                new ItemVariant { Title = "Samsung 8 32GB HD", Price = 700, ItemId = Items.Samsung8.Id, OwnerId = Users.JohnId },  //4
-                new ItemVariant { Title = "Samsung 8 32GB Full HD", Price = 750, ItemId = Items.Samsung8.Id, OwnerId = Users.JohnId }, //5
-                new ItemVariant { Title = "Pebble 1000mAh", Price = 400, ItemId = Items.PebbleWatch.Id, OwnerId = Users.JohnId  }, //6
+                new ItemVariant { Title = "IPhone XR 64GB White", Price = 1000, ItemId = Items.IPhoneXR.Id, OwnerId = Users.JohnId }, //0
+                new ItemVariant { Title = "IPhone XR 64GB Red", Price = 1000, ItemId = Items.IPhoneXR.Id, OwnerId = Users.JohnId }, //1
+                new ItemVariant { Title = "IPhone XR 128GB White", Price = 1200, ItemId = Items.IPhoneXR.Id, OwnerId = Users.JohnId }, //2
+                new ItemVariant { Title = "IPhone XR 128GB Red", Price = 1300, ItemId = Items.IPhoneXR.Id, OwnerId = Users.JohnId }, //3
 
-                new ItemVariant { Title = "Shoes X Much fashion", Price = 700, ItemId = Items.Shoes.Id, OwnerId = Users.JenniferId  }, //7
-                new ItemVariant { Title = "Shoes XXL Much fashion", Price = 700, ItemId = Items.Shoes.Id, OwnerId = Users.JenniferId  }, //8
-                new ItemVariant { Title = "Jacket black", Price = 450, ItemId = Items.Jacket.Id, OwnerId = Users.JenniferId  }, //9
-                new ItemVariant { Title = "Jacket white", Price = 500, ItemId = Items.Jacket.Id, OwnerId = Users.JenniferId  },  //10
+                new ItemVariant { Title = "IPhone 8 Plus 64GB White", Price = 900, ItemId = Items.IPhone8Plus.Id, OwnerId = Users.JohnId }, //4
+                new ItemVariant { Title = "IPhone 8 Plus 64GB Red", Price = 900, ItemId = Items.IPhone8Plus.Id, OwnerId = Users.JohnId }, //5
+                new ItemVariant { Title = "IPhone 8 Plus 128GB White", Price = 1000, ItemId = Items.IPhone8Plus.Id, OwnerId = Users.JohnId }, //6
+                new ItemVariant { Title = "IPhone 8 Plus 128GB Red", Price = 1000, ItemId = Items.IPhone8Plus.Id, OwnerId = Users.JohnId }, //7
+
+                new ItemVariant { Title = "Samsung Galaxy S9 64GB White", Price = 900, ItemId = Items.SamsungS9.Id, OwnerId = Users.JohnId }, //8
+                new ItemVariant { Title = "Samsung Galaxy S9 64GB Red", Price = 900, ItemId = Items.SamsungS9.Id, OwnerId = Users.JohnId }, //9
+                new ItemVariant { Title = "Samsung Galaxy S9 128GB White", Price = 1100, ItemId = Items.SamsungS9.Id, OwnerId = Users.JohnId }, //10
+                new ItemVariant { Title = "Samsung Galaxy S9 128GB Red", Price = 1150, ItemId = Items.SamsungS9.Id, OwnerId = Users.JohnId }, //11
+
+                new ItemVariant { Title = "Samsung Galaxy S10 64GB White", Price = 1000, ItemId = Items.SamsungS10.Id, OwnerId = Users.JohnId }, //12
+                new ItemVariant { Title = "Samsung Galaxy S10 64GB Red", Price = 1000, ItemId = Items.SamsungS10.Id, OwnerId = Users.JohnId }, //13
+                new ItemVariant { Title = "Samsung Galaxy S10 128GB White", Price = 1100, ItemId = Items.SamsungS10.Id, OwnerId = Users.JohnId }, //14
+                new ItemVariant { Title = "Samsung Galaxy S10 128GB Red", Price = 1200, ItemId = Items.SamsungS10.Id, OwnerId = Users.JohnId }, //15
+
+                new ItemVariant { Title = "Apple Watch Series 4 White", Price = 700, ItemId = Items.AppleWatchSeries4.Id, OwnerId = Users.JohnId }, //16
+                new ItemVariant { Title = "Apple Watch Series 4 Black", Price = 700, ItemId = Items.AppleWatchSeries4.Id, OwnerId = Users.JohnId }, //17
+
+                new ItemVariant { Title = "Samsung Galaxy Watch White", Price = 600, ItemId = Items.AppleWatchSeries4.Id, OwnerId = Users.JohnId }, //18
+                new ItemVariant { Title = "Samsung Galaxy Watch Black", Price = 600, ItemId = Items.AppleWatchSeries4.Id, OwnerId = Users.JohnId }, //19
+
+                new ItemVariant { Title = "Reebok Fast Tempo White", Price = 500, ItemId = Items.ReebokFastTempo.Id, OwnerId = Users.JohnId }, //20
+                new ItemVariant { Title = "Reebok Fast Tempo Black", Price = 500, ItemId = Items.ReebokFastTempo.Id, OwnerId = Users.JohnId }, //21
+
+                new ItemVariant { Title = "Reebok DMX Run 10 White", Price = 500, ItemId = Items.ReebokDMXRun10.Id, OwnerId = Users.JohnId }, //22
+                new ItemVariant { Title = "Reebok DMX Run 10 Black", Price = 500, ItemId = Items.ReebokDMXRun10.Id, OwnerId = Users.JohnId }, //23
+
+                new ItemVariant { Title = "Mark O' Polo Shoes White", Price = 500, ItemId = Items.MarcOPoloShoes1.Id, OwnerId = Users.JohnId }, //24
+                new ItemVariant { Title = "Mark O' Polo Shoes Black", Price = 500, ItemId = Items.MarcOPoloShoes1.Id, OwnerId = Users.JohnId }, //25
+
+                new ItemVariant { Title = "Mark O' Polo White", Price = 500, ItemId = Items.MarcOPoloShoes2.Id, OwnerId = Users.JohnId }, //26
+                new ItemVariant { Title = "Mark O' Polo Black", Price = 500, ItemId = Items.MarcOPoloShoes2.Id, OwnerId = Users.JohnId }, //27
+
+                new ItemVariant { Title = "United Colors Of Benetton White", Price = 500, ItemId = Items.UCBDress1.Id, OwnerId = Users.JohnId }, //28
+                new ItemVariant { Title = "United Colors Of Benetton Yellow", Price = 500, ItemId = Items.UCBDress1.Id, OwnerId = Users.JohnId }, //29
+
+                new ItemVariant { Title = "United Colors Of Benetton White", Price = 700, ItemId = Items.UCBDress2.Id, OwnerId = Users.JohnId }, //30
+                new ItemVariant { Title = "United Colors Of Benetton Yellow", Price = 600, ItemId = Items.UCBDress2.Id, OwnerId = Users.JohnId }, //31
+
+                new ItemVariant { Title = "Daniele Patrici", Price = 500, ItemId = Items.DanielePatriciBag1.Id, OwnerId = Users.JohnId }, //32
+
+                new ItemVariant { Title = "Daniele Patrici", Price = 500, ItemId = Items.DanielePatriciBag2.Id, OwnerId = Users.JohnId }, //33
+
+                new ItemVariant { Title = "Daniele Patrici", Price = 500, ItemId = Items.DanielePatriciClutch1.Id, OwnerId = Users.JohnId }, //34
             };
         }
 
@@ -55,17 +130,55 @@ namespace Infrastructure.Data.SampleData
         public override void Init()
         {
             base.Init();
-            IPhone632GB = Entities[0];
-            IPhone664GB = Entities[1];
-            Samsung716GBHD = Entities[2];
-            Samsung732GBFullHD = Entities[3];
-            Samsung832GBHD = Entities[4];
-            Samsung832GBFullHD = Entities[5];
-            Pebble1000mAh = Entities[6];
-            ShoesXMuchFashion = Entities[7];
-            ShoesXXLMuchFashion = Entities[8];
-            JacketBlack = Entities[9];
-            JacketWhite = Entities[10];
+            IPhoneXR64GBWhite = Entities[0];
+            IPhoneXR64GBRed = Entities[1];
+            IPhoneXR128GBWhite = Entities[2];
+            IPhoneXR128GBRed = Entities[3];
+
+            IPhone8Plus64GBWhite = Entities[4];
+            IPhone8Plus64GBRed = Entities[5];
+            IPhone8Plus128GBWhite = Entities[6];
+            IPhone8Plus128GBRed = Entities[7];
+
+            SamsungS964GBWhite = Entities[8];
+            SamsungS964GBRed = Entities[9];
+            SamsungS9128GBWhite = Entities[10];
+            SamsungS9128GBRed = Entities[11];
+
+            SamsungS1064GBWhite = Entities[12];
+            SamsungS1064GBRed = Entities[13];
+            SamsungS10128GBWhite = Entities[14];
+            SamsungS10128GBRed = Entities[15];
+
+            AppleWatchSeries4White = Entities[16];
+            AppleWatchSeries4Black = Entities[17];
+
+            SamsungGalaxyWatchWhite = Entities[18];
+            SamsungGalaxyWatchBlack = Entities[19];
+
+            ReebokFastTempoWhite = Entities[20];
+            ReebokFastTempoBlack = Entities[21];
+
+            ReebokDMXRun10White = Entities[22];
+            ReebokDMXRun10Black = Entities[23];
+
+            MarcOPoloShoes1White = Entities[24];
+            MarcOPoloShoes1Black = Entities[25];
+
+            MarcOPoloShoes2White = Entities[26];
+            MarcOPoloShoes2Black = Entities[27];
+
+            UCBDress1White = Entities[28];
+            UCBDress1Yellow = Entities[29];
+
+            UCBDress2White = Entities[30];
+            UCBDress2Yellow = Entities[31];
+
+            DanielePatriciBag1 = Entities[32];
+
+            DanielePatriciBag2 = Entities[33];
+
+            DanielePatriciClutch1 = Entities[34];
         }
     }
 }

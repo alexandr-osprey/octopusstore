@@ -31,7 +31,7 @@ namespace UnitTests.Services
             return new List<ItemProperty>()
             {
                 new ItemProperty() { ItemVariantId = Data.ItemVariants.JacketBlack.Id, CharacteristicValueId = Data.CharacteristicValues.MuchFashion.Id },
-                new ItemProperty() { ItemVariantId = Data.ItemVariants.Pebble1000mAh.Id, CharacteristicValueId = Data.CharacteristicValues.GB16.Id },
+                new ItemProperty() { ItemVariantId = Data.ItemVariants.Pebble1000mAh.Id, CharacteristicValueId = Data.CharacteristicValues.SmartphoneStorage16GB.Id },
             };
         }
 
@@ -58,7 +58,7 @@ namespace UnitTests.Services
 
         protected override IEnumerable<ItemProperty> GetIncorrectEntitesForUpdate()
         {
-            Data.ItemProperties.IPhone632GB32.CharacteristicValueId = Data.CharacteristicValues.MAh1000.Id;
+            Data.ItemProperties.IPhone632GB32.CharacteristicValueId = Data.CharacteristicValues.SmartphoneBattery1000.Id;
             Data.ItemProperties.IPhone632HD.ItemVariantId = Data.ItemVariants.JacketBlack.Id;
             return new List<ItemProperty>()
             {

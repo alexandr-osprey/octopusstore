@@ -37,8 +37,8 @@ namespace UnitTests.Services
         [Fact]
         public async Task DeleteSingleWithRelatedRelinkAsync()
         {
-            var entity = Data.CharacteristicValues.GB32;
-            int idToRelinkTo = Data.CharacteristicValues.GB16.Id;
+            var entity = Data.CharacteristicValues.SmartphoneStorage32GB;
+            int idToRelinkTo = Data.CharacteristicValues.SmartphoneStorage16GB.Id;
             var characteristicValues = Data.ItemProperties.Entities.Where(i => i.CharacteristicValue == entity).ToList();
             await Service.DeleteSingleWithRelatedRelink(entity.Id, idToRelinkTo);
             characteristicValues.ForEach(i => Assert.Equal(i.CharacteristicValueId, idToRelinkTo));
@@ -47,23 +47,23 @@ namespace UnitTests.Services
 
         protected override Specification<CharacteristicValue> GetEntitiesToDeleteSpecification()
         {
-            return new EntitySpecification<CharacteristicValue>(c => c == Data.CharacteristicValues.GB16);
+            return new EntitySpecification<CharacteristicValue>(c => c == Data.CharacteristicValues.SmartphoneStorage16GB);
         }
 
         protected override IEnumerable<CharacteristicValue> GetCorrectEntitesForUpdate()
         {
-            Data.CharacteristicValues.GB16.Title = "Updated storage";
-            return new List<CharacteristicValue>() { Data.CharacteristicValues.GB16 };
+            Data.CharacteristicValues.SmartphoneStorage16GB.Title = "Updated storage";
+            return new List<CharacteristicValue>() { Data.CharacteristicValues.SmartphoneStorage16GB };
         }
 
         protected override IEnumerable<CharacteristicValue> GetIncorrectEntitesForUpdate()
         {
-            Data.CharacteristicValues.GB32.Title = null;
-            Data.CharacteristicValues.FullHD.CharacteristicId = Data.Characteristics.Size.Id;
+            Data.CharacteristicValues.SmartphoneStorage32GB.Title = null;
+            Data.CharacteristicValues.SmartphoneResolutionFullHD.CharacteristicId = Data.Characteristics.WomenFootwearSize.Id;
             return new List<CharacteristicValue>()
             {
-                Data.CharacteristicValues.GB32,
-                Data.CharacteristicValues.FullHD
+                Data.CharacteristicValues.SmartphoneStorage32GB,
+                Data.CharacteristicValues.SmartphoneResolutionFullHD
             };
         }
     }

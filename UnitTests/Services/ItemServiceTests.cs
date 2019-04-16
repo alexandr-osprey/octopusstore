@@ -32,8 +32,8 @@ namespace UnitTests.Services
             {
                 new Item()
                 {
-                    BrandId = Data.Brands.CK.Id,
-                    CategoryId = Data.Categories.Shoes.Id,
+                    BrandId = Data.Brands.CalvinKlein.Id,
+                    CategoryId = Data.Categories.WomensFootwear.Id,
                     MeasurementUnitId = Data.MeasurementUnits.Pcs.Id,
                     StoreId = Data.Stores.Jennifers.Id,
                     Description = "Desc",
@@ -53,20 +53,20 @@ namespace UnitTests.Services
 
         protected override IEnumerable<Item> GetIncorrectEntitesForUpdate()
         {
-            Data.Items.PebbleWatch.Title = null;
-            Data.Items.IPhone6.BrandId = Data.Brands.Pebble.Id;
+            Data.Items.AppleWatchSeries4.Title = null;
+            Data.Items.IPhoneXR.BrandId = Data.Brands.Pebble.Id;
             Data.Items.Jacket.MeasurementUnitId = Data.MeasurementUnits.M.Id;
-            Data.Items.Samsung7.StoreId = Data.Stores.Jennifers.Id;
-            Data.Items.Samsung8.CategoryId = Data.Categories.Shoes.Id;
+            Data.Items.SamsungS10.StoreId = Data.Stores.Jennifers.Id;
+            Data.Items.SamsungS9.CategoryId = Data.Categories.WomensFootwear.Id;
             Data.Items.Shoes.Description = "";
 
             return new List<Item>()
             {
-                Data.Items.PebbleWatch,
-                Data.Items.IPhone6,
+                Data.Items.AppleWatchSeries4,
+                Data.Items.IPhoneXR,
                 Data.Items.Jacket,
-                Data.Items.Samsung7,
-                Data.Items.Samsung8,
+                Data.Items.SamsungS10,
+                Data.Items.SamsungS9,
                 Data.Items.Shoes
             };
         }
@@ -74,8 +74,8 @@ namespace UnitTests.Services
         [Fact]
         public async Task DeleteSingleWithRelatedRelinkAsync()
         {
-            var entity = Data.Items.Samsung7;
-            int idToRelinkTo = Data.Items.Samsung8.Id;
+            var entity = Data.Items.SamsungS10;
+            int idToRelinkTo = Data.Items.SamsungS9.Id;
             var itemImages = Data.ItemImages.Entities.Where(i => i.RelatedEntity == entity).ToList();
             var itemVariants = Data.ItemVariants.Entities.Where(i => i.Item == entity).ToList();
             await Service.DeleteSingleWithRelatedRelink(entity.Id, idToRelinkTo);
@@ -98,7 +98,7 @@ namespace UnitTests.Services
 
         protected override IEnumerable<Item> GetIncorrectNewEntites()
         {
-            var item = Data.Items.Samsung8;
+            var item = Data.Items.SamsungS9;
             return new List<Item>()
             {
                 new Item()
