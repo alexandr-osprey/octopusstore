@@ -13,13 +13,11 @@ namespace ApplicationCore.Entities
         public int CategoryId { get; set; }
         public int StoreId { get; set; }
         public int BrandId { get; set; }
-        public int MeasurementUnitId { get; set; }
         public string Description { get; set; }
 
         public virtual Category Category { get; set; }
         public virtual Store Store { get; set; }
         public virtual Brand Brand { get; set; }
-        public virtual MeasurementUnit MeasurementUnit { get; set; }
         public virtual ICollection<ItemVariant> ItemVariants { get; set; } = new List<ItemVariant>();
 
         public Item(): base()
@@ -31,7 +29,6 @@ namespace ApplicationCore.Entities
             && CategoryId == other.CategoryId
             && StoreId == other.StoreId
             && BrandId == other.BrandId
-            && MeasurementUnitId == other.MeasurementUnitId
             && Description.EqualsCI(other.Description);
         public override bool Equals(object obj) => Equals(obj as Item);
         public override int GetHashCode() => base.GetHashCode();
@@ -43,7 +40,6 @@ namespace ApplicationCore.Entities
             CategoryId = item.CategoryId;
             StoreId = item.StoreId;
             BrandId = item.BrandId;
-            MeasurementUnitId = item.MeasurementUnitId;
             Description = item.Description;
         }
 

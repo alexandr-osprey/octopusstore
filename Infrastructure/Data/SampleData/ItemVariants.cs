@@ -35,23 +35,35 @@ namespace Infrastructure.Data.SampleData
         public ItemVariant SamsungGalaxyWatchWhite { get; protected set; }
         public ItemVariant SamsungGalaxyWatchBlack { get; protected set; }
 
-        public ItemVariant ReebokFastTempoWhite { get; protected set; }
-        public ItemVariant ReebokFastTempoBlack { get; protected set; }
+        public ItemVariant ReebokFastTempoWhite35 { get; protected set; }
+        public ItemVariant ReebokFastTempoWhite42 { get; protected set; }
+        public ItemVariant ReebokFastTempoBlack35 { get; protected set; }
+        public ItemVariant ReebokFastTempoBlack42 { get; protected set; }
 
-        public ItemVariant ReebokDMXRun10White { get; protected set; }
-        public ItemVariant ReebokDMXRun10Black { get; protected set; }
+        public ItemVariant ReebokDMXRun10White35 { get; protected set; }
+        public ItemVariant ReebokDMXRun10White42 { get; protected set; }
+        public ItemVariant ReebokDMXRun10Black35 { get; protected set; }
+        public ItemVariant ReebokDMXRun10Black42 { get; protected set; }
 
-        public ItemVariant MarcOPoloShoes1White { get; protected set; }
-        public ItemVariant MarcOPoloShoes1Black { get; protected set; }
+        public ItemVariant MarcOPoloShoes1White35 { get; protected set; }
+        public ItemVariant MarcOPoloShoes1White42 { get; protected set; }
+        public ItemVariant MarcOPoloShoes1Black35 { get; protected set; }
+        public ItemVariant MarcOPoloShoes1Black42 { get; protected set; }
 
-        public ItemVariant MarcOPoloShoes2White { get; protected set; }
-        public ItemVariant MarcOPoloShoes2Black { get; protected set; }
+        public ItemVariant MarcOPoloShoes2White35 { get; protected set; }
+        public ItemVariant MarcOPoloShoes2White42 { get; protected set; }
+        public ItemVariant MarcOPoloShoes2Black35 { get; protected set; }
+        public ItemVariant MarcOPoloShoes2Black42 { get; protected set; }
 
-        public ItemVariant UCBDress1White { get; protected set; }
-        public ItemVariant UCBDress1Yellow { get; protected set; }
+        public ItemVariant UCBDress1WhiteS { get; protected set; }
+        public ItemVariant UCBDress1WhiteM { get; protected set; }
+        public ItemVariant UCBDress1YellowS { get; protected set; }
+        public ItemVariant UCBDress1YellowM { get; protected set; }
 
-        public ItemVariant UCBDress2Yellow { get; protected set; }
-        public ItemVariant UCBDress2White { get; protected set; }
+        public ItemVariant UCBDress2YellowS { get; protected set; }
+        public ItemVariant UCBDress2YellowM { get; protected set; }
+        public ItemVariant UCBDress2WhiteS { get; protected set; }
+        public ItemVariant UCBDress2WhiteM { get; protected set; }
 
         public ItemVariant DanielePatriciBag1 { get; protected set; }
 
@@ -96,29 +108,41 @@ namespace Infrastructure.Data.SampleData
                 new ItemVariant { Title = "Samsung Galaxy Watch White", Price = 600, ItemId = Items.AppleWatchSeries4.Id, OwnerId = Users.JohnId }, //18
                 new ItemVariant { Title = "Samsung Galaxy Watch Black", Price = 600, ItemId = Items.AppleWatchSeries4.Id, OwnerId = Users.JohnId }, //19
 
-                new ItemVariant { Title = "Reebok Fast Tempo White", Price = 500, ItemId = Items.ReebokFastTempo.Id, OwnerId = Users.JohnId }, //20
-                new ItemVariant { Title = "Reebok Fast Tempo Black", Price = 500, ItemId = Items.ReebokFastTempo.Id, OwnerId = Users.JohnId }, //21
+                new ItemVariant { Title = "Reebok Fast Tempo White 35", Price = 500, ItemId = Items.ReebokFastTempo.Id, OwnerId = Users.JenniferId }, //20
+                new ItemVariant { Title = "Reebok Fast Tempo White 42", Price = 500, ItemId = Items.ReebokFastTempo.Id, OwnerId = Users.JenniferId }, //20
+                new ItemVariant { Title = "Reebok Fast Tempo Black 35", Price = 500, ItemId = Items.ReebokFastTempo.Id, OwnerId = Users.JenniferId }, //21
+                new ItemVariant { Title = "Reebok Fast Tempo Black 42", Price = 500, ItemId = Items.ReebokFastTempo.Id, OwnerId = Users.JenniferId }, //21
 
-                new ItemVariant { Title = "Reebok DMX Run 10 White", Price = 500, ItemId = Items.ReebokDMXRun10.Id, OwnerId = Users.JohnId }, //22
-                new ItemVariant { Title = "Reebok DMX Run 10 Black", Price = 500, ItemId = Items.ReebokDMXRun10.Id, OwnerId = Users.JohnId }, //23
+                new ItemVariant { Title = "Reebok DMX Run 10 White 35", Price = 500, ItemId = Items.ReebokDMXRun10.Id, OwnerId = Users.JenniferId }, //22
+                new ItemVariant { Title = "Reebok DMX Run 10 White 42", Price = 500, ItemId = Items.ReebokDMXRun10.Id, OwnerId = Users.JenniferId }, //22
+                new ItemVariant { Title = "Reebok DMX Run 10 Black 35", Price = 500, ItemId = Items.ReebokDMXRun10.Id, OwnerId = Users.JenniferId }, //23
+                new ItemVariant { Title = "Reebok DMX Run 10 Black 42", Price = 500, ItemId = Items.ReebokDMXRun10.Id, OwnerId = Users.JenniferId }, //23
 
-                new ItemVariant { Title = "Mark O' Polo Shoes White", Price = 500, ItemId = Items.MarcOPoloShoes1.Id, OwnerId = Users.JohnId }, //24
-                new ItemVariant { Title = "Mark O' Polo Shoes Black", Price = 500, ItemId = Items.MarcOPoloShoes1.Id, OwnerId = Users.JohnId }, //25
+                new ItemVariant { Title = "Mark O' Polo Shoes White 35", Price = 500, ItemId = Items.MarcOPoloShoes1.Id, OwnerId = Users.JenniferId }, //24
+                new ItemVariant { Title = "Mark O' Polo Shoes White 42", Price = 500, ItemId = Items.MarcOPoloShoes1.Id, OwnerId = Users.JenniferId }, //24
+                new ItemVariant { Title = "Mark O' Polo Shoes Black 35", Price = 500, ItemId = Items.MarcOPoloShoes1.Id, OwnerId = Users.JenniferId }, //25
+                new ItemVariant { Title = "Mark O' Polo Shoes Black 42", Price = 500, ItemId = Items.MarcOPoloShoes1.Id, OwnerId = Users.JenniferId }, //25
 
-                new ItemVariant { Title = "Mark O' Polo White", Price = 500, ItemId = Items.MarcOPoloShoes2.Id, OwnerId = Users.JohnId }, //26
-                new ItemVariant { Title = "Mark O' Polo Black", Price = 500, ItemId = Items.MarcOPoloShoes2.Id, OwnerId = Users.JohnId }, //27
+                new ItemVariant { Title = "Mark O' Polo White 35", Price = 500, ItemId = Items.MarcOPoloShoes2.Id, OwnerId = Users.JenniferId }, //26
+                new ItemVariant { Title = "Mark O' Polo White 42", Price = 500, ItemId = Items.MarcOPoloShoes2.Id, OwnerId = Users.JenniferId }, //26
+                new ItemVariant { Title = "Mark O' Polo Black 35", Price = 500, ItemId = Items.MarcOPoloShoes2.Id, OwnerId = Users.JenniferId }, //27
+                new ItemVariant { Title = "Mark O' Polo Black 42", Price = 500, ItemId = Items.MarcOPoloShoes2.Id, OwnerId = Users.JenniferId }, //27
 
-                new ItemVariant { Title = "United Colors Of Benetton White", Price = 500, ItemId = Items.UCBDress1.Id, OwnerId = Users.JohnId }, //28
-                new ItemVariant { Title = "United Colors Of Benetton Yellow", Price = 500, ItemId = Items.UCBDress1.Id, OwnerId = Users.JohnId }, //29
+                new ItemVariant { Title = "United Colors Of Benetton White S", Price = 500, ItemId = Items.UCBDress1.Id, OwnerId = Users.JenniferId }, //28
+                new ItemVariant { Title = "United Colors Of Benetton White M", Price = 500, ItemId = Items.UCBDress1.Id, OwnerId = Users.JenniferId }, //28
+                new ItemVariant { Title = "United Colors Of Benetton Yellow S", Price = 500, ItemId = Items.UCBDress1.Id, OwnerId = Users.JenniferId }, //29
+                new ItemVariant { Title = "United Colors Of Benetton Yellow M", Price = 500, ItemId = Items.UCBDress1.Id, OwnerId = Users.JenniferId }, //29
 
-                new ItemVariant { Title = "United Colors Of Benetton White", Price = 700, ItemId = Items.UCBDress2.Id, OwnerId = Users.JohnId }, //30
-                new ItemVariant { Title = "United Colors Of Benetton Yellow", Price = 600, ItemId = Items.UCBDress2.Id, OwnerId = Users.JohnId }, //31
+                new ItemVariant { Title = "United Colors Of Benetton White S", Price = 700, ItemId = Items.UCBDress2.Id, OwnerId = Users.JenniferId }, //30
+                new ItemVariant { Title = "United Colors Of Benetton White M", Price = 700, ItemId = Items.UCBDress2.Id, OwnerId = Users.JenniferId }, //30
+                new ItemVariant { Title = "United Colors Of Benetton Yellow S", Price = 600, ItemId = Items.UCBDress2.Id, OwnerId = Users.JenniferId }, //31
+                new ItemVariant { Title = "United Colors Of Benetton Yellow M", Price = 600, ItemId = Items.UCBDress2.Id, OwnerId = Users.JenniferId }, //31
 
-                new ItemVariant { Title = "Daniele Patrici", Price = 500, ItemId = Items.DanielePatriciBag1.Id, OwnerId = Users.JohnId }, //32
+                new ItemVariant { Title = "Daniele Patrici", Price = 500, ItemId = Items.DanielePatriciBag1.Id, OwnerId = Users.JenniferId }, //32
 
-                new ItemVariant { Title = "Daniele Patrici", Price = 500, ItemId = Items.DanielePatriciBag2.Id, OwnerId = Users.JohnId }, //33
+                new ItemVariant { Title = "Daniele Patrici", Price = 500, ItemId = Items.DanielePatriciBag2.Id, OwnerId = Users.JenniferId }, //33
 
-                new ItemVariant { Title = "Daniele Patrici", Price = 500, ItemId = Items.DanielePatriciClutch1.Id, OwnerId = Users.JohnId }, //34
+                new ItemVariant { Title = "Daniele Patrici", Price = 500, ItemId = Items.DanielePatriciClutch1.Id, OwnerId = Users.JenniferId }, //34
             };
         }
 

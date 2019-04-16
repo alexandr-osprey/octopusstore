@@ -78,9 +78,6 @@ namespace Infrastructure.Services
             if (IsPropertyModified(entityEntry, p => p.BrandId, false)
                 && !await Context.ExistsBySpecAsync(Logger, new EntitySpecification<Brand>(item.BrandId), false))
                 throw new EntityValidationException($"Brand with Id {item.BrandId} does not exist. ");
-            if (IsPropertyModified(entityEntry, p => p.MeasurementUnitId, false)
-                && !await Context.ExistsBySpecAsync(Logger, new EntitySpecification<MeasurementUnit>(item.MeasurementUnitId), false))
-                throw new EntityValidationException($"MeasurementUnit with Id {item.MeasurementUnitId}  does not exist. ");
         }
     }
 }

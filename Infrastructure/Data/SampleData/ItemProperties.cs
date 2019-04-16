@@ -10,27 +10,6 @@ namespace Infrastructure.Data.SampleData
         protected ItemVariants ItemVariants { get; }
         protected CharacteristicValues CharacteristicValues { get; }
 
-        public ItemProperty IPhone632GB32 { get; protected set; }
-        public ItemProperty IPhone632HD { get; protected set; }
-        public ItemProperty IPhone664GB32 { get; protected set; }
-        public ItemProperty IPhone664HD { get; protected set; }
-        public ItemProperty Samsung732HDGB16 { get; protected set; }
-        public ItemProperty Samsung732HDHD { get; protected set; }
-        public ItemProperty Samsung732GB32FHDGB32 { get; protected set; }
-        public ItemProperty Samsung732GB32FHDFullHD { get; protected set; }
-        public ItemProperty Samsung832HDGB32 { get; protected set; }
-        public ItemProperty Samsung832HDHD { get; protected set; }
-        public ItemProperty Samsung832GB32FHDGB32 { get; protected set; }
-        public ItemProperty Samsung832GB32FHDFullHD { get; protected set; }
-        public ItemProperty Pebble1000mAhMAh1000 { get; protected set; }
-
-        public ItemProperty ShoesXMuchFashionX { get; protected set; }
-        public ItemProperty ShoesXMuchFashionMuchFashion { get; protected set; }
-        public ItemProperty ShoesXXLMuchFashionXXL { get; protected set; }
-        public ItemProperty ShoesXXLMuchFashionMuchFashion { get; protected set; }
-        public ItemProperty JacketBlackBlack { get; protected set; }
-        public ItemProperty JacketWhiteWhite { get; protected set; }
-
         public ItemProperties(StoreContext storeContext, ItemVariants itemVariants, CharacteristicValues characteristicValues) : base(storeContext)
         {
             ItemVariants = itemVariants;
@@ -43,37 +22,117 @@ namespace Infrastructure.Data.SampleData
         {
             return new List<ItemProperty>
             {
-                // iphone 32
-                new ItemProperty(ItemVariants.IPhone632GB.Id, CharacteristicValues.SmartphoneStorage32GB.Id) { OwnerId = Users.JohnId },
-                new ItemProperty(ItemVariants.IPhone632GB.Id, CharacteristicValues.SmartphoneResolutionHD.Id) { OwnerId = Users.JohnId },
-                // iphone 64
-                new ItemProperty(ItemVariants.IPhone664GB.Id, CharacteristicValues.SmartphoneStorage32GB.Id) { OwnerId = Users.JohnId },
-                new ItemProperty(ItemVariants.IPhone664GB.Id, CharacteristicValues.SmartphoneResolutionFullHD.Id) { OwnerId = Users.JohnId },
-                //samsung 7 32 hd
-                new ItemProperty(ItemVariants.Samsung716GBHD.Id, CharacteristicValues.SmartphoneStorage16GB.Id) { OwnerId = Users.JohnId },
-                new ItemProperty(ItemVariants.Samsung716GBHD.Id, CharacteristicValues.SmartphoneResolutionHD.Id) { OwnerId = Users.JohnId },
-                //samsung 7 32 full hd
-                new ItemProperty(ItemVariants.Samsung732GBFullHD.Id, CharacteristicValues.SmartphoneStorage32GB.Id) { OwnerId = Users.JohnId },
-                new ItemProperty(ItemVariants.Samsung732GBFullHD.Id, CharacteristicValues.SmartphoneResolutionFullHD.Id) { OwnerId = Users.JohnId },
-                //samsung 8 64 hd
-                new ItemProperty(ItemVariants.Samsung832GBHD.Id, CharacteristicValues.SmartphoneStorage32GB.Id) { OwnerId = Users.JohnId },
-                new ItemProperty(ItemVariants.Samsung832GBHD.Id, CharacteristicValues.SmartphoneResolutionHD.Id) { OwnerId = Users.JohnId },
-                //samsung 8 64 full hd
-                new ItemProperty(ItemVariants.Samsung832GBFullHD.Id, CharacteristicValues.SmartphoneStorage32GB.Id) { OwnerId = Users.JohnId },
-                new ItemProperty(ItemVariants.Samsung832GBFullHD.Id, CharacteristicValues.SmartphoneResolutionFullHD.Id) { OwnerId = Users.JohnId },
-                //pebble 100mAh
-                new ItemProperty(ItemVariants.Pebble1000mAh.Id, CharacteristicValues.SmartphoneBattery1000.Id) { OwnerId = Users.JohnId },
+                // IPhone XR
+                new ItemProperty(ItemVariants.IPhoneXR64GBWhite.Id, CharacteristicValues.SmartphoneBattery3000.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.IPhoneXR64GBWhite.Id, CharacteristicValues.SmartphoneColorWhite.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.IPhoneXR64GBWhite.Id, CharacteristicValues.SmartphoneRAM3.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.IPhoneXR64GBWhite.Id, CharacteristicValues.SmartphoneResolutionFullHDPlus.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.IPhoneXR64GBWhite.Id, CharacteristicValues.SmartphoneStorage64GB.Id) { OwnerId = Users.JohnId },
 
-                //shoes X much fashion
-                new ItemProperty(ItemVariants.ShoesXMuchFashion.Id, CharacteristicValues.X.Id) { OwnerId = Users.JenniferId },
-                new ItemProperty(ItemVariants.ShoesXMuchFashion.Id, CharacteristicValues.MuchFashion.Id) { OwnerId = Users.JenniferId },
-                //shoes XXL much fashion
-                new ItemProperty(ItemVariants.ShoesXXLMuchFashion.Id, CharacteristicValues.XXL.Id) { OwnerId = Users.JenniferId },
-                new ItemProperty(ItemVariants.ShoesXXLMuchFashion.Id, CharacteristicValues.MuchFashion.Id) { OwnerId = Users.JenniferId },
-                //jacket black
-                new ItemProperty(ItemVariants.JacketBlack.Id, CharacteristicValues.Black.Id) { OwnerId = Users.JenniferId },
-                //jacket white
-                new ItemProperty(ItemVariants.JacketWhite.Id, CharacteristicValues.White.Id) { OwnerId = Users.JenniferId },
+                new ItemProperty(ItemVariants.IPhoneXR64GBRed.Id, CharacteristicValues.SmartphoneBattery3000.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.IPhoneXR64GBRed.Id, CharacteristicValues.SmartphoneColorRed.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.IPhoneXR64GBRed.Id, CharacteristicValues.SmartphoneRAM3.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.IPhoneXR64GBRed.Id, CharacteristicValues.SmartphoneResolutionFullHDPlus.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.IPhoneXR64GBRed.Id, CharacteristicValues.SmartphoneStorage64GB.Id) { OwnerId = Users.JohnId },
+
+                new ItemProperty(ItemVariants.IPhoneXR128GBWhite.Id, CharacteristicValues.SmartphoneBattery3000.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.IPhoneXR128GBWhite.Id, CharacteristicValues.SmartphoneColorWhite.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.IPhoneXR128GBWhite.Id, CharacteristicValues.SmartphoneRAM3.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.IPhoneXR128GBWhite.Id, CharacteristicValues.SmartphoneResolutionFullHDPlus.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.IPhoneXR128GBWhite.Id, CharacteristicValues.SmartphoneStorage128GB.Id) { OwnerId = Users.JohnId },
+
+                new ItemProperty(ItemVariants.IPhoneXR128GBRed.Id, CharacteristicValues.SmartphoneBattery3000.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.IPhoneXR128GBRed.Id, CharacteristicValues.SmartphoneColorRed.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.IPhoneXR128GBRed.Id, CharacteristicValues.SmartphoneRAM3.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.IPhoneXR128GBRed.Id, CharacteristicValues.SmartphoneResolutionFullHDPlus.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.IPhoneXR128GBRed.Id, CharacteristicValues.SmartphoneStorage128GB.Id) { OwnerId = Users.JohnId },
+
+                // iphone 8 plus
+                new ItemProperty(ItemVariants.IPhone8Plus64GBWhite.Id, CharacteristicValues.SmartphoneBattery3000.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.IPhone8Plus64GBWhite.Id, CharacteristicValues.SmartphoneColorWhite.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.IPhone8Plus64GBWhite.Id, CharacteristicValues.SmartphoneRAM3.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.IPhone8Plus64GBWhite.Id, CharacteristicValues.SmartphoneResolutionFullHD.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.IPhone8Plus64GBWhite.Id, CharacteristicValues.SmartphoneStorage64GB.Id) { OwnerId = Users.JohnId },
+
+                new ItemProperty(ItemVariants.IPhone8Plus64GBRed.Id, CharacteristicValues.SmartphoneBattery3000.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.IPhone8Plus64GBRed.Id, CharacteristicValues.SmartphoneColorRed.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.IPhone8Plus64GBRed.Id, CharacteristicValues.SmartphoneRAM3.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.IPhone8Plus64GBRed.Id, CharacteristicValues.SmartphoneResolutionFullHD.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.IPhone8Plus64GBRed.Id, CharacteristicValues.SmartphoneStorage64GB.Id) { OwnerId = Users.JohnId },
+
+                new ItemProperty(ItemVariants.IPhone8Plus128GBWhite.Id, CharacteristicValues.SmartphoneBattery3000.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.IPhone8Plus128GBWhite.Id, CharacteristicValues.SmartphoneColorWhite.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.IPhone8Plus128GBWhite.Id, CharacteristicValues.SmartphoneRAM3.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.IPhone8Plus128GBWhite.Id, CharacteristicValues.SmartphoneResolutionFullHD.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.IPhone8Plus128GBWhite.Id, CharacteristicValues.SmartphoneStorage128GB.Id) { OwnerId = Users.JohnId },
+
+                new ItemProperty(ItemVariants.IPhone8Plus128GBRed.Id, CharacteristicValues.SmartphoneBattery3000.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.IPhone8Plus128GBRed.Id, CharacteristicValues.SmartphoneColorRed.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.IPhone8Plus128GBRed.Id, CharacteristicValues.SmartphoneRAM3.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.IPhone8Plus128GBRed.Id, CharacteristicValues.SmartphoneResolutionFullHD.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.IPhone8Plus128GBRed.Id, CharacteristicValues.SmartphoneStorage128GB.Id) { OwnerId = Users.JohnId },
+
+                // samsung galaxy s9
+                new ItemProperty(ItemVariants.SamsungS964GBWhite.Id, CharacteristicValues.SmartphoneBattery4000.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.SamsungS964GBWhite.Id, CharacteristicValues.SmartphoneColorWhite.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.SamsungS964GBWhite.Id, CharacteristicValues.SmartphoneRAM3.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.SamsungS964GBWhite.Id, CharacteristicValues.SmartphoneResolutionFullHD.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.SamsungS964GBWhite.Id, CharacteristicValues.SmartphoneStorage64GB.Id) { OwnerId = Users.JohnId },
+
+                new ItemProperty(ItemVariants.SamsungS964GBRed.Id, CharacteristicValues.SmartphoneBattery4000.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.SamsungS964GBRed.Id, CharacteristicValues.SmartphoneColorRed.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.SamsungS964GBRed.Id, CharacteristicValues.SmartphoneRAM3.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.SamsungS964GBRed.Id, CharacteristicValues.SmartphoneResolutionFullHD.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.SamsungS964GBRed.Id, CharacteristicValues.SmartphoneStorage64GB.Id) { OwnerId = Users.JohnId },
+
+                new ItemProperty(ItemVariants.SamsungS9128GBWhite.Id, CharacteristicValues.SmartphoneBattery4000.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.SamsungS9128GBWhite.Id, CharacteristicValues.SmartphoneColorWhite.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.SamsungS9128GBWhite.Id, CharacteristicValues.SmartphoneRAM3.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.SamsungS9128GBWhite.Id, CharacteristicValues.SmartphoneResolutionFullHD.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.SamsungS9128GBWhite.Id, CharacteristicValues.SmartphoneStorage128GB.Id) { OwnerId = Users.JohnId },
+
+                new ItemProperty(ItemVariants.SamsungS9128GBRed.Id, CharacteristicValues.SmartphoneBattery4000.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.SamsungS9128GBRed.Id, CharacteristicValues.SmartphoneColorRed.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.SamsungS9128GBRed.Id, CharacteristicValues.SmartphoneRAM3.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.SamsungS9128GBRed.Id, CharacteristicValues.SmartphoneResolutionFullHD.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.SamsungS9128GBRed.Id, CharacteristicValues.SmartphoneStorage128GB.Id) { OwnerId = Users.JohnId },
+
+                // samsung galaxy s 10
+                new ItemProperty(ItemVariants.SamsungS1064GBWhite.Id, CharacteristicValues.SmartphoneBattery4000.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.SamsungS1064GBWhite.Id, CharacteristicValues.SmartphoneColorWhite.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.SamsungS1064GBWhite.Id, CharacteristicValues.SmartphoneRAM4.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.SamsungS1064GBWhite.Id, CharacteristicValues.SmartphoneResolutionFullHDPlus.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.SamsungS1064GBWhite.Id, CharacteristicValues.SmartphoneStorage64GB.Id) { OwnerId = Users.JohnId },
+
+                new ItemProperty(ItemVariants.SamsungS1064GBRed.Id, CharacteristicValues.SmartphoneBattery4000.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.SamsungS1064GBRed.Id, CharacteristicValues.SmartphoneColorRed.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.SamsungS1064GBRed.Id, CharacteristicValues.SmartphoneRAM4.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.SamsungS1064GBRed.Id, CharacteristicValues.SmartphoneResolutionFullHDPlus.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.SamsungS1064GBRed.Id, CharacteristicValues.SmartphoneStorage64GB.Id) { OwnerId = Users.JohnId },
+
+                new ItemProperty(ItemVariants.SamsungS10128GBWhite.Id, CharacteristicValues.SmartphoneBattery4000.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.SamsungS10128GBWhite.Id, CharacteristicValues.SmartphoneColorWhite.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.SamsungS10128GBWhite.Id, CharacteristicValues.SmartphoneRAM4.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.SamsungS10128GBWhite.Id, CharacteristicValues.SmartphoneResolutionFullHDPlus.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.SamsungS10128GBWhite.Id, CharacteristicValues.SmartphoneStorage128GB.Id) { OwnerId = Users.JohnId },
+
+                new ItemProperty(ItemVariants.SamsungS10128GBRed.Id, CharacteristicValues.SmartphoneBattery4000.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.SamsungS10128GBRed.Id, CharacteristicValues.SmartphoneColorRed.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.SamsungS10128GBRed.Id, CharacteristicValues.SmartphoneRAM4.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.SamsungS10128GBRed.Id, CharacteristicValues.SmartphoneResolutionFullHDPlus.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.SamsungS10128GBRed.Id, CharacteristicValues.SmartphoneStorage128GB.Id) { OwnerId = Users.JohnId },
+
+                // apple watch series 4
+                new ItemProperty(ItemVariants.AppleWatchSeries4White.Id, CharacteristicValues.SmartwatchColorWhite.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.AppleWatchSeries4Black.Id, CharacteristicValues.SmartwatchColorBlack.Id) { OwnerId = Users.JohnId },
+
+                // samsung galaxy watch
+                new ItemProperty(ItemVariants.SamsungGalaxyWatchWhite.Id, CharacteristicValues.SmartwatchColorWhite.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.SamsungGalaxyWatchBlack.Id, CharacteristicValues.SmartwatchColorBlack.Id) { OwnerId = Users.JohnId },
+
+                // reebok fast tempo
+                new ItemProperty(ItemVariants.ReebokFastTempoWhite.Id, CharacteristicValues.WomensFootwearColorWhite.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.ReebokFastTempoWhite.Id, CharacteristicValues.WomensFootwearSize35.Id) { OwnerId = Users.JohnId },
             };
         }
 
@@ -85,25 +144,6 @@ namespace Infrastructure.Data.SampleData
         public override void Init()
         {
             base.Init();
-            IPhone632GB32 = Entities[0];
-            IPhone632HD = Entities[1];
-            IPhone664GB32 = Entities[2];
-            IPhone664HD = Entities[3];
-            Samsung732HDGB16 = Entities[4];
-            Samsung732HDHD = Entities[5];
-            Samsung732GB32FHDGB32 = Entities[6];
-            Samsung732GB32FHDFullHD = Entities[7];
-            Samsung832HDGB32 = Entities[8];
-            Samsung832HDHD = Entities[9];
-            Samsung832GB32FHDGB32 = Entities[10];
-            Samsung832GB32FHDFullHD = Entities[11];
-            Pebble1000mAhMAh1000 = Entities[12];
-            ShoesXMuchFashionX = Entities[13];
-            ShoesXMuchFashionMuchFashion = Entities[14];
-            ShoesXXLMuchFashionXXL = Entities[15];
-            ShoesXXLMuchFashionMuchFashion = Entities[16];
-            JacketBlackBlack = Entities[17];
-            JacketWhiteWhite = Entities[18];
         }
     }
 }
