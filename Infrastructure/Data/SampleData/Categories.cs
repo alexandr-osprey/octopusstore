@@ -40,7 +40,7 @@ namespace Infrastructure.Data.SampleData
 
                 new Category { Title = "Womens footwear", CanHaveItems = true, OwnerId = Users.AdminId, }, //5
                 new Category { Title = "Dresses", CanHaveItems = true, OwnerId = Users.AdminId, }, //6
-                new Category { Title = "Womens accesories", CanHaveItems = true, OwnerId = Users.AdminId, }, //8
+                new Category { Title = "Womens accesories", CanHaveItems = true, OwnerId = Users.AdminId, }, //7
             };
             return catetories;
         }
@@ -56,7 +56,6 @@ namespace Infrastructure.Data.SampleData
             categories.ElementAt(5).ParentCategoryId = categories.ElementAt(2).Id;
             categories.ElementAt(6).ParentCategoryId = categories.ElementAt(2).Id;
             categories.ElementAt(7).ParentCategoryId = categories.ElementAt(2).Id;
-            categories.ElementAt(8).ParentCategoryId = categories.ElementAt(2).Id;
             Context.SaveChanges();
             base.AfterSeed(categories);
         }

@@ -34,8 +34,6 @@ import { CharacteristicValueIndexComponent } from './characteristic-value/charac
 import { CharacteristicValueCreateUpdateComponent } from './characteristic-value/characteristic-value-create-update/characteristic-value-create-update.component';
 import { BrandIndexComponent } from './brand/brand-index/brand-index.component';
 import { BrandCreateUpdateComponent } from './brand/brand-create-update/brand-create-update.component';
-import { MeasurementUnitIndexComponent } from './measurement-unit/measurement-unit-index/measurement-unit-index.component';
-import { MeasurementUnitCreateUpdateComponent } from './measurement-unit/measurement-unit-create-update/measurement-unit-create-update.component';
 import { OrderCreateComponent } from './order/order-create/order-create.component';
 import { OrderThumbnailIndexComponent } from './order/order-thumbnail-index/order-thumbnail-index.component';
 import { SidebarComponent } from './navigation/sidebar/sidebar.component';
@@ -83,8 +81,6 @@ import { ItemVariantImageDisplayComponent } from './item-variant-image/item-vari
     CharacteristicValueCreateUpdateComponent,
     BrandIndexComponent,
     BrandCreateUpdateComponent,
-    MeasurementUnitIndexComponent,
-    MeasurementUnitCreateUpdateComponent,
     OrderCreateComponent,
     OrderThumbnailIndexComponent,
     SidebarComponent,

@@ -1,10 +1,8 @@
-<div *ngIf="images" class="row images">
-  <div class="thumbnails-bar col-3 col-md-3">
-    <div *ngFor="let thumbnailImage of images" class="thumbnail">
-      <app-item-variant-image-display [itemVariantImage]="thumbnailImage" (click)="thumbnailClick(thumbnailImage)"> </app-item-variant-image-display>
-    </div>
+<div *ngIf="images" class="d-flex flex-row images h-100 flex-wrap">
+  <div class="d-flex flex-row flex-wrap thumbnails-bar col-3 col-md-3 h-100">
+    <app-item-variant-image-display *ngFor="let thumbnailImage of images" class="thumbnail d-flex justify-content-center mb-2" [itemVariantImage]="thumbnailImage" (click)="thumbnailClick(thumbnailImage)"> </app-item-variant-image-display>
   </div>
-  <div class="displayed-image col-9 col-md-9">
-    <app-item-variant-image-display [itemVariantImage]="displayedImage" ></app-item-variant-image-display>
+  <div class="displayed-image col-9 col-md-9 h-100">
+    <app-item-variant-image-display [itemVariantImage]="displayedImage" class="h-100 d-flex justify-content-center" ></app-item-variant-image-display>
   </div>
 </div>

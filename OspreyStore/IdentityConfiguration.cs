@@ -96,7 +96,6 @@ namespace OspreyStore
             services.AddScoped<IAuthorizationHandler, ItemVariantImageAuthorizationHandler>();
             services.AddScoped<IAuthorizationHandler, ItemVariantAuthorizationHandler>();
             services.AddScoped<IAuthorizationHandler, ItemPropertyAuthorizationHandler>();
-            services.AddScoped<IAuthorizationHandler, MeasurementUnitAuthorizationHandler>();
             services.AddScoped<IAuthorizationHandler, StoreAuthorizationHandler>();
             services.AddScoped<IAuthorizationHandler, CartItemAuthorizationHandler>();
             services.AddScoped<IAuthorizationHandler, OrderAuthorizationHandler>();

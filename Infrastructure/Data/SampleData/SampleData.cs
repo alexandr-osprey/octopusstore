@@ -6,7 +6,6 @@
         protected virtual bool DropBeforeSeed { get; } = false;
 
         public Brands Brands { get; }
-        public MeasurementUnits MeasurementUnits { get; }
         public Stores Stores { get; }
         public Categories Categories { get; }
         public Characteristics Characteristics { get; }
@@ -27,12 +26,11 @@
                 Context.Database.EnsureDeleted();
             Users = new Users();
             Brands = new Brands(Context);
-            MeasurementUnits = new MeasurementUnits(Context);
             Stores = new Stores(Context);
             Categories = new Categories(Context);
             Characteristics = new Characteristics(Context, Categories);
             CharacteristicValues = new CharacteristicValues(Context, Characteristics);
-            Items = new Items(Context, Brands, Stores, Categories, MeasurementUnits);
+            Items = new Items(Context, Brands, Stores, Categories);
             ItemVariants = new ItemVariants(Context, Items);
             CartItems = new CartItems(Context, ItemVariants);
             ItemProperties = new ItemProperties(Context, ItemVariants, CharacteristicValues);

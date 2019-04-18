@@ -7,7 +7,6 @@ namespace ApplicationCore.ViewModels
     {
         public ItemVariantViewModel ItemVariant { get; set; }
         public ItemViewModel Item { get; set; }
-        public MeasurementUnitViewModel MeasurementUnit { get; set; }
         public StoreViewModel Store { get; set; }
         public ItemVariantImageViewModel ItemVariantImage { get; set; }
 
@@ -19,7 +18,6 @@ namespace ApplicationCore.ViewModels
         {
             ItemVariant = new ItemVariantViewModel(cartItem.ItemVariant);
             Item = new ItemViewModel(cartItem.ItemVariant.Item);
-            MeasurementUnit = new MeasurementUnitViewModel(cartItem.ItemVariant.Item.MeasurementUnit);
             Number = cartItem.Number;
             Store = new StoreViewModel(cartItem.ItemVariant.Item.Store);
             ItemVariantImage = new ItemVariantImageViewModel(cartItem.ItemVariant.Images.FirstOrDefault());

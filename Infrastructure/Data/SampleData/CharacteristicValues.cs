@@ -128,9 +128,9 @@ namespace Infrastructure.Data.SampleData
             SmartphoneColorBlack = Entities[9];
             SmartphoneColorRed = Entities[10];
 
-            SmartphoneColorWhite = Entities[11];
-            SmartphoneColorBlack = Entities[12];
-            SmartphoneColorRed = Entities[13];
+            SmartwatchColorWhite = Entities[11];
+            SmartwatchColorBlack = Entities[12];
+            SmartwatchColorRed = Entities[13];
 
             WomensFootwearSize35 = Entities[14];
             WomensFootwearSize42 = Entities[15];

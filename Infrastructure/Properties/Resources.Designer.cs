@@ -63,9 +63,9 @@ namespace Infrastructure.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        public static byte[] iPhone_6___1 {
+        public static byte[] IPhoneXR64GBWhite1 {
             get {
-                object obj = ResourceManager.GetObject("iPhone_6___1", resourceCulture);
+                object obj = ResourceManager.GetObject("IPhoneXR64GBWhite1", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -73,9 +73,9 @@ namespace Infrastructure.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        public static byte[] iPhone_6___2 {
+        public static byte[] IPhoneXR64GBWhite2 {
             get {
-                object obj = ResourceManager.GetObject("iPhone_6___2", resourceCulture);
+                object obj = ResourceManager.GetObject("IPhoneXR64GBWhite2", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -83,9 +83,9 @@ namespace Infrastructure.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        public static byte[] iPhone_6___3 {
+        public static byte[] IPhoneXR64GBWhite3 {
             get {
-                object obj = ResourceManager.GetObject("iPhone_6___3", resourceCulture);
+                object obj = ResourceManager.GetObject("IPhoneXR64GBWhite3", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -93,59 +93,9 @@ namespace Infrastructure.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        public static byte[] Jacket {
+        public static byte[] IPhoneXR64GBWhite4 {
             get {
-                object obj = ResourceManager.GetObject("Jacket", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        public static byte[] Pebble {
-            get {
-                object obj = ResourceManager.GetObject("Pebble", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        public static byte[] Samsung_7 {
-            get {
-                object obj = ResourceManager.GetObject("Samsung_7", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        public static byte[] Samsung_8 {
-            get {
-                object obj = ResourceManager.GetObject("Samsung_8", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        public static byte[] Samsung_9 {
-            get {
-                object obj = ResourceManager.GetObject("Samsung_9", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        public static byte[] Shoes {
-            get {
-                object obj = ResourceManager.GetObject("Shoes", resourceCulture);
+                object obj = ResourceManager.GetObject("IPhoneXR64GBWhite4", resourceCulture);
                 return ((byte[])(obj));
             }
         }

@@ -5,12 +5,10 @@ import { Observable, Subscription } from 'rxjs';
 import { Brand } from 'src/app/brand/brand';
 import { Store } from 'src/app/store/store';
 import { Category } from 'src/app/category/category';
-import { MeasurementUnit } from 'src/app/measurement-unit/measurement-unit';
 import { ItemVariant } from 'src/app/item-variant/item-variant';
 import { Item } from '../item';
 import { BrandService } from 'src/app/brand/brand.service';
 import { StoreService } from 'src/app/store/store.service';
-import { MeasurementUnitService } from 'src/app/measurement-unit/measurement-unit.service';
 import { CategoryService } from 'src/app/category/category.service';
 import { ItemService } from '../item.service';
 import { MessageService } from 'src/app/message/message.service';
@@ -25,7 +23,6 @@ export class ItemCreateUpdateComponent implements OnInit {
   public brands: Brand[];
   public stores: Store[];
   public allCategories: Category[];
-  public measurementUnits: MeasurementUnit[];
   public parentCategories: Category[];
   public subcategories: Category[];
   public isUpdating = false;
@@ -44,7 +41,6 @@ export class ItemCreateUpdateComponent implements OnInit {
   constructor(
     private brandService: BrandService,
     private storeService: StoreService,
-    private measurementUnitService: MeasurementUnitService,
     private categoryService: CategoryService,
     private itemService: ItemService,
     private router: Router,
@@ -60,7 +56,6 @@ export class ItemCreateUpdateComponent implements OnInit {
   initializeComponent() {
     this.brands = [];
     this.stores = [];
-    this.measurementUnits = [];
     this.allCategories = [];
     this.parentCategories = [];
     //this.messageService.sendError("Init: ");
@@ -71,15 +66,13 @@ export class ItemCreateUpdateComponent implements OnInit {
     observables = Observable.zip(
       this.brandService.index(),
       this.storeService.index({ updateAuthorizationFilter: true}),
-        this.measurementUnitService.index(),
         this.categoryService.index()
       );
     observables.subscribe((data) => {
       //this.messageService.sendError("subscribe 1: ");
       data[0].entities.forEach(b => this.brands.push(new Brand(b)));
       data[1].entities.forEach(s => this.stores.push(new Store(s)));
-      data[2].entities.forEach(m => this.measurementUnits.push(new MeasurementUnit(m)));
-      data[3].entities.forEach(c => this.allCategories.push(new Category(c)));
+      data[2].entities.forEach(c => this.allCategories.push(new Category(c)));
       this.parentCategories = this.allCategories.filter(c => c.parentCategoryId == this.categoryService.rootCategory.id);
       if (id) {
         this.itemService.get(id).subscribe((item: Item) => {

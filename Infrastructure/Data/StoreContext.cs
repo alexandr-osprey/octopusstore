@@ -14,7 +14,6 @@ namespace Infrastructure.Data
 
         public DbSet<Brand> Brands { get; set; }
         public DbSet<Category> Categories { get; set; }
-        public DbSet<MeasurementUnit> MeasurementUnits { get; set; }
         public DbSet<Characteristic> Characteristics { get; set; }
         public DbSet<CharacteristicValue> CharacteristicValues { get; set; }
         public DbSet<Store> Stores { get; set; }
@@ -42,7 +41,6 @@ namespace Infrastructure.Data
         {
             builder.Entity<Brand>(ConfigureBrand);
             builder.Entity<Category>(ConfigureCategory);
-            builder.Entity<MeasurementUnit>(ConfigureMeasurementUnit);
             builder.Entity<Characteristic>(ConfigureCharacteristic);
             builder.Entity<CharacteristicValue>(ConfigureCharacteristicValue);
             builder.Entity<Store>(ConfigureStore);
@@ -66,15 +64,6 @@ namespace Infrastructure.Data
         {
             builder.Property(t => t.Title).IsRequired();
             builder.ToTable(nameof(Category));
-            builder.HasKey(ci => ci.Id);
-            builder.Property(cb => cb.Title)
-                .IsRequired()
-                .HasMaxLength(100);
-        }
-        private void ConfigureMeasurementUnit(EntityTypeBuilder<MeasurementUnit> builder)
-        {
-            builder.Property(t => t.Title).IsRequired();
-            builder.ToTable(nameof(MeasurementUnit));
             builder.HasKey(ci => ci.Id);
             builder.Property(cb => cb.Title)
                 .IsRequired()

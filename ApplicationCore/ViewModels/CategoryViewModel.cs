@@ -18,7 +18,6 @@ namespace ApplicationCore.ViewModels
         {
             Title = category.Title;
             ParentCategoryId = category.ParentCategoryId;
-            Description = category.Description;
             IsRoot = category.IsRoot;
         }
 
@@ -29,7 +28,6 @@ namespace ApplicationCore.ViewModels
                 Id = Id,
                 Title = Title,
                 ParentCategoryId = ParentCategoryId,
-                Description = Description,
                 IsRoot = IsRoot
             };
         }
@@ -37,7 +35,6 @@ namespace ApplicationCore.ViewModels
         {
             modelToUpdate.Title = Title;
             modelToUpdate.ParentCategoryId = ParentCategoryId;
-            modelToUpdate.Description = Description;
             return modelToUpdate;
         }
     }

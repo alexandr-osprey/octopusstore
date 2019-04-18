@@ -22,7 +22,6 @@ namespace ApplicationCore.ViewModels
             CategoryId = item.CategoryId;
             StoreId = item.StoreId;
             BrandId = item.BrandId;
-            MeasurementUnitId = item.MeasurementUnitId;
             Description = item.Description;
         }
 
@@ -36,7 +35,6 @@ namespace ApplicationCore.ViewModels
                 CategoryId = CategoryId,
                 StoreId = StoreId,
                 BrandId = BrandId,
-                MeasurementUnitId = MeasurementUnitId
             };
         }
         public override Item UpdateModel(Item modelToUpdate)

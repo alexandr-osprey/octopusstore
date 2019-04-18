@@ -7,10 +7,8 @@ import { CartItemThumbnail } from './cart-item-thumbnail';
 import { DataReadWriteService } from 'src/app/services/data-read-write.service';
 import { IdentityService } from 'src/app/identity/identity.service';
 import { ItemService } from 'src/app/item/item.service';
-import { MeasurementUnitService } from 'src/app/measurement-unit/measurement-unit.service';
 import { ItemVariantService } from 'src/app/item-variant/item-variant.service';
 import { MessageService } from 'src/app/message/message.service';
-import { MeasurementUnit } from 'src/app/measurement-unit/measurement-unit';
 import { EntityIndex } from 'src/app/models/entity/entity-index';
 import { ItemVariant } from 'src/app/item-variant/item-variant';
 import { Item } from 'src/app/item/item';
@@ -22,7 +20,6 @@ import { ParameterNames } from 'src/app/parameter/parameter-names';
 export class CartItemService extends DataReadWriteService<CartItem> {
   protected localStorageKey: string = "cartItemLocalStorage";
   public cartItemThumbnails: CartItemThumbnail[] = [];
-  protected measurementUnits: MeasurementUnit[] = [];
   protected cartItemThumbnailsSource = new Subject<any>();
   public cartItemThumbnails$ = this.cartItemThumbnailsSource.asObservable();
 
@@ -31,7 +28,6 @@ export class CartItemService extends DataReadWriteService<CartItem> {
     protected router: Router,
     protected identityService: IdentityService,
     protected itemService: ItemService,
-    protected measurementUnitService: MeasurementUnitService,
     protected itemVariantService: ItemVariantService,
     protected messageService: MessageService) {
     super(http, router, identityService, messageService);
@@ -52,10 +48,6 @@ export class CartItemService extends DataReadWriteService<CartItem> {
       }
     });
     this.updateCartItemThumbnails();
-    this.measurementUnitService.index()
-      .subscribe((index: EntityIndex<MeasurementUnit>) => {
-        this.measurementUnits = index.entities;
-      });
   }
 
   public updateCartItemThumbnails(): void {

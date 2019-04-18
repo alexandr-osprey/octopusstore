@@ -131,8 +131,6 @@ namespace Infrastructure.Services
             var category = entityEntry.Entity;
             if (string.IsNullOrWhiteSpace(category.Title))
                 throw new EntityValidationException("Title not specified");
-            if (string.IsNullOrWhiteSpace(category.Description))
-                throw new EntityValidationException("Description not specified");
             if (IsPropertyModified(entityEntry, c => c.ParentCategoryId, false) 
                 && !category.IsRoot && !await Context.ExistsBySpecAsync(Logger, new EntitySpecification<Category>(category.ParentCategoryId)))
                 throw new EntityValidationException("Parent category does not exist");

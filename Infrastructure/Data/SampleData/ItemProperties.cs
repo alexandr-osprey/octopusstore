@@ -131,8 +131,63 @@ namespace Infrastructure.Data.SampleData
                 new ItemProperty(ItemVariants.SamsungGalaxyWatchBlack.Id, CharacteristicValues.SmartwatchColorBlack.Id) { OwnerId = Users.JohnId },
 
                 // reebok fast tempo
-                new ItemProperty(ItemVariants.ReebokFastTempoWhite.Id, CharacteristicValues.WomensFootwearColorWhite.Id) { OwnerId = Users.JohnId },
-                new ItemProperty(ItemVariants.ReebokFastTempoWhite.Id, CharacteristicValues.WomensFootwearSize35.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.ReebokFastTempoWhite35.Id, CharacteristicValues.WomensFootwearColorWhite.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.ReebokFastTempoWhite35.Id, CharacteristicValues.WomensFootwearSize35.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.ReebokFastTempoWhite42.Id, CharacteristicValues.WomensFootwearColorWhite.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.ReebokFastTempoWhite42.Id, CharacteristicValues.WomensFootwearSize42.Id) { OwnerId = Users.JohnId },
+
+                new ItemProperty(ItemVariants.ReebokFastTempoBlack35.Id, CharacteristicValues.WomensFootwearColorBlack.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.ReebokFastTempoBlack35.Id, CharacteristicValues.WomensFootwearSize35.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.ReebokFastTempoBlack42.Id, CharacteristicValues.WomensFootwearColorBlack.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.ReebokFastTempoBlack42.Id, CharacteristicValues.WomensFootwearSize42.Id) { OwnerId = Users.JohnId },
+
+                // reebok DMX Run 10
+                new ItemProperty(ItemVariants.ReebokDMXRun10White35.Id, CharacteristicValues.WomensFootwearColorWhite.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.ReebokDMXRun10White35.Id, CharacteristicValues.WomensFootwearSize35.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.ReebokDMXRun10White42.Id, CharacteristicValues.WomensFootwearColorWhite.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.ReebokDMXRun10White42.Id, CharacteristicValues.WomensFootwearSize42.Id) { OwnerId = Users.JohnId },
+
+                new ItemProperty(ItemVariants.ReebokDMXRun10Black35.Id, CharacteristicValues.WomensFootwearColorBlack.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.ReebokDMXRun10Black35.Id, CharacteristicValues.WomensFootwearSize35.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.ReebokDMXRun10Black42.Id, CharacteristicValues.WomensFootwearColorBlack.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.ReebokDMXRun10Black42.Id, CharacteristicValues.WomensFootwearSize42.Id) { OwnerId = Users.JohnId },
+
+                // mark O polo shoes
+                new ItemProperty(ItemVariants.MarcOPoloShoes2White35.Id, CharacteristicValues.WomensFootwearColorWhite.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.MarcOPoloShoes2White35.Id, CharacteristicValues.WomensFootwearSize35.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.MarcOPoloShoes2White42.Id, CharacteristicValues.WomensFootwearColorWhite.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.MarcOPoloShoes2White42.Id, CharacteristicValues.WomensFootwearSize42.Id) { OwnerId = Users.JohnId },
+
+                new ItemProperty(ItemVariants.MarcOPoloShoes2Black35.Id, CharacteristicValues.WomensFootwearColorBlack.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.MarcOPoloShoes2Black35.Id, CharacteristicValues.WomensFootwearSize35.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.MarcOPoloShoes2Black42.Id, CharacteristicValues.WomensFootwearColorBlack.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.MarcOPoloShoes2Black42.Id, CharacteristicValues.WomensFootwearSize42.Id) { OwnerId = Users.JohnId },
+
+                // UCB Dress 1
+                new ItemProperty(ItemVariants.UCBDress1WhiteS.Id, CharacteristicValues.WomensDressSizeS.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.UCBDress1WhiteS.Id, CharacteristicValues.WomensDressColorWhite.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.UCBDress1WhiteM.Id, CharacteristicValues.WomensDressSizeM.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.UCBDress1WhiteM.Id, CharacteristicValues.WomensDressColorWhite.Id) { OwnerId = Users.JohnId },
+
+                new ItemProperty(ItemVariants.UCBDress1YellowS.Id, CharacteristicValues.WomensDressSizeS.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.UCBDress1YellowS.Id, CharacteristicValues.WomensDressColorYellow.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.UCBDress1YellowM.Id, CharacteristicValues.WomensDressSizeM.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.UCBDress1YellowM.Id, CharacteristicValues.WomensDressColorYellow.Id) { OwnerId = Users.JohnId },
+
+                // UCB Dress 1
+                new ItemProperty(ItemVariants.UCBDress2WhiteS.Id, CharacteristicValues.WomensDressSizeS.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.UCBDress2WhiteS.Id, CharacteristicValues.WomensDressColorWhite.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.UCBDress2WhiteM.Id, CharacteristicValues.WomensDressSizeM.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.UCBDress2WhiteM.Id, CharacteristicValues.WomensDressColorWhite.Id) { OwnerId = Users.JohnId },
+
+                new ItemProperty(ItemVariants.UCBDress2YellowS.Id, CharacteristicValues.WomensDressSizeS.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.UCBDress2YellowS.Id, CharacteristicValues.WomensDressColorYellow.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.UCBDress2YellowM.Id, CharacteristicValues.WomensDressSizeM.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.UCBDress2YellowM.Id, CharacteristicValues.WomensDressColorYellow.Id) { OwnerId = Users.JohnId },
+
+                new ItemProperty(ItemVariants.DanielePatriciBag1.Id, CharacteristicValues.WomensAccessoryTypeBag.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.DanielePatriciBag2.Id, CharacteristicValues.WomensAccessoryTypeBag.Id) { OwnerId = Users.JohnId },
+                new ItemProperty(ItemVariants.DanielePatriciClutch1.Id, CharacteristicValues.WomensAccessoryTypeClutch.Id) { OwnerId = Users.JohnId },
             };
         }
 

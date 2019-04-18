@@ -100,7 +100,6 @@ namespace OspreyStore
             services.AddScoped(typeof(IAppLogger<>), typeof(AppLogger<>));
             services.AddScoped<IScopedParameters, ScopedParameters>();
             services.AddScoped<IBrandService, BrandService>();
-            services.AddScoped<IMeasurementUnitService, MeasurementUnitService>();
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IItemVariantService, ItemVariantService>();
             services.AddScoped<IStoreService, StoreService>();

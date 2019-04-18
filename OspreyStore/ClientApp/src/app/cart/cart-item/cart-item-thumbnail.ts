@@ -1,6 +1,5 @@
 import { CartItem } from "./cart-item";
 import { ItemVariant } from "src/app/item-variant/item-variant";
-import { MeasurementUnit } from "src/app/measurement-unit/measurement-unit";
 import { Item } from "src/app/item/item";
 import { Store } from "src/app/store/store";
 import { ItemVariantImage } from "src/app/item-variant-image/item-variant-image";

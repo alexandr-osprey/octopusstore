@@ -1,29 +1,7 @@
-.images {
-  height: 100%;
-}
-
-.displayed-image {
-  height: 100%;
-  min-height: 100px;
-  min-width: 150px;
-}
-
-.displayed-image img {
-  max-width: 100%;
-  max-height: 100%;
-}
-
 .thumbnail {
-  min-height: 50px;
-  min-width: 65px;
-  width: auto;
-  max-width: 100px;
-  margin: 8px;
+  height: 100px;
+  width: 100px;
 }
   .thumbnail:hover {
     box-shadow: 0px 0px 1px 1px #007bff;
-  }
-  .thumbnail img {
-    max-width: 100%;
-    max-height: 100%;
   }
