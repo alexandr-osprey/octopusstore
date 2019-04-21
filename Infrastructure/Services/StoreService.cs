@@ -86,13 +86,5 @@ namespace Infrastructure.Services
             }
 
         }
-
-        public override async Task RelinkRelatedAsync(int id, int idToRelinkTo)
-        {
-            var items = await Context.EnumerateRelatedEnumAsync(Logger, new EntitySpecification<Store>(id), b => b.Items);
-            foreach (var item in items)
-                item.StoreId = idToRelinkTo;
-            await Context.SaveChangesAsync(Logger, "Relink Store");
-        }
     }
 }

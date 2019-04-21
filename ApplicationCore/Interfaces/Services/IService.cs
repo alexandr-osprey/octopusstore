@@ -65,14 +65,6 @@ namespace ApplicationCore.Interfaces.Services
         Task DeleteSingleAsync(Specification<TEntity> spec);
 
         /// <summary>
-        /// Deletes entity and assigns any links to entity with provided id. Used to avoid delete of related entities.
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="idToLinkTo"></param>
-        /// <returns></returns>
-        Task DeleteSingleWithRelatedRelink(int id, int idToRelinkTo);
-
-        /// <summary>
         /// Deletes entities based on specification
         /// </summary>
         /// <param name="spec"></param>

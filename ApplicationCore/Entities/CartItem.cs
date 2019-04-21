@@ -2,6 +2,9 @@
 
 namespace ApplicationCore.Entities
 {
+    /// <summary>
+    /// Item variant in a cart
+    /// </summary>
     public class CartItem: Entity, ShallowClonable<CartItem>
     {
         public int ItemVariantId { get; set; }
@@ -27,7 +30,7 @@ namespace ApplicationCore.Entities
 
         public CartItem ShallowClone()
         {
-            return (CartItem)MemberwiseClone();
+            return new CartItem(this);
         }
     }
 }

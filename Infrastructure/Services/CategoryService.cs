@@ -111,20 +111,6 @@ namespace Infrastructure.Services
             }
         }
 
-        public override async Task RelinkRelatedAsync(int id, int idToRelinkTo)
-        {
-            var subcategories = await Context.EnumerateRelatedEnumAsync(Logger, new EntitySpecification<Category>(id), c => c.Subcategories);
-            foreach (var subcategory in subcategories)
-                subcategory.ParentCategoryId = idToRelinkTo;
-            var categoryItems = await Context.EnumerateRelatedEnumAsync(Logger, new EntitySpecification<Category>(id), b => b.Items);
-            foreach (var item in categoryItems)
-                item.CategoryId = idToRelinkTo;
-            var categoryCharacteristics = await Context.EnumerateRelatedEnumAsync(Logger, new EntitySpecification<Category>(id), b => b.Characteristics);
-            foreach (var characteristic in categoryCharacteristics)
-                characteristic.CategoryId = idToRelinkTo;
-            await Context.SaveChangesAsync(Logger, "Relink Category");
-        }
-
         protected override async Task ValidateWithExceptionAsync(EntityEntry<Category> entityEntry)
         {
             await base.ValidateWithExceptionAsync(entityEntry);

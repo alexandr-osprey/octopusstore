@@ -63,7 +63,7 @@ namespace OspreyStore.Controllers
         protected override async Task PopulateViewModelWithRelatedDataAsync<TCustomViewModel>(TCustomViewModel viewModel)
         {
             var order = await Service.ReadSingleAsync(new EntitySpecification<Order>(viewModel.GetHashCode()));
-            string email = await IdentityService.GetUserEmail(order.OwnerId);
+            string email = await IdentityService.GetUserEmailAsync(order.OwnerId);
             viewModel.CustomerEmail = email;
         }
     }

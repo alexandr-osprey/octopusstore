@@ -28,7 +28,7 @@ namespace ApplicationCore.Entities
 
         public ItemVariantImage ShallowClone()
         {
-            return (ItemVariantImage)MemberwiseClone();
+            return new ItemVariantImage();
         }
     }
 }

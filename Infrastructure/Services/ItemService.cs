@@ -43,14 +43,6 @@ namespace Infrastructure.Services
             await base.DeleteRelatedEntitiesAsync(item);
         }
 
-        public override async Task RelinkRelatedAsync(int id, int idToRelinkTo)
-        {
-            var itemVariants = await Context.EnumerateRelatedEnumAsync(Logger, new EntitySpecification<Item>(id), b => b.ItemVariants);
-            foreach (var variant in itemVariants)
-                variant.ItemId = idToRelinkTo;
-            await Context.SaveChangesAsync(Logger, "Relink Item");
-        }
-
         protected async Task<IEnumerable<Category>> GetCategoriesAsync(int categoryId)
         {
             return await CategoryService.EnumerateSubcategoriesAsync(new EntitySpecification<Category>(categoryId));

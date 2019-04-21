@@ -11,12 +11,12 @@ using Xunit.Abstractions;
 
 namespace UnitTests.Services
 {
-    public class ItemImageServiceTests : ServiceTests<ItemVariantImage, IItemVariantImageService>
+    public class ItemVariantImageServiceTests : ServiceTests<ItemVariantImage, IItemVariantImageService>
     {
-        public ItemImageServiceTests(ITestOutputHelper output)
+        public ItemVariantImageServiceTests(ITestOutputHelper output)
            : base(output)
         {
-            _imageToCreateFrom = Data.ItemVariantImages.Samsung71;
+            _imageToCreateFrom = _data.ItemVariantImages.Entities.FirstOrDefault();
         }
 
         protected ItemVariantImage _imageToCreateFrom;
@@ -25,19 +25,19 @@ namespace UnitTests.Services
         {
             return new List<ItemVariantImage>()
             {
-                new ItemVariantImage("testImage1", _imageToCreateFrom.ContentType, _imageToCreateFrom.RelatedId, Service.GetStream(_imageToCreateFrom))
+                new ItemVariantImage("testImage1", _imageToCreateFrom.ContentType, _imageToCreateFrom.RelatedId, _service.GetStream(_imageToCreateFrom))
             };
         }
 
         protected override IEnumerable<ItemVariantImage> GetIncorrectNewEntites()
         {
-            var itemImage = Data.ItemVariantImages.IPhone63;
+            var itemImage = _data.ItemVariantImages.Entities.LastOrDefault();
             return new List<ItemVariantImage>()
             {
-                new ItemVariantImage("", @"image/jpg", itemImage.RelatedId, Service.GetStream(itemImage)),
-                new ItemVariantImage("test", @"image/jpg", 999, Service.GetStream(itemImage)),
+                new ItemVariantImage("", @"image/jpg", itemImage.RelatedId, _service.GetStream(itemImage)),
+                new ItemVariantImage("test", @"image/jpg", 999, _service.GetStream(itemImage)),
                 new ItemVariantImage("test", @"image/jpg", itemImage.RelatedId, null),
-                new ItemVariantImage("test",  @"image/exe", itemImage.RelatedId, Service.GetStream(itemImage)),
+                new ItemVariantImage("test",  @"image/exe", itemImage.RelatedId, _service.GetStream(itemImage)),
             };
         }
 
@@ -45,7 +45,7 @@ namespace UnitTests.Services
         protected override async Task AssertCreateSuccessAsync(ItemVariantImage itemImage)
         {
             await base.AssertCreateSuccessAsync(itemImage);
-            Assert.True(Context.ItemVariantImages.Contains(itemImage));
+            Assert.True(_context.ItemVariantImages.Contains(itemImage));
             using (var fileDest = File.Open(itemImage.FullPath, FileMode.Open))
             {
                 using (var fileInit = File.Open(_imageToCreateFrom.FullPath, FileMode.Open))
@@ -59,7 +59,7 @@ namespace UnitTests.Services
         [Fact]
         public async Task GetStream()
         {
-            using (var stream = Service.GetStream(Data.ItemVariantImages.Jacket1))
+            using (var stream = _service.GetStream(_data.ItemVariantImages.Entities.ElementAt(3)))
             {
                 byte[] readBytes = new byte[stream.Length];
                 int bytesCount = await stream.ReadAsync(readBytes, 0, (int)stream.Length);
@@ -92,22 +92,27 @@ namespace UnitTests.Services
 
         protected override IEnumerable<ItemVariantImage> GetCorrectEntitesForUpdate()
         {
-            Data.ItemVariantImages.Samsung81.Title = "Updated 1";
-            return new List<ItemVariantImage>() { Data.ItemVariantImages.Samsung81 };
+            var first = _data.ItemVariantImages.Entities.FirstOrDefault();
+            first.Title = "Updated 1";
+            return new List<ItemVariantImage>() { first };
         }
 
         protected override IEnumerable<ItemVariantImage> GetIncorrectEntitesForUpdate()
         {
-            Data.ItemVariantImages.Samsung81.Title = "";
-            Data.ItemVariantImages.IPhone61.ContentType = "txt";
-            Data.ItemVariantImages.IPhone62.DirectoryPath = "path";
-            Data.ItemVariantImages.IPhone63.FullPath = "fullpath";
+            var first = _data.ItemVariantImages.Entities.ElementAt(0);
+            var second = _data.ItemVariantImages.Entities.ElementAt(0);
+            var third = _data.ItemVariantImages.Entities.ElementAt(0);
+            var fourth = _data.ItemVariantImages.Entities.ElementAt(0);
+            first.Title = "";
+            second.ContentType = "txt";
+            third.DirectoryPath = "path";
+            fourth.FullPath = "fullpath";
             return new List<ItemVariantImage>()
             {
-                Data.ItemVariantImages.Samsung81,
-                Data.ItemVariantImages.IPhone61,
-                Data.ItemVariantImages.IPhone62,
-                Data.ItemVariantImages.IPhone63
+                first,
+                second,
+                third,
+                fourth
             };
         }
 

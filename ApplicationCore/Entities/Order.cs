@@ -11,6 +11,9 @@ namespace ApplicationCore.Entities
         Cancelled
     }
 
+    /// <summary>
+    /// Over of Item Variant
+    /// </summary>
     public class Order : Entity, ShallowClonable<Order>
     {
         public DateTime DateTimeCreated { get; set; }
@@ -58,7 +61,7 @@ namespace ApplicationCore.Entities
 
         public Order ShallowClone()
         {
-            return (Order)MemberwiseClone();
+            return new Order(this);
         }
     }
 }

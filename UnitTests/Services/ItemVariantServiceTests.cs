@@ -19,7 +19,7 @@ namespace UnitTests.Services
 
         protected override IEnumerable<ItemVariant> GetCorrectEntitesForUpdate()
         {
-            var itemVariant = Data.ItemVariants.IPhone664GB;
+            var itemVariant = _data.ItemVariants.IPhone8Plus128GBWhite;
             itemVariant.Title = "Updated";
             itemVariant.Price = 999;
             return new List<ItemVariant>()
@@ -32,19 +32,8 @@ namespace UnitTests.Services
         {
             return new List<ItemVariant>()
             {
-                new ItemVariant() { ItemId = Data.Items.IPhoneXR.Id, Title = "title 1", Price = 500 },
+                new ItemVariant() { ItemId = _data.Items.IPhoneXR.Id, Title = "title 1", Price = 500 },
             };
-        }
-
-        [Fact]
-        public async Task DeleteSingleWithRelatedRelinkAsync()
-        {
-            var entity = Data.ItemVariants.IPhone664GB;
-            int idToRelinkTo = Data.ItemVariants.IPhone632GB.Id;
-            var itemProperties = Data.ItemProperties.Entities.Where(i => i.ItemVariant == entity).ToList();
-            await Service.DeleteSingleWithRelatedRelink(entity.Id, idToRelinkTo);
-            itemProperties.ForEach(i => Assert.Equal(i.ItemVariantId, idToRelinkTo));
-            Assert.False(Context.Set<ItemVariant>().Any(c => c == entity));
         }
 
         protected override Specification<ItemVariant> GetEntitiesToDeleteSpecification()
@@ -54,20 +43,20 @@ namespace UnitTests.Services
 
         protected override IEnumerable<ItemVariant> GetIncorrectEntitesForUpdate()
         {
-            Data.ItemVariants.JacketBlack.ItemId = Data.Items.IPhoneXR.Id;
-            Data.ItemVariants.IPhone632GB.Title = "";
-            Data.ItemVariants.IPhone664GB.Price = 0;
+            _data.ItemVariants.MarcOPoloShoes1Black35.ItemId = _data.Items.IPhoneXR.Id;
+            _data.ItemVariants.IPhone8Plus128GBBlack.Title = "";
+            _data.ItemVariants.IPhone8Plus64GBWhite.Price = 0;
             return new List<ItemVariant>()
             {
-                Data.ItemVariants.JacketBlack,
-                Data.ItemVariants.IPhone632GB,
-                Data.ItemVariants.IPhone664GB
+                _data.ItemVariants.MarcOPoloShoes1Black35,
+                _data.ItemVariants.IPhone8Plus128GBBlack,
+                _data.ItemVariants.IPhone8Plus64GBWhite
             };
         }
 
         protected override IEnumerable<ItemVariant> GetIncorrectNewEntites()
         {
-            var itemVariant = Data.ItemVariants.JacketBlack;
+            var itemVariant = _data.ItemVariants.MarcOPoloShoes1Black35;
             return new List<ItemVariant>()
             {
                 new ItemVariant() { ItemId = 0, Title = "title 1", Price = 500 },
@@ -78,7 +67,8 @@ namespace UnitTests.Services
 
         protected override IQueryable<ItemVariant> GetQueryable()
         {
-            return base.GetQueryable().Include(i => i.ItemProperties);
+            return base.GetQueryable().Include(i => i.ItemProperties).Include(i => i.Images);
+
         }
     }
 }

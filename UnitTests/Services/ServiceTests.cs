@@ -15,17 +15,22 @@ using Xunit.Abstractions;
 
 namespace UnitTests
 {
+    /// <summary>
+    /// Base tests for any Service-derived instances
+    /// </summary>
+    /// <typeparam name="TEntity"></typeparam>
+    /// <typeparam name="TService"></typeparam>
     public abstract class ServiceTests<TEntity, TService>
        : TestBase<TEntity>
         where TService: IService<TEntity>
         where TEntity: Entity, ShallowClonable<TEntity>
     {
-        protected TService Service { get; }
+        protected TService _service { get; }
 
         public ServiceTests(ITestOutputHelper output)
            : base(output)
         {
-            Service = Resolve<TService>();
+            _service = Resolve<TService>();
         }
 
         [Fact]
@@ -33,7 +38,7 @@ namespace UnitTests
         {
             foreach(TEntity correctNewEntity in GetCorrectNewEntites())
             {
-                var newEntity = await Service.CreateAsync(correctNewEntity);
+                var newEntity = await _service.CreateAsync(correctNewEntity);
                 await AssertCreateSuccessAsync(newEntity);
             }
         }
@@ -50,31 +55,31 @@ namespace UnitTests
         [Fact]
         public virtual async Task CreateAsyncThrowsValidationExceptionAsync()
         {
-            await Assert.ThrowsAsync<EntityValidationException>(() => Service.CreateAsync(null));
+            await Assert.ThrowsAsync<ArgumentNullException>(() => _service.CreateAsync(null));
             foreach (var incorrectEntity in GetIncorrectNewEntites())
-                await Assert.ThrowsAsync<EntityValidationException>(() => Service.CreateAsync(incorrectEntity));
+                await Assert.ThrowsAsync<EntityValidationException>(() => _service.CreateAsync(incorrectEntity));
         }
         protected abstract IEnumerable<TEntity> GetIncorrectNewEntites();
 
         [Fact]
         public virtual async Task ReadSingleAsync()
         {
-            var expected = await Context.Set<TEntity>().FirstOrDefaultAsync();
-            var actual = await Service.ReadSingleAsync(new EntitySpecification<TEntity>(expected.Id));
+            var expected = await _context.Set<TEntity>().FirstOrDefaultAsync();
+            var actual = await _service.ReadSingleAsync(new EntitySpecification<TEntity>(expected.Id));
             Equal(expected, actual);
         }
 
         [Fact]
         public virtual async Task ReadSingleAsyncThrowsNotFoundExceptionAsync()
         {
-            await Assert.ThrowsAsync<EntityNotFoundException>(() => Service.ReadSingleAsync(new EntitySpecification<TEntity>(9999)));
+            await Assert.ThrowsAsync<EntityNotFoundException>(() => _service.ReadSingleAsync(new EntitySpecification<TEntity>(9999)));
         }
         
         [Fact]
         public virtual async Task EnumerateAsync()
         {
-            var expected = await Context.Set<TEntity>().ToListAsync();
-            var actual = await Service.EnumerateAsync(new Specification<TEntity>(e => true));
+            var expected = await _context.Set<TEntity>().ToListAsync();
+            var actual = await _service.EnumerateAsync(new Specification<TEntity>(e => true));
             Equal(expected, actual);
         }
 
@@ -82,14 +87,14 @@ namespace UnitTests
         public virtual async Task EnumerateWithPaging()
         {
             int pageSize = 2;
-            int totalCount = await Context.Set<TEntity>().CountAsync();
+            int totalCount = await _context.Set<TEntity>().CountAsync();
             //penultimate page
             int page = GetPageCount(totalCount, pageSize) - 1;
             page = page <= 0 ? 1 : page;
             var spec = new Specification<TEntity>(e => true);
             spec.SetPaging(page, pageSize);
-            var actual = await Service.EnumerateAsync(spec);
-            var expected = await Context.Set<TEntity>().Skip(pageSize * (page - 1)).Take(pageSize).ToListAsync();
+            var actual = await _service.EnumerateAsync(spec);
+            var expected = await _context.Set<TEntity>().Skip(pageSize * (page - 1)).Take(pageSize).ToListAsync();
             Equal(actual, expected);
         }
 
@@ -97,12 +102,12 @@ namespace UnitTests
         public virtual async Task EnumerateOrderedAsync()
         {
             var fields = GetFieldsForOrdered();
-            var expected = (await Context.Set<TEntity>().ToListAsync()).OrderBy(fields.First().Compile());
+            var expected = (await _context.Set<TEntity>().ToListAsync()).OrderBy(fields.First().Compile());
             foreach (var field in fields.Skip(1))
                 expected = expected.ThenBy(field.Compile());
             var spec = new Specification<TEntity>(e => true);
             spec.OrderByExpressions.AddRange(fields);
-            var actual = await Service.EnumerateAsync(spec);
+            var actual = await _service.EnumerateAsync(spec);
             Equal(expected, actual);
         }
 
@@ -110,13 +115,13 @@ namespace UnitTests
         public virtual async Task EnumerateOrdereDescAsync()
         {
             var fields = GetFieldsForOrderedByDesc();
-            var expected = (await Context.Set<TEntity>().ToListAsync()).OrderByDescending(fields.First().Compile());
+            var expected = (await _context.Set<TEntity>().ToListAsync()).OrderByDescending(fields.First().Compile());
             foreach (var field in fields.Skip(1))
                 expected = expected.ThenByDescending(field.Compile());
             var spec = new Specification<TEntity>(e => true);
             spec.OrderByExpressions.AddRange(fields);
             spec.OrderByDesc = true;
-            var actual = await Service.EnumerateAsync(spec);
+            var actual = await _service.EnumerateAsync(spec);
             Equal(expected, actual);
         }
 
@@ -124,7 +129,7 @@ namespace UnitTests
         public virtual async Task EnumerateAsyncEmpty()
         {
             var expected = new List<TEntity>();
-            var actual = await Service.EnumerateAsync(new Specification<TEntity>(e => false));
+            var actual = await _service.EnumerateAsync(new Specification<TEntity>(e => false));
             Equal(expected, actual);
         }
 
@@ -132,7 +137,7 @@ namespace UnitTests
         public virtual async Task UpdateAsync()
         {
             foreach (var entityToUpdate in GetCorrectEntitesForUpdate())
-                Equal(entityToUpdate, await Service.UpdateAsync(entityToUpdate));
+                Equal(entityToUpdate, await _service.UpdateAsync(entityToUpdate));
         }
 
         protected abstract IEnumerable<TEntity> GetCorrectEntitesForUpdate();
@@ -140,10 +145,13 @@ namespace UnitTests
         [Fact]
         public virtual async Task UpdateThrowsEntityValidationExceptionAsync()
         {
-            await Assert.ThrowsAsync<EntityValidationException>(() => Service.UpdateAsync(null));
-            await Assert.ThrowsAsync<EntityValidationException>(() => Service.UpdateAsync(GetCorrectEntitesForUpdate().FirstOrDefault()?.ShallowClone()));
-            foreach (var incorrectEntity in GetIncorrectEntitesForUpdate())
-                await Assert.ThrowsAsync<EntityValidationException>(() => Service.UpdateAsync(incorrectEntity));
+            await Assert.ThrowsAsync<ArgumentNullException>(() => _service.UpdateAsync(null));
+            var toUpdate = GetCorrectEntitesForUpdate();
+            if (toUpdate.Any())
+            {
+                foreach (var incorrectEntity in GetIncorrectEntitesForUpdate())
+                    await Assert.ThrowsAsync<EntityValidationException>(() => _service.UpdateAsync(incorrectEntity));
+            }
         }
 
         protected virtual IEnumerable<TEntity> GetIncorrectEntitesForUpdate() => new List<TEntity>();
@@ -151,14 +159,14 @@ namespace UnitTests
         [Fact]
         public virtual async Task DeleteSingleAsync()
         {
-            var lastEntity = await Context.Set<TEntity>().LastOrDefaultAsync();
+            var lastEntity = await _context.Set<TEntity>().LastOrDefaultAsync();
             await DeleteSingleEntityAsync(lastEntity);
         }
 
         [Fact]
         public virtual async Task DeleteAsync()
         {
-            var entititesToDelete = await Context.EnumerateAsync(Logger, GetEntitiesToDeleteSpecification());
+            var entititesToDelete = await _context.EnumerateAsync(_logger, GetEntitiesToDeleteSpecification());
             foreach(var entityToDelete in entititesToDelete)
                 await DeleteSingleEntityAsync(entityToDelete);
         }
@@ -168,7 +176,7 @@ namespace UnitTests
             try
             {
                 await BeforeDeleteAsync(entity);
-                await Service.DeleteSingleAsync(new EntitySpecification<TEntity>(entity.Id));
+                await _service.DeleteSingleAsync(new EntitySpecification<TEntity>(entity.Id));
                 Assert.False(await GetQueryable().AnyAsync(e => e == entity));
                 await AssertRelatedDeleted(entity);
             }
@@ -198,14 +206,14 @@ namespace UnitTests
         [Fact]
         public virtual async Task DeleteSingleAsyncThrowsNotFoundExceptionAsync()
         {
-            await Assert.ThrowsAsync<EntityNotFoundException>(() => Service.DeleteSingleAsync(new EntitySpecification<TEntity>(9999)));
+            await Assert.ThrowsAsync<EntityNotFoundException>(() => _service.DeleteSingleAsync(new EntitySpecification<TEntity>(9999)));
         }
 
         [Fact]
         public virtual async Task CountTotalAsync()
         {
-            int expected = await Context.Set<TEntity>().CountAsync();
-            int actual = await Service.CountTotalAsync(new Specification<TEntity>(e => true));
+            int expected = await _context.Set<TEntity>().CountAsync();
+            int actual = await _service.CountTotalAsync(new Specification<TEntity>(e => true));
             Assert.Equal(expected, actual);
         }
 
@@ -213,11 +221,11 @@ namespace UnitTests
         public virtual async Task PageCountAsync()
         {
             int pageSize = 3;
-            int totalCount = await Context.Set<TEntity>().CountAsync();
+            int totalCount = await _context.Set<TEntity>().CountAsync();
             int expected = GetPageCount(totalCount, pageSize);
             var spec = new Specification<TEntity>(e => true);
             spec.SetPaging(1, pageSize);
-            int actual = await Service.PageCountAsync(spec);
+            int actual = await _service.PageCountAsync(spec);
             Assert.Equal(expected, actual);
         }
 

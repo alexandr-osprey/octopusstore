@@ -25,11 +25,11 @@ namespace UnitTests.Controllers
             int page = 2;
             int pageSize = 3;
 
-            var actual = (await Controller.IndexAsync(page, pageSize, null, null, null, null, null, null, null));
-            var items = Data.Items.Entities
+            var actual = (await _controller.IndexAsync(page, pageSize, null, null, null, null, null, null, null));
+            var items = _data.Items.Entities
                 .Skip(pageSize * (page - 1))
                 .Take(pageSize);
-            int totalCount = Data.Items.Entities.Count();
+            int totalCount = _data.Items.Entities.Count();
             var expected = new IndexViewModel<ItemViewModel>(
                 page,
                 GetPageCount(totalCount, pageSize),
@@ -45,12 +45,12 @@ namespace UnitTests.Controllers
             int pageSize = 5;
             HashSet<CharacteristicValue> characteristicValues = new HashSet<CharacteristicValue>
             {
-                Data.CharacteristicValues.SmartphoneStorage32GB,
-                Data.CharacteristicValues.SmartphoneResolutionHD
+                _data.CharacteristicValues.SmartphoneBattery3000,
+                _data.CharacteristicValues.SmartphoneResolutionFullHD
             };
             string filter = string.Join(';', (from c in characteristicValues select c.Id.ToString()));
-            var actual = (await Controller.IndexAsync(page, pageSize, null, null, null, null, null, filter, null));
-            var items = Data.Items.Entities.Where(i => characteristicValues.IsSubsetOf(from p in i.ItemVariants.SelectMany(v => v.ItemProperties) select p.CharacteristicValue));
+            var actual = (await _controller.IndexAsync(page, pageSize, null, null, null, null, null, filter, null));
+            var items = _data.Items.Entities.Where(i => characteristicValues.IsSubsetOf(from p in i.ItemVariants.SelectMany(v => v.ItemProperties) select p.CharacteristicValue));
             int totalCount = items.Count();
             var expected = new IndexViewModel<ItemViewModel>(
                 page,
@@ -67,12 +67,12 @@ namespace UnitTests.Controllers
             int pageSize = 5;
             HashSet<CharacteristicValue> characteristicValues = new HashSet<CharacteristicValue>
             {
-                Data.CharacteristicValues.SmartphoneStorage32GB,
-                Data.CharacteristicValues.SmartphoneResolutionHD
+                _data.CharacteristicValues.SmartphoneResolutionFullHD,
+                _data.CharacteristicValues.SmartphoneBattery4000
             };
             string filter = string.Join(';', (from c in characteristicValues select c.Id.ToString()));
-            var actual = (await Controller.IndexThumbnailsAsync(page, pageSize, null, null, null, null, null, filter, null));
-            var items = Data.Items.Entities.Where(i => characteristicValues.IsSubsetOf(from p in i.ItemVariants.SelectMany(v => v.ItemProperties) select p.CharacteristicValue));
+            var actual = (await _controller.IndexThumbnailsAsync(page, pageSize, null, null, null, null, null, filter, null));
+            var items = _data.Items.Entities.Where(i => characteristicValues.IsSubsetOf(from p in i.ItemVariants.SelectMany(v => v.ItemProperties) select p.CharacteristicValue));
             int totalCount = items.Count();
             var expected = new IndexViewModel<ItemThumbnailViewModel>(
                 page,
@@ -88,17 +88,17 @@ namespace UnitTests.Controllers
             int page = 1;
             int pageSize = 5;
 
-            var emptyActual = (await Controller.IndexAsync(page, pageSize, null, null, null, null, null, "9999;8888", null));
+            var emptyActual = (await _controller.IndexAsync(page, pageSize, null, null, null, null, null, "9999;8888", null));
             Assert.Empty(emptyActual.Entities);
 
             HashSet<CharacteristicValue> wrongCharacteristicValues = new HashSet<CharacteristicValue>
             {
-                Data.CharacteristicValues.XXL,
-                Data.CharacteristicValues.SmartphoneResolutionHD
+                _data.CharacteristicValues.WomensAccessoryColorBlack,
+                _data.CharacteristicValues.SmartphoneRAM8
             };
             string filter = string.Join(';', (from c in wrongCharacteristicValues select c.Id.ToString()));
 
-            var emptyActual2 = (await Controller.IndexAsync(page, pageSize, null, null, null, null, null, filter, null));
+            var emptyActual2 = (await _controller.IndexAsync(page, pageSize, null, null, null, null, null, filter, null));
             Assert.Empty(emptyActual2.Entities);
         }
 
@@ -108,11 +108,11 @@ namespace UnitTests.Controllers
             int page = 2;
             int take = 50;
 
-            var actual = (await Controller.IndexAsync(page, null, null, null, null, null, null, null, null));
-            var items = Data.Items.Entities
+            var actual = (await _controller.IndexAsync(page, null, null, null, null, null, null, null, null));
+            var items = _data.Items.Entities
                 .Skip(take * (page - 1))
                 .Take(take);
-            int totalCount = Data.Items.Entities.Count();
+            int totalCount = _data.Items.Entities.Count();
             var expected = new IndexViewModel<ItemViewModel>(
                 page,
                 GetPageCount(totalCount, take),
@@ -127,8 +127,8 @@ namespace UnitTests.Controllers
             int page = 1;
             int take = 50;
 
-            var actual = (await Controller.IndexAsync(null, null, "sa", null, null, null, null, null, null));
-            var items = Data.Items.Entities.Where(i => i.Title.Contains("Sa"));
+            var actual = (await _controller.IndexAsync(null, null, "sa", null, null, null, null, null, null));
+            var items = _data.Items.Entities.Where(i => i.Title.Contains("Sa"));
             int totalCount = items.Count();
             var expected = new IndexViewModel<ItemViewModel>(
                 page,
@@ -141,60 +141,64 @@ namespace UnitTests.Controllers
         [Fact]
         public async Task IndexWithAllFiltersAsync()
         {
-            var samsung7 = Data.Items.SamsungS10;
+            var samsung10 = _data.Items.SamsungS10;
 
             int page = 1;
             int pageSize = 5;
-            var query = Data.Items.Entities
+            var query = _data.Items.Entities
                 .Where(i => i.Title.Contains("Samsung"))
-                .Where(i => i.StoreId == samsung7.StoreId)
-                .Where(i => i.BrandId == samsung7.BrandId);
+                .Where(i => i.StoreId == samsung10.StoreId)
+                .Where(i => i.CategoryId == samsung10.CategoryId)
+                .Where(i => i.BrandId == samsung10.BrandId);
             int totalCount = query.Count();
             var items = query
                 .Skip(pageSize * (page - 1))
                 .Take(pageSize);
             var expected = new IndexViewModel<ItemViewModel>(page, GetPageCount(totalCount, pageSize), totalCount, from i in items select new ItemViewModel(i));
-            var actual = (await Controller.IndexAsync(page, pageSize, "Samsung", samsung7.CategoryId, samsung7.StoreId, samsung7.BrandId, null, null, null));
+            var actual = (await _controller.IndexAsync(page, pageSize, "Samsung", samsung10.CategoryId, samsung10.StoreId, samsung10.BrandId, null, null, null));
             Equal(expected, actual);
         }
 
         [Fact]
         public async Task IndexWithAllFiltersThumbnailsAsync()
         {
-            var samsung7 = Data.Items.SamsungS10;
+            var samsung10 = _data.Items.SamsungS10;
 
             int page = 1;
             int pageSize = 5;
             var query = GetQueryable()
                 .Where(i => i.Title.Contains("Samsung"))
-                .Where(i => i.StoreId == samsung7.StoreId)
-                .Where(i => i.BrandId == samsung7.BrandId);
+                .Where(i => i.StoreId == samsung10.StoreId)
+                .Where(i => i.CategoryId == samsung10.CategoryId)
+                .Where(i => i.BrandId == samsung10.BrandId);
             int totalCount = query.Count();
             var items = query
                 .Skip(pageSize * (page - 1))
                 .Take(pageSize);
             var expected = new IndexViewModel<ItemThumbnailViewModel>(page, GetPageCount(totalCount, pageSize), totalCount, from i in items select new ItemThumbnailViewModel(i));
-            var actual = (await Controller.IndexThumbnailsAsync(page, pageSize, "Samsung", samsung7.CategoryId, samsung7.StoreId, samsung7.BrandId, null, null, null));
+            var actual = (await _controller.IndexThumbnailsAsync(page, pageSize, "Samsung", samsung10.CategoryId, samsung10.StoreId, samsung10.BrandId, null, null, null));
             Equal(expected, actual);
         }
 
         [Fact]
         public async Task IndexByCategoryAsync()
         {
-            var clothesCategory = Data.Categories.WomensClothing;
+            var clothesCategory = _data.Categories.WomensClothing;
             var categories = new HashSet<Category>();
             await GetCategorySubcategoriesAsync(clothesCategory.Id, categories);
             //var categories =  //await CategoryService.EnumerateSubcategoriesAsync(new CategoryDetailSpecification(clothesCategory.Id));
             int page = 1;
             int pageSize = 5;
-            var query = Context.Set<Item>()
+            var query = _context.Set<Item>()
                 .Where(i => categories.Any(c => c.Id == i.CategoryId));
             int totalCount = query.Count();
             var items = await query
                 .Skip(pageSize * (page - 1))
                 .Take(pageSize).ToListAsync();
             var expected = new IndexViewModel<ItemViewModel>(page, GetPageCount(totalCount, pageSize), totalCount, from i in items select new ItemViewModel(i));
-            var actual = (await Controller.IndexAsync(null, null, null, clothesCategory.Id, null, null, null, null, null));
+            var actual = (await _controller.IndexAsync(null, pageSize, null, clothesCategory.Id, null, null, null, null, null));
+            actual.Entities = actual.Entities.OrderBy(i => i.Id);
+            expected.Entities = expected.Entities.OrderBy(i => i.Id);
             Equal(expected, actual);
         }
 
@@ -203,20 +207,20 @@ namespace UnitTests.Controllers
         {
             int page = 2;
             int pageSize = 2;
-            var ordered = Context
+            var ordered = _context
                 .Set<Item>()
                 .AsNoTracking()
                 .Include(i => i.ItemVariants)
                 .OrderBy(i => (from v in i.ItemVariants select v.Price).Min());
 
-            var actual = (await Controller.IndexAsync(page, pageSize, null, null, null, null, "price", null, null));
-            var items = Context
+            var actual = (await _controller.IndexAsync(page, pageSize, null, null, null, null, "price", null, null));
+            var items = _context
                 .Set<Item>()
                 .AsNoTracking()
                 .OrderBy(i => (from v in i.ItemVariants select v.Price).Min())
                 .Skip(pageSize * (page - 1))
                 .Take(pageSize);
-            int totalCount = Data.Items.Entities.Count();
+            int totalCount = _data.Items.Entities.Count();
             var expected = new IndexViewModel<ItemViewModel>(
                 page,
                 GetPageCount(totalCount, pageSize),
@@ -230,25 +234,21 @@ namespace UnitTests.Controllers
         {
             int page = 2;
             int pageSize = 2;
-            var ordered = Context
-                .Set<Item>()
-                .AsNoTracking()
-                .Include(i => i.ItemVariants)
-                .OrderByDescending(i => (from v in i.ItemVariants select v.Price).Min());
 
-            var actual = (await Controller.IndexAsync(page, pageSize, null, null, null, null, "price", null, true));
-            var items = Context
+            var actual = (await _controller.IndexAsync(page, pageSize, null, null, null, null, "price", null, true));
+            var items = _context
                 .Set<Item>()
-                .AsNoTracking()
                 .OrderByDescending(i => (from v in i.ItemVariants select v.Price).Min())
                 .Skip(pageSize * (page - 1))
                 .Take(pageSize);
-            int totalCount = Data.Items.Entities.Count();
+            int totalCount = _data.Items.Entities.Count();
             var expected = new IndexViewModel<ItemViewModel>(
                 page,
                 GetPageCount(totalCount, pageSize),
                 totalCount,
                 from i in items select new ItemViewModel(i));
+            actual.Entities = actual.Entities.OrderBy(i => i.Id);
+            expected.Entities = expected.Entities.OrderBy(i => i.Id);
             Equal(expected, actual);
         }
 
@@ -257,20 +257,20 @@ namespace UnitTests.Controllers
         {
             int page = 2;
             int pageSize = 2;
-            var ordered = Context
+            var ordered = _context
                 .Set<Item>()
                 .AsNoTracking()
                 .Include(i => i.ItemVariants)
                 .OrderBy(i => i.Title);
 
-            var actual = (await Controller.IndexAsync(page, pageSize, null, null, null, null, "title", null, null));
-            var items = Context
+            var actual = (await _controller.IndexAsync(page, pageSize, null, null, null, null, "title", null, null));
+            var items = _context
                 .Set<Item>()
                 .AsNoTracking()
                 .OrderBy(i => i.Title)
                 .Skip(pageSize * (page - 1))
                 .Take(pageSize);
-            int totalCount = Data.Items.Entities.Count();
+            int totalCount = _data.Items.Entities.Count();
             var expected = new IndexViewModel<ItemViewModel>(
                 page,
                 GetPageCount(totalCount, pageSize),
@@ -283,22 +283,20 @@ namespace UnitTests.Controllers
         public async Task ReadDetailAsync()
         {
             var expectedItem = await GetQueryable()
-                .FirstOrDefaultAsync(i => i.Id == Data.Items.SamsungS10.Id);
+                .FirstOrDefaultAsync(i => i.Id == _data.Items.SamsungS10.Id);
             var expected = new ItemDetailViewModel(expectedItem);
-            var actual = await Controller.ReadDetailAsync(Data.Items.SamsungS10.Id);
+            var actual = await _controller.ReadDetailAsync(_data.Items.SamsungS10.Id);
             Equal(expected, actual);
         }
 
 
         protected override IQueryable<Item> GetQueryable()
         {
-            return Context
+            return _context
                 .Set<Item>()
                 
                 .Include(i => i.Brand)
                 .Include(i => i.Store)
-                .Include(i => i.MeasurementUnit)
-                .Include(i => i.Images)
                 .Include(i => i.Category)
                 .Include(i => i.ItemVariants)
                     .ThenInclude(j => j.ItemProperties)
@@ -312,11 +310,10 @@ namespace UnitTests.Controllers
             {
                 new Item()
                 {
-                    BrandId = Data.Brands.Samsung.Id,
-                    CategoryId = Data.Categories.Smartphones.Id,
+                    BrandId = _data.Brands.Samsung.Id,
+                    CategoryId = _data.Categories.Smartphones.Id,
                     Description = "desc0",
-                    MeasurementUnitId = Data.MeasurementUnits.Pcs.Id,
-                    StoreId = Data.Stores.Johns.Id,
+                    StoreId = _data.Stores.Johns.Id,
                     Title = "new item"
                 }
             };
@@ -328,7 +325,6 @@ namespace UnitTests.Controllers
             {
                 Id = entity.Id,
                 StoreId = entity.StoreId,
-                MeasurementUnitId = entity.MeasurementUnitId,
                 CategoryId = entity.CategoryId,
                 BrandId = entity.BrandId,
                 Description = entity.Description,
@@ -342,7 +338,7 @@ namespace UnitTests.Controllers
             {
                 new ItemViewModel()
                 {
-                    Id = Data.Items.SamsungS9.Id,
+                    Id = _data.Items.SamsungS9.Id,
                     BrandId = 9999,
                     CategoryId = 898,
                     MeasurementUnitId = 32,
@@ -362,7 +358,6 @@ namespace UnitTests.Controllers
             Assert.Equal(beforeUpdate.BrandId, actual.BrandId);
             Assert.Equal(beforeUpdate.CategoryId, actual.CategoryId);
             Assert.Equal(beforeUpdate.StoreId, actual.StoreId);
-            Assert.Equal(beforeUpdate.MeasurementUnitId, actual.MeasurementUnitId);
             return Task.CompletedTask;
         }
     }

@@ -22,17 +22,6 @@ namespace Infrastructure.Services
         {
         }
 
-        public override async Task RelinkRelatedAsync(int id, int idToRelinkTo)
-        {
-            var itemProperties = await Context.EnumerateRelatedEnumAsync(Logger, new EntitySpecification<ItemVariant>(id), b => b.ItemProperties);
-            foreach (var property in itemProperties)
-                property.ItemVariantId = idToRelinkTo;
-            var itemVariantImages = await Context.EnumerateRelatedEnumAsync(Logger, new EntitySpecification<ItemVariant>(id), b => b.Images);
-            foreach (var image in itemVariantImages)
-                image.RelatedId = idToRelinkTo;
-            await Context.SaveChangesAsync(Logger, "Relink ItemVariant");
-        }
-
         protected override async Task ValidateWithExceptionAsync(EntityEntry<ItemVariant> entry)
         {
             await base.ValidateWithExceptionAsync(entry);

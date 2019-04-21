@@ -40,7 +40,7 @@ namespace ApplicationCore.Entities
 
         public Category ShallowClone()
         {
-            return (Category)MemberwiseClone();
+            return new Category(this);
         }
     }
 }

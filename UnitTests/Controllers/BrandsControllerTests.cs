@@ -20,9 +20,9 @@ namespace UnitTests.Controllers
         [Fact]
         public async Task IndexAsync()
         {
-            var entities = Data.Brands.Entities;
+            var entities = _data.Brands.Entities;
             var expected = IndexViewModel<BrandViewModel>.FromEnumerableNotPaged(from e in entities select ToViewModel(e));
-            var actual = await Controller.IndexAsync();
+            var actual = await _controller.IndexAsync();
             Equal(expected, actual);
         }
 
@@ -36,7 +36,7 @@ namespace UnitTests.Controllers
 
         protected override IEnumerable<BrandViewModel> GetCorrectViewModelsToUpdate()
         {
-            return new List<BrandViewModel>() { new BrandViewModel() { Id = Data.Brands.Pebble.Id, Title = "UPDATED" } };
+            return new List<BrandViewModel>() { new BrandViewModel() { Id = _data.Brands.Reebok.Id, Title = "UPDATED" } };
         }
 
         protected override BrandViewModel ToViewModel(Brand entity)

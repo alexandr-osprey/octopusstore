@@ -20,8 +20,8 @@ namespace UnitTests.Services
         {
             return new List<CharacteristicValue>()
             {
-                new CharacteristicValue() { Title = "title 1",  CharacteristicId = Data.Characteristics.Fashion.Id },
-                new CharacteristicValue() { Title = "title 2", CharacteristicId =  Data.Characteristics.Storage.Id },
+                new CharacteristicValue() { Title = "title 1",  CharacteristicId = _data.Characteristics.SmartphoneBattery.Id },
+                new CharacteristicValue() { Title = "title 2", CharacteristicId =  _data.Characteristics.SmartphoneColor.Id },
             };
         }
 
@@ -29,41 +29,30 @@ namespace UnitTests.Services
         {
             return new List<CharacteristicValue>()
             {
-                new CharacteristicValue() { Title = null, CharacteristicId = Data.Characteristics.Fashion.Id },
+                new CharacteristicValue() { Title = null, CharacteristicId = _data.Characteristics.SmartphoneBattery.Id },
                 new CharacteristicValue() { Title = "new2", CharacteristicId = 0 },
             };
         }
 
-        [Fact]
-        public async Task DeleteSingleWithRelatedRelinkAsync()
-        {
-            var entity = Data.CharacteristicValues.SmartphoneStorage32GB;
-            int idToRelinkTo = Data.CharacteristicValues.SmartphoneStorage16GB.Id;
-            var characteristicValues = Data.ItemProperties.Entities.Where(i => i.CharacteristicValue == entity).ToList();
-            await Service.DeleteSingleWithRelatedRelink(entity.Id, idToRelinkTo);
-            characteristicValues.ForEach(i => Assert.Equal(i.CharacteristicValueId, idToRelinkTo));
-            Assert.False(Context.Set<CharacteristicValue>().Any(c => c == entity));
-        }
-
         protected override Specification<CharacteristicValue> GetEntitiesToDeleteSpecification()
         {
-            return new EntitySpecification<CharacteristicValue>(c => c == Data.CharacteristicValues.SmartphoneStorage16GB);
+            return new EntitySpecification<CharacteristicValue>(c => c == _data.CharacteristicValues.WomensDressColorWhite);
         }
 
         protected override IEnumerable<CharacteristicValue> GetCorrectEntitesForUpdate()
         {
-            Data.CharacteristicValues.SmartphoneStorage16GB.Title = "Updated storage";
-            return new List<CharacteristicValue>() { Data.CharacteristicValues.SmartphoneStorage16GB };
+            _data.CharacteristicValues.SmartphoneStorage64GB.Title = "UNLIMITED STORAGE!!!111";
+            return new List<CharacteristicValue>() { _data.CharacteristicValues.SmartphoneStorage64GB };
         }
 
         protected override IEnumerable<CharacteristicValue> GetIncorrectEntitesForUpdate()
         {
-            Data.CharacteristicValues.SmartphoneStorage32GB.Title = null;
-            Data.CharacteristicValues.SmartphoneResolutionFullHD.CharacteristicId = Data.Characteristics.WomenFootwearSize.Id;
+            _data.CharacteristicValues.WomensFootwearColorBlack.Title = null;
+            _data.CharacteristicValues.SmartphoneResolutionFullHD.CharacteristicId = _data.Characteristics.WomenFootwearSize.Id;
             return new List<CharacteristicValue>()
             {
-                Data.CharacteristicValues.SmartphoneStorage32GB,
-                Data.CharacteristicValues.SmartphoneResolutionFullHD
+                _data.CharacteristicValues.WomensFootwearColorBlack,
+                _data.CharacteristicValues.SmartphoneResolutionFullHD
             };
         }
     }

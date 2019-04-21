@@ -33,7 +33,7 @@ namespace ApplicationCore.Entities
 
         public CharacteristicValue ShallowClone()
         {
-            return (CharacteristicValue)MemberwiseClone();
+            return new CharacteristicValue(this);
         }
     }
 }

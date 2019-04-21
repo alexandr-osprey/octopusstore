@@ -22,7 +22,7 @@ namespace UnitTests.Services
 
         protected override IEnumerable<Store> GetCorrectEntitesForUpdate()
         {
-            var store = Data.Stores.Jennifers;
+            var store = _data.Stores.Jennifers;
             store.Title = "Upd 1";
             store.Description = "Upd 1";
             store.Address = "Upd 1";
@@ -31,12 +31,11 @@ namespace UnitTests.Services
 
         protected override IEnumerable<Store> GetCorrectNewEntites()
         {
-            ScopedParameters.ClaimsPrincipal = Users.User1Principal;
+            _scopedParameters.ClaimsPrincipal = Users.User1Principal;
             return new List<Store>()
             {
                 new Store() { Title = "New store",  Address = "New address", Description = "New desc "}
             };
-            ScopedParameters.ClaimsPrincipal = Users.JohnPrincipal;
         }
 
         protected override Specification<Store> GetEntitiesToDeleteSpecification()
@@ -44,31 +43,20 @@ namespace UnitTests.Services
             return new Specification<Store>(s => s.Title.Contains("Jennifer"));
         }
 
-        [Fact]
-        public async Task DeleteSingleWithRelatedRelinkAsync()
-        {
-            var entity = Data.Stores.Johns;
-            int idToRelinkTo = Data.Stores.Jennifers.Id;
-            var entitiesToRelink = Data.Items.Entities.Where(i => i.Store == entity).ToList();
-            await Service.DeleteSingleWithRelatedRelink(entity.Id, idToRelinkTo);
-            entitiesToRelink.ForEach(i => Assert.Equal(i.StoreId, idToRelinkTo));
-            Assert.False(Context.Set<Store>().Any(c => c == entity));
-        }
-
         protected override IEnumerable<Store> GetIncorrectEntitesForUpdate()
         {
-            Data.Stores.Jennifers.Title = "";
-            Data.Stores.Johns.RegistrationDate = DateTime.Now;
+            _data.Stores.Jennifers.Title = "";
+            _data.Stores.Johns.RegistrationDate = DateTime.Now;
             return new List<Store>()
             {
-                 Data.Stores.Jennifers,
-                 Data.Stores.Johns
+                 _data.Stores.Jennifers,
+                 _data.Stores.Johns
             };
         }
 
         protected override IEnumerable<Store> GetIncorrectNewEntites()
         {
-            var first = Data.Stores.Johns;
+            var first = _data.Stores.Johns;
             first.Title = null;
             first.Description = "Upd 1";
             first.Address = "Upd 1";

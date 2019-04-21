@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace ApplicationCore.Entities
 {
     /// <summary>
-    /// Characteristic of a category. Like Storage for Smartphones or Weight for bycicles.
+    /// Characteristic of a category
     /// </summary>
     public class Characteristic: Entity, ShallowClonable<Characteristic>
     {
@@ -33,7 +33,7 @@ namespace ApplicationCore.Entities
 
         public Characteristic ShallowClone()
         {
-            return (Characteristic)MemberwiseClone();
+            return new Characteristic(this);
         }
     }
 }

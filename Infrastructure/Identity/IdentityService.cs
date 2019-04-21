@@ -24,7 +24,7 @@ namespace Infrastructure.Identity
     public class IdentityService: IIdentityService
     {
         protected readonly SignInManager<ApplicationUser> _signInManager;
-        public UserManager<ApplicationUser> UserManager { get; }
+        protected UserManager<ApplicationUser> _userManager { get; }
         protected readonly IAuthorizationService _authorizationService;
         protected readonly IConfiguration _configuration;
         protected readonly IAppLogger<IIdentityService> _logger;
@@ -43,7 +43,7 @@ namespace Infrastructure.Identity
             IConfiguration configuration,
             IAppLogger<IIdentityService> logger)
         {
-            UserManager = userManager;
+            _userManager = userManager;
             _authorizationService = authorizationService;
             _signInManager = signInManager;
             _logger = logger;
@@ -65,7 +65,7 @@ namespace Infrastructure.Identity
             };
             if (await CheckExistence(credentials.Email))
                 throw new EntityValidationException($"User with email {credentials.Email} already exists");
-            var result = await UserManager.CreateAsync(user, credentials.Password);
+            var result = await _userManager.CreateAsync(user, credentials.Password);
             if (result.Succeeded)
             {
                 await _signInManager.SignInAsync(user, false);
@@ -82,16 +82,16 @@ namespace Infrastructure.Identity
 
         public async Task<bool> CheckUserCredentialsAsync(Credentials credentials)
         {
-            var user = await UserManager.FindByEmailAsync(credentials.Email);
+            var user = await _userManager.FindByEmailAsync(credentials.Email);
             if (user == null)
                 return false;
-            var result = await UserManager.CheckPasswordAsync(user, credentials.Password);
+            var result = await _userManager.CheckPasswordAsync(user, credentials.Password);
             return result;
         }
 
         public async Task<TokenPair> SignInAsync(Credentials credentials)
         {
-            var user = await UserManager.FindByEmailAsync(credentials.Email);
+            var user = await _userManager.FindByEmailAsync(credentials.Email);
             await _signInManager.SignInAsync(user, false);
             return await GenerateTokenPair(user);
         }
@@ -109,7 +109,7 @@ namespace Infrastructure.Identity
         {
             _tokenValidationParameters.ValidateLifetime = false;
             var principal = ValidateAndGetPrincipalFromToken(expiredToken, _tokenValidationParameters);
-            var user = await UserManager.GetUserAsync(principal);
+            var user = await _userManager.GetUserAsync(principal);
             var savedRefreshTokenSpec = new Specification<RefreshToken>(p => p.Token == refreshToken);
             var savedRefreshToken = await _identityContext.ReadSingleBySpecAsync(_logger, savedRefreshTokenSpec, false);
             if (savedRefreshToken == null)
@@ -145,8 +145,8 @@ namespace Infrastructure.Identity
                 throw new ArgumentNullException(nameof(userId));
             if (claim == null)
                 throw new ArgumentNullException(nameof(claim));
-            var user = await UserManager.FindByIdAsync(userId) ?? throw new EntityNotFoundException("user not found");
-            var userClaims = await UserManager.GetClaimsAsync(user);
+            var user = await _userManager.FindByIdAsync(userId) ?? throw new EntityNotFoundException("user not found");
+            var userClaims = await _userManager.GetClaimsAsync(user);
             bool result = userClaims.Where(uc => uc.Type == claim.Type && uc.Value == claim.Value).Any();
             return result;
         }
@@ -178,10 +178,10 @@ namespace Infrastructure.Identity
                 throw new ArgumentNullException("Id not provided");
             if (claim == null)
                 throw new ArgumentNullException("claim not provided");
-            var user = await UserManager.FindByIdAsync(id) ?? throw new EntityNotFoundException("user not found");
+            var user = await _userManager.FindByIdAsync(id) ?? throw new EntityNotFoundException("user not found");
             user.ClaimsUpdatedAt = DateTime.UtcNow;
-            await UserManager.UpdateAsync(user);
-            await UserManager.AddClaimAsync(user, claim);
+            await _userManager.UpdateAsync(user);
+            await _userManager.AddClaimAsync(user, claim);
         }
 
         public async Task RemoveClaim(string id, Claim claim)
@@ -190,47 +190,47 @@ namespace Infrastructure.Identity
                 throw new ArgumentNullException("Id not provided");
             if (claim == null)
                 throw new ArgumentNullException("claim not provided") ?? throw new EntityNotFoundException("user not found");
-            var user = await UserManager.FindByIdAsync(id) ?? throw new EntityNotFoundException("user not found");
+            var user = await _userManager.FindByIdAsync(id) ?? throw new EntityNotFoundException("user not found");
             user.ClaimsUpdatedAt = DateTime.UtcNow;
-            await UserManager.UpdateAsync(user);
-            await UserManager.RemoveClaimAsync(user, claim);
+            await _userManager.UpdateAsync(user);
+            await _userManager.RemoveClaimAsync(user, claim);
         }
 
         public async Task<IEnumerable<string>> EnumerateEmailsWithClaimAsync(Claim claim)
         {
             if (claim == null)
                 throw new ArgumentNullException("claim not provided");
-            return from u in await UserManager.GetUsersForClaimAsync(claim) select u.Email;
+            return from u in await _userManager.GetUsersForClaimAsync(claim) select u.Email;
         }
 
-        public async Task<string> GetUserId(string email)
+        public async Task<string> GetUserIdAsync(string email)
         {
             if (email == null)
                 throw new ArgumentNullException(nameof(email));
-            var user = await UserManager.FindByEmailAsync(email) ?? throw new EntityNotFoundException("user not found");
+            var user = await _userManager.FindByEmailAsync(email) ?? throw new EntityNotFoundException("user not found");
             return user.Id;
         }
 
-        public async Task<string> GetUserEmail(string id)
+        public async Task<string> GetUserEmailAsync(string id)
         {
             if (id == null)
                 throw new ArgumentNullException(nameof(id));
-            var user = await UserManager.FindByIdAsync(id) ?? throw new EntityNotFoundException("user not found");
+            var user = await _userManager.FindByIdAsync(id) ?? throw new EntityNotFoundException("user not found");
             return user.Email;
         }
 
         public async Task RemoveFromUsersAsync(Claim claim)
         {
-            var users = await UserManager.GetUsersForClaimAsync(claim ?? throw new ArgumentNullException("claim not provided"));
+            var users = await _userManager.GetUsersForClaimAsync(claim ?? throw new ArgumentNullException("claim not provided"));
             foreach (var user in users)
             {
-                await UserManager.RemoveClaimAsync(user, claim);
+                await _userManager.RemoveClaimAsync(user, claim);
                 user.ClaimsUpdatedAt = DateTime.UtcNow;
-                await UserManager.UpdateAsync(user);
+                await _userManager.UpdateAsync(user);
             }
         }
 
-        protected async Task<bool> CheckExistence(string email) => await UserManager.FindByEmailAsync(email) != null;
+        protected async Task<bool> CheckExistence(string email) => await _userManager.FindByEmailAsync(email) != null;
 
         protected async Task<string> GenerateJwtToken(ApplicationUser user, int expirationTimeSeconds)
         {
@@ -241,14 +241,14 @@ namespace Infrastructure.Identity
                 new Claim(ClaimTypes.NameIdentifier, user.Id),
                 new Claim(ClaimTypes.Name, user.Id)
             };
-            claims.AddRange(await UserManager.GetClaimsAsync(user));
+            claims.AddRange(await _userManager.GetClaimsAsync(user));
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("SigningKey").Value));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
             var expires =
                 DateTime.UtcNow.AddSeconds(expirationTimeSeconds);
             //DateTime.Now.AddDays(Convert.ToDouble(_configuration["ExpireDays"]));
 
-            var cs = await UserManager.GetClaimsAsync(user);
+            var cs = await _userManager.GetClaimsAsync(user);
             var token = new JwtSecurityToken(
                 issuer: _configuration["Issuer"],
                 audience: _configuration["Audience"],

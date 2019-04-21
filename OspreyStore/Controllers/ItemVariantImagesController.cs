@@ -40,7 +40,7 @@ namespace OspreyStore.Controllers
                 }
                 catch (Exception exception)
                 {
-                    string message = $"Error saving item image.";
+                    string message = $"Error saving item image: {exception}";
                     Logger.Warn(exception, message);
                     throw new Exception(message);
                 }

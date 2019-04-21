@@ -16,20 +16,20 @@ using System.Collections.Generic;
 
 namespace UnitTests.Controllers
 {
-    public class ItemImageControllerTests: ControllerTests<ItemVariantImage, ItemVariantImageViewModel, IItemVariantImagesController, IItemVariantImageService>
+    public class ItemVariantImageControllerTests: ControllerTests<ItemVariantImage, ItemVariantImageViewModel, IItemVariantImagesController, IItemVariantImageService>
     {
-        public ItemImageControllerTests(ITestOutputHelper output): base(output)
+        public ItemVariantImageControllerTests(ITestOutputHelper output): base(output)
         {
         }
 
         [Fact]
         public async Task CreateImageAsync()
         {
-            var item = Data.Items.SamsungS10;
-            var imageToCopy = Data.ItemVariantImages.Samsung81;
+            var itemVariant = _data.Items.SamsungS10;
+            var imageToCopy = _data.ItemVariantImages.Entities.FirstOrDefault();
             var imageMock = new Mock<IFormFile>();
             var filename = Path.GetFileName(imageToCopy.FullPath);
-            var st = await Service.GetStreamAsync(imageToCopy.Id);
+            var st = await _service.GetStreamAsync(imageToCopy.Id);
             var ms = ReadFully(st);
             byte[] bytesExpected = ms.ToArray();
             st.Close();
@@ -41,12 +41,12 @@ namespace UnitTests.Controllers
                     ms.CopyTo(stream);
                 })
                 .Returns(Task.CompletedTask);
-            imageMock.Setup(_ => _.FileName).Returns(item.Id.ToString());
+            imageMock.Setup(_ => _.FileName).Returns(itemVariant.Id.ToString());
             imageMock.Setup(_ => _.Length).Returns(ms.Length);
             imageMock.Setup(_ => _.ContentType).Returns(imageToCopy.ContentType);
             imageMock.Setup(_ => _.Name).Returns(imageToCopy.Title);
             var image = imageMock.Object;
-            var actual = await Controller.PostFormAsync(item.Id, image);
+            var actual = await _controller.PostFormAsync(itemVariant.Id, image);
 
             var newImage = await GetQueryable().FirstOrDefaultAsync(i => i.Id == actual.Id);
             var streamActual = File.OpenRead(newImage.FullPath);
@@ -59,13 +59,13 @@ namespace UnitTests.Controllers
         [Fact]
         public async Task GetFileAsync()
         {
-            var imageExpected = Data.ItemVariantImages.Pebble1;
+            var imageExpected = _data.ItemVariantImages.Entities.ElementAt(2);
             var streamExpected = File.OpenRead(imageExpected.FullPath);
             byte[] bytesExpected = new byte[streamExpected.Length];
             streamExpected.Read(bytesExpected, 0, (int)streamExpected.Length);
             streamExpected.Close();
 
-            var imageActual = await Controller.GetFileAsync(imageExpected.Id) as FileStreamResult;
+            var imageActual = await _controller.GetFileAsync(imageExpected.Id) as FileStreamResult;
             var streamActual = imageActual.FileStream;
             byte[] bytesActual = new byte[streamActual.Length];
             streamActual.Read(bytesActual, 0, (int)streamActual.Length);
@@ -77,10 +77,10 @@ namespace UnitTests.Controllers
         [Fact]
         public async Task UpdateWithoutImageAsync()
         {
-            var imageExpected = Data.ItemVariantImages.Jacket1;
+            var imageExpected = _data.ItemVariantImages.Entities.ElementAt(3);
             imageExpected.Title = "UPDATED";
             var expected = new ItemVariantImageViewModel(imageExpected);
-            var actual = await Controller.UpdateAsync(new ItemVariantImageViewModel(imageExpected));
+            var actual = await _controller.UpdateAsync(new ItemVariantImageViewModel(imageExpected));
             Equal(expected, actual);
             var imageActual = await GetQueryable().FirstOrDefaultAsync(i => i.Id == imageExpected.Id);
             imageExpected.RelatedEntity = null;
@@ -91,19 +91,19 @@ namespace UnitTests.Controllers
         [Fact]
         public async Task IndexAsync()
         {
-            var item = Data.Items.Shoes;
-            var imagesExpected = await GetQueryable().Where(i => i.RelatedId == item.Id).ToListAsync();
+            var itemVariant = _data.ItemVariants.SamsungGalaxyS10128GBBlack;
+            var imagesExpected = await GetQueryable().Where(i => i.RelatedId == itemVariant.Id).ToListAsync();
             var expected = new IndexViewModel<ItemVariantImageViewModel>(1, 1, imagesExpected.Count, from i in imagesExpected select new ItemVariantImageViewModel(i));
-            var actual = await Controller.IndexAsync(item.Id);
+            var actual = await _controller.IndexAsync(itemVariant.Id);
             Equal(expected, actual);
         }
 
         [Fact]
         public async Task DeleteWithImageAsync()
         {
-            var fileInfo = Data.ItemVariantImages.IPhone63;
+            var fileInfo = _data.ItemVariantImages.Entities.ElementAt(5);
             //await CreateItemImageCopy(fileInfo);
-            await Controller.DeleteAsync(fileInfo.Id);
+            await _controller.DeleteAsync(fileInfo.Id);
 
             Assert.False(File.Exists(fileInfo.FullPath));
         }
@@ -149,7 +149,7 @@ namespace UnitTests.Controllers
             {
                 new ItemVariantImageViewModel()
                 {
-                    Id = Data.ItemVariantImages.IPhone61.Id,
+                    Id = _data.ItemVariants.DanielePatriciClutch1.Images.FirstOrDefault().Id,
                     RelatedId = 999,
                     ContentType = "ADFF",
                     Title = "UPDATED"

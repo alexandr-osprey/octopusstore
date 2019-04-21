@@ -23,9 +23,9 @@ namespace UnitTests.Services
         {
             return new List<Order>()
             {
-                new Order() { ItemVariantId = Data.ItemVariants.Pebble1000mAh.Id,  Number = 1, Sum = 0 },
-                new Order() { ItemVariantId = Data.ItemVariants.Pebble1000mAh.Id,  Number = 2, Sum = 0 },
-                new Order() { ItemVariantId = Data.ItemVariants.JacketBlack.Id, Number = 2, Sum = 1 },
+                new Order() { ItemVariantId = _data.ItemVariants.IPhone8Plus128GBBlack.Id,  Number = 1, Sum = 0 },
+                new Order() { ItemVariantId = _data.ItemVariants.IPhone8Plus128GBWhite.Id,  Number = 2, Sum = 0 },
+                new Order() { ItemVariantId = _data.ItemVariants.IPhone8Plus64GBBlack.Id, Number = 2, Sum = 1 },
             };
         }
 
@@ -41,8 +41,8 @@ namespace UnitTests.Services
             {
                 //new Order() { ItemVariantId = Data.ItemVariants.JacketBlack.Id, Number = 2, Sum = -100 },
 
-                new Order() { ItemVariantId = Data.ItemVariants.IPhone664GB.Id, Number = 0, Sum = 100 },
-                new Order() { ItemVariantId = Data.ItemVariants.JacketBlack.Id, Number = -2, Sum = 100 },
+                new Order() { ItemVariantId = _data.ItemVariants.IPhone8Plus128GBBlack.Id, Number = 0, Sum = 100 },
+                new Order() { ItemVariantId = _data.ItemVariants.IPhone8Plus128GBWhite.Id, Number = -2, Sum = 100 },
 
                 new Order() { ItemVariantId = 9999, Number = 1, Sum = 111 },
             };
@@ -55,36 +55,36 @@ namespace UnitTests.Services
 
         protected override IEnumerable<Order> GetCorrectEntitesForUpdate()
         {
-            Data.Orders.JenInJohnsStore.Sum = 999;
-            Data.Orders.JenInJohnsStore.Number = 100;
-            return new List<Order>() { Data.Orders.JenInJohnsStore };
+            _data.Orders.JenInJohnsStore.Sum = 999;
+            _data.Orders.JenInJohnsStore.Number = 100;
+            return new List<Order>() { _data.Orders.JenInJohnsStore };
         }
 
         protected override IEnumerable<Order> GetIncorrectEntitesForUpdate()
         {
-            Data.Orders.JenInJohnsStore.Sum = -1;
-            Data.Orders.JenInJohnsStoreCancelled.Status = OrderStatus.Created;
-            Data.Orders.JenInJohnsStoreFinished.Status = OrderStatus.Cancelled;
-            Data.Orders.JohnInJohnsStore.Number = 0;
-            Data.Orders.JohnInJensStore.Number = -1;
-            Data.Orders.JenInJensStore.ItemVariantId = Data.ItemVariants.IPhone632GB.Id;
+            _data.Orders.JenInJohnsStore.Sum = -1;
+            _data.Orders.JenInJohnsStoreCancelled.Status = OrderStatus.Created;
+            _data.Orders.JenInJohnsStoreFinished.Status = OrderStatus.Cancelled;
+            _data.Orders.JohnInJohnsStore.Number = 0;
+            _data.Orders.JohnInJensStore.Number = -1;
+            _data.Orders.JenInJensStore.ItemVariantId = _data.ItemVariants.IPhone8Plus128GBWhite.Id;
             return new List<Order>()
             {
-                Data.Orders.JenInJohnsStore,
-                Data.Orders.JenInJohnsStoreCancelled,
-                Data.Orders.JenInJohnsStoreFinished,
-                Data.Orders.JohnInJohnsStore,
-                Data.Orders.JohnInJensStore,
-                Data.Orders.JenInJensStore
+                _data.Orders.JenInJohnsStore,
+                _data.Orders.JenInJohnsStoreCancelled,
+                _data.Orders.JenInJohnsStoreFinished,
+                _data.Orders.JohnInJohnsStore,
+                _data.Orders.JohnInJensStore,
+                _data.Orders.JenInJensStore
             };
         }
 
         [Fact]
         public async Task SetOrderFinishedStatusAsync()
         {
-            var order = Data.Orders.JohnInJensStore;
+            var order = _data.Orders.JohnInJensStore;
             var cancelledStatusTime = DateTime.UtcNow;
-            await Service.SetStatusAsync(order.Id, OrderStatus.Finished);
+            await _service.SetStatusAsync(order.Id, OrderStatus.Finished);
             Assert.True(order.DateTimeFinished >= cancelledStatusTime);
             Assert.Equal(OrderStatus.Finished, order.Status);
         }
@@ -92,9 +92,9 @@ namespace UnitTests.Services
         [Fact]
         public async Task SetOrderCancelledStatusAsync()
         {
-            var order = Data.Orders.JohnInJensStore;
+            var order = _data.Orders.JohnInJensStore;
             var finishedStatusTime = DateTime.UtcNow;
-            await Service.SetStatusAsync(order.Id, OrderStatus.Cancelled);
+            await _service.SetStatusAsync(order.Id, OrderStatus.Cancelled);
             Assert.True(order.DateTimeCancelled >= finishedStatusTime);
             Assert.Equal(OrderStatus.Cancelled, order.Status);
         }
@@ -102,20 +102,20 @@ namespace UnitTests.Services
         [Fact]
         public async Task TryToSetOrderStatusFromCancelledAsync()
         {
-            var order = Data.Orders.JenInJohnsStoreCancelled;
-            await Assert.ThrowsAsync<EntityValidationException>(() => Service.SetStatusAsync(order.Id, OrderStatus.Created));
-            await Assert.ThrowsAsync<EntityValidationException>(() => Service.SetStatusAsync(order.Id, OrderStatus.Finished));
-            await Assert.ThrowsAsync<EntityValidationException>(() => Service.SetStatusAsync(order.Id, OrderStatus.Cancelled));
+            var order = _data.Orders.JenInJohnsStoreCancelled;
+            await Assert.ThrowsAsync<EntityValidationException>(() => _service.SetStatusAsync(order.Id, OrderStatus.Created));
+            await Assert.ThrowsAsync<EntityValidationException>(() => _service.SetStatusAsync(order.Id, OrderStatus.Finished));
+            await Assert.ThrowsAsync<EntityValidationException>(() => _service.SetStatusAsync(order.Id, OrderStatus.Cancelled));
         }
 
         [Fact]
         public async Task TryToSetOrderStatusFromFinishedAsync()
         {
-            var order = Data.Orders.JenInJohnsStoreFinished;
-            await Service.SetStatusAsync(order.Id, OrderStatus.Finished);
-            await Assert.ThrowsAsync<EntityValidationException>(() => Service.SetStatusAsync(order.Id, OrderStatus.Created));
-            await Assert.ThrowsAsync<EntityValidationException>(() => Service.SetStatusAsync(order.Id, OrderStatus.Finished));
-            await Assert.ThrowsAsync<EntityValidationException>(() => Service.SetStatusAsync(order.Id, OrderStatus.Cancelled));
+            var order = _data.Orders.JenInJohnsStoreFinished;
+            await _service.SetStatusAsync(order.Id, OrderStatus.Finished);
+            await Assert.ThrowsAsync<EntityValidationException>(() => _service.SetStatusAsync(order.Id, OrderStatus.Created));
+            await Assert.ThrowsAsync<EntityValidationException>(() => _service.SetStatusAsync(order.Id, OrderStatus.Finished));
+            await Assert.ThrowsAsync<EntityValidationException>(() => _service.SetStatusAsync(order.Id, OrderStatus.Cancelled));
         }
     }
 }

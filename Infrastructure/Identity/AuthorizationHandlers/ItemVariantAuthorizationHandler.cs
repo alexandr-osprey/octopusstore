@@ -5,7 +5,7 @@ using ApplicationCore.Specifications;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
 
-namespace Infrastructure.Identity
+namespace Infrastructure.Identity.AuthorizationHandlers
 {
     public class ItemVariantAuthorizationHandler: StoreEntityAuthorizationHandler<ItemVariant>
     {

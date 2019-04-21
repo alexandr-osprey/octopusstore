@@ -6,7 +6,7 @@ using Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infrastructure.Identity
+namespace Infrastructure.Identity.AuthorizationHandlers
 {
     public class ItemPropertyAuthorizationHandler: StoreEntityAuthorizationHandler<ItemProperty>
     {

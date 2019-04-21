@@ -37,7 +37,7 @@ namespace ApplicationCore.Entities
 
         public ItemVariant ShallowClone()
         {
-            return (ItemVariant)MemberwiseClone();
+            return new ItemVariant(this);
         }
     }
 }

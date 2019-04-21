@@ -29,7 +29,7 @@ namespace ApplicationCore.Entities
 
         public Brand ShallowClone()
         {
-            return (Brand)MemberwiseClone();
+            return new Brand(this);
         }
     }
 }

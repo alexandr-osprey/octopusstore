@@ -11,7 +11,7 @@ namespace ApplicationCore.Interfaces.Services
     public interface ICategoryService : IService<Category>
     {
         /// <summary>
-        /// Id of primal Category
+        /// Primal Category
         /// </summary>
         Category RootCategory { get; }
         /// <summary>

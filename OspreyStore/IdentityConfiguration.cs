@@ -1,6 +1,8 @@
 ﻿using ApplicationCore.Entities;
 using ApplicationCore.Identity;
 using Infrastructure.Identity;
+using Infrastructure.Identity.AuthorizationHandlers;
+using Infrastructure.Identity.AuthorizationParameters;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;

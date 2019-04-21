@@ -21,14 +21,14 @@ namespace UnitTests.Controllers
         where TController : IController<TEntity, TViewModel>
         where TService : IService<TEntity>
     {
-        protected TController Controller { get; }
-        protected TService Service { get; }
+        protected TController _controller { get; }
+        protected TService _service { get; }
 
         public ControllerTests(ITestOutputHelper output): base(output)
         {
-            Controller = Resolve<TController>();
-            Service = Resolve<TService>();
-            (Controller as Controller).ControllerContext.HttpContext = new DefaultHttpContext();
+            _controller = Resolve<TController>();
+            _service = Resolve<TService>();
+            (_controller as Controller).ControllerContext.HttpContext = new DefaultHttpContext();
         }
 
         [Fact]
@@ -37,7 +37,7 @@ namespace UnitTests.Controllers
             foreach(var entity in GetCorrectEntitiesToCreate())
             {
                 var expected = ToViewModel(entity);
-                var actual = await Controller.CreateAsync(expected);
+                var actual = await _controller.CreateAsync(expected);
                 //Assert.True(await _context.Set<TEntity>().AnyAsync(e => e.Id == entity.Id));
                 await AssertCreateSuccessAsync(expected, actual);
             }
@@ -56,9 +56,9 @@ namespace UnitTests.Controllers
         [Fact]
         public async Task ReadAsync()
         {
-            var entity = await Context.Set<TEntity>().FirstOrDefaultAsync();
+            var entity = await _context.Set<TEntity>().FirstOrDefaultAsync();
             var expected = ToViewModel(entity);
-            var actual = await Controller.ReadAsync(entity.Id);
+            var actual = await _controller.ReadAsync(entity.Id);
             Equal(expected, actual);
         }
 
@@ -67,8 +67,8 @@ namespace UnitTests.Controllers
         {
             foreach(var viewModel in GetCorrectViewModelsToUpdate())
             {
-                var beforeUpdate = await Context.Set<TEntity>().FirstAsync(e => e.Id == viewModel.Id);
-                var actual = await Controller.UpdateAsync(viewModel);
+                var beforeUpdate = await _context.Set<TEntity>().AsNoTracking().FirstAsync(e => e.Id == viewModel.Id);
+                var actual = await _controller.UpdateAsync(viewModel);
                 await AssertUpdateSuccessAsync(beforeUpdate, viewModel, actual);
             }
         }
@@ -84,9 +84,9 @@ namespace UnitTests.Controllers
         [Fact]
         public virtual async Task DeleteAsync()
         {
-            var entity = await Context.Set<TEntity>().LastAsync();
-            await Controller.DeleteAsync(entity.Id);
-            Assert.False(await Context.Set<TEntity>().ContainsAsync(entity));
+            var entity = await _context.Set<TEntity>().LastAsync();
+            await _controller.DeleteAsync(entity.Id);
+            Assert.False(await _context.Set<TEntity>().ContainsAsync(entity));
         }
 
         public int GetPageCount(int totalCount, int pageSize)

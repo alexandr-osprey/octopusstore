@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
 
-namespace Infrastructure.Identity
+namespace Infrastructure.Identity.AuthorizationHandlers
 {
     public class OrderAuthorizationHandler: StoreEntityAuthorizationHandler<Order>
     {

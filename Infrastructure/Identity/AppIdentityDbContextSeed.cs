@@ -68,8 +68,6 @@ namespace Infrastructure.Identity
         {
             IdentityResult IR = null;
             var roleManager = serviceProvider.GetService<RoleManager<IdentityRole>>();
-            if (roleManager == null)
-                throw new Exception("roleManager null");
             if (!await roleManager.RoleExistsAsync(role))
                 IR = await roleManager.CreateAsync(new IdentityRole(role));
             var userManager = serviceProvider.GetService<UserManager<ApplicationUser>>();

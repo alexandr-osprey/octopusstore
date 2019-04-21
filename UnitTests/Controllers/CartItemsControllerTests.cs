@@ -21,28 +21,30 @@ namespace UnitTests.Controllers
         [Fact]
         public async Task IndexAsync()
         {
-            var cartItems = await Context.Set<CartItem>().Where(i => i.OwnerId == Users.JohnId).ToListAsync();
+            var cartItems = await _context.Set<CartItem>().Where(i => i.OwnerId == Users.JohnId).ToListAsync();
             var expected = IndexViewModel<CartItemViewModel>.FromEnumerableNotPaged(from c in cartItems select ToViewModel(c));
-            var actual = await Controller.IndexAsync();
+            var actual = await _controller.IndexAsync();
             Equal(expected, actual);
         }
 
         [Fact]
         public async Task IndexThumbnailsAsync()
         {
-            var cartItems = await Context.Set<CartItem>().Where(i => i.OwnerId == Users.JohnId).ToListAsync();
+            var cartItems = await _context.Set<CartItem>().Where(i => i.OwnerId == Users.JohnId).ToListAsync();
             var expected = IndexViewModel<CartItemThumbnailViewModel>.FromEnumerableNotPaged(from c in cartItems select new CartItemThumbnailViewModel(c));
-            var actual = await Controller.IndexThumbnailsAsync();
+            var actual = await _controller.IndexThumbnailsAsync();
+            actual.Entities = actual.Entities.OrderBy(i => i.Id);
+            expected.Entities = expected.Entities.OrderBy(i => i.Id);
             Equal(expected, actual);
         }
 
         [Fact]
         public async Task AddToCartAsync()
         {
-            var existing = Data.CartItems.JohnIphone32;
+            var existing = _data.CartItems.JohnIPhoneXR64FromJohns;
             var expected = ToViewModel(existing);
             expected.Number += 5;
-            var actual = await Controller.AddToCartAsync(new CartItemViewModel() { ItemVariantId = existing.ItemVariantId, Number = 5 });
+            var actual = await _controller.AddToCartAsync(new CartItemViewModel() { ItemVariantId = existing.ItemVariantId, Number = 5 });
             //Equal(expected., actual);
             Assert.Equal(expected.Number, actual.Number);
         }
@@ -50,8 +52,8 @@ namespace UnitTests.Controllers
         [Fact]
         public async Task RemoveFromCartAsync()
         {
-            var existing = Data.CartItems.JohnIphone32;
-            var actual = await Controller.RemoveFromCartAsync(new CartItemViewModel() { ItemVariantId = existing.ItemVariantId, Number = existing.Number });
+            var existing = _data.CartItems.JohnIPhoneXR64FromJohns;
+            var actual = await _controller.RemoveFromCartAsync(new CartItemViewModel() { ItemVariantId = existing.ItemVariantId, Number = existing.Number });
         }
 
         protected override Task AssertUpdateSuccessAsync(CartItem beforeUpdate, CartItemViewModel expected, CartItemViewModel actual)
@@ -68,12 +70,12 @@ namespace UnitTests.Controllers
             {
                 new CartItem()
                 {
-                    ItemVariantId = Data.ItemVariants.Samsung832GBFullHD.Id,
+                    ItemVariantId = _data.ItemVariants.ReebokFastTempoBlack42.Id,
                     Number = 4
                 },
                 new CartItem()
                 {
-                    ItemVariantId = Data.ItemVariants.Pebble1000mAh.Id,
+                    ItemVariantId = _data.ItemVariants.UCBDress2WhiteM.Id,
                     Number = 5
                 }
             };
@@ -81,7 +83,7 @@ namespace UnitTests.Controllers
 
         protected override IEnumerable<CartItemViewModel> GetCorrectViewModelsToUpdate()
         {
-            return new List<CartItemViewModel>() { new CartItemViewModel() { Id = Data.CartItems.JohnIphone64.Id, ItemVariantId = 999, Number = 50 } };
+            return new List<CartItemViewModel>() { new CartItemViewModel() { Id = _data.CartItems.JenniferIPhoneXR64FromJohns.Id, ItemVariantId = 999, Number = 50 } };
         }
 
         protected override CartItemViewModel ToViewModel(CartItem entity)

@@ -33,32 +33,21 @@ namespace UnitTests.Services
 
         protected override IEnumerable<Brand> GetCorrectEntitesForUpdate()
         {
-            Data.Brands.Apple.Title = "Updated";
-            return new List<Brand>() { Data.Brands.Apple };
+            _data.Brands.Apple.Title = "Updated";
+            return new List<Brand>() { _data.Brands.Apple };
         }
 
         protected override IEnumerable<Brand> GetIncorrectEntitesForUpdate()
         {
-            Data.Brands.UnitedColorsOfBenetton.Title = null;
-            Data.Brands.Apple.Title = "";
-            Data.Brands.CalvinKlein.Title = " ";
+            _data.Brands.UnitedColorsOfBenetton.Title = null;
+            _data.Brands.Apple.Title = "";
+            _data.Brands.DanielePatrici.Title = " ";
             return new List<Brand>()
             {
-                Data.Brands.UnitedColorsOfBenetton,
-                Data.Brands.Apple,
-                Data.Brands.CalvinKlein
+                _data.Brands.UnitedColorsOfBenetton,
+                _data.Brands.Apple,
+                _data.Brands.DanielePatrici
             };
-        }
-
-        [Fact]
-        public async Task DeleteSingleWithRelatedRelinkAsync()
-        {
-            var brand = Data.Brands.Apple;
-            int idToRelinkTo = Data.Brands.Pebble.Id;
-            var items = Data.Items.Entities.Where(i => i.Brand == brand).ToList();
-            await Service.DeleteSingleWithRelatedRelink(brand.Id, idToRelinkTo);
-            items.ForEach(i => Assert.Equal(i.BrandId, idToRelinkTo));
-            Assert.False(Context.Set<Brand>().Any(b => b == brand));
         }
     }
 }

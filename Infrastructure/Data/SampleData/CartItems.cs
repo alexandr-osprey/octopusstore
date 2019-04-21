@@ -9,12 +9,12 @@ namespace Infrastructure.Data.SampleData
     {
         protected ItemVariants ItemVariants { get; }
 
-        public CartItem JohnIphone32 { get; protected set; }
-        public CartItem JohnIphone64 { get; protected set; }
-        public CartItem JenniferIphone32 { get; protected set; }
-        public CartItem JenniferIphone64 { get; protected set; }
-        public CartItem JohnJacketBlack { get; protected set; }
-        public CartItem JohnShoesMuch { get; protected set; }
+        public CartItem JohnIPhoneXR64FromJohns { get; protected set; }
+        public CartItem JenniferIPhoneXR64FromJohns { get; protected set; }
+        public CartItem JohnDress1FromJennifers { get; protected set; }
+        public CartItem JohnShoesDMXFromJennifers { get; protected set; }
+        public CartItem User1IPhoneXR64FromJohns { get; protected set; }
+        public CartItem User1Dress1FromJennifers { get; protected set; }
 
         public CartItems(StoreContext storeContext, ItemVariants itemVariants): base(storeContext)
         {
@@ -27,12 +27,12 @@ namespace Infrastructure.Data.SampleData
         {
             return new List<CartItem>
             {
-                //new CartItem() { OwnerId = Users.JohnId, ItemVariantId = ItemVariants.IPhone632GB.Id, Number = 1 },
-                //new CartItem() { OwnerId = Users.JohnId, ItemVariantId = ItemVariants.IPhone664GB.Id, Number = 2 },
-                //new CartItem() { OwnerId = Users.JenniferId, ItemVariantId = ItemVariants.IPhone632GB.Id, Number = 3 },
-                //new CartItem() { OwnerId = Users.JenniferId, ItemVariantId = ItemVariants.IPhone664GB.Id, Number = 4 },
-                //new CartItem() { OwnerId = Users.JohnId, ItemVariantId = ItemVariants.JacketBlack.Id, Number = 4 },
-                //new CartItem() { OwnerId = Users.JohnId, ItemVariantId = ItemVariants.ShoesXMuchFashion.Id, Number = 4 },
+                new CartItem() { OwnerId = Users.JohnId, ItemVariantId = ItemVariants.IPhoneXR64GBWhite.Id, Number = 1 },
+                new CartItem() { OwnerId = Users.JenniferId, ItemVariantId = ItemVariants.IPhoneXR64GBWhite.Id, Number = 1 },
+                new CartItem() { OwnerId = Users.JohnId, ItemVariantId = ItemVariants.UCBDress1WhiteS.Id, Number = 1 },
+                new CartItem() { OwnerId = Users.JohnId, ItemVariantId = ItemVariants.ReebokDMXRun10White35.Id, Number = 1 },
+                new CartItem() { OwnerId = Users.User1Id, ItemVariantId = ItemVariants.IPhoneXR64GBWhite.Id, Number = 1 },
+                new CartItem() { OwnerId = Users.User1Id, ItemVariantId = ItemVariants.UCBDress1WhiteS.Id, Number = 1 },
             };
         }
 
@@ -44,12 +44,12 @@ namespace Infrastructure.Data.SampleData
         public override void Init()
         {
             base.Init();
-            //JohnIphone32 = Entities[0];
-            //JohnIphone64 = Entities[1];
-            //JenniferIphone32 = Entities[2];
-            //JenniferIphone64 = Entities[3];
-            //JohnJacketBlack = Entities[4];
-            //JohnShoesMuch = Entities[5];
+            JohnIPhoneXR64FromJohns = Entities[0];
+            JenniferIPhoneXR64FromJohns = Entities[1];
+            JohnDress1FromJennifers = Entities[2];
+            JohnShoesDMXFromJennifers = Entities[3];
+            User1IPhoneXR64FromJohns = Entities[4];
+            User1Dress1FromJennifers = Entities[5];
         }
     }
 }

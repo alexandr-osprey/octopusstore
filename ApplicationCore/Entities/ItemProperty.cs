@@ -3,7 +3,7 @@
 namespace ApplicationCore.Entities
 {
     /// <summary>
-    /// Property Value of and Item Variant. For example 32GB of Storage in iPhone variant.
+    /// Property Value of and Item Variant
     /// </summary>
     public class ItemProperty: Entity, ShallowClonable<ItemProperty>
     {
@@ -37,7 +37,7 @@ namespace ApplicationCore.Entities
 
         public ItemProperty ShallowClone()
         {
-            return (ItemProperty)MemberwiseClone();
+            return new ItemProperty(this);
         }
     }
 }

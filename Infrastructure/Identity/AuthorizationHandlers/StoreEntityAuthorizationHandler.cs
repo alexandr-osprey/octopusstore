@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
 
-namespace Infrastructure.Identity
+namespace Infrastructure.Identity.AuthorizationHandlers
 {
     public abstract class StoreEntityAuthorizationHandler<T>: DefaultAuthorizationHandler<T> where T: Entity
     {

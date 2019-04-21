@@ -77,7 +77,7 @@ namespace Infrastructure.Services
         public virtual async Task<TEntity> UpdateAsync(TEntity entity)
         {
             if (entity == null)
-                throw new EntityValidationException("Entity not provided");
+                throw new ArgumentNullException(nameof(entity));
             var entityEntry = Context.Entry(entity);
             
             if (entityEntry.State == EntityState.Detached)
@@ -124,6 +124,7 @@ namespace Infrastructure.Services
 
         public virtual async Task DeleteSingleAsync(Specification<TEntity> spec)
         {
+            if (spec == null) throw new ArgumentNullException(nameof(spec));
             var entity = await Context.ReadSingleBySpecAsync(Logger, spec);
             await DeleteSingleAsync(entity);
             Logger.Trace("{Name} deleted: {entity} by spec: {spec}", Name, entity, spec);
@@ -131,6 +132,7 @@ namespace Infrastructure.Services
 
         public virtual async Task<int> DeleteAsync(Specification<TEntity> spec)
         {
+            if (spec == null) throw new ArgumentNullException(nameof(spec));
             var entities = await Context.EnumerateAsync(Logger, spec);
             foreach (var entity in entities)
                 await DeleteSingleAsync(entity);
@@ -138,28 +140,9 @@ namespace Infrastructure.Services
             return entities.Count();
         }
 
-        public virtual async Task DeleteSingleWithRelatedRelink(int id, int idToRelinkTo)
-        {
-            await RelinkRelatedAsync(id, idToRelinkTo);
-            Logger.Trace("{Name} relinked entity from {id} to {idToRelinkTo} before delete", Name, id, idToRelinkTo);
-            await DeleteSingleAsync(new EntitySpecification<TEntity>(id));
-        }
-
-        /// <summary>
-        /// Relinks slave entities to another entity
-        /// Checking update rights for linked entities is not mandatory, since entity being deleted is supposed to be master, and related entities are slaves, 
-        /// therefore delete rights for master entity already include update right for entities being deleted
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="idToRelinkTo"></param>
-        /// <returns></returns>
-        public virtual Task RelinkRelatedAsync(int id, int idToRelinkTo)
-        {
-            return Task.CompletedTask;
-        }
-
         protected virtual async Task DeleteSingleAsync(TEntity entity)
         {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
             if (AuthoriationParameters.DeleteAuthorizationRequired)
                 await AuthorizeWithException(AuthoriationParameters.DeleteOperationRequirement, entity);
             await DeleteRelatedEntitiesAsync(entity);

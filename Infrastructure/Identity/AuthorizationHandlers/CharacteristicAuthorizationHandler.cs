@@ -2,7 +2,7 @@
 using ApplicationCore.Interfaces;
 using Microsoft.AspNetCore.Identity;
 
-namespace Infrastructure.Identity
+namespace Infrastructure.Identity.AuthorizationHandlers
 {
     public class CharacteristicAuthorizationHandler: DefaultAuthorizationHandler<Characteristic>
     {

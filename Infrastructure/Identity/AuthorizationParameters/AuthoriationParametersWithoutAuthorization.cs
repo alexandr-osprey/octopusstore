@@ -2,7 +2,7 @@
 using ApplicationCore.Interfaces;
 using Microsoft.AspNetCore.Authorization.Infrastructure;
 
-namespace Infrastructure.Identity
+namespace Infrastructure.Identity.AuthorizationParameters
 {
     public class AuthoriationParametersWithoutAuthorization<T>: IAuthorizationParameters<T> where T: class
     {

@@ -7,7 +7,6 @@ namespace ApplicationCore.ViewModels
     {
         public string Title { get; set; }
         public int ParentCategoryId { get; set; }
-        public string Description { get; set; }
         public bool IsRoot { get; set; }
 
         public CategoryViewModel(): base()
@@ -28,7 +27,7 @@ namespace ApplicationCore.ViewModels
                 Id = Id,
                 Title = Title,
                 ParentCategoryId = ParentCategoryId,
-                IsRoot = IsRoot
+                IsRoot = IsRoot,
             };
         }
         public override Category UpdateModel(Category modelToUpdate)

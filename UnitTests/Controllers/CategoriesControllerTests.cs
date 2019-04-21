@@ -22,23 +22,25 @@ namespace UnitTests.Controllers
         [Fact]
         public async Task IndexAllAsync()
         {
-            var actual = await Controller.IndexAsync(null, null);
-            var allCategories = Data.Categories.Entities;
+            var actual = await _controller.IndexAsync(null, null);
+            var allCategories = _data.Categories.Entities;
             var expected = new IndexViewModel<CategoryViewModel>(1,
                 GetPageCount(allCategories.Count(),
                 DefaultSettings.DefaultTake),
                 allCategories.Count(),
                 from c in allCategories select new CategoryViewModel(c));
+            actual.Entities = actual.Entities.OrderBy(i => i.Id);
+            expected.Entities = expected.Entities.OrderBy(i => i.Id);
             Equal(expected, actual);
         }
 
         [Fact]
         public async Task IndexClothesAsync()
         {
-            var clothes = Data.Categories.WomensClothing;
-            var actual = await Controller.IndexAsync(clothes.Id, null);
+            var clothes = _data.Categories.WomensClothing;
+            var actual = await _controller.IndexAsync(clothes.Id, null);
             var spec = new EntitySpecification<Category>(clothes.Id);
-            var flatCategories = await Service.EnumerateHierarchyAsync(spec);
+            var flatCategories = await _service.EnumerateHierarchyAsync(spec);
             var expected = new IndexViewModel<CategoryViewModel>(1,
                 GetPageCount(flatCategories.Count(), DefaultSettings.DefaultTake),
                 flatCategories.Count(),
@@ -49,8 +51,8 @@ namespace UnitTests.Controllers
         [Fact]
         public async Task IndexByStoreAsync()
         {
-            int storeId = Data.Stores.Johns.Id;
-            var categories = await Context.Items
+            int storeId = _data.Stores.Johns.Id;
+            var categories = await _context.Items
                 .Include(i => i.Category)
                 .Where(i => i.StoreId == storeId)
                 .Select(i => i.Category)
@@ -61,14 +63,14 @@ namespace UnitTests.Controllers
             foreach (var category in categories)
                 await GetCategoryHierarchyAsync(category.Id, expectedCategories);
             var expected = new IndexViewModel<CategoryViewModel>(1, 1, expectedCategories.Count, (from e in expectedCategories select new CategoryViewModel(e)).OrderBy(c => c.Id));
-            var actual = await Controller.IndexAsync(categoryId: null, storeId: storeId);
+            var actual = await _controller.IndexAsync(categoryId: null, storeId: storeId);
             Equal(expected, actual);
         }
 
         [Fact]
         public async Task IndexWrongCategoryAsync()
         {
-            var actual = await Controller.IndexAsync(99696, null);
+            var actual = await _controller.IndexAsync(99696, null);
             var expected = new IndexViewModel<CategoryViewModel>(0, 0, 0, new List<CategoryViewModel>());
             Equal(expected, actual);
         }
@@ -81,8 +83,8 @@ namespace UnitTests.Controllers
         {
             return new List<Category>()
             {
-                new Category() { ParentCategoryId = Data.Categories.Root.Id, Title = "Cat 1", CanHaveItems = false, Description = "desc" },
-                new Category() { ParentCategoryId = Data.Categories.WomensClothing.Id, Title = "Cat 2", CanHaveItems = true, Description = "desc" },
+                new Category() { ParentCategoryId = _data.Categories.Root.Id, Title = "Cat 1", CanHaveItems = false },
+                new Category() { ParentCategoryId = _data.Categories.WomensClothing.Id, Title = "Cat 2", CanHaveItems = true },
             };
         }
 
@@ -92,7 +94,6 @@ namespace UnitTests.Controllers
             {
                 Id = entity.Id,
                 IsRoot = entity.IsRoot,
-                Description = entity.Description,
                 Title = entity.Title,
                 ParentCategoryId = entity.ParentCategoryId
             };
@@ -104,10 +105,9 @@ namespace UnitTests.Controllers
             {
                 new CategoryViewModel()
                 {
-                    Id = Data.Categories.WomensFootwear.Id,
-                    Description = "UPDATED",
-                    IsRoot = Data.Categories.WomensFootwear.IsRoot,
-                    ParentCategoryId = Data.Categories.WomensFootwear.ParentCategoryId,
+                    Id = _data.Categories.WomensFootwear.Id,
+                    IsRoot = _data.Categories.WomensFootwear.IsRoot,
+                    ParentCategoryId = _data.Categories.WomensFootwear.ParentCategoryId,
                     Title ="UPDATED"
                 }
             };

@@ -20,24 +20,24 @@ namespace UnitTests.Controllers
         [Fact]
         public async Task IndexByItemAsync()
         {
-            int itemId = Data.Items.IPhoneXR.Id;
-            var variants = Data.ItemVariants.Entities.Where(i => i.ItemId == itemId);
+            int itemId = _data.Items.IPhoneXR.Id;
+            var variants = _data.ItemVariants.Entities.Where(i => i.ItemId == itemId);
             var expected = new IndexViewModel<ItemVariantViewModel>(1, 1, variants.Count(), from v in variants select new ItemVariantViewModel(v));
-            var actual = await Controller.IndexAsync(itemId);
+            var actual = await _controller.IndexAsync(itemId);
             Equal(expected, actual);
         }
 
         [Fact]
         public async Task GetDetailAsync()
         {
-            var expected = new ItemVariantDetailViewModel(GetQueryable().Where(i => i == Data.ItemVariants.IPhone664GB).First());
-            var actual = await Controller.ReadDetailAsync(expected.Id);
+            var expected = new ItemVariantDetailViewModel(GetQueryable().Where(i => i == _data.ItemVariants.IPhoneXR128GBRed).First());
+            var actual = await _controller.ReadDetailAsync(expected.Id);
             Equal(expected, actual);
         }
 
         protected override IQueryable<ItemVariant> GetQueryable()
         {
-            return Context
+            return _context
                     .Set<ItemVariant>()
                     
                     .Include(j => j.ItemProperties);
@@ -54,7 +54,7 @@ namespace UnitTests.Controllers
 
         protected override IEnumerable<ItemVariant> GetCorrectEntitiesToCreate()
         {
-            return new List<ItemVariant>() { new ItemVariant() { ItemId = Data.Items.Jacket.Id, Price = 505, Title = "title" } };
+            return new List<ItemVariant>() { new ItemVariant() { ItemId = _data.Items.MarcOPoloShoes1.Id, Price = 505, Title = "title" } };
         }
 
         protected override ItemVariantViewModel ToViewModel(ItemVariant entity)
@@ -74,7 +74,7 @@ namespace UnitTests.Controllers
             {
                 new ItemVariantViewModel()
                 {
-                    Id = Data.ItemVariants.IPhone664GB.Id,
+                    Id = _data.ItemVariants.IPhoneXR64GBRed.Id,
                     ItemId = 999,
                     Price = 500,
                     Title = "UPD"

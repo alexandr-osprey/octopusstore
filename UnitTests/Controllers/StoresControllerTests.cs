@@ -24,12 +24,12 @@ namespace UnitTests.Controllers
         {
             int page = 2;
             int pageSize = 1;
-            var actual = await Controller.IndexAsync(page, pageSize, null, null);
+            var actual = await _controller.IndexAsync(page, pageSize, null, null);
             var stores = await GetQueryable()
                 .Skip(pageSize * (page - 1))
                 .Take(pageSize)
                 .ToListAsync();
-            int totalCount = Data.Stores.Entities.Count;
+            int totalCount = _data.Stores.Entities.Count;
             var expected = new IndexViewModel<StoreViewModel>(page, GetPageCount(totalCount, pageSize), totalCount, from s in stores select new StoreViewModel(s));
             Equal(expected, actual);
         }
@@ -37,12 +37,12 @@ namespace UnitTests.Controllers
 
         protected override IQueryable<Store> GetQueryable()
         {
-            return Context.Set<Store>().Include(s => s.Items);
+            return _context.Set<Store>().Include(s => s.Items);
         }
 
         protected override IEnumerable<Store> GetCorrectEntitiesToCreate()
         {
-            Controller.ScopedParameters.ClaimsPrincipal = Users.AdminPrincipal;
+            _controller.ScopedParameters.ClaimsPrincipal = Users.AdminPrincipal;
             return new List<Store>() { new Store() { Title = "Store 1", Address = "Address", Description = "Desc", OwnerId = Users.AdminId } };
         }
 
@@ -65,7 +65,7 @@ namespace UnitTests.Controllers
             {
                 new StoreViewModel()
                 {
-                    Id = Data.Stores.Johns.Id,
+                    Id = _data.Stores.Johns.Id,
                     Title = "Updated",
                     Description = "Description",
                     Address = "Address",

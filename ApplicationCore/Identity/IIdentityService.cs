@@ -63,8 +63,8 @@ namespace ApplicationCore.Identity
         Task<bool> IsContentAdministratorAsync(string userId);
         Task AddClaim(string id, Claim claim);
         Task RemoveClaim(string id, Claim claim);
-        Task<string> GetUserId(string email);
-        Task<string> GetUserEmail(string Id);
+        Task<string> GetUserIdAsync(string email);
+        Task<string> GetUserEmailAsync(string Id);
         Task<IEnumerable<string>> EnumerateEmailsWithClaimAsync(Claim claim);
         Task RemoveFromUsersAsync(Claim claim);
     }

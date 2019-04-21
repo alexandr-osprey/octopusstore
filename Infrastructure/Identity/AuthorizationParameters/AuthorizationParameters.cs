@@ -1,8 +1,14 @@
 ﻿using ApplicationCore.Identity;
 using Microsoft.AspNetCore.Authorization.Infrastructure;
 
-namespace Infrastructure.Identity
+namespace Infrastructure.Identity.AuthorizationParameters
 {
+    /// <summary>
+    /// Base class for enabling and disabling authorization for certain types of operations
+    /// Also allows to execute one operation with authorization requirement from other (like allow read only if allowed to update)
+    /// Supposed to be derived and overridden for each entity
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class AuthorizationParameters<T>: IAuthorizationParameters<T> where T: class
     {
         public virtual bool CreateAuthorizationRequired { get; set; } = true;

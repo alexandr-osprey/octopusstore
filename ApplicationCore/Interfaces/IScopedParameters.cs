@@ -11,6 +11,9 @@ namespace ApplicationCore.Interfaces
         /// Specifies the user for whom authorization for operation should be checked
         /// </summary>
         ClaimsPrincipal ClaimsPrincipal { get; set; }
+        /// <summary>
+        /// Id of ApplicationUser
+        /// </summary>
         string CurrentUserId { get; }
     }
 }

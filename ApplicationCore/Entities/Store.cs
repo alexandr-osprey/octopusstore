@@ -39,7 +39,7 @@ namespace ApplicationCore.Entities
 
         public Store ShallowClone()
         {
-            return (Store)MemberwiseClone();
+            return new Store(this);
         }
     }
 }

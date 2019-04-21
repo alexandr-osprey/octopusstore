@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace Infrastructure.Identity
+namespace Infrastructure.Identity.AuthorizationHandlers
 {
     public abstract class DefaultAuthorizationHandler<T>: AuthorizationHandler<OperationAuthorizationRequirement, T> where T: Entity
     {

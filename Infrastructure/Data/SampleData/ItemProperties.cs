@@ -10,6 +10,10 @@ namespace Infrastructure.Data.SampleData
         protected ItemVariants ItemVariants { get; }
         protected CharacteristicValues CharacteristicValues { get; }
 
+        public ItemProperty IPhoneXR64GBWhiteBattery3000 { get; protected set; }
+        public ItemProperty IPhoneXR64GBWhiteRAM3 { get; protected set; }
+        public ItemProperty ReebokFastTempoWhite35White { get; protected set; }
+
         public ItemProperties(StoreContext storeContext, ItemVariants itemVariants, CharacteristicValues characteristicValues) : base(storeContext)
         {
             ItemVariants = itemVariants;
@@ -194,6 +198,9 @@ namespace Infrastructure.Data.SampleData
         public override void Init()
         {
             base.Init();
+            IPhoneXR64GBWhiteBattery3000 = Entities.FirstOrDefault(i => i.CharacteristicValue == CharacteristicValues.SmartphoneBattery3000 && i.ItemVariant == ItemVariants.IPhoneXR64GBWhite);
+            IPhoneXR64GBWhiteRAM3 = Entities.FirstOrDefault(i => i.CharacteristicValue == CharacteristicValues.SmartphoneRAM3 && i.ItemVariant == ItemVariants.IPhoneXR64GBWhite);
+            ReebokFastTempoWhite35White = Entities.FirstOrDefault(i => i.CharacteristicValue == CharacteristicValues.WomensFootwearColorWhite && i.ItemVariant == ItemVariants.ReebokDMXRun10White35);
         }
     }
 }

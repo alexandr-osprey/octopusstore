@@ -20,8 +20,8 @@ namespace UnitTests.Services
         {
             return new List<Characteristic>()
             {
-                new Characteristic() { Title = "title 1", CategoryId = Data.Categories.WomensDresses.Id },
-                new Characteristic() { Title = "title 2", CategoryId = Data.Categories.Smartphones.Id },
+                new Characteristic() { Title = "title 1", CategoryId = _data.Categories.WomensDresses.Id },
+                new Characteristic() { Title = "title 2", CategoryId = _data.Categories.Smartphones.Id },
             };
         }
 
@@ -29,41 +29,30 @@ namespace UnitTests.Services
         {
             return new List<Characteristic>()
             {
-                new Characteristic() { Title = null, CategoryId = Data.Categories.WomensDresses.Id },
+                new Characteristic() { Title = null, CategoryId = _data.Categories.WomensDresses.Id },
                 new Characteristic() { Title = "new2", CategoryId = 0 },
             };
         }
 
-        [Fact]
-        public async Task DeleteSingleWithRelatedRelinkAsync()
-        {
-            var characteristic = Data.Characteristics.Colour;
-            int idToRelinkTo = Data.Characteristics.Fashion.Id;
-            var characteristicValues = Data.CharacteristicValues.Entities.Where(i => i.Characteristic == characteristic).ToList();
-            await Service.DeleteSingleWithRelatedRelink(characteristic.Id, idToRelinkTo);
-            characteristicValues.ForEach(i => Assert.Equal(i.CharacteristicId, idToRelinkTo));
-            Assert.False(Context.Set<Characteristic>().Any(c => c == characteristic));
-        }
-
         protected override Specification<Characteristic> GetEntitiesToDeleteSpecification()
         {
-            return new EntitySpecification<Characteristic>(c => c == Data.Characteristics.Fashion);
+            return new EntitySpecification<Characteristic>(c => c == _data.Characteristics.SmartphoneRAM);
         }
 
         protected override IEnumerable<Characteristic> GetCorrectEntitesForUpdate()
         {
-            Data.Characteristics.Storage.Title = "Updated storage";
-            return new List<Characteristic>() { Data.Characteristics.Storage };
+            _data.Characteristics.SmartphoneBattery.Title = "Updated storage";
+            return new List<Characteristic>() { _data.Characteristics.SmartphoneBattery };
         }
 
         protected override IEnumerable<Characteristic> GetIncorrectEntitesForUpdate()
         {
-            Data.Characteristics.WomenFootwearSize.Title = "";
-            Data.Characteristics.Colour.CategoryId = Data.Categories.Electronics.Id;
+            _data.Characteristics.WomenFootwearSize.Title = "";
+            _data.Characteristics.SmartphoneColor.CategoryId = _data.Categories.Electronics.Id;
             return new List<Characteristic>()
             {
-                Data.Characteristics.WomenFootwearSize,
-                Data.Characteristics.Colour
+                _data.Characteristics.WomenFootwearSize,
+                _data.Characteristics.SmartphoneColor
             };
         }
     }

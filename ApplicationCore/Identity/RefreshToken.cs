@@ -1,7 +1,7 @@
 ﻿namespace ApplicationCore.Identity
 {
     /// <summary>
-    /// Refresh token used to renew token. Associated with a user.
+    /// Refresh JSON token used to renew token. Associated with a user.
     /// </summary>
     public class RefreshToken
     {

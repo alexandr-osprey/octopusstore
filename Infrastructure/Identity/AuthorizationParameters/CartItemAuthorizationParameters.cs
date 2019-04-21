@@ -1,6 +1,6 @@
 ﻿using ApplicationCore.Entities;
 
-namespace Infrastructure.Identity
+namespace Infrastructure.Identity.AuthorizationParameters
 {
     public class CartItemAuthorizationParameters: AuthorizationParameters<CartItem>
     {
