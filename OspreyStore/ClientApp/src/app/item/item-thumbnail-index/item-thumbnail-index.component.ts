@@ -99,7 +99,7 @@ export class ItemThumbnailIndexComponent implements OnInit, OnDestroy, AfterView
     //this.parameterService.clearParams();
     this.getItems();
     // avoiding interference with parent animation
-    this.itemService.delay(5000).then(() => {
+    this.itemService.delay(500).then(() => {
       this.sidebarHidden = this.parameterService.getParam(ParameterNames.sidebarHidden);
     });
   }

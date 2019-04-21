@@ -76,7 +76,7 @@ namespace UnitTests.Services
         {
             var entity = Data.Items.SamsungS10;
             int idToRelinkTo = Data.Items.SamsungS9.Id;
-            var itemImages = Data.ItemImages.Entities.Where(i => i.RelatedEntity == entity).ToList();
+            var itemImages = Data.ItemVariantImages.Entities.Where(i => i.RelatedEntity == entity).ToList();
             var itemVariants = Data.ItemVariants.Entities.Where(i => i.Item == entity).ToList();
             await Service.DeleteSingleWithRelatedRelink(entity.Id, idToRelinkTo);
             itemImages.ForEach(i => Assert.Equal(i.RelatedId, idToRelinkTo));

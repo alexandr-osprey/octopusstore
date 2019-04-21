@@ -35,8 +35,8 @@ namespace OspreyStore.Controllers
                 try
                 {
                     await formFile.CopyToAsync(stream);
-                    var itemImage = new ItemVariantImage(formFile.FileName, formFile.ContentType, relatedId, stream);
-                    return await GetViewModelAsync<ItemVariantImageViewModel>(await Service.CreateAsync(itemImage));
+                    var itemVariantImage = new ItemVariantImage(formFile.FileName, formFile.ContentType, relatedId, stream);
+                    return await GetViewModelAsync<ItemVariantImageViewModel>(await Service.CreateAsync(itemVariantImage));
                 }
                 catch (Exception exception)
                 {
@@ -48,7 +48,7 @@ namespace OspreyStore.Controllers
         }
 
         [HttpPut]
-        public override async Task<ItemVariantImageViewModel> UpdateAsync([FromBody]ItemVariantImageViewModel itemImageViewModel) => await base.UpdateAsync(itemImageViewModel);
+        public override async Task<ItemVariantImageViewModel> UpdateAsync([FromBody]ItemVariantImageViewModel itemVariantImageViewModel) => await base.UpdateAsync(itemVariantImageViewModel);
 
         [AllowAnonymous]
         [HttpGet]

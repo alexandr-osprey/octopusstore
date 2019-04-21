@@ -27,8 +27,8 @@ namespace Infrastructure.Services
             var itemProperties = await Context.EnumerateRelatedEnumAsync(Logger, new EntitySpecification<ItemVariant>(id), b => b.ItemProperties);
             foreach (var property in itemProperties)
                 property.ItemVariantId = idToRelinkTo;
-            var itemImages = await Context.EnumerateRelatedEnumAsync(Logger, new EntitySpecification<ItemVariant>(id), b => b.Images);
-            foreach (var image in itemImages)
+            var itemVariantImages = await Context.EnumerateRelatedEnumAsync(Logger, new EntitySpecification<ItemVariant>(id), b => b.Images);
+            foreach (var image in itemVariantImages)
                 image.RelatedId = idToRelinkTo;
             await Context.SaveChangesAsync(Logger, "Relink ItemVariant");
         }

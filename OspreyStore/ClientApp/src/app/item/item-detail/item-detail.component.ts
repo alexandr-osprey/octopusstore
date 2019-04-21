@@ -8,6 +8,7 @@ import { CartItem } from 'src/app/cart/cart-item/cart-item';
 import { CartItemService } from 'src/app/cart/cart-item/cart-item.service';
 import { CartItemThumbnail } from 'src/app/cart/cart-item/cart-item-thumbnail';
 import { ItemVariantImage } from 'src/app/item-variant-image/item-variant-image';
+import { ParameterService } from 'src/app/parameter/parameter.service';
 
 @Component({
   selector: 'app-item-detail',
@@ -21,6 +22,8 @@ export class ItemDetailComponent implements OnInit, AfterContentInit {
   public currentVariant: ItemVariant;
   public shouldShowRemoveFromCart: boolean;
   public numberInCart: number;
+  public backPath: string;
+  public backParams: any;
 
   //public displayedImages: ItemVariantImage[];
   public currentPrice: number;
@@ -30,7 +33,8 @@ export class ItemDetailComponent implements OnInit, AfterContentInit {
     private itemService: ItemService,
     private route: ActivatedRoute,
     private identityService: IdentityService,
-    private cartItemService: CartItemService
+    private cartItemService: CartItemService,
+    protected parameterService: ParameterService,
   ) {
   }
 
@@ -40,6 +44,8 @@ export class ItemDetailComponent implements OnInit, AfterContentInit {
   }
 
   initializeComponent() {
+    this.backPath = this.parameterService.oldPath;
+    this.backParams = this.parameterService.oldParams;
     let itemId = +this.route.snapshot.paramMap.get('id');
     if (itemId) {
       this.itemService.getDetail(itemId).subscribe((data: ItemDetail) => {

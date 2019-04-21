@@ -63,6 +63,356 @@ namespace Infrastructure.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        public static byte[] AppleWatchSeries4Black1 {
+            get {
+                object obj = ResourceManager.GetObject("AppleWatchSeries4Black1", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] AppleWatchSeries4Black2 {
+            get {
+                object obj = ResourceManager.GetObject("AppleWatchSeries4Black2", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] AppleWatchSeries4White1 {
+            get {
+                object obj = ResourceManager.GetObject("AppleWatchSeries4White1", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] AppleWatchSeries4White2 {
+            get {
+                object obj = ResourceManager.GetObject("AppleWatchSeries4White2", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] DanielePatriciBag11 {
+            get {
+                object obj = ResourceManager.GetObject("DanielePatriciBag11", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] DanielePatriciBag21 {
+            get {
+                object obj = ResourceManager.GetObject("DanielePatriciBag21", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] DanielePatriciClutch11 {
+            get {
+                object obj = ResourceManager.GetObject("DanielePatriciClutch11", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] IPhone8Plus128GBBlack1 {
+            get {
+                object obj = ResourceManager.GetObject("IPhone8Plus128GBBlack1", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] IPhone8Plus128GBBlack2 {
+            get {
+                object obj = ResourceManager.GetObject("IPhone8Plus128GBBlack2", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] IPhone8Plus128GBBlack3 {
+            get {
+                object obj = ResourceManager.GetObject("IPhone8Plus128GBBlack3", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] IPhone8Plus128GBBlack4 {
+            get {
+                object obj = ResourceManager.GetObject("IPhone8Plus128GBBlack4", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] IPhone8Plus128GBWhite1 {
+            get {
+                object obj = ResourceManager.GetObject("IPhone8Plus128GBWhite1", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] IPhone8Plus128GBWhite2 {
+            get {
+                object obj = ResourceManager.GetObject("IPhone8Plus128GBWhite2", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] IPhone8Plus128GBWhite3 {
+            get {
+                object obj = ResourceManager.GetObject("IPhone8Plus128GBWhite3", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] IPhone8Plus128GBWhite4 {
+            get {
+                object obj = ResourceManager.GetObject("IPhone8Plus128GBWhite4", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] IPhone8Plus64GBBlack1 {
+            get {
+                object obj = ResourceManager.GetObject("IPhone8Plus64GBBlack1", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] IPhone8Plus64GBBlack2 {
+            get {
+                object obj = ResourceManager.GetObject("IPhone8Plus64GBBlack2", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] IPhone8Plus64GBBlack3 {
+            get {
+                object obj = ResourceManager.GetObject("IPhone8Plus64GBBlack3", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] IPhone8Plus64GBBlack4 {
+            get {
+                object obj = ResourceManager.GetObject("IPhone8Plus64GBBlack4", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] IPhone8Plus64GBWhite1 {
+            get {
+                object obj = ResourceManager.GetObject("IPhone8Plus64GBWhite1", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] IPhone8Plus64GBWhite2 {
+            get {
+                object obj = ResourceManager.GetObject("IPhone8Plus64GBWhite2", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] IPhone8Plus64GBWhite3 {
+            get {
+                object obj = ResourceManager.GetObject("IPhone8Plus64GBWhite3", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] IPhone8Plus64GBWhite4 {
+            get {
+                object obj = ResourceManager.GetObject("IPhone8Plus64GBWhite4", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] IPhoneXR128GBRed1 {
+            get {
+                object obj = ResourceManager.GetObject("IPhoneXR128GBRed1", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] IPhoneXR128GBRed2 {
+            get {
+                object obj = ResourceManager.GetObject("IPhoneXR128GBRed2", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] IPhoneXR128GBRed3 {
+            get {
+                object obj = ResourceManager.GetObject("IPhoneXR128GBRed3", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] IPhoneXR128GBRed4 {
+            get {
+                object obj = ResourceManager.GetObject("IPhoneXR128GBRed4", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] IPhoneXR128GBWhite1 {
+            get {
+                object obj = ResourceManager.GetObject("IPhoneXR128GBWhite1", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] IPhoneXR128GBWhite2 {
+            get {
+                object obj = ResourceManager.GetObject("IPhoneXR128GBWhite2", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] IPhoneXR128GBWhite3 {
+            get {
+                object obj = ResourceManager.GetObject("IPhoneXR128GBWhite3", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] IPhoneXR128GBWhite4 {
+            get {
+                object obj = ResourceManager.GetObject("IPhoneXR128GBWhite4", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] IPhoneXR64GBRed1 {
+            get {
+                object obj = ResourceManager.GetObject("IPhoneXR64GBRed1", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] IPhoneXR64GBRed2 {
+            get {
+                object obj = ResourceManager.GetObject("IPhoneXR64GBRed2", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] IPhoneXR64GBRed3 {
+            get {
+                object obj = ResourceManager.GetObject("IPhoneXR64GBRed3", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] IPhoneXR64GBRed4 {
+            get {
+                object obj = ResourceManager.GetObject("IPhoneXR64GBRed4", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         public static byte[] IPhoneXR64GBWhite1 {
             get {
                 object obj = ResourceManager.GetObject("IPhoneXR64GBWhite1", resourceCulture);
@@ -96,6 +446,806 @@ namespace Infrastructure.Properties {
         public static byte[] IPhoneXR64GBWhite4 {
             get {
                 object obj = ResourceManager.GetObject("IPhoneXR64GBWhite4", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] MarcOPoloShoes1Black351 {
+            get {
+                object obj = ResourceManager.GetObject("MarcOPoloShoes1Black351", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] MarcOPoloShoes1Black352 {
+            get {
+                object obj = ResourceManager.GetObject("MarcOPoloShoes1Black352", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] MarcOPoloShoes1Black421 {
+            get {
+                object obj = ResourceManager.GetObject("MarcOPoloShoes1Black421", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] MarcOPoloShoes1Black422 {
+            get {
+                object obj = ResourceManager.GetObject("MarcOPoloShoes1Black422", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] MarcOPoloShoes1White351 {
+            get {
+                object obj = ResourceManager.GetObject("MarcOPoloShoes1White351", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] MarcOPoloShoes1White352 {
+            get {
+                object obj = ResourceManager.GetObject("MarcOPoloShoes1White352", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] MarcOPoloShoes1White421 {
+            get {
+                object obj = ResourceManager.GetObject("MarcOPoloShoes1White421", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] MarcOPoloShoes1White422 {
+            get {
+                object obj = ResourceManager.GetObject("MarcOPoloShoes1White422", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] MarcOPoloShoes2Black351 {
+            get {
+                object obj = ResourceManager.GetObject("MarcOPoloShoes2Black351", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] MarcOPoloShoes2Black352 {
+            get {
+                object obj = ResourceManager.GetObject("MarcOPoloShoes2Black352", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] MarcOPoloShoes2Black421 {
+            get {
+                object obj = ResourceManager.GetObject("MarcOPoloShoes2Black421", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] MarcOPoloShoes2Black422 {
+            get {
+                object obj = ResourceManager.GetObject("MarcOPoloShoes2Black422", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] ReebokDMXRun10Black351 {
+            get {
+                object obj = ResourceManager.GetObject("ReebokDMXRun10Black351", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] ReebokDMXRun10Black352 {
+            get {
+                object obj = ResourceManager.GetObject("ReebokDMXRun10Black352", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] ReebokDMXRun10Black421 {
+            get {
+                object obj = ResourceManager.GetObject("ReebokDMXRun10Black421", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] ReebokDMXRun10Black422 {
+            get {
+                object obj = ResourceManager.GetObject("ReebokDMXRun10Black422", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] ReebokDMXRun10White351 {
+            get {
+                object obj = ResourceManager.GetObject("ReebokDMXRun10White351", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] ReebokDMXRun10White352 {
+            get {
+                object obj = ResourceManager.GetObject("ReebokDMXRun10White352", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] ReebokDMXRun10White421 {
+            get {
+                object obj = ResourceManager.GetObject("ReebokDMXRun10White421", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] ReebokDMXRun10White422 {
+            get {
+                object obj = ResourceManager.GetObject("ReebokDMXRun10White422", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] ReebokFastTempoBlack351 {
+            get {
+                object obj = ResourceManager.GetObject("ReebokFastTempoBlack351", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] ReebokFastTempoBlack352 {
+            get {
+                object obj = ResourceManager.GetObject("ReebokFastTempoBlack352", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] ReebokFastTempoBlack421 {
+            get {
+                object obj = ResourceManager.GetObject("ReebokFastTempoBlack421", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] ReebokFastTempoBlack422 {
+            get {
+                object obj = ResourceManager.GetObject("ReebokFastTempoBlack422", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] ReebokFastTempoWhite351 {
+            get {
+                object obj = ResourceManager.GetObject("ReebokFastTempoWhite351", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] ReebokFastTempoWhite352 {
+            get {
+                object obj = ResourceManager.GetObject("ReebokFastTempoWhite352", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] ReebokFastTempoWhite421 {
+            get {
+                object obj = ResourceManager.GetObject("ReebokFastTempoWhite421", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] ReebokFastTempoWhite422 {
+            get {
+                object obj = ResourceManager.GetObject("ReebokFastTempoWhite422", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] SamsungGalaxyS10128GBBlack1 {
+            get {
+                object obj = ResourceManager.GetObject("SamsungGalaxyS10128GBBlack1", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] SamsungGalaxyS10128GBBlack2 {
+            get {
+                object obj = ResourceManager.GetObject("SamsungGalaxyS10128GBBlack2", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] SamsungGalaxyS10128GBBlack3 {
+            get {
+                object obj = ResourceManager.GetObject("SamsungGalaxyS10128GBBlack3", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] SamsungGalaxyS10128GBBlack4 {
+            get {
+                object obj = ResourceManager.GetObject("SamsungGalaxyS10128GBBlack4", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] SamsungGalaxyS10128GBWhite1 {
+            get {
+                object obj = ResourceManager.GetObject("SamsungGalaxyS10128GBWhite1", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] SamsungGalaxyS10128GBWhite2 {
+            get {
+                object obj = ResourceManager.GetObject("SamsungGalaxyS10128GBWhite2", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] SamsungGalaxyS10128GBWhite3 {
+            get {
+                object obj = ResourceManager.GetObject("SamsungGalaxyS10128GBWhite3", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] SamsungGalaxyS10128GBWhite4 {
+            get {
+                object obj = ResourceManager.GetObject("SamsungGalaxyS10128GBWhite4", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] SamsungGalaxyS1064GBBlack1 {
+            get {
+                object obj = ResourceManager.GetObject("SamsungGalaxyS1064GBBlack1", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] SamsungGalaxyS1064GBBlack2 {
+            get {
+                object obj = ResourceManager.GetObject("SamsungGalaxyS1064GBBlack2", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] SamsungGalaxyS1064GBBlack3 {
+            get {
+                object obj = ResourceManager.GetObject("SamsungGalaxyS1064GBBlack3", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] SamsungGalaxyS1064GBBlack4 {
+            get {
+                object obj = ResourceManager.GetObject("SamsungGalaxyS1064GBBlack4", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] SamsungGalaxyS1064GBWhite1 {
+            get {
+                object obj = ResourceManager.GetObject("SamsungGalaxyS1064GBWhite1", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] SamsungGalaxyS1064GBWhite2 {
+            get {
+                object obj = ResourceManager.GetObject("SamsungGalaxyS1064GBWhite2", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] SamsungGalaxyS1064GBWhite3 {
+            get {
+                object obj = ResourceManager.GetObject("SamsungGalaxyS1064GBWhite3", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] SamsungGalaxyS1064GBWhite4 {
+            get {
+                object obj = ResourceManager.GetObject("SamsungGalaxyS1064GBWhite4", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] SamsungGalaxyS9128GBBlack1 {
+            get {
+                object obj = ResourceManager.GetObject("SamsungGalaxyS9128GBBlack1", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] SamsungGalaxyS9128GBBlack2 {
+            get {
+                object obj = ResourceManager.GetObject("SamsungGalaxyS9128GBBlack2", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] SamsungGalaxyS9128GBBlack3 {
+            get {
+                object obj = ResourceManager.GetObject("SamsungGalaxyS9128GBBlack3", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] SamsungGalaxyS9128GBBlack4 {
+            get {
+                object obj = ResourceManager.GetObject("SamsungGalaxyS9128GBBlack4", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] SamsungGalaxyS9128GBRed1 {
+            get {
+                object obj = ResourceManager.GetObject("SamsungGalaxyS9128GBRed1", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] SamsungGalaxyS9128GBRed2 {
+            get {
+                object obj = ResourceManager.GetObject("SamsungGalaxyS9128GBRed2", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] SamsungGalaxyS9128GBRed3 {
+            get {
+                object obj = ResourceManager.GetObject("SamsungGalaxyS9128GBRed3", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] SamsungGalaxyS9128GBRed4 {
+            get {
+                object obj = ResourceManager.GetObject("SamsungGalaxyS9128GBRed4", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] SamsungGalaxyS964GBBlack1 {
+            get {
+                object obj = ResourceManager.GetObject("SamsungGalaxyS964GBBlack1", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] SamsungGalaxyS964GBBlack2 {
+            get {
+                object obj = ResourceManager.GetObject("SamsungGalaxyS964GBBlack2", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] SamsungGalaxyS964GBBlack3 {
+            get {
+                object obj = ResourceManager.GetObject("SamsungGalaxyS964GBBlack3", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] SamsungGalaxyS964GBBlack4 {
+            get {
+                object obj = ResourceManager.GetObject("SamsungGalaxyS964GBBlack4", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] SamsungGalaxyS964GBRed1 {
+            get {
+                object obj = ResourceManager.GetObject("SamsungGalaxyS964GBRed1", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] SamsungGalaxyS964GBRed2 {
+            get {
+                object obj = ResourceManager.GetObject("SamsungGalaxyS964GBRed2", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] SamsungGalaxyS964GBRed3 {
+            get {
+                object obj = ResourceManager.GetObject("SamsungGalaxyS964GBRed3", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] SamsungGalaxyS964GBRed4 {
+            get {
+                object obj = ResourceManager.GetObject("SamsungGalaxyS964GBRed4", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] SamsungGalaxyWatchBlack1 {
+            get {
+                object obj = ResourceManager.GetObject("SamsungGalaxyWatchBlack1", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] SamsungGalaxyWatchBlack2 {
+            get {
+                object obj = ResourceManager.GetObject("SamsungGalaxyWatchBlack2", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] SamsungGalaxyWatchWhite1 {
+            get {
+                object obj = ResourceManager.GetObject("SamsungGalaxyWatchWhite1", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] SamsungGalaxyWatchWhite2 {
+            get {
+                object obj = ResourceManager.GetObject("SamsungGalaxyWatchWhite2", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] UnitedColorsOfBenetton1WhiteM1 {
+            get {
+                object obj = ResourceManager.GetObject("UnitedColorsOfBenetton1WhiteM1", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] UnitedColorsOfBenetton1WhiteM2 {
+            get {
+                object obj = ResourceManager.GetObject("UnitedColorsOfBenetton1WhiteM2", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] UnitedColorsOfBenetton1WhiteS1 {
+            get {
+                object obj = ResourceManager.GetObject("UnitedColorsOfBenetton1WhiteS1", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] UnitedColorsOfBenetton1WhiteS2 {
+            get {
+                object obj = ResourceManager.GetObject("UnitedColorsOfBenetton1WhiteS2", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] UnitedColorsOfBenetton1YellowM1 {
+            get {
+                object obj = ResourceManager.GetObject("UnitedColorsOfBenetton1YellowM1", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] UnitedColorsOfBenetton1YellowM2 {
+            get {
+                object obj = ResourceManager.GetObject("UnitedColorsOfBenetton1YellowM2", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] UnitedColorsOfBenetton1YellowS1 {
+            get {
+                object obj = ResourceManager.GetObject("UnitedColorsOfBenetton1YellowS1", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] UnitedColorsOfBenetton1YellowS2 {
+            get {
+                object obj = ResourceManager.GetObject("UnitedColorsOfBenetton1YellowS2", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] UnitedColorsOfBenetton2WhiteM1 {
+            get {
+                object obj = ResourceManager.GetObject("UnitedColorsOfBenetton2WhiteM1", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] UnitedColorsOfBenetton2WhiteM2 {
+            get {
+                object obj = ResourceManager.GetObject("UnitedColorsOfBenetton2WhiteM2", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] UnitedColorsOfBenetton2WhiteS1 {
+            get {
+                object obj = ResourceManager.GetObject("UnitedColorsOfBenetton2WhiteS1", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] UnitedColorsOfBenetton2WhiteS2 {
+            get {
+                object obj = ResourceManager.GetObject("UnitedColorsOfBenetton2WhiteS2", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] UnitedColorsOfBenetton2YellowM1 {
+            get {
+                object obj = ResourceManager.GetObject("UnitedColorsOfBenetton2YellowM1", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] UnitedColorsOfBenetton2YellowM2 {
+            get {
+                object obj = ResourceManager.GetObject("UnitedColorsOfBenetton2YellowM2", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] UnitedColorsOfBenetton2YellowS1 {
+            get {
+                object obj = ResourceManager.GetObject("UnitedColorsOfBenetton2YellowS1", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] UnitedColorsOfBenetton2YellowS2 {
+            get {
+                object obj = ResourceManager.GetObject("UnitedColorsOfBenetton2YellowS2", resourceCulture);
                 return ((byte[])(obj));
             }
         }

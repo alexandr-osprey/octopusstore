@@ -18,7 +18,7 @@ namespace Infrastructure.Data
         public DbSet<CharacteristicValue> CharacteristicValues { get; set; }
         public DbSet<Store> Stores { get; set; }
         public DbSet<Item> Items { get; set; }
-        public DbSet<ItemVariantImage> ItemImages { get; set; }
+        public DbSet<ItemVariantImage> ItemVariantImages { get; set; }
         public DbSet<ItemVariant> ItemVariants { get; set; }
         public DbSet<ItemProperty> ItemProperties { get; set; }
         public DbSet<CartItem> CartItems { get; set; }
@@ -45,7 +45,7 @@ namespace Infrastructure.Data
             builder.Entity<CharacteristicValue>(ConfigureCharacteristicValue);
             builder.Entity<Store>(ConfigureStore);
             builder.Entity<Item>(ConfigureItem);
-            builder.Entity<ItemVariantImage>(ConfigureItemImage);
+            builder.Entity<ItemVariantImage>(ConfigureItemVariantImage);
             builder.Entity<ItemVariant>(ConfigureItemVariant);
             builder.Entity<ItemProperty>(ConfigureItemProperty);
             builder.Entity<Order>(ConfigureOrder);
@@ -110,7 +110,7 @@ namespace Infrastructure.Data
 
             //builder.Property(i => i.In)
         }
-        private void ConfigureItemImage(EntityTypeBuilder<ItemVariantImage> builder)
+        private void ConfigureItemVariantImage(EntityTypeBuilder<ItemVariantImage> builder)
         {
             builder.Property(t => t.Title).IsRequired(true);
             builder.Property(t => t.OwnerId).IsRequired(true);

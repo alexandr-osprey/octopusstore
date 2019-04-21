@@ -16,7 +16,7 @@ namespace Infrastructure.Data.SampleData
         public CharacteristicValue SmartphoneResolutionFullHDPlus { get; protected set; }
 
         public CharacteristicValue SmartphoneRAM3 { get; protected set; }
-        public CharacteristicValue SmartphoneRAM4 { get; protected set; }
+        public CharacteristicValue SmartphoneRAM8 { get; protected set; }
 
         public CharacteristicValue SmartphoneBattery3000 { get; protected set; }
         public CharacteristicValue SmartphoneBattery4000 { get; protected set; }
@@ -68,7 +68,7 @@ namespace Infrastructure.Data.SampleData
                 new CharacteristicValue { Title = "Full HD Plus", CharacteristicId = Characteristics.SmartphoneResolution.Id, OwnerId = Users.AdminId }, //3
 
                 new CharacteristicValue { Title = "3GB", CharacteristicId = Characteristics.SmartphoneRAM.Id, OwnerId = Users.AdminId }, //4
-                new CharacteristicValue { Title = "4GB", CharacteristicId = Characteristics.SmartphoneRAM.Id, OwnerId = Users.AdminId }, //5
+                new CharacteristicValue { Title = "8GB", CharacteristicId = Characteristics.SmartphoneRAM.Id, OwnerId = Users.AdminId }, //5
 
                 new CharacteristicValue { Title = "3000 mAh", CharacteristicId = Characteristics.SmartphoneBattery.Id, OwnerId = Users.AdminId }, //6
                 new CharacteristicValue { Title = "4000 mAh", CharacteristicId = Characteristics.SmartphoneBattery.Id, OwnerId = Users.AdminId }, //7
@@ -119,7 +119,7 @@ namespace Infrastructure.Data.SampleData
             SmartphoneResolutionFullHDPlus = Entities[3];
 
             SmartphoneRAM3 = Entities[4];
-            SmartphoneRAM4 = Entities[5];
+            SmartphoneRAM8 = Entities[5];
 
             SmartphoneBattery3000 = Entities[6];
             SmartphoneBattery4000 = Entities[7];

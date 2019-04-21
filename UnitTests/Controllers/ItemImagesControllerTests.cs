@@ -26,7 +26,7 @@ namespace UnitTests.Controllers
         public async Task CreateImageAsync()
         {
             var item = Data.Items.SamsungS10;
-            var imageToCopy = Data.ItemImages.Samsung81;
+            var imageToCopy = Data.ItemVariantImages.Samsung81;
             var imageMock = new Mock<IFormFile>();
             var filename = Path.GetFileName(imageToCopy.FullPath);
             var st = await Service.GetStreamAsync(imageToCopy.Id);
@@ -59,7 +59,7 @@ namespace UnitTests.Controllers
         [Fact]
         public async Task GetFileAsync()
         {
-            var imageExpected = Data.ItemImages.Pebble1;
+            var imageExpected = Data.ItemVariantImages.Pebble1;
             var streamExpected = File.OpenRead(imageExpected.FullPath);
             byte[] bytesExpected = new byte[streamExpected.Length];
             streamExpected.Read(bytesExpected, 0, (int)streamExpected.Length);
@@ -77,7 +77,7 @@ namespace UnitTests.Controllers
         [Fact]
         public async Task UpdateWithoutImageAsync()
         {
-            var imageExpected = Data.ItemImages.Jacket1;
+            var imageExpected = Data.ItemVariantImages.Jacket1;
             imageExpected.Title = "UPDATED";
             var expected = new ItemVariantImageViewModel(imageExpected);
             var actual = await Controller.UpdateAsync(new ItemVariantImageViewModel(imageExpected));
@@ -101,7 +101,7 @@ namespace UnitTests.Controllers
         [Fact]
         public async Task DeleteWithImageAsync()
         {
-            var fileInfo = Data.ItemImages.IPhone63;
+            var fileInfo = Data.ItemVariantImages.IPhone63;
             //await CreateItemImageCopy(fileInfo);
             await Controller.DeleteAsync(fileInfo.Id);
 
@@ -149,7 +149,7 @@ namespace UnitTests.Controllers
             {
                 new ItemVariantImageViewModel()
                 {
-                    Id = Data.ItemImages.IPhone61.Id,
+                    Id = Data.ItemVariantImages.IPhone61.Id,
                     RelatedId = 999,
                     ContentType = "ADFF",
                     Title = "UPDATED"

@@ -16,7 +16,7 @@ namespace UnitTests.Services
         public ItemImageServiceTests(ITestOutputHelper output)
            : base(output)
         {
-            _imageToCreateFrom = Data.ItemImages.Samsung71;
+            _imageToCreateFrom = Data.ItemVariantImages.Samsung71;
         }
 
         protected ItemVariantImage _imageToCreateFrom;
@@ -31,7 +31,7 @@ namespace UnitTests.Services
 
         protected override IEnumerable<ItemVariantImage> GetIncorrectNewEntites()
         {
-            var itemImage = Data.ItemImages.IPhone63;
+            var itemImage = Data.ItemVariantImages.IPhone63;
             return new List<ItemVariantImage>()
             {
                 new ItemVariantImage("", @"image/jpg", itemImage.RelatedId, Service.GetStream(itemImage)),
@@ -45,7 +45,7 @@ namespace UnitTests.Services
         protected override async Task AssertCreateSuccessAsync(ItemVariantImage itemImage)
         {
             await base.AssertCreateSuccessAsync(itemImage);
-            Assert.True(Context.ItemImages.Contains(itemImage));
+            Assert.True(Context.ItemVariantImages.Contains(itemImage));
             using (var fileDest = File.Open(itemImage.FullPath, FileMode.Open))
             {
                 using (var fileInit = File.Open(_imageToCreateFrom.FullPath, FileMode.Open))
@@ -59,7 +59,7 @@ namespace UnitTests.Services
         [Fact]
         public async Task GetStream()
         {
-            using (var stream = Service.GetStream(Data.ItemImages.Jacket1))
+            using (var stream = Service.GetStream(Data.ItemVariantImages.Jacket1))
             {
                 byte[] readBytes = new byte[stream.Length];
                 int bytesCount = await stream.ReadAsync(readBytes, 0, (int)stream.Length);
@@ -92,22 +92,22 @@ namespace UnitTests.Services
 
         protected override IEnumerable<ItemVariantImage> GetCorrectEntitesForUpdate()
         {
-            Data.ItemImages.Samsung81.Title = "Updated 1";
-            return new List<ItemVariantImage>() { Data.ItemImages.Samsung81 };
+            Data.ItemVariantImages.Samsung81.Title = "Updated 1";
+            return new List<ItemVariantImage>() { Data.ItemVariantImages.Samsung81 };
         }
 
         protected override IEnumerable<ItemVariantImage> GetIncorrectEntitesForUpdate()
         {
-            Data.ItemImages.Samsung81.Title = "";
-            Data.ItemImages.IPhone61.ContentType = "txt";
-            Data.ItemImages.IPhone62.DirectoryPath = "path";
-            Data.ItemImages.IPhone63.FullPath = "fullpath";
+            Data.ItemVariantImages.Samsung81.Title = "";
+            Data.ItemVariantImages.IPhone61.ContentType = "txt";
+            Data.ItemVariantImages.IPhone62.DirectoryPath = "path";
+            Data.ItemVariantImages.IPhone63.FullPath = "fullpath";
             return new List<ItemVariantImage>()
             {
-                Data.ItemImages.Samsung81,
-                Data.ItemImages.IPhone61,
-                Data.ItemImages.IPhone62,
-                Data.ItemImages.IPhone63
+                Data.ItemVariantImages.Samsung81,
+                Data.ItemVariantImages.IPhone61,
+                Data.ItemVariantImages.IPhone62,
+                Data.ItemVariantImages.IPhone63
             };
         }
 

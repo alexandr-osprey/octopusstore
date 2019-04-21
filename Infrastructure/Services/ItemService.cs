@@ -13,20 +13,20 @@ namespace Infrastructure.Services
 {
     public class ItemService: Service<Item>, IItemService
     {
-        protected IItemVariantImageService ItemImageService { get; }
+        protected IItemVariantImageService ItemVariantImageService { get; }
         protected ICategoryService CategoryService { get; }
 
         public ItemService(
             StoreContext context,
             IIdentityService identityService,
-            IItemVariantImageService itemImageService,
+            IItemVariantImageService itemVariantImageService,
             ICategoryService categoryService,
             IScopedParameters scopedParameters,
             IAuthorizationParameters<Item> authoriationParameters,
             IAppLogger<Service<Item>> logger)
            : base(context, identityService, scopedParameters, authoriationParameters, logger)
         {
-            this.ItemImageService = itemImageService;
+            this.ItemVariantImageService = itemVariantImageService;
             this.CategoryService = categoryService;
         }
 
@@ -39,7 +39,7 @@ namespace Infrastructure.Services
             {
                 Description = $"ItemImage with item id={item.Id}"
             };
-            await ItemImageService.DeleteAsync(imageDeleteSpec);
+            await ItemVariantImageService.DeleteAsync(imageDeleteSpec);
             await base.DeleteRelatedEntitiesAsync(item);
         }
 

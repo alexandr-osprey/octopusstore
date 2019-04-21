@@ -1,4 +1,4 @@
-import { ActivatedRoute, ParamMap, Router, NavigationEnd, UrlTree, NavigationStart } from "@angular/router";
+import { ActivatedRoute, ParamMap, Router, NavigationEnd, UrlTree, NavigationStart, RoutesRecognized } from "@angular/router";
 import { Injectable } from "@angular/core";
 import { Subject } from "rxjs";
 import { MessageService } from "../message/message.service";
@@ -10,7 +10,8 @@ import { unescape } from "querystring";
 })
 export class ParameterService {
   protected params: any = {};
-  protected oldParams: any = {};
+  public oldParams: any = {};
+  public oldPath: string;
   private history = [];
   protected paramsSource = new Subject<any>();
   public params$ = this.paramsSource.asObservable();
@@ -22,6 +23,7 @@ export class ParameterService {
     this.router.events.subscribe(val => {
       if (val instanceof NavigationStart) {
         this.oldParams = this.params;
+        this.oldPath = this.getCurrentUrlWithoutParams();
       }
       if (val instanceof NavigationEnd) {
         this.params = this.paramMapToParams(this.route.snapshot.queryParamMap);
@@ -34,6 +36,9 @@ export class ParameterService {
         //  window.scrollTo(0, 0);
         //}
       }
+      //if (val instanceof RoutesRecognized) {
+      //   = val.urlAfterRedirects;
+      //}
     });
     //this.route.queryParamMap.subscribe(
     //  (params: ParamMap) => {
@@ -76,10 +81,6 @@ export class ParameterService {
     return this.history;
   }
 
-  public getPreviousUrl(): string {
-    return this.history[this.history.length - 2] || '/index';
-  }
-
   private assignParams(params: any, pairs: any): any {
     for (let key in pairs) {
       if (pairs[key]) {
@@ -103,7 +104,7 @@ export class ParameterService {
 
   public getCurrentUrlWithoutParams(): string {
     let urlTree = this.router.parseUrl(this.router.url);
-    return this.getUrlWithoutParams(urlTree);
+    return "/" + this.getUrlWithoutParams(urlTree);
   }
 
   public getUrlWithoutParams(urlTree: UrlTree): string {

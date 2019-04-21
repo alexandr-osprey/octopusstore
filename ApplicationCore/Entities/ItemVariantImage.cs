@@ -22,7 +22,7 @@ namespace ApplicationCore.Entities
         {
         }
 
-        protected ItemVariantImage(ItemVariantImage itemImage): base(itemImage)
+        protected ItemVariantImage(ItemVariantImage itemVariantImage): base(itemVariantImage)
         {
         }
 

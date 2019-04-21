@@ -31,7 +31,7 @@ export class ItemVariantImageDisplayComponent implements OnInit, OnChanges {
   @Input() itemVariantImage: ItemVariantImage;
   itemVariantImageUrl: string;
 
-  constructor(private itemImageService: ItemVariantImageService) {
+  constructor(private itemVariantImageService: ItemVariantImageService) {
   }
 
   ngOnInit() {
@@ -43,7 +43,7 @@ export class ItemVariantImageDisplayComponent implements OnInit, OnChanges {
 
   initializeComponent() {
     if (this.itemVariantImage) {
-      this.itemVariantImageUrl = this.itemImageService.getImageUrl(this.itemVariantImage.id);
+      this.itemVariantImageUrl = this.itemVariantImageService.getImageUrl(this.itemVariantImage.id);
       console.log('image enter ' + this.itemVariantImage.id);
     }
   }

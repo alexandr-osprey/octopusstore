@@ -48,7 +48,7 @@ namespace Infrastructure.Data.SampleData
                 new Item { Title = "Apple iPhone XR", BrandId = Brands.Apple.Id, CategoryId = Categories.Smartphones.Id,
                      StoreId = Stores.Johns.Id, OwnerId = Stores.Johns.OwnerId, Description = "This Apple iPhone XR GSM Unlocked Smartphone 4G LTE iOS Smartphone " +
                         "is fully functional and will work with T-Mobile, AT&T and all other GSM networks" },
-                new Item { Title = "Apple iPhone XR", BrandId = Brands.Apple.Id, CategoryId = Categories.Smartphones.Id,
+                new Item { Title = "Apple iPhone 8 Plus", BrandId = Brands.Apple.Id, CategoryId = Categories.Smartphones.Id,
                      StoreId = Stores.Johns.Id, OwnerId = Stores.Johns.OwnerId, Description = "This Apple iPhone 8 Plus GSM Unlocked Smartphone 4G LTE iOS Smartphone " +
                         "is fully functional and will work with T-Mobile, AT&T and all other GSM networks" },
                 new Item { Title = "Samsung Galaxy S9", BrandId = Brands.Samsung.Id, CategoryId = Categories.Smartphones.Id,
@@ -65,11 +65,11 @@ namespace Infrastructure.Data.SampleData
                     "lets you power up without slowing down. (Average expected performance based on typical use. Results may vary.) Available in two sizes and three colors, the Galaxy Watch offers stylish watch faces so realistic they hardly look digital. " +
                     "Plus, choose from a collection of interchangeable bands Pairs with both Android and iOS smartphones via Bluetooth connection" },
 
-                new Item { Title = "Reebok Fast Tempo", BrandId = Brands.Reebok.Id, CategoryId = Categories.WomensDresses.Id,
+                new Item { Title = "Reebok Fast Tempo", BrandId = Brands.Reebok.Id, CategoryId = Categories.WomensFootwear.Id,
                      StoreId = Stores.Jennifers.Id, OwnerId = Stores.Jennifers.OwnerId, Description = "Whether you're pushing through an interval class or headed out on a short run, these men's shoes provide the ultimate in flexibility while keeping your foot stable. " +
                     "The breathable Flexweave upper has targeted areas of support and stretch for multidirectional movement." +
                     " An internal midfoot strap secures the fit, and lightweight cushioning keeps you comfortable." },
-                new Item { Title = "Reebok DMX Run 10", BrandId = Brands.Reebok.Id, CategoryId = Categories.WomensDresses.Id,
+                new Item { Title = "Reebok DMX Run 10", BrandId = Brands.Reebok.Id, CategoryId = Categories.WomensFootwear.Id,
                      StoreId = Stores.Jennifers.Id, OwnerId = Stores.Jennifers.OwnerId, Description = "The innovators from the Reebok continue to release contemporary must-haves and classic reissues. " +
                     "The Reebok DMX Run 10 has been revived from the vault, this time as a lifestyle sneaker. This classic shoe displays a futuristic design with durable details." },
 

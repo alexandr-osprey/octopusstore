@@ -8,28 +8,44 @@ namespace Infrastructure.Data.SampleData
 {
     public class ItemVariantImages : SampleDataEntities<ItemVariantImage>
     {
-        public static string ItemImageContentType { get; } = @"image/jpeg";
+        public static string ItemVariantImageContentType { get; } = @"image/jpeg";
         public static string PathToFiles { get; } = @"C:\files\";
 
         protected ItemVariants ItemVariants { get; }
+        protected Categories Categories { get; }
 
 
-        public ItemVariantImages(StoreContext storeContext, ItemVariants itemVariants) : base(storeContext)
+        public ItemVariantImages(StoreContext storeContext, ItemVariants itemVariants, Categories categories) : base(storeContext)
         {
             ItemVariants = itemVariants;
+            Categories = categories;
             Seed();
             Init();
         }
 
         protected override IEnumerable<ItemVariantImage> GetSourceEntities()
         {
-            var list = new List<ItemVariantImage>
+            var list = new List<ItemVariantImage>();
+            list.AddRange(CreateIndexedEntities(Categories.Smartphones, Users.JohnId, 4));
+            list.AddRange(CreateIndexedEntities(Categories.Smartwatches, Users.JohnId, 2));
+            list.AddRange(CreateIndexedEntities(Categories.WomensFootwear, Users.JenniferId, 2));
+            list.AddRange(CreateIndexedEntities(Categories.WomensDresses, Users.JenniferId, 2));
+            list.AddRange(CreateIndexedEntities(Categories.WomensAccesories, Users.JenniferId, 1));
+            return list;
+        }
+
+        protected IEnumerable<ItemVariantImage> CreateIndexedEntities(Category category, string ownerId, int maxIndex)
+        {
+            var list = new List<ItemVariantImage>();
+            var variants = ItemVariants.Entities.Where(v => v.Item.Category == category);
+            foreach (var variant in variants)
             {
-                new ItemVariantImage("IPhoneXR64GBWhite1", ItemImageContentType, ItemVariants.IPhoneXR64GBWhite.Id, null) { OwnerId = Users.JohnId, FullPath = Path.Combine(PathToFiles, Users.JohnId, "IPhoneXR64GBWhite1.jpg"),  },
-                new ItemVariantImage("IPhoneXR64GBWhite2", ItemImageContentType, ItemVariants.IPhoneXR64GBWhite.Id, null) { OwnerId = Users.JohnId, FullPath = Path.Combine(PathToFiles, Users.JohnId, "IPhoneXR64GBWhite2.jpg") },
-                new ItemVariantImage("IPhoneXR64GBWhite3", ItemImageContentType, ItemVariants.IPhoneXR64GBWhite.Id, null) { OwnerId = Users.JohnId, FullPath = Path.Combine(PathToFiles, Users.JohnId, "IPhoneXR64GBWhite3.jpg") },
-                new ItemVariantImage("IPhoneXR64GBWhite4", ItemImageContentType, ItemVariants.IPhoneXR64GBWhite.Id, null) { OwnerId = Users.JohnId, FullPath = Path.Combine(PathToFiles, Users.JohnId, "IPhoneXR64GBWhite4.jpg") },
-            };
+                for (int i = 1; i < maxIndex + 1; i++)
+                {
+                    string t = variant.Title.Replace(" ", string.Empty).Replace("'", string.Empty) + i.ToString();
+                    list.Add(new ItemVariantImage(t, ItemVariantImageContentType, variant.Id, null) { OwnerId = ownerId, FullPath = Path.Combine(PathToFiles, ownerId, $"{t}.jpg"), });
+                }
+            }
             return list;
         }
 
@@ -41,23 +57,23 @@ namespace Infrastructure.Data.SampleData
 
         public void EnsureFilesAreInPlace(IEnumerable<ItemVariantImage> entities)
         {
-            foreach (var itemImage in entities)
+            foreach (var itemVariantImage in entities)
             {
-                if (!File.Exists(itemImage.FullPath))
+                if (!File.Exists(itemVariantImage.FullPath))
                 {
-                    Directory.CreateDirectory(Path.GetDirectoryName(itemImage.FullPath));
-                    string rel = Path.GetRelativePath(PathToFiles, itemImage.FullPath);
-                    var bytes = GetItemImageByteArray(itemImage.Title);
+                    Directory.CreateDirectory(Path.GetDirectoryName(itemVariantImage.FullPath));
+                    string rel = Path.GetRelativePath(PathToFiles, itemVariantImage.FullPath);
+                    var bytes = GetItemVariantImageByteArray(itemVariantImage.Title);
                     if (bytes == null)
                         continue;
-                    File.WriteAllBytes(itemImage.FullPath, bytes);
+                    File.WriteAllBytes(itemVariantImage.FullPath, bytes);
                 }
             }
         }
 
-        protected byte[] GetItemImageByteArray(string imageNameWithoutExtension)
+        protected byte[] GetItemVariantImageByteArray(string imageNameWithoutExtension)
         {
-            return (byte[])typeof(Properties.Resources).GetProperty(imageNameWithoutExtension).GetValue(null);
+            return (byte[])typeof(Properties.Resources).GetProperty(imageNameWithoutExtension)?.GetValue(null) ?? throw new System.Exception($"Image {imageNameWithoutExtension} not found");
         }
 
         protected override IQueryable<ItemVariantImage> GetQueryable()

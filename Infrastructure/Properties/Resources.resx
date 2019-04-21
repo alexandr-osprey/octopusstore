@@ -118,6 +118,111 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="AppleWatchSeries4Black1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AppleWatchSeries4Black1.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="AppleWatchSeries4Black2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AppleWatchSeries4Black2.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="AppleWatchSeries4White1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AppleWatchSeries4White1.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="AppleWatchSeries4White2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AppleWatchSeries4White2.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="DanielePatriciBag11" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DanielePatriciBag11.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="DanielePatriciBag21" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DanielePatriciBag21.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="DanielePatriciClutch11" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DanielePatriciClutch11.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="IPhone8Plus128GBBlack1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\IPhone8Plus128GBBlack1.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="IPhone8Plus128GBBlack2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\IPhone8Plus128GBBlack2.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="IPhone8Plus128GBBlack3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\IPhone8Plus128GBBlack3.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="IPhone8Plus128GBBlack4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\IPhone8Plus128GBBlack4.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="IPhone8Plus128GBWhite1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\IPhone8Plus128GBWhite1.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="IPhone8Plus128GBWhite2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\IPhone8Plus128GBWhite2.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="IPhone8Plus128GBWhite3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\IPhone8Plus128GBWhite3.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="IPhone8Plus128GBWhite4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\IPhone8Plus128GBWhite4.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="IPhone8Plus64GBBlack1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\IPhone8Plus64GBBlack1.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="IPhone8Plus64GBBlack2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\IPhone8Plus64GBBlack2.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="IPhone8Plus64GBBlack3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\IPhone8Plus64GBBlack3.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="IPhone8Plus64GBBlack4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\IPhone8Plus64GBBlack4.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="IPhone8Plus64GBWhite1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\IPhone8Plus64GBWhite1.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="IPhone8Plus64GBWhite2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\IPhone8Plus64GBWhite2.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="IPhone8Plus64GBWhite3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\IPhone8Plus64GBWhite3.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="IPhone8Plus64GBWhite4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\IPhone8Plus64GBWhite4.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="IPhoneXR128GBRed1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\IPhoneXR128GBRed1.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="IPhoneXR128GBRed2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\IPhoneXR128GBRed2.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="IPhoneXR128GBRed3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\IPhoneXR128GBRed3.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="IPhoneXR128GBRed4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\IPhoneXR128GBRed4.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="IPhoneXR128GBWhite1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\IPhoneXR128GBWhite1.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="IPhoneXR128GBWhite2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\IPhoneXR128GBWhite2.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="IPhoneXR128GBWhite3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\IPhoneXR128GBWhite3.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="IPhoneXR128GBWhite4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\IPhoneXR128GBWhite4.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="IPhoneXR64GBRed1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\IPhoneXR64GBRed1.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="IPhoneXR64GBRed2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\IPhoneXR64GBRed2.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="IPhoneXR64GBRed3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\IPhoneXR64GBRed3.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="IPhoneXR64GBRed4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\IPhoneXR64GBRed4.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="IPhoneXR64GBWhite1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\IPhoneXR64GBWhite1.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -129,5 +234,245 @@
   </data>
   <data name="IPhoneXR64GBWhite4" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\IPhoneXR64GBWhite4.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="MarcOPoloShoes1Black351" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MarcOPoloShoes1Black351.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="MarcOPoloShoes1Black352" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MarcOPoloShoes1Black352.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="MarcOPoloShoes1Black421" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MarcOPoloShoes1Black421.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="MarcOPoloShoes1Black422" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MarcOPoloShoes1Black422.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="MarcOPoloShoes1White351" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MarcOPoloShoes1White351.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="MarcOPoloShoes1White352" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MarcOPoloShoes1White352.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="MarcOPoloShoes1White421" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MarcOPoloShoes1White421.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="MarcOPoloShoes1White422" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MarcOPoloShoes1White422.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="MarcOPoloShoes2Black351" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MarcOPoloShoes2Black351.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="MarcOPoloShoes2Black352" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MarcOPoloShoes2Black352.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="MarcOPoloShoes2Black421" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MarcOPoloShoes2Black421.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="MarcOPoloShoes2Black422" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MarcOPoloShoes2Black422.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ReebokDMXRun10Black351" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ReebokDMXRun10Black351.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ReebokDMXRun10Black352" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ReebokDMXRun10Black352.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ReebokDMXRun10Black421" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ReebokDMXRun10Black421.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ReebokDMXRun10Black422" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ReebokDMXRun10Black422.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ReebokDMXRun10White351" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ReebokDMXRun10White351.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ReebokDMXRun10White352" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ReebokDMXRun10White352.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ReebokDMXRun10White421" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ReebokDMXRun10White421.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ReebokDMXRun10White422" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ReebokDMXRun10White422.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ReebokFastTempoBlack351" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ReebokFastTempoBlack351.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ReebokFastTempoBlack352" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ReebokFastTempoBlack352.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ReebokFastTempoBlack421" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ReebokFastTempoBlack421.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ReebokFastTempoBlack422" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ReebokFastTempoBlack422.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ReebokFastTempoWhite351" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ReebokFastTempoWhite351.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ReebokFastTempoWhite352" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ReebokFastTempoWhite352.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ReebokFastTempoWhite421" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ReebokFastTempoWhite421.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ReebokFastTempoWhite422" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ReebokFastTempoWhite422.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="SamsungGalaxyS10128GBBlack1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SamsungGalaxyS10128GBBlack1.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="SamsungGalaxyS10128GBBlack2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SamsungGalaxyS10128GBBlack2.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="SamsungGalaxyS10128GBBlack3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SamsungGalaxyS10128GBBlack3.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="SamsungGalaxyS10128GBBlack4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SamsungGalaxyS10128GBBlack4.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="SamsungGalaxyS10128GBWhite1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SamsungGalaxyS10128GBWhite1.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="SamsungGalaxyS10128GBWhite2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SamsungGalaxyS10128GBWhite2.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="SamsungGalaxyS10128GBWhite3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SamsungGalaxyS10128GBWhite3.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="SamsungGalaxyS10128GBWhite4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SamsungGalaxyS10128GBWhite4.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="SamsungGalaxyS1064GBBlack1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SamsungGalaxyS1064GBBlack1.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="SamsungGalaxyS1064GBBlack2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SamsungGalaxyS1064GBBlack2.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="SamsungGalaxyS1064GBBlack3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SamsungGalaxyS1064GBBlack3.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="SamsungGalaxyS1064GBBlack4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SamsungGalaxyS1064GBBlack4.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="SamsungGalaxyS1064GBWhite1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SamsungGalaxyS1064GBWhite1.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="SamsungGalaxyS1064GBWhite2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SamsungGalaxyS1064GBWhite2.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="SamsungGalaxyS1064GBWhite3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SamsungGalaxyS1064GBWhite3.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="SamsungGalaxyS1064GBWhite4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SamsungGalaxyS1064GBWhite4.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="SamsungGalaxyS9128GBBlack1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SamsungGalaxyS9128GBBlack1.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="SamsungGalaxyS9128GBBlack2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SamsungGalaxyS9128GBBlack2.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="SamsungGalaxyS9128GBBlack3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SamsungGalaxyS9128GBBlack3.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="SamsungGalaxyS9128GBBlack4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SamsungGalaxyS9128GBBlack4.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="SamsungGalaxyS9128GBRed1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SamsungGalaxyS9128GBRed1.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="SamsungGalaxyS9128GBRed2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SamsungGalaxyS9128GBRed2.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="SamsungGalaxyS9128GBRed3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SamsungGalaxyS9128GBRed3.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="SamsungGalaxyS9128GBRed4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SamsungGalaxyS9128GBRed4.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="SamsungGalaxyS964GBBlack1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SamsungGalaxyS964GBBlack1.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="SamsungGalaxyS964GBBlack2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SamsungGalaxyS964GBBlack2.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="SamsungGalaxyS964GBBlack3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SamsungGalaxyS964GBBlack3.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="SamsungGalaxyS964GBBlack4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SamsungGalaxyS964GBBlack4.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="SamsungGalaxyS964GBRed1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SamsungGalaxyS964GBRed1.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="SamsungGalaxyS964GBRed2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SamsungGalaxyS964GBRed2.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="SamsungGalaxyS964GBRed3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SamsungGalaxyS964GBRed3.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="SamsungGalaxyS964GBRed4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SamsungGalaxyS964GBRed4.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="SamsungGalaxyWatchBlack1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SamsungGalaxyWatchBlack1.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="SamsungGalaxyWatchBlack2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SamsungGalaxyWatchBlack2.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="SamsungGalaxyWatchWhite1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SamsungGalaxyWatchWhite1.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="SamsungGalaxyWatchWhite2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SamsungGalaxyWatchWhite2.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="UnitedColorsOfBenetton1WhiteM1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UnitedColorsOfBenetton1WhiteM1.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="UnitedColorsOfBenetton1WhiteM2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UnitedColorsOfBenetton1WhiteM2.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="UnitedColorsOfBenetton1WhiteS1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UnitedColorsOfBenetton1WhiteS1.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="UnitedColorsOfBenetton1WhiteS2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UnitedColorsOfBenetton1WhiteS2.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="UnitedColorsOfBenetton1YellowM1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UnitedColorsOfBenetton1YellowM1.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="UnitedColorsOfBenetton1YellowM2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UnitedColorsOfBenetton1YellowM2.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="UnitedColorsOfBenetton1YellowS1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UnitedColorsOfBenetton1YellowS1.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="UnitedColorsOfBenetton1YellowS2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UnitedColorsOfBenetton1YellowS2.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="UnitedColorsOfBenetton2WhiteM1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UnitedColorsOfBenetton2WhiteM1.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="UnitedColorsOfBenetton2WhiteM2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UnitedColorsOfBenetton2WhiteM2.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="UnitedColorsOfBenetton2WhiteS1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UnitedColorsOfBenetton2WhiteS1.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="UnitedColorsOfBenetton2WhiteS2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UnitedColorsOfBenetton2WhiteS2.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="UnitedColorsOfBenetton2YellowM1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UnitedColorsOfBenetton2YellowM1.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="UnitedColorsOfBenetton2YellowM2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UnitedColorsOfBenetton2YellowM2.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="UnitedColorsOfBenetton2YellowS1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UnitedColorsOfBenetton2YellowS1.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="UnitedColorsOfBenetton2YellowS2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UnitedColorsOfBenetton2YellowS2.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>

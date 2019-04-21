@@ -15,7 +15,6 @@ namespace Infrastructure.Data.SampleData
         public Characteristic SmartphoneBattery { get; protected set; }
         public Characteristic SmartphoneColor { get; protected set; }
 
-        public Characteristic SmartwatchType { get; protected set; }
         public Characteristic SmartwatchColor { get; protected set; }
 
         public Characteristic WomenFootwearSize { get; protected set; }
@@ -47,21 +46,20 @@ namespace Infrastructure.Data.SampleData
                 new Characteristic { Title = "Color", CategoryId = Categories.Smartphones.Id, OwnerId = Users.AdminId  },//4
 
                 // smartwatches
-                new Characteristic { Title = "Type", CategoryId = Categories.Smartwatches.Id, OwnerId = Users.AdminId  },//5
-                new Characteristic { Title = "Color", CategoryId = Categories.Smartwatches.Id, OwnerId = Users.AdminId  },//6
+                new Characteristic { Title = "Color", CategoryId = Categories.Smartwatches.Id, OwnerId = Users.AdminId  },//5
 
                 // shoes
-                new Characteristic { Title = "Size", CategoryId = Categories.WomensFootwear.Id, OwnerId = Users.AdminId }, //7
-                new Characteristic { Title = "Type", CategoryId = Categories.WomensFootwear.Id, OwnerId = Users.AdminId }, //8
-                new Characteristic { Title = "Colour", CategoryId = Categories.WomensFootwear.Id, OwnerId = Users.AdminId }, //9
+                new Characteristic { Title = "Size", CategoryId = Categories.WomensFootwear.Id, OwnerId = Users.AdminId }, //6
+                new Characteristic { Title = "Type", CategoryId = Categories.WomensFootwear.Id, OwnerId = Users.AdminId }, //7
+                new Characteristic { Title = "Colour", CategoryId = Categories.WomensFootwear.Id, OwnerId = Users.AdminId }, //8
 
                 // dress
-                new Characteristic { Title = "Color", CategoryId = Categories.WomensDresses.Id, OwnerId = Users.AdminId }, //10
-                new Characteristic { Title = "Size", CategoryId = Categories.WomensDresses.Id, OwnerId = Users.AdminId }, //11
+                new Characteristic { Title = "Color", CategoryId = Categories.WomensDresses.Id, OwnerId = Users.AdminId }, //9
+                new Characteristic { Title = "Size", CategoryId = Categories.WomensDresses.Id, OwnerId = Users.AdminId }, //10
 
                 // accessory
-                new Characteristic { Title = "Type", CategoryId = Categories.WomensDresses.Id, OwnerId = Users.AdminId }, //13
-                new Characteristic { Title = "Color", CategoryId = Categories.WomensDresses.Id, OwnerId = Users.AdminId }, //14
+                new Characteristic { Title = "Type", CategoryId = Categories.WomensAccesories.Id, OwnerId = Users.AdminId }, //11
+                new Characteristic { Title = "Color", CategoryId = Categories.WomensAccesories.Id, OwnerId = Users.AdminId }, //12
             };
         }
 
@@ -79,18 +77,17 @@ namespace Infrastructure.Data.SampleData
             SmartphoneBattery = Entities[3];
             SmartphoneColor = Entities[4];
 
-            SmartwatchType = Entities[5];
-            SmartwatchColor = Entities[6];
+            SmartwatchColor = Entities[5];
 
-            WomenFootwearSize = Entities[7];
-            WomenFootwearType = Entities[8];
-            WomenFootwearColor = Entities[9];
+            WomenFootwearSize = Entities[6];
+            WomenFootwearType = Entities[7];
+            WomenFootwearColor = Entities[8];
 
-            WomensDressColor = Entities[10];
-            WomensDressSize = Entities[11];
+            WomensDressColor = Entities[9];
+            WomensDressSize = Entities[10];
 
-            WomensAccessoryType = Entities[12];
-            WomensAccessoryColor = Entities[13];
+            WomensAccessoryType = Entities[11];
+            WomensAccessoryColor = Entities[12];
         }
     }
 }
