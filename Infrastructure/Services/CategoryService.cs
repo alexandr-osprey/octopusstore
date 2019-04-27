@@ -14,14 +14,14 @@ namespace Infrastructure.Services
 {
     public class CategoryService: Service<Category>, ICategoryService
     {
-        protected Category rootCategory;
+        protected Category _rootCategory;
         public Category RootCategory
         {
             get
             {
-                if (rootCategory == null)
-                    rootCategory = Context.ReadSingleBySpec(Logger, new Specification<Category>(c => c.IsRoot, c => c.Subcategories), true);
-                return rootCategory;
+                if (_rootCategory == null)
+                    _rootCategory = _сontext.ReadSingleBySpec(_logger, new Specification<Category>(c => c.IsRoot, c => c.Subcategories), true);
+                return _rootCategory;
             }
         }
 
@@ -37,7 +37,7 @@ namespace Infrastructure.Services
 
         public async Task<IEnumerable<Category>> EnumerateHierarchyAsync(Specification<Item> spec)
         {
-            var categories = await Context.EnumerateRelatedAsync(Logger, spec, (i => i.Category));
+            var categories = await _сontext.EnumerateRelatedAsync(_logger, spec, (i => i.Category));
             return await EnumerateHierarchyAsync(new EntitySpecification<Category>(c => categories.Contains(c)));
         }
 
@@ -59,7 +59,7 @@ namespace Infrastructure.Services
         public async Task<IEnumerable<Category>> EnumerateSubcategoriesAsync(Specification<Category> spec)
         {
             var flatCategories = new HashSet<Category>();
-            var categories = await Context.EnumerateAsync(Logger, spec);
+            var categories = await _сontext.EnumerateAsync(_logger, spec);
             foreach (var category in categories)
             {
                 var categorySpec = new Specification<Category>((s => s.Id == category.Id), (s => s.Subcategories))
@@ -73,7 +73,7 @@ namespace Infrastructure.Services
 
         public async Task<IEnumerable<Category>> EnumerateParentCategoriesAsync(Specification<Item> itemSpec)
         {
-            var categories = (await Context.EnumerateRelatedAsync(Logger, itemSpec, (i => i.Category))).Distinct();
+            var categories = (await _сontext.EnumerateRelatedAsync(_logger, itemSpec, (i => i.Category))).Distinct();
             var flatCategories = new HashSet<Category>();
             foreach (var category in categories)
                 await GetParentCategoriesAsync(category, flatCategories);
@@ -82,7 +82,7 @@ namespace Infrastructure.Services
 
         public async Task<IEnumerable<Category>> EnumerateSubcategoriesAsync(Specification<Item> itemSpec)
         {
-            var categories = await Context.EnumerateRelatedAsync(Logger, itemSpec, (i => i.Category));
+            var categories = await _сontext.EnumerateRelatedAsync(_logger, itemSpec, (i => i.Category));
             var flatCategories = new HashSet<Category>();
             foreach (var category in categories)
                 await GetSubcategoriesAsync(category, flatCategories);
@@ -91,7 +91,7 @@ namespace Infrastructure.Services
 
         public async Task GetParentCategoriesAsync(Specification<Category> spec, HashSet<Category> hierarchy)
         {
-            var categories = await Context.EnumerateAsync(Logger, spec);
+            var categories = await _сontext.EnumerateAsync(_logger, spec);
             foreach (var c in categories)
                 await GetParentCategoriesAsync(c, hierarchy);
         }
@@ -118,7 +118,7 @@ namespace Infrastructure.Services
             if (string.IsNullOrWhiteSpace(category.Title))
                 throw new EntityValidationException("Title not specified");
             if (IsPropertyModified(entityEntry, c => c.ParentCategoryId, false) 
-                && !category.IsRoot && !await Context.ExistsBySpecAsync(Logger, new EntitySpecification<Category>(category.ParentCategoryId)))
+                && !category.IsRoot && !await _сontext.ExistsBySpecAsync(_logger, new EntitySpecification<Category>(category.ParentCategoryId)))
                 throw new EntityValidationException("Parent category does not exist");
             // just throws exception if modified
             IsPropertyModified(entityEntry, c => c.IsRoot, false);
@@ -129,7 +129,7 @@ namespace Infrastructure.Services
         protected override async Task ValidateCustomUniquinessWithException(Category category)
         {
             await base.ValidateCustomUniquinessWithException(category);
-            if (category.IsRoot && await Context.ExistsBySpecAsync(Logger, new Specification<Category>(c => c.IsRoot)))
+            if (category.IsRoot && await _сontext.ExistsBySpecAsync(_logger, new Specification<Category>(c => c.IsRoot)))
                 throw new EntityAlreadyExistsException("Root category already exists");
         }
 
@@ -150,7 +150,7 @@ namespace Infrastructure.Services
         }
         protected async Task GetSubcategoriesAsync(Specification<Category> spec, HashSet<Category> subcategories)
         {
-            var category = await Context.ReadSingleBySpecAsync(Logger, spec, false);
+            var category = await _сontext.ReadSingleBySpecAsync(_logger, spec, false);
             await GetSubcategoriesAsync(category, subcategories);
         }
     }

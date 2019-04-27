@@ -1,9 +1,10 @@
 import { Characteristic } from "../characteristic/characteristic";
 import { CharacteristicValue } from "../characteristic-value/characteristic-value";
 import { ItemProperty } from "./item-property";
-import { EntityDetail } from "../models/entity/entity-detail";
+import { Entity } from "../models/entity/entity";
 
-export class ItemPropertyDetail extends EntityDetail<ItemProperty> {
+export class ItemPropertyDetail extends Entity {
+  title: string;
   itemVariantId: number;
   characteristic: Characteristic;
   characteristicValue: CharacteristicValue;

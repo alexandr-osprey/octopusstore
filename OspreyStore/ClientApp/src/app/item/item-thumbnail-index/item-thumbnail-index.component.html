@@ -1,5 +1,12 @@
 <div class="d-flex flex-fill align-items-stretch w-100" (scroll)="onScroll()">
   <app-sidebar [@expandCollapse]="sidebarHidden ? 'collapsed' : 'expanded' "></app-sidebar>  <!---->
+  <!--<div *ngIf="tourMessages.categories" class="tour-message-container d-flex flex-row">
+    <div class="tour-triangle-left"></div>
+    <div class="tour-message-content d-flex flex-column">
+      <p class="flex-grow-1 ml-2">Categories and subcategories allow to filter items, also narrowning the search down by certain characteristics</p>
+      <button (click)="hideTourMessage('categories')" class="btn btn-light align-self-end pl-3 pr-3 mr-2 mb-2">OK</button>
+    </div>
+  </div>-->
   <div class="d-flex flex-fill flex-column" *ngIf="index">
     <div class="m-2 ml-4">
       <button class="btn btn-outline-primary" [routerLink] [queryParams]="getOrderByPriceQueryParams()">Price</button>

@@ -48,7 +48,7 @@ namespace OspreyStore.Controllers
             if (characteristicId.HasValue)
                 return await base.IndexAsync(new EntitySpecification<CharacteristicValue>(c => c.CharacteristicId == characteristicId));
             if (categoryId.HasValue)
-                return await base.IndexByFunctionNotPagedAsync(Service.EnumerateByCategoryAsync, new EntitySpecification<Category>(categoryId.Value));
+                return await base.IndexByFunctionNotPagedAsync(_service.EnumerateByCategoryAsync, new EntitySpecification<Category>(categoryId.Value));
 
             return await base.IndexAsync(new Specification<CharacteristicValue>());
         }

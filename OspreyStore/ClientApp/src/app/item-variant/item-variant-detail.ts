@@ -1,10 +1,7 @@
-import { ItemVariant } from "./item-variant";
 import { ItemProperty } from "../item-property/item-property";
-import { EntityDetail } from "../models/entity/entity-detail";
+import { ItemVariantThumbnail } from "./item-variant-thumbnail";
 
-export class ItemVariantDetail extends EntityDetail<ItemVariant> {
-  itemId: number;
-  price: number;
+export class ItemVariantDetail extends ItemVariantThumbnail {
   itemProperties: ItemProperty[];
 
   public constructor(init?: Partial<ItemVariantDetail>) {

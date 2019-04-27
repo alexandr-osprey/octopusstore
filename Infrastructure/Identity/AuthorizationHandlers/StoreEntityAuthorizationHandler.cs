@@ -16,7 +16,7 @@ namespace Infrastructure.Identity.AuthorizationHandlers
         public StoreEntityAuthorizationHandler(UserManager<ApplicationUser> userManager, StoreContext storeContext, IAppLogger<IAuthorziationHandler<T>> logger)
            : base(userManager, logger)
         {
-            ValidateRightsOnEnityProperties = true;
+            _validateRightsOnEnityProperties = true;
             _storeContext = storeContext;
         }
 

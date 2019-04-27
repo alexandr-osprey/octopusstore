@@ -23,3 +23,23 @@ app-sidebar {
   border-right: 5px solid transparent;
   border-top: 5px solid #007bff;
 }
+
+
+
+.tour-message-container {
+  height: 0px;
+  width: 0px;
+  position: relative;
+  z-index: 1000;
+  top: 200px;
+}
+
+.tour-message-content {
+  height: 160px;
+  background-color: #c4dff0;
+  border-radius: 5px;
+}
+
+  .tour-message-content p {
+    width: 280px;
+  }

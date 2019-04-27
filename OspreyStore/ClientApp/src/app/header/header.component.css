@@ -27,6 +27,23 @@ button {
   border-color: white;
 }
 
+.tour-message-container {
+  height: 0px;
+  width: 280px;
+  position: absolute;
+  z-index: 1000;
+  top: 70px;
+  right: 5%;
+}
+
+.tour-message-content {
+  height: 130px;
+  background-color: #c4dff0;
+  border-radius: 5px;
+}
+.tour-triangle-top {
+  margin-left: 85px;
+}
   /*#signed-inactions-menu {
     left: -66px !important;
   }

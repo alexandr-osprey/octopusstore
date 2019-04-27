@@ -21,13 +21,13 @@ namespace OspreyStore.Controllers
         where TEntity : Entity
         where TViewModel : EntityViewModel<TEntity>
     {
-        protected TService Service { get; }
-        protected IActivatorService ActivatorService { get; }
-        protected IIdentityService IdentityService { get; }
-        protected IAppLogger<IController<TEntity, TViewModel>> Logger { get; }
-        protected string EntityName { get; } = typeof(TEntity).Name;
-        protected int MaxTake { get; } = 200;
-        protected int DefaultTake { get; } = 60;
+        protected TService _service { get; }
+        protected IActivatorService _activatorService { get; }
+        protected IIdentityService _identityService { get; }
+        protected IAppLogger<IController<TEntity, TViewModel>> _logger { get; }
+        protected string _entityName { get; } = typeof(TEntity).Name;
+        protected int _maxTake { get; } = 200;
+        protected int _defaultTake { get; } = 60;
         public IScopedParameters ScopedParameters { get; }
 
         public CRUDController(
@@ -37,12 +37,12 @@ namespace OspreyStore.Controllers
             IScopedParameters scopedParameters,
             IAppLogger<IController<TEntity, TViewModel>> logger)
         {
-            Service = service;
-            ActivatorService = activatorService;
+            _service = service;
+            _activatorService = activatorService;
             ScopedParameters = scopedParameters;
-            Logger = logger;
-            IdentityService = identityService;
-            Logger.Name = EntityName + "Controller";
+            _logger = logger;
+            _identityService = identityService;
+            _logger.Name = _entityName + "Controller";
         }
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
@@ -55,7 +55,7 @@ namespace OspreyStore.Controllers
             if (viewModel == null)
                 throw new BadRequestException("Empty body");
             viewModel.Id = 0;
-            var entity = await Service.CreateAsync(viewModel.ToModel());
+            var entity = await _service.CreateAsync(viewModel.ToModel());
             return await GetViewModelAsync<TViewModel>(entity);
         }
 
@@ -68,8 +68,8 @@ namespace OspreyStore.Controllers
         {
             if (viewModel == null)
                 throw new BadRequestException("Empty body");
-            var entityToUpdate = await Service.ReadSingleAsync(new Specification<TEntity>(e => e.GetHashCode() == viewModel.GetHashCode()));
-            var entitiy = await Service.UpdateAsync(viewModel.UpdateModel(entityToUpdate));
+            var entityToUpdate = await _service.ReadSingleAsync(new Specification<TEntity>(e => e.GetHashCode() == viewModel.GetHashCode()));
+            var entitiy = await _service.UpdateAsync(viewModel.UpdateModel(entityToUpdate));
             return await GetViewModelAsync<TViewModel>(entitiy);
         }
 
@@ -80,8 +80,8 @@ namespace OspreyStore.Controllers
 
         public virtual async Task<Response> CheckUpdateAuthorizationAsync(int id)
         {
-            var entity = await Service.ReadSingleAsync(new EntitySpecification<TEntity>(id));
-            await IdentityService.AuthorizeAsync(User, OperationAuthorizationRequirements.Update, entity, true);
+            var entity = await _service.ReadSingleAsync(new EntitySpecification<TEntity>(id));
+            await _identityService.AuthorizeAsync(User, OperationAuthorizationRequirements.Update, entity, true);
             return new Response("You are authorized to update");
         }
 
@@ -89,14 +89,14 @@ namespace OspreyStore.Controllers
             //where TCustomIndexViewModel: EntityIndexViewModel<TCustomViewModel, TEntity>
             where TCustomViewModel : TViewModel
         {
-            if (spec.Take > MaxTake || spec.Skip < 0)
+            if (spec.Take > _maxTake || spec.Skip < 0)
             {
-                string message = $"Wrong page or page size parameter. Max page size: {MaxTake}";
+                string message = $"Wrong page or page size parameter. Max page size: {_maxTake}";
                 throw new BadRequestException(message);
             }
-            var entities = await Service.EnumerateAsync(spec);
-            int totalCount = await Service.CountTotalAsync(spec);
-            int totalPages = await Service.PageCountAsync(spec);
+            var entities = await _service.EnumerateAsync(spec);
+            int totalCount = await _service.CountTotalAsync(spec);
+            int totalPages = await _service.PageCountAsync(spec);
             return await GetIndexViewModelAsync<TCustomViewModel>(spec.Page, totalPages, totalCount, entities);
         }
 
@@ -126,18 +126,13 @@ namespace OspreyStore.Controllers
 
         protected async Task<IndexViewModel<TCustomViewModel>> IndexNotPagedAsync<TCustomViewModel>(Specification<TEntity> spec) where TCustomViewModel : TViewModel
         {
-            spec.SetPaging(1, MaxTake);
-            return await GetNotPagedIndexViewModelAsync<TCustomViewModel>(await Service.EnumerateAsync(spec));
-        }
-
-        protected async Task<TDetailViewModel> ReadDetailAsync<TDetailViewModel>(Specification<TEntity> spec) where TDetailViewModel : TViewModel
-        {
-            return await GetViewModelAsync<TDetailViewModel>(await Service.ReadSingleAsync(spec));
+            spec.SetPaging(1, _maxTake);
+            return await GetNotPagedIndexViewModelAsync<TCustomViewModel>(await _service.EnumerateAsync(spec));
         }
 
         protected async Task<TCustomViewModel> ReadAsync<TCustomViewModel>(Specification<TEntity> spec) where TCustomViewModel : TViewModel
         {
-            return await GetViewModelAsync<TCustomViewModel>(await Service.ReadSingleAsync(spec));
+            return await GetViewModelAsync<TCustomViewModel>(await _service.ReadSingleAsync(spec));
         }
 
         protected Task<IndexViewModel<TViewModel>> GetNotPagedIndexViewModelAsync(IEnumerable<TEntity> entities)
@@ -166,7 +161,7 @@ namespace OspreyStore.Controllers
 
         protected async Task<TCustomViewModel> GetViewModelAsync<TCustomViewModel>(TEntity entity) where TCustomViewModel : TViewModel
         {
-            var viewModel = ActivatorService.GetInstance<TCustomViewModel>(entity);
+            var viewModel = _activatorService.GetInstance<TCustomViewModel>(entity);
             await PopulateViewModelWithRelatedDataAsync(viewModel);
             return viewModel;
         }
@@ -177,8 +172,8 @@ namespace OspreyStore.Controllers
         {
             if (spec == null)
                 throw new ArgumentNullException(nameof(spec));
-            await Service.DeleteSingleAsync(spec);
-            return new Response($"Deleted {EntityName}(s) according to spec {spec}");
+            await _service.DeleteSingleAsync(spec);
+            return new Response($"Deleted {_entityName}(s) according to spec {spec}");
         }
         protected virtual HashSet<int> ParseIds(string value)
         {
@@ -199,8 +194,8 @@ namespace OspreyStore.Controllers
         {
             if (spec == null)
                 throw new ArgumentNullException(nameof(spec));
-            int deleted = await Service.DeleteAsync(spec);
-            return new Response($"Deleted {deleted} {EntityName}(s)");
+            int deleted = await _service.DeleteAsync(spec);
+            return new Response($"Deleted {deleted} {_entityName}(s)");
         }
 
 

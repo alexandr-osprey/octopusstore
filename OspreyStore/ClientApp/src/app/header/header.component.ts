@@ -17,6 +17,7 @@ export class HeaderComponent implements OnInit {
   searchValue: string;
   isContentAdministrator: boolean;
   storeId: number;
+  tourMessages: any = {};
 
   constructor(
     private identityService: IdentityService,
@@ -34,6 +35,7 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.tourMessages['search'] = true;
     this.parameterService.params$.subscribe(_ => {
       this.searchValue = this.parameterService.getParam("searchValue");
     });
@@ -76,10 +78,15 @@ export class HeaderComponent implements OnInit {
   fillActions() {
     this.email = this.identityService.currentUserEmail;
     this.isContentAdministrator = this.identityService.isContentAdministrator();
-    this.isContentAdministrator = this.identityService.isContentAdministrator();
     let administratedStoreIds = this.identityService.getUserAdministredStoreIds();
     if (administratedStoreIds.length > 0) {
       this.storeId = administratedStoreIds[0];
+    } else {
+      this.storeId = 0;
     }
+  }
+
+  hideTourMessage(name: string) {
+    this.tourMessages[name] = false;
   }
 }

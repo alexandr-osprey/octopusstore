@@ -6,6 +6,7 @@ import { ItemVariant } from 'src/app/item-variant/item-variant';
 import { CartItem } from '../cart-item';
 import { Router } from '@angular/router';
 import { ParameterService } from 'src/app/parameter/parameter.service';
+import { ItemVariantImageService } from '../../../item-variant-image/item-variant-image.service';
 
 @Component({
   selector: 'app-cart-item-thumbnail-index',
@@ -19,6 +20,7 @@ export class CartItemThumbnailIndexComponent implements OnInit {
 
   constructor(
     private cartItemService: CartItemService,
+    private itemVariantImageService: ItemVariantImageService,
     private router: Router,
     private parameterService: ParameterService) {
   }
@@ -42,8 +44,8 @@ export class CartItemThumbnailIndexComponent implements OnInit {
     this.cartItemService.updateCartItemThumbnails();
   }
 
-  public getItemUrl(item: Item) {
-    let itemUrl = `/items/${item.id}/detail/`;
+  public getItemUrl(cartItemThumbnail: CartItemThumbnail) {
+    let itemUrl = `/items/${cartItemThumbnail.itemVariant.itemId}/detail/`;
     return itemUrl;
   }
 

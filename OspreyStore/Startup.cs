@@ -131,7 +131,7 @@ namespace OspreyStore
 
             app.UseMiddleware(typeof(ErrorHandlingMiddleware));
             app.UseAuthentication();
-            app.UseMiddleware(typeof(TokenUpdateSuggestionMarker));
+            //app.UseMiddleware(typeof(TokenUpdateSuggestionMarker));
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

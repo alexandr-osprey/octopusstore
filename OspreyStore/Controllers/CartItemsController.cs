@@ -34,7 +34,7 @@ namespace OspreyStore.Controllers
         {
             if (cartItemViewModel == null)
                 throw new BadRequestException("Cart item not provided");
-            var added = await Service.AddToCartAsync(
+            var added = await _service.AddToCartAsync(
                 ScopedParameters.CurrentUserId,
                 cartItemViewModel.ItemVariantId, cartItemViewModel.Number);
             //return new Response($"{cartItemViewModel.Number} of item variant {cartItemViewModel.ItemVariantId} added to a cart");
@@ -46,7 +46,7 @@ namespace OspreyStore.Controllers
         {
             if (cartItemViewModel == null)
                 throw new BadRequestException("Cart item not provided");
-            await Service.RemoveFromCartAsync(
+            await _service.RemoveFromCartAsync(
                 ScopedParameters.CurrentUserId,
                 cartItemViewModel.ItemVariantId, cartItemViewModel.Number);
             return new Response($"{cartItemViewModel.Number} of item variant {cartItemViewModel.ItemVariantId} removed from a cart");

@@ -38,19 +38,19 @@ namespace OspreyStore.Controllers
 
         [AllowAnonymous]
         [HttpGet("{id:int}/detail")]
-        public async Task<OrderDetailViewModel> ReadDetailAsync(int id) => await base.ReadDetailAsync<OrderDetailViewModel>(new OrderDetailSpecification(id));
+        public async Task<OrderDetailViewModel> ReadDetailAsync(int id) => await base.ReadAsync<OrderDetailViewModel>(new OrderDetailSpecification(id));
 
         [HttpGet("thumbnails/")]
         public async Task<IndexViewModel<OrderThumbnailViewModel>> IndexThumbnailsAsync(int? page, int? pageSize, int? storeId, OrderStatus? orderStatus)
         {
-            var spec = new OrderThumbnailIndexSpecification(await Service.GetSpecificationAccordingToAuthorizationAsync(page ?? 1, pageSize ?? DefaultTake, storeId, orderStatus));
+            var spec = new OrderThumbnailIndexSpecification(await _service.GetSpecificationAccordingToAuthorizationAsync(page ?? 1, pageSize ?? _defaultTake, storeId, orderStatus));
             return await base.IndexAsync<OrderThumbnailViewModel>(spec);
         }
 
         [HttpGet()]
         public async Task<IndexViewModel<OrderViewModel>> IndexAsync(int? page, int? pageSize, int? storeId, OrderStatus? orderStatus)
         {
-            var spec = await Service.GetSpecificationAccordingToAuthorizationAsync(page ?? 1, pageSize ?? DefaultTake, storeId, orderStatus);
+            var spec = await _service.GetSpecificationAccordingToAuthorizationAsync(page ?? 1, pageSize ?? _defaultTake, storeId, orderStatus);
             return await base.IndexAsync<OrderViewModel>(spec);
         }
 
@@ -62,8 +62,8 @@ namespace OspreyStore.Controllers
 
         protected override async Task PopulateViewModelWithRelatedDataAsync<TCustomViewModel>(TCustomViewModel viewModel)
         {
-            var order = await Service.ReadSingleAsync(new EntitySpecification<Order>(viewModel.GetHashCode()));
-            string email = await IdentityService.GetUserEmailAsync(order.OwnerId);
+            var order = await _service.ReadSingleAsync(new EntitySpecification<Order>(viewModel.GetHashCode()));
+            string email = await _identityService.GetUserEmailAsync(order.OwnerId);
             viewModel.CustomerEmail = email;
         }
     }

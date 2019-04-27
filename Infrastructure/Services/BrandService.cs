@@ -27,7 +27,7 @@ namespace Infrastructure.Services
         {
             await base.ValidateWithExceptionAsync(entry);
             var brand = entry.Entity;
-            var entityEntry = Context.Entry(brand);
+            var entityEntry = _сontext.Entry(brand);
             if (string.IsNullOrWhiteSpace(brand.Title))
                 throw new EntityValidationException("Title not specified");
         }

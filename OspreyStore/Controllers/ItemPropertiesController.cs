@@ -49,7 +49,7 @@ namespace OspreyStore.Controllers
 
         [AllowAnonymous]
         [HttpGet("/api/items/{itemId:int}/characteristicValues")]
-        public async Task<IndexViewModel<ItemPropertyViewModel>> IndexByItemAsync(int itemId) => await base.IndexByRelatedNotPagedAsync(Service.EnumerateByItemVariantAsync, new ItemVariantByItemSpecification(itemId));
+        public async Task<IndexViewModel<ItemPropertyViewModel>> IndexByItemAsync(int itemId) => await base.IndexByRelatedNotPagedAsync(_service.EnumerateByItemVariantAsync, new ItemVariantByItemSpecification(itemId));
 
         [HttpPut]
         public override async Task<ItemPropertyViewModel> UpdateAsync([FromBody]ItemPropertyViewModel itemPropertyViewModel) => await base.UpdateAsync(itemPropertyViewModel ?? throw new BadRequestException("Item variant characteristic value not provided"));

@@ -69,6 +69,10 @@ export abstract class DataReadWriteService <TEntity extends Entity> {
     return this.getCustom(this.getUrlWithIdWithSuffix(id, "detail"), params, this.defaultHttpHeaders);
   }
 
+  public getThumbnail<TThumbnail>(id: number, params: any = {}): Observable<TThumbnail> {
+    return this.getCustom(this.getUrlWithIdWithSuffix(id, "thumbnail"), params, this.defaultHttpHeaders);
+  }
+
   public delete(id: number): Observable<string> {
     return this.deleteCustom(this.getUrlWithId(id), {}, this.defaultHttpHeaders, this.deleteAuthenticationRequired);
   }

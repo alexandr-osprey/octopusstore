@@ -57,11 +57,11 @@ export class IdentityService {
 
   public signOut() {
     this.tokenManager.clear();
-    this.setSignInState(false);
     if (this.hasSavedCredentials()) {
       localStorage.removeItem(this.EMAIL_NAME);
       localStorage.removeItem(this.PASSWORD_NAME);
     }
+    this.setSignInState(false);
   }
   public ensureSignIn(): Observable<TokenPair> {
    // console.log("ensureSignIn enter");
@@ -227,7 +227,7 @@ export class IdentityService {
     this.setSignInState(true);
     //this.log(`${this.serviceName} logged in user ${credentials.email}`);
   }
-  protected reSignIn(): Observable<TokenPair> {
+  public reSignIn(): Observable<TokenPair> {
     //console.log("reSignIn enter");
     if (this.hasSavedCredentials()) {
       let email = localStorage.getItem(this.EMAIL_NAME);

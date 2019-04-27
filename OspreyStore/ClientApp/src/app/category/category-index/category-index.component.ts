@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { debounceTime } from 'rxjs/operators';
 import { ParameterNames } from '../../parameter/parameter-names';
 import { ParameterService } from '../../parameter/parameter.service';
@@ -23,17 +23,21 @@ import { trigger, style, state, animate, transition } from '@angular/animations'
       //transition('collapsed => expanded', [animate('350ms linear')]),
     ]),
   ],
+  //providers: ['angular-tour'],
 })
-export class CategoryIndexComponent implements OnInit {
+export class CategoryIndexComponent implements OnInit, AfterViewInit {
   public allCategories: CategoryDisplayed[];
   public rootCategory: CategoryDisplayed;
+  
   @Output() categorySelected = new EventEmitter<Category>();
   @Input() administrating: boolean;
+ // @ViewChild('component') component: ElementRef;
   //protected categoryHierarchy: CategoryHierarchy;
   //protected currentCategory: Category;
   //protected parametersSubsription: Subscription;
   //protected categoryIdParamName = ParameterNames.categoryId;
   //@Input() administrating: boolean;
+
 
   constructor(
     private categoryService: CategoryService,
@@ -43,6 +47,13 @@ export class CategoryIndexComponent implements OnInit {
 
   ngOnInit() {
     this.initializeComponent();
+  }
+
+  ngAfterViewInit() {
+
+   // console.log(this.component);
+    //console.log(this.tref.nativeElement.textContent);
+    //console.log(this.tref.nativeElement);
   }
 
   initializeComponent() {
@@ -64,6 +75,7 @@ export class CategoryIndexComponent implements OnInit {
         });
       this.updateCategories();
     });
+
   }
 
   updateCategories() {

@@ -12,7 +12,7 @@ namespace Infrastructure.Identity.AuthorizationHandlers
     {
         public OrderAuthorizationHandler(UserManager<ApplicationUser> userManager, StoreContext storeContext, IAppLogger<IAuthorziationHandler<Order>> appLogger) : base(userManager, storeContext, appLogger)
         {
-            ValidateRightsOnEnityProperties = false;
+            _validateRightsOnEnityProperties = false;
         }
 
         protected override async Task<int> GetStoreIdAsync(Order order)

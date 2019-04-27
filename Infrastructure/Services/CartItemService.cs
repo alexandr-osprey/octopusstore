@@ -24,7 +24,7 @@ namespace Infrastructure.Services
 
         public async Task<CartItem> AddToCartAsync(string ownerId, int itemVariantId, int number)
         {
-            var cartItem = await Context.ReadSingleBySpecAsync(Logger, new CartItemSpecification(ownerId, itemVariantId), false);
+            var cartItem = await _сontext.ReadSingleBySpecAsync(_logger, new CartItemSpecification(ownerId, itemVariantId), false);
             cartItem = cartItem ?? new CartItem() { OwnerId = ownerId, ItemVariantId = itemVariantId, Number = 0 };
             cartItem.Number += number;
             return cartItem.Id == 0 ? await CreateAsync(cartItem) : await UpdateAsync(cartItem);
@@ -32,7 +32,7 @@ namespace Infrastructure.Services
 
         public async Task RemoveFromCartAsync(string ownerId, int itemVariantId, int number)
         {
-            var cartItem = await Context.ReadSingleBySpecAsync(Logger, new CartItemSpecification(ownerId, itemVariantId), false);
+            var cartItem = await _сontext.ReadSingleBySpecAsync(_logger, new CartItemSpecification(ownerId, itemVariantId), false);
             if (cartItem == null)
                 return;
             cartItem.Number -= number;
@@ -45,7 +45,7 @@ namespace Infrastructure.Services
         protected override async Task ValidateCustomUniquinessWithException(CartItem cartItem)
         {
             await base.ValidateCustomUniquinessWithException(cartItem);
-            if (await Context.ExistsBySpecAsync(Logger, new CartItemSpecification(cartItem.OwnerId, cartItem.ItemVariantId)))
+            if (await _сontext.ExistsBySpecAsync(_logger, new CartItemSpecification(cartItem.OwnerId, cartItem.ItemVariantId)))
                 throw new EntityAlreadyExistsException($"Cart item with variant {cartItem.ItemVariantId} already exists");
         }
 
@@ -54,7 +54,7 @@ namespace Infrastructure.Services
             await base.ValidateWithExceptionAsync(entityEntry);
             var cartItem = entityEntry.Entity;
             if (IsPropertyModified(entityEntry, c => c.ItemVariantId, false) 
-                && !await Context.ExistsBySpecAsync(Logger, new EntitySpecification<ItemVariant>(cartItem.ItemVariantId)))
+                && !await _сontext.ExistsBySpecAsync(_logger, new EntitySpecification<ItemVariant>(cartItem.ItemVariantId)))
                 throw new EntityValidationException($"Item variant {cartItem.ItemVariantId} does not exist");
             if (cartItem.Number <= 0)
                 throw new EntityValidationException($"Number can't be negative");

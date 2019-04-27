@@ -1,9 +1,9 @@
-<div *ngIf="allCategories" class="d-flex flex-column">
+<div *ngIf="allCategories" class="d-flex flex-column" id="my-element">
     <div *ngIf="administrating">
       <p>Categories</p>
       <button class="btn" (click)="create()">Create</button>
     </div>
-    <ul class="list-unstyled">
+    <ul class="list-unstyled" id="my-other-element">
       <li [ngClass]="{ 'active': rootCategory.expanded }" class="category">
         <button  type="button" (click)="navigateRootCategory()" [ngClass]="{ 'inline': administrating }">{{ rootCategory.title }}</button>
         <a *ngIf="administrating" [routerLink]="['/categories', rootCategory.id, 'update']">  Update</a>

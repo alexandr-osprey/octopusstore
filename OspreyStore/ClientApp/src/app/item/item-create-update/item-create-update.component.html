@@ -23,13 +23,6 @@
         </select>
       </div>
       <div [ngClass]="{'not-updatable': isUpdating}" class="form-group">
-        <label for="measurementUnitId">Measurement unit</label>
-        <select class="form-control" id="measurementUnitId" required
-                [(ngModel)]="item.measurementUnitId" name="measurementUnitId" #measurementUnitId="ngModel">
-          <option *ngFor="let measurementUnit of measurementUnits" [value]="measurementUnit.id">{{ measurementUnit.title }}</option>
-        </select>
-      </div>
-      <div [ngClass]="{'not-updatable': isUpdating}" class="form-group">
         <label for="parentCategoryId">Parent category</label>
         <select class="form-control" id="parentCategoryId" required
                 name="parentCategoryId" [(ngModel)]="parentCategoryId">

@@ -40,12 +40,21 @@ export class StoreCreateUpdateComponent implements OnInit {
   }
 
   createOrUpdate() {
+    let isCreate = this.store.id == 0;
     this.storeService.postOrPut(this.store).subscribe((data: Store) => {
       if (data) {
         this.store = data;
         this.messageService.sendSuccess(`Store saved`);
-        this.router.navigate([`/stores/${data.id}/detail`]);
+        // token changes after store creation, need to update
+        if (isCreate) {
+          this.identityService.reSignIn().subscribe(() => {
+            this.router.navigate([`/stores/${data.id}/detail`]);
+          });
+        } else {
+          this.router.navigate([`/stores/${data.id}/detail`]);
+        }
       }
+
     });
   }
   delete() {

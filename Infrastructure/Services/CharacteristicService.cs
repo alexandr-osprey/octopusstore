@@ -14,7 +14,7 @@ namespace Infrastructure.Services
 {
     public class CharacteristicService: Service<Characteristic>, ICharacteristicService
     {
-        protected ICategoryService CategoryService { get; }
+        protected ICategoryService _categoryService { get; }
 
         public CharacteristicService(
             StoreContext context,
@@ -25,18 +25,18 @@ namespace Infrastructure.Services
             IAppLogger<Service<Characteristic>> logger)
            : base(context, identityService, scopedParameters, authoriationParameters, logger)
         {
-            CategoryService = categoryService;
+            _categoryService = categoryService;
         }
 
         public async Task<IEnumerable<Characteristic>> EnumerateAsync(Specification<Item> spec)
         {
-            var categories = await CategoryService.EnumerateParentCategoriesAsync(spec);
+            var categories = await _categoryService.EnumerateParentCategoriesAsync(spec);
             return await EnumerateAsync(new CharacteristicByCategoryIdsSpecification(from c in categories select c.Id));
         }
 
         public async Task<IEnumerable<Characteristic>> EnumerateByCategoryAsync(Specification<Category> spec)
         {
-            var categories = await CategoryService.EnumerateParentCategoriesAsync(spec);
+            var categories = await _categoryService.EnumerateParentCategoriesAsync(spec);
             return await EnumerateAsync(new CharacteristicByCategoryIdsSpecification(from c in categories select c.Id));
         }
 
@@ -47,7 +47,7 @@ namespace Infrastructure.Services
             if (string.IsNullOrWhiteSpace(characteristic.Title))
                 throw new EntityValidationException("Title not specified");
             if (IsPropertyModified(entityEntry, c => c.CategoryId, false) 
-                && !await Context.ExistsBySpecAsync(Logger, new EntitySpecification<Category>(characteristic.CategoryId)))
+                && !await _сontext.ExistsBySpecAsync(_logger, new EntitySpecification<Category>(characteristic.CategoryId)))
                 throw new EntityValidationException("Category does not exist");
         }
     }

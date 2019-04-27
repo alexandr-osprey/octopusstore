@@ -12,7 +12,7 @@ namespace Infrastructure.Identity.AuthorizationHandlers
     {
         public CartItemAuthorizationHandler(UserManager<ApplicationUser> userManager, StoreContext storeContext, IAppLogger<IAuthorziationHandler<CartItem>> appLogger): base(userManager, storeContext, appLogger)
         {
-            ValidateRightsOnEnityProperties = false;
+            _validateRightsOnEnityProperties = false;
         }
 
         protected override async Task<int> GetStoreIdAsync(CartItem cartItem)

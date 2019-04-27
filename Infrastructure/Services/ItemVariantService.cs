@@ -30,9 +30,9 @@ namespace Infrastructure.Services
                 throw new EntityValidationException($"Incorrect title. ");
             if (itemVariant.Price <= 0)
                 throw new EntityValidationException($"Price can't be zero or less. ");
-            var entityEntry = Context.Entry(itemVariant);
+            var entityEntry = _сontext.Entry(itemVariant);
             if (IsPropertyModified(entry, v => v.ItemId, false) 
-                && !await Context.ExistsBySpecAsync(Logger, new EntitySpecification<Item>(entry.Entity.ItemId)))
+                && !await _сontext.ExistsBySpecAsync(_logger, new EntitySpecification<Item>(entry.Entity.ItemId)))
                 throw new EntityValidationException($"Item with Id {entry.Entity.ItemId} does not exist. ");
         }
     }

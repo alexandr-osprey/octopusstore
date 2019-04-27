@@ -71,7 +71,7 @@ namespace Infrastructure.Services
 
         public async Task<Order> SetStatusAsync(int orderId, OrderStatus orderStatus)
         {
-            var order = await Context.ReadSingleBySpecAsync(Logger, new EntitySpecification<Order>(orderId), true);
+            var order = await _сontext.ReadSingleBySpecAsync(_logger, new EntitySpecification<Order>(orderId), true);
             order.Status = orderStatus;
             await UpdateAsync(order);
             return order;
@@ -101,7 +101,7 @@ namespace Infrastructure.Services
             if (order == null)
                 throw new ArgumentNullException(nameof(order));
 
-            var itemVariant = await Context
+            var itemVariant = await _сontext
                         .Set<ItemVariant>()
                         .Include(iv => iv.Item)
                             .ThenInclude(i => i.Store)
@@ -114,11 +114,11 @@ namespace Infrastructure.Services
         {
             string ownerId = null;
             if (!storeId.HasValue)
-                ownerId = ScopedParameters.CurrentUserId;
+                ownerId = _scopedParameters.CurrentUserId;
             else
             {
-                if (!(await IdentityService.IsStoreAdministratorAsync(ScopedParameters.CurrentUserId, storeId.Value)
-                        || await IdentityService.IsContentAdministratorAsync(ScopedParameters.CurrentUserId)))
+                if (!(await _identityService.IsStoreAdministratorAsync(_scopedParameters.CurrentUserId, storeId.Value)
+                        || await _identityService.IsContentAdministratorAsync(_scopedParameters.CurrentUserId)))
                 {
                     throw new AuthorizationException("Current user has no authorization to read orders from this store");
                 }

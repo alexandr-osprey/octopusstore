@@ -38,7 +38,7 @@ namespace OspreyStore.Controllers
         {
             if (categoryId > 0)
             {
-                return await base.IndexByFunctionNotPagedAsync(Service.EnumerateByCategoryAsync, new EntitySpecification<Category>(categoryId));
+                return await base.IndexByFunctionNotPagedAsync(_service.EnumerateByCategoryAsync, new EntitySpecification<Category>(categoryId));
             }
             else
             {

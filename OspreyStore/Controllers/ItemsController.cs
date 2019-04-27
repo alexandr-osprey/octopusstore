@@ -46,7 +46,7 @@ namespace OspreyStore.Controllers
             string characteristicsFilter,
             bool? orderByDescending)
         {
-            var spec = await Service.GetIndexSpecificationByParameters(page ?? 1, pageSize ?? DefaultTake, 
+            var spec = await _service.GetIndexSpecificationByParameters(page ?? 1, pageSize ?? _defaultTake, 
                 searchValue, categoryId, storeId, brandId, ParseIds(characteristicsFilter));
             ApplyOrderingToSpec(spec, orderBy, orderByDescending);
             return await base.IndexAsync<ItemThumbnailViewModel>(new ItemThumbnailIndexSpecification(spec));
@@ -65,7 +65,7 @@ namespace OspreyStore.Controllers
             string characteristicsFilter,
             bool? orderByDescending)
         {
-            var spec = await Service.GetIndexSpecificationByParameters(page ?? 1, pageSize ?? DefaultTake, 
+            var spec = await _service.GetIndexSpecificationByParameters(page ?? 1, pageSize ?? _defaultTake, 
                 searchValue, categoryId, storeId, brandId, ParseIds(characteristicsFilter));
             ApplyOrderingToSpec(spec, orderBy, orderByDescending);
             return await base.IndexAsync(spec);
@@ -77,7 +77,7 @@ namespace OspreyStore.Controllers
 
         [AllowAnonymous]
         [HttpGet("{id:int}/detail")]
-        public async Task<ItemDetailViewModel> ReadDetailAsync(int id) => await base.ReadDetailAsync<ItemDetailViewModel>(new ItemDetailSpecification(id));
+        public async Task<ItemDetailViewModel> ReadDetailAsync(int id) => await base.ReadAsync<ItemDetailViewModel>(new ItemDetailSpecification(id));
 
         [HttpPut]
         public override async Task<ItemViewModel> UpdateAsync([FromBody]ItemViewModel itemViewModel) => await base.UpdateAsync(itemViewModel);

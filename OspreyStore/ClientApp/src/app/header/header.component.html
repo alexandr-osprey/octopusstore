@@ -17,6 +17,7 @@
         <div class="dropdown-divider"></div>
         <button *ngIf="storeId" ngbDropdownItem class="btn btn-light w-100" [routerLink]="['/orders']" [queryParams]="getStoreParams()">Store Orders</button>
         <button *ngIf="storeId" ngbDropdownItem class="btn btn-light w-100" [routerLink]="['/stores/', storeId, 'detail']">My Store</button>
+        <button *ngIf="isContentAdministrator" ngbDropdownItem class="btn btn-light w-100" [routerLink]="['/administrating/', 'content']">Content administrating</button>
         <button ngbDropdownItem class="btn btn-light w-100" [routerLink]="['/orders']">Own Orders</button>
         <button *ngIf="!storeId" ngbDropdownItem class="btn btn-light w-100" [routerLink]="['/stores/create']">Create Store</button>
         <button *ngIf="storeId" ngbDropdownItem class="btn btn-light w-100" [routerLink]="['/items/create']">Create Item</button>
@@ -34,17 +35,24 @@
 
       </div>
       <!--<div ngbDropdown class="d-inline-block">
-      <button class="btn btn-primary" id="signed-inactions-menu" ngbDropdownToggle>Actions</button>
-      <div ngbDropdownMenu placement="bottom-right" id="signed-inactions-menu" aria-labelledby="signed-inactions-menu">
-        <p class="dropdown-item">{{email}}</p>
-        <a class="dropdown-item" *ngIf="isContentAdministrator" [routerLink]="['/administrating', 'content']">Administrating</a>
-        <a class="dropdown-item" *ngIf="isStoreAdministrator" [routerLink]="['/stores', storeId, 'detail']">Manage store</a>
-        <button (click)="signOut()" class="btn btn-secondary dropdown-item">Sign Out</button>
-      </div>
-    </div>-->
+        <button class="btn btn-primary" id="signed-inactions-menu" ngbDropdownToggle>Actions</button>
+        <div ngbDropdownMenu placement="bottom-right" id="signed-inactions-menu" aria-labelledby="signed-inactions-menu">
+          <p class="dropdown-item">{{email}}</p>
+          <a class="dropdown-item" *ngIf="isContentAdministrator" [routerLink]="['/administrating', 'content']">Administrating</a>
+          <a class="dropdown-item" *ngIf="isStoreAdministrator" [routerLink]="['/stores', storeId, 'detail']">Manage store</a>
+          <button (click)="signOut()" class="btn btn-secondary dropdown-item">Sign Out</button>
+        </div>
+      </div>-->
     </div>
   </div>
 </header>
+<!--<div *ngIf="tourMessages.search" class="tour-message-container d-flex flex-column">
+  <div class="tour-triangle-top"></div>
+  <div class="tour-message-content d-flex flex-column">
+    <p class="flex-grow-1 ml-2">Search, hide and show sidebar, open cart or user-specific action menu in right actions menu</p>
+    <button (click)="hideTourMessage('search')" class="btn btn-light align-self-end pl-3 pr-3 mr-2 mb-2">OK</button>
+  </div>
+</div>-->
 
 <!--<div class="row">
     <div class="title col-12 col-md-2">

@@ -35,7 +35,11 @@ namespace OspreyStore.Controllers
 
         [AllowAnonymous]
         [HttpGet("{id:int}/detail")]
-        public async Task<ItemVariantDetailViewModel> ReadDetailAsync(int id) => await base.ReadDetailAsync<ItemVariantDetailViewModel>(new ItemVariantDetailSpecification(id));
+        public async Task<ItemVariantDetailViewModel> ReadDetailAsync(int id) => await base.ReadAsync<ItemVariantDetailViewModel>(new ItemVariantDetailSpecification(id));
+
+        [AllowAnonymous]
+        [HttpGet("{id:int}/thumbnail")]
+        public async Task<ItemVariantThumbnailViewModel> ReadThumbnailAsync(int id) => await base.ReadAsync<ItemVariantThumbnailViewModel>(new ItemVariantThumbnailSpecification(id));
 
         [AllowAnonymous]
         [HttpGet]

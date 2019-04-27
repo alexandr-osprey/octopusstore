@@ -36,12 +36,12 @@ namespace OspreyStore.Controllers
                 {
                     await formFile.CopyToAsync(stream);
                     var itemVariantImage = new ItemVariantImage(formFile.FileName, formFile.ContentType, relatedId, stream);
-                    return await GetViewModelAsync<ItemVariantImageViewModel>(await Service.CreateAsync(itemVariantImage));
+                    return await GetViewModelAsync<ItemVariantImageViewModel>(await _service.CreateAsync(itemVariantImage));
                 }
                 catch (Exception exception)
                 {
                     string message = $"Error saving item image: {exception}";
-                    Logger.Warn(exception, message);
+                    _logger.Warn(exception, message);
                     throw new Exception(message);
                 }
             }
@@ -70,13 +70,13 @@ namespace OspreyStore.Controllers
                 return null;
             try
             {
-                var image = await Service.ReadSingleAsync(new EntitySpecification<ItemVariantImage>(id));
-                return new FileStreamResult(Service.GetStream(image), image.ContentType);
+                var image = await _service.ReadSingleAsync(new EntitySpecification<ItemVariantImage>(id));
+                return new FileStreamResult(_service.GetStream(image), image.ContentType);
             }
             catch (Exception exception)
             {
                 string message = $"Error retrieving item variant image id = {id}.";
-                Logger.Warn(exception, message);
+                _logger.Warn(exception, message);
                 throw new Exception(message);
             }
         }

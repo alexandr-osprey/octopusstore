@@ -8,6 +8,7 @@ import { EntityIndex } from 'src/app/models/entity/entity-index';
 import { ItemThumbnail } from '../item-thumbnail';
 import { DisplayedItemThumbnail } from '../displayed-item-thumbnail';
 import { trigger, style, state, animate, transition } from '@angular/animations';
+import { MessageService } from '../../message/message.service';
 
 @Component({
   selector: 'app-item-thumbnail-index',
@@ -43,6 +44,7 @@ export class ItemThumbnailIndexComponent implements OnInit, OnDestroy, AfterView
   //nextNavigationOperation = Operation.Initial;
   sidebarHidden: boolean = false;
   fabHidden: boolean = true;
+  tourMessages: any = {};
 
   @HostListener('window:scroll', ['$event']) // for window scroll events
   onScroll(event) {
@@ -52,6 +54,7 @@ export class ItemThumbnailIndexComponent implements OnInit, OnDestroy, AfterView
 
   constructor(
     private itemService: ItemService,
+    private messageService: MessageService,
     private parameterService: ParameterService)
   {
   }
@@ -69,6 +72,7 @@ export class ItemThumbnailIndexComponent implements OnInit, OnDestroy, AfterView
   }
 
   ngOnInit() {
+    
     //window.addEventListener('scroll', this.scroll, true);
     //this.nextNavigationOperation = Operation.Initial;
     this.parametersSubsription = this.parameterService.params$.pipe(
@@ -102,6 +106,9 @@ export class ItemThumbnailIndexComponent implements OnInit, OnDestroy, AfterView
     this.itemService.delay(500).then(() => {
       this.sidebarHidden = this.parameterService.getParam(ParameterNames.sidebarHidden);
     });
+    //this.messageService.sendInfo("Please visit https://github.com/alexandr-osprey/octopusstore to learn more.");
+    //this.messageService.sendInfo("This website created for demonstrational purposes only and does not contain any real information. ");
+    this.tourMessages['categories'] = true;
   }
 
   getOrderByPriceQueryParams(): any {
@@ -215,6 +222,10 @@ export class ItemThumbnailIndexComponent implements OnInit, OnDestroy, AfterView
   ngOnDestroy() {
     // prevent memory leak when component destroyed
     this.parametersSubsription.unsubscribe();
+  }
+
+  hideTourMessage(name: string) {
+    this.tourMessages[name] = false;
   }
 
   //onScrollDown() {

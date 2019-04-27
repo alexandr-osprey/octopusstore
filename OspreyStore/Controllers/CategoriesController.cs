@@ -36,7 +36,7 @@ namespace OspreyStore.Controllers
 
         [AllowAnonymous]
         [HttpGet("root")]
-        public async Task<CategoryViewModel> ReadRootAsync() => await base.ReadAsync(Service.RootCategory.Id);
+        public async Task<CategoryViewModel> ReadRootAsync() => await base.ReadAsync(_service.RootCategory.Id);
 
         // GET: api/<controller>
         [AllowAnonymous]
@@ -45,8 +45,8 @@ namespace OspreyStore.Controllers
             [FromQuery(Name = "categoryId")]int? categoryId,
             [FromQuery(Name = "storeId")]int? storeId)
         {
-            categoryId = categoryId ?? Service.RootCategory.Id;
-            var categories = await Service.EnumerateHierarchyAsync(new EntitySpecification<Category>(c => c.Id == categoryId.Value));
+            categoryId = categoryId ?? _service.RootCategory.Id;
+            var categories = await _service.EnumerateHierarchyAsync(new EntitySpecification<Category>(c => c.Id == categoryId.Value));
             if (storeId.HasValue)
             {
                 var storeCategories = await IndexByStoreIdAsync(storeId.Value);
@@ -75,7 +75,7 @@ namespace OspreyStore.Controllers
             {
                 Description = $"Items with StoreId={storeId} includes Category"
             };
-            return await Service.EnumerateParentCategoriesAsync(spec);
+            return await _service.EnumerateParentCategoriesAsync(spec);
         }
     }
 }

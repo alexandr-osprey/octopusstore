@@ -55,7 +55,7 @@ namespace OspreyStore.Controllers
                 AuthorziationParameters.ReadAuthorizationRequired = true;
                 AuthorziationParameters.ReadOperationRequirement = OperationAuthorizationRequirements.Update;
             }
-            return await base.IndexAsync(new StoreIndexSpecification(page ?? 1, pageSize ?? DefaultTake, title));
+            return await base.IndexAsync(new StoreIndexSpecification(page ?? 1, pageSize ?? _defaultTake, title));
         }
 
         [HttpPut]

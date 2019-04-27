@@ -15,7 +15,7 @@ namespace Infrastructure.Services
 {
     public class StoreService: Service<Store>, IStoreService
     {
-        protected IItemService ItemService { get; }
+        protected IItemService _itemService { get; }
 
         public StoreService(
            StoreContext context,
@@ -26,20 +26,20 @@ namespace Infrastructure.Services
             IAppLogger<Service<Store>> logger)
            : base(context, identityService, scopedParameters, authoriationParameters, logger)
         {
-            ItemService = itemService;
+            _itemService = itemService;
         }
 
         public override async Task<Store> CreateAsync(Store entity)
         {
             await base.CreateAsync(entity);
-            await IdentityService.AddClaim(entity.OwnerId, new Claim(CustomClaimTypes.StoreAdministrator, entity.Id.ToString()));
+            await _identityService.AddClaim(entity.OwnerId, new Claim(CustomClaimTypes.StoreAdministrator, entity.Id.ToString()));
             return entity;
         }
 
         protected override async Task ValidateCustomUniquinessWithException(Store store)
         {
             await base.ValidateCustomUniquinessWithException(store);
-            if (await Context.ExistsBySpecAsync(Logger, new Specification<Store>(s => s.OwnerId == ScopedParameters.CurrentUserId)))
+            if (await _сontext.ExistsBySpecAsync(_logger, new Specification<Store>(s => s.OwnerId == _scopedParameters.CurrentUserId)))
                 throw new EntityAlreadyExistsException("User already has a store");
         }
 
@@ -56,8 +56,8 @@ namespace Infrastructure.Services
             {
                 Description = $"Item with StoreId={store.Id}"
             };
-            await ItemService.DeleteAsync(spec);
-            await IdentityService.RemoveFromUsersAsync(new Claim(store.OwnerId, store.Id.ToString()));
+            await _itemService.DeleteAsync(spec);
+            await _identityService.RemoveFromUsersAsync(new Claim(store.OwnerId, store.Id.ToString()));
             await base.DeleteRelatedEntitiesAsync(store);
         }
 
@@ -71,7 +71,7 @@ namespace Infrastructure.Services
                 throw new EntityValidationException("Incorrect description");
             if (string.IsNullOrWhiteSpace(store.Address))
                 throw new EntityValidationException("Incorrect address");
-            var entityEntry = Context.Entry(store);
+            var entityEntry = _сontext.Entry(store);
             IsPropertyModified(entityEntry, s => s.RegistrationDate, false);
         }
 

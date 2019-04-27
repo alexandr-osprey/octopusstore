@@ -10,9 +10,9 @@ import { ItemService } from 'src/app/item/item.service';
 import { ItemVariantService } from 'src/app/item-variant/item-variant.service';
 import { MessageService } from 'src/app/message/message.service';
 import { EntityIndex } from 'src/app/models/entity/entity-index';
-import { ItemVariant } from 'src/app/item-variant/item-variant';
-import { Item } from 'src/app/item/item';
 import { ParameterNames } from 'src/app/parameter/parameter-names';
+import { ItemVariant } from '../../item-variant/item-variant';
+import { ItemVariantThumbnail } from '../../item-variant/item-variant-thumbnail';
 
 @Injectable({
   providedIn: 'root'
@@ -89,16 +89,11 @@ export class CartItemService extends DataReadWriteService<CartItem> {
 
   protected createCartItemThumbnail(cartItemToAdd: CartItem): Observable<CartItemThumbnail> {
     let result = new Subject<CartItemThumbnail>();
-    this.itemVariantService.get(cartItemToAdd.itemVariantId)
-      .subscribe((variant: ItemVariant) => {
+    this.itemVariantService.getThumbnail(cartItemToAdd.itemVariantId)
+      .subscribe((variant: ItemVariantThumbnail) => {
         if (variant) {
-          this.itemService.get(variant.itemId)
-            .subscribe((item: Item) => {
-              if (item) {
-                let newCartItem = new CartItemThumbnail({ item: item, itemVariant: variant, itemVariantId: variant.id, number: cartItemToAdd.number });
-                result.next(newCartItem);
-              }
-            });
+          let newCartItem = new CartItemThumbnail({ itemVariant: variant, itemVariantId: variant.id, number: cartItemToAdd.number, itemVariantImage: variant.images[0] });
+          result.next(newCartItem);
         }
       })
     return result.asObservable();

@@ -15,8 +15,8 @@ namespace Infrastructure.Services
 {
     public class ItemPropertyService : Service<ItemProperty>, IItemPropertyService
     {
-        protected IItemVariantService ItemVariantService { get; }
-        protected ICharacteristicValueService CharacteristicValueService { get; }
+        protected IItemVariantService _itemVariantService { get; }
+        protected ICharacteristicValueService _characteristicValueService { get; }
 
         public ItemPropertyService(
             StoreContext context,
@@ -28,15 +28,15 @@ namespace Infrastructure.Services
             IAppLogger<Service<ItemProperty>> logger)
            : base(context, identityService, scopedParameters, authoriationParameters, logger)
         {
-            ItemVariantService = itemVariantService;
-            CharacteristicValueService = characteristicValueService;
+            _itemVariantService = itemVariantService;
+            _characteristicValueService = characteristicValueService;
         }
 
         protected override async Task ValidateCustomUniquinessWithException(ItemProperty itemProperty)
         {
             await base.ValidateCustomUniquinessWithException(itemProperty);
-            var characteristicValue = await Context.ReadSingleBySpecAsync(Logger, new EntitySpecification<CharacteristicValue>(itemProperty.CharacteristicValueId));
-            var itemVariantProperties = await Context.Set<ItemProperty>()
+            var characteristicValue = await _сontext.ReadSingleBySpecAsync(_logger, new EntitySpecification<CharacteristicValue>(itemProperty.CharacteristicValueId));
+            var itemVariantProperties = await _сontext.Set<ItemProperty>()
                 .Where(p => p.ItemVariantId == itemProperty.ItemVariantId)
                 .Include(p => p.CharacteristicValue).ToListAsync();
             if (itemVariantProperties.Select(i => i.CharacteristicValue.CharacteristicId).Contains(characteristicValue.CharacteristicId))
@@ -45,7 +45,7 @@ namespace Infrastructure.Services
 
         public async Task<IEnumerable<ItemProperty>> EnumerateByItemVariantAsync(Specification<ItemVariant> itemVariantSpec)
         {
-            return await ItemVariantService.EnumerateRelatedEnumAsync(itemVariantSpec, (v => v.ItemProperties));
+            return await _itemVariantService.EnumerateRelatedEnumAsync(itemVariantSpec, (v => v.ItemProperties));
         }
 
         protected override async Task ValidateWithExceptionAsync(EntityEntry<ItemProperty> entityEntry)
@@ -55,15 +55,15 @@ namespace Infrastructure.Services
             if (IsPropertyModified(entityEntry, p => p.ItemVariantId, false) 
                 | IsPropertyModified(entityEntry, p => p.CharacteristicValueId, false))
             {
-                var itemVariant = await Context
+                var itemVariant = await _сontext
                     .Set<ItemVariant>()
                     .Include(v => v.Item)
                     .FirstOrDefaultAsync(v => v.Id == itemProperty.ItemVariantId)
                         ?? throw new EntityValidationException($"Item variant {itemProperty.ItemVariantId} does not exist");
                 if (IsPropertyModified(entityEntry, p => p.CharacteristicValueId, false))
                 {
-                    var possibleCharacteristicValues = await CharacteristicValueService.EnumerateByCategoryAsync(new EntitySpecification<Category>(itemVariant.Item.CategoryId));
-                    var characteristicValue = await Context
+                    var possibleCharacteristicValues = await _characteristicValueService.EnumerateByCategoryAsync(new EntitySpecification<Category>(itemVariant.Item.CategoryId));
+                    var characteristicValue = await _сontext
                         .Set<CharacteristicValue>()
                         .FirstOrDefaultAsync(v => v.Id == itemProperty.CharacteristicValueId)
                             ?? throw new EntityValidationException($"Characteristic value {itemProperty.CharacteristicValueId} does not exist");

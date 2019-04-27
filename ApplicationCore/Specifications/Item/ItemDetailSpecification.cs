@@ -2,7 +2,7 @@
 
 namespace ApplicationCore.Specifications
 {
-    public class ItemDetailSpecification: DetailSpecification<Item>
+    public class ItemDetailSpecification: EntitySpecification<Item>
     {
         public ItemDetailSpecification(int id): base(id)
         {
