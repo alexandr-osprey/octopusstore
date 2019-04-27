@@ -12,13 +12,8 @@ namespace ApplicationCore.Entities
         {
         }
 
-        public ItemVariantImage(string title, string contentType, int relatedId, Stream inputStream)
-           : base(title, contentType, relatedId, inputStream)
-        {
-        }
-
-        public ItemVariantImage(string title, string contentType, int relatedId)
-           : this(title, contentType, relatedId, null)
+        public ItemVariantImage(string title, string contentType, int relatedId, string fullPath, Stream inputStream)
+           : base(title, contentType, relatedId, null, inputStream)
         {
         }
 

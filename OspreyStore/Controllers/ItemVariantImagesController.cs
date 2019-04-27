@@ -35,7 +35,7 @@ namespace OspreyStore.Controllers
                 try
                 {
                     await formFile.CopyToAsync(stream);
-                    var itemVariantImage = new ItemVariantImage(formFile.FileName, formFile.ContentType, relatedId, stream);
+                    var itemVariantImage = new ItemVariantImage(formFile.FileName, formFile.ContentType, relatedId, null, stream);
                     return await GetViewModelAsync<ItemVariantImageViewModel>(await _service.CreateAsync(itemVariantImage));
                 }
                 catch (Exception exception)

@@ -13,7 +13,7 @@ namespace ApplicationCore.ViewModels
 
         public override ItemVariantImage ToModel()
         {
-            var image = new ItemVariantImage(Title, ContentType, RelatedId)
+            var image = new ItemVariantImage(Title, ContentType, RelatedId, null, null)
             {
                 Id = Id
             };

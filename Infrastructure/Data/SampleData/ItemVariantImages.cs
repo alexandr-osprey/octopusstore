@@ -1,5 +1,7 @@
 ﻿using ApplicationCore.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -8,17 +10,18 @@ namespace Infrastructure.Data.SampleData
 {
     public class ItemVariantImages : SampleDataEntities<ItemVariantImage>
     {
-        public static string ItemVariantImageContentType { get; } = @"image/jpeg";
-        public static string PathToFiles { get; } = @"C:\files\";
+        private string ItemVariantImageContentType { get; } = @"image/jpeg";
+        private string PathToFiles { get; } = @"C:\files\";
 
         protected ItemVariants ItemVariants { get; }
         protected Categories Categories { get; }
 
 
-        public ItemVariantImages(StoreContext storeContext, ItemVariants itemVariants, Categories categories) : base(storeContext)
+        public ItemVariantImages(StoreContext storeContext, ItemVariants itemVariants, Categories categories, IConfiguration configuration) : base(storeContext)
         {
             ItemVariants = itemVariants;
             Categories = categories;
+            PathToFiles = configuration["FilesFolderPath"] ?? throw new Exception("FilesFolderPath is not set in configuration");
             Seed();
             Init();
         }
@@ -43,7 +46,7 @@ namespace Infrastructure.Data.SampleData
                 for (int i = 1; i < maxIndex + 1; i++)
                 {
                     string t = variant.Title.Replace(" ", string.Empty).Replace("'", string.Empty) + i.ToString();
-                    list.Add(new ItemVariantImage(t, ItemVariantImageContentType, variant.Id, null) { OwnerId = ownerId, FullPath = Path.Combine(PathToFiles, ownerId, $"{t}.jpg"), });
+                    list.Add(new ItemVariantImage(t, ItemVariantImageContentType, variant.Id, null, null) { OwnerId = ownerId, FullPath = Path.Combine(PathToFiles, ownerId, $"{t}.jpg"), });
                 }
             }
             return list;

@@ -13,15 +13,10 @@ namespace ApplicationCore.Entities
     /// <typeparam name="T"></typeparam>
     public abstract class FileInfo<T>: Entity
     {
-        public static readonly string rootDirectory = DefaultSettings.RootFileDirectory;
-
-        public virtual IEnumerable<string> AllowedContentTypes { get; } = new List<string>();
-
         public string Title { get; set; } = string.Empty;
         public string ContentType { get; set; }
         public int RelatedId { get; set; }
         public string FullPath { get; set; } = string.Empty;
-        public string DirectoryPath { get; set; } = string.Empty;
 
         [NotMapped]
         public Stream InputStream { get; set; }
@@ -35,17 +30,17 @@ namespace ApplicationCore.Entities
             && Title.EqualsCI(other.Title)
             && ContentType == other.ContentType
             && RelatedId == other.RelatedId
-            && FullPath.EqualsCI(other.FullPath)
-            && DirectoryPath.EqualsCI(other.DirectoryPath);
+            && FullPath.EqualsCI(other.FullPath);
         public override bool Equals(object obj) => Equals(obj as FileInfo<T>);
         public override int GetHashCode() => base.GetHashCode();
 
-        public FileInfo(string title, string contentType, int relatedId, Stream inputStream)
+        public FileInfo(string title, string contentType, int relatedId, string fullPath, Stream inputStream)
         {
             Title = title;
             ContentType = contentType;
             RelatedId = relatedId;
             InputStream = inputStream;
+            FullPath = fullPath;
         }
 
         protected FileInfo(FileInfo<T> fileInfo): base(fileInfo)
@@ -54,26 +49,7 @@ namespace ApplicationCore.Entities
             ContentType = fileInfo.ContentType;
             RelatedId = fileInfo.RelatedId;
             FullPath = fileInfo.FullPath;
-            DirectoryPath = fileInfo.DirectoryPath;
+            InputStream = fileInfo.InputStream;
         }
-
-        public override string OwnerId
-        {
-            get => base.OwnerId;
-            set
-            {
-                base.OwnerId = value;
-                DirectoryPath =
-                Path.Combine(rootDirectory, GetSafeFileName(OwnerId));
-                FullPath =
-                    Path.Combine(DirectoryPath,
-                        Guid.NewGuid().ToString() + GetExtension(ContentType));
-            }
-        }
-
-        public bool ContentTypeAllowed => AllowedContentTypes.Contains(ContentType);
-
-        public static string GetSafeFileName(string filename) => string.Join("_", filename.Split(Path.GetInvalidFileNameChars()));
-        public static string GetExtension(string contentType) => "." + contentType.Substring(contentType.IndexOf('/') + 1);
     }
 }

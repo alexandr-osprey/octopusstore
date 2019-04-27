@@ -25,7 +25,7 @@ namespace UnitTests.Services
         {
             return new List<ItemVariantImage>()
             {
-                new ItemVariantImage("testImage1", _imageToCreateFrom.ContentType, _imageToCreateFrom.RelatedId, _service.GetStream(_imageToCreateFrom))
+                new ItemVariantImage("testImage1", _imageToCreateFrom.ContentType, _imageToCreateFrom.RelatedId, null, _service.GetStream(_imageToCreateFrom))
             };
         }
 
@@ -34,10 +34,10 @@ namespace UnitTests.Services
             var itemImage = _data.ItemVariantImages.Entities.LastOrDefault();
             return new List<ItemVariantImage>()
             {
-                new ItemVariantImage("", @"image/jpg", itemImage.RelatedId, _service.GetStream(itemImage)),
-                new ItemVariantImage("test", @"image/jpg", 999, _service.GetStream(itemImage)),
-                new ItemVariantImage("test", @"image/jpg", itemImage.RelatedId, null),
-                new ItemVariantImage("test",  @"image/exe", itemImage.RelatedId, _service.GetStream(itemImage)),
+                new ItemVariantImage("", @"image/jpg", itemImage.RelatedId, null, _service.GetStream(itemImage)),
+                new ItemVariantImage("test", @"image/jpg", 999, null, _service.GetStream(itemImage)),
+                new ItemVariantImage("test", @"image/jpg", itemImage.RelatedId, null, null),
+                new ItemVariantImage("test",  @"image/exe", itemImage.RelatedId, null, _service.GetStream(itemImage)),
             };
         }
 
@@ -53,7 +53,7 @@ namespace UnitTests.Services
                     Assert.Equal(fileInit.Length, fileDest.Length);
                 }
             }
-            Directory.Delete(itemImage.DirectoryPath, true);
+            //Directory.Delete(itemImage.DirectoryPath, true);
         }
 
         [Fact]
@@ -105,7 +105,6 @@ namespace UnitTests.Services
             var fourth = _data.ItemVariantImages.Entities.ElementAt(0);
             first.Title = "";
             second.ContentType = "txt";
-            third.DirectoryPath = "path";
             fourth.FullPath = "fullpath";
             return new List<ItemVariantImage>()
             {

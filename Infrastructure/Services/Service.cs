@@ -45,8 +45,8 @@ namespace Infrastructure.Services
         {
             var entry = _сontext.Entry(entity);
             var result = await _сontext.Add(_logger, entity, true, false);
-            await ValidateWithExceptionAsync(entry);
             entity.OwnerId = _scopedParameters.CurrentUserId ?? throw new Exception("User identity not provided for entity creation");
+            await ValidateWithExceptionAsync(entry);
             await ValidateCustomUniquinessWithException(entity);
             if (_authoriationParameters.CreateAuthorizationRequired)
                 await AuthorizeWithException(_authoriationParameters.CreateOperationRequirement, entity);

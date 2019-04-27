@@ -1,4 +1,8 @@
-﻿namespace Infrastructure.Data.SampleData
+﻿
+
+using Microsoft.Extensions.Configuration;
+
+namespace Infrastructure.Data.SampleData
 {
     public class SampleData
     {
@@ -19,7 +23,7 @@
         public Users Users { get; }
 
 
-        public SampleData(StoreContext context)
+        public SampleData(StoreContext context, IConfiguration configuration)
         {
             Context = context;
             if (DropBeforeSeed)
@@ -34,7 +38,7 @@
             ItemVariants = new ItemVariants(Context, Items);
             CartItems = new CartItems(Context, ItemVariants);
             ItemProperties = new ItemProperties(Context, ItemVariants, CharacteristicValues);
-            ItemVariantImages = new ItemVariantImages(Context, ItemVariants, Categories);
+            ItemVariantImages = new ItemVariantImages(Context, ItemVariants, Categories, configuration);
             Orders = new Orders(Context, ItemVariants);
         }
     }

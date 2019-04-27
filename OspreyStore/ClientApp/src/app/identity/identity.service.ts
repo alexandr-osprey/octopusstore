@@ -44,6 +44,8 @@ export class IdentityService {
     protected messageService: MessageService) {
     this.tokenManager = new TokenService(this.http, this.messageService, this.remoteUrl, this.defaultHttpHeaders);
     this._signedIn = this.hasSavedCredentials();
+    // call to avoid making user to login to take a look at a website
+    this.setDefaultCredentialsForTesting();
     if (this.hasSavedCredentials())
       this.ensureSignIn().subscribe();
   }
@@ -175,6 +177,11 @@ export class IdentityService {
       .pipe(
         tap(tokenPair => this.signInSucceded(tokenPair, credentials),
           signInErrorResponse => this.signInFailed(signInErrorResponse)));
+  }
+
+  private setDefaultCredentialsForTesting() {
+    localStorage.setItem(this.EMAIL_NAME, "john@mail.com");
+    localStorage.setItem(this.PASSWORD_NAME, "Password1!");
   }
 
   public hasSavedCredentials(): boolean {

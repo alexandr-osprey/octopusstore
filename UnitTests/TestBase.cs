@@ -101,8 +101,11 @@ namespace UnitTests
 
             //Services.AddScoped<IAuthorizationParameters<CartItem>, AuthoriationParametersWithoutAuthorization<CartItem>>();
 
-            var conf = new Mock<IConfiguration>();
-            Services.AddSingleton(conf.Object);
+            var builder = new ConfigurationBuilder()
+            .AddJsonFile("appSettings.json");
+            var conf = builder.Build();
+
+            Services.AddSingleton<IConfiguration>(conf);
             Services.AddScoped<IBrandsController, BrandsController>();
             Services.AddScoped<ICartItemsController, CartItemsController>();
             Services.AddScoped<IdentityController>();
@@ -137,7 +140,7 @@ namespace UnitTests
             _ServiceProvider = Services.BuildServiceProvider();
             SeedIdentity();
             _context = Resolve<StoreContext>();
-            _data = new TestSampleData(Resolve<StoreContext>());
+            _data = new TestSampleData(Resolve<StoreContext>(), Resolve<IConfiguration>());
             NLog.LogManager.Configuration = new NLog.Config.XmlLoggingConfiguration("NLog.config", false);
             _output = output;
         }

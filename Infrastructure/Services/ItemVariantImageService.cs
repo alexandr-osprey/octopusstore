@@ -3,6 +3,7 @@ using Infrastructure.Data;
 using ApplicationCore.Interfaces;
 using ApplicationCore.Identity;
 using ApplicationCore.Interfaces.Services;
+using Microsoft.Extensions.Configuration;
 
 namespace Infrastructure.Services
 {
@@ -13,8 +14,9 @@ namespace Infrastructure.Services
             IIdentityService identityService,
             IScopedParameters scopedParameters,
             IAuthorizationParameters<ItemVariantImage> authoriationParameters,
+            IConfiguration configuration,
             IAppLogger<Service<ItemVariantImage>> logger)
-           : base(context, identityService, scopedParameters, authoriationParameters, logger)
+           : base(context, identityService, scopedParameters, authoriationParameters, configuration, logger)
         {
         }
     }

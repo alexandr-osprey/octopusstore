@@ -6,6 +6,7 @@ using Infrastructure.Identity;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace OspreyStore
@@ -20,6 +21,7 @@ namespace OspreyStore
             {
                 var services = scope.ServiceProvider;
                 var logger = services.GetRequiredService<IAppLogger<StoreContext>>();
+                var configuration = services.GetRequiredService<IConfiguration>();
                 try
                 {
                     var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
@@ -27,7 +29,7 @@ namespace OspreyStore
 
                     var storeContext = services.GetRequiredService<StoreContext>();
                     //StoreContextSeed.SeedStoreAsync(storeContext, logger).Wait();
-                    var sampleData = new TestSampleData(storeContext);
+                    var sampleData = new TestSampleData(storeContext, configuration);
                 }
                 catch (Exception ex)
                 {

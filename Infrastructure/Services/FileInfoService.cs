@@ -7,8 +7,11 @@ using ApplicationCore.Specifications;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.Extensions.Configuration;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Infrastructure.Services
@@ -24,26 +27,39 @@ namespace Infrastructure.Services
             IIdentityService identityService,
             IScopedParameters scopedParameters,
             IAuthorizationParameters<TFileInfo> authoriationParameters,
+            IConfiguration configuration,
             IAppLogger<Service<TFileInfo>> logger)
            : base(context, identityService, scopedParameters, authoriationParameters, logger)
         {
-            Name = typeof(TFileInfo).Name + "Filedetailservice";
+            Name = typeof(TFileInfo).Name + "FileDetailService";
+            _configuration = configuration;
+            _rootPath = configuration["FilesFolderPath"] ?? throw new Exception("FilesFolderPath is not set in configuration");
         }
 
         public int MaxAllowedFileSize { get; protected set; } = 10 * 1024 * 1024;
+        protected IConfiguration _configuration { get; }
+        protected string _rootPath { get; }
+        protected virtual IEnumerable<string> _allowedContentTypes { get; } = new List<string>();
 
         override public async Task<TFileInfo> CreateAsync(TFileInfo entity)
         {
+            if (entity == null)
+                throw new ArgumentNullException(nameof(entity));
+            string directoryPath = Path.Combine(_rootPath, GetSafeFileName(_scopedParameters.CurrentUserId));
+            entity.FullPath =
+                Path.Combine(directoryPath,
+                    Guid.NewGuid().ToString() + GetExtension(entity.ContentType));
             await base.CreateAsync(entity);
             try
             {
-                if (!Directory.Exists(entity.DirectoryPath))
-                    Directory.CreateDirectory(entity.DirectoryPath);
+                if (!Directory.Exists(directoryPath))
+                    Directory.CreateDirectory(directoryPath);
                 await SaveFile(entity.FullPath, entity.InputStream);
             }
             catch (IOException exception)
             {
                 string message = $"Error saving file {entity.FullPath} from FileInfo {nameof(TFileInfo)} Id = {entity.Id}";
+                await this.DeleteSingleAsync(entity);
                 _logger.Warn(exception, message);
                 throw;
             }
@@ -93,7 +109,7 @@ namespace Infrastructure.Services
             var fileInfo = entityEntry.Entity;
             if (string.IsNullOrWhiteSpace(fileInfo.Title))
                 throw new EntityValidationException("Incorrect title");
-            if (IsPropertyModified(entityEntry, f => f.ContentType, false) && !fileInfo.ContentTypeAllowed)
+            if (IsPropertyModified(entityEntry, f => f.ContentType, false) && !_allowedContentTypes.Contains(fileInfo.ContentType))
                 throw new EntityValidationException($"Unsupported content type: { fileInfo.ContentType }");
             if (entityEntry.State == EntityState.Added)
                 ValidateFile(fileInfo);
@@ -101,8 +117,6 @@ namespace Infrastructure.Services
             {
                 if (IsPropertyModified(entityEntry, f => f.FullPath, false) && string.IsNullOrWhiteSpace(fileInfo.FullPath))
                     throw new EntityValidationException("Empty full path");
-                if (IsPropertyModified(entityEntry, f => f.DirectoryPath, false) && string.IsNullOrWhiteSpace(fileInfo.DirectoryPath))
-                    throw new EntityValidationException("Empty directory path");
             }
             await ValidateRelatedEntityAsync(fileInfo);
         }
@@ -136,5 +150,9 @@ namespace Infrastructure.Services
                 }
             }
         }
+
+
+        protected string GetSafeFileName(string filename) => string.Join("_", filename.Split(Path.GetInvalidFileNameChars()));
+        protected string GetExtension(string contentType) => "." + contentType.Substring(contentType.IndexOf('/') + 1);
     }
 }
