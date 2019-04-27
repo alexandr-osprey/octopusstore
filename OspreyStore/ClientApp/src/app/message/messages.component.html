@@ -4,7 +4,8 @@
                     'message-box-info':  message.style=='Info',
                     'message-box-warn':  message.style=='Warn',
                     'message-box-success':  message.style=='Success',
-                    'message-box-error':  message.style=='Error'}">
+                    'message-box-error':  message.style=='Error',
+                    'message-box-help':  message.style=='Help'}">
     <a herf="#" class="message-dismiss" (click)="dismiss(message)"></a>
     <div class="message-content">
       {{message.content}}

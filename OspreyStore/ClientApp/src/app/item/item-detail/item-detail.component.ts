@@ -9,6 +9,7 @@ import { CartItemService } from 'src/app/cart/cart-item/cart-item.service';
 import { CartItemThumbnail } from 'src/app/cart/cart-item/cart-item-thumbnail';
 import { ItemVariantImage } from 'src/app/item-variant-image/item-variant-image';
 import { ParameterService } from 'src/app/parameter/parameter.service';
+import { MessageService } from '../../message/message.service';
 
 @Component({
   selector: 'app-item-detail',
@@ -35,6 +36,7 @@ export class ItemDetailComponent implements OnInit, AfterContentInit {
     private identityService: IdentityService,
     private cartItemService: CartItemService,
     protected parameterService: ParameterService,
+    protected messageService: MessageService,
   ) {
   }
 
@@ -59,6 +61,17 @@ export class ItemDetailComponent implements OnInit, AfterContentInit {
     this.cartItemService.cartItemThumbnails$.subscribe((thumbnails: CartItemThumbnail[]) => {
       this.setCartInfo();
     });
+
+    //localStorage.removeItem('item-detail-component-help-shown');
+    if (!localStorage.getItem('item-detail-component-help-shown')) {
+      this.showHelpMessages();
+      localStorage.setItem('item-detail-component-help-shown', 'true');
+    }
+  }
+
+  showHelpMessages() {
+    this.itemService.delay(2 * 1000).then(() =>
+      this.messageService.sendHelp("All info about item and it's variants shown here. May add or remove from cart. Update button shown only to users with according priveleges. Feel free to click. "));
   }
 
   ngAfterContentInit() {

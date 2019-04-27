@@ -22,6 +22,9 @@ export class MessageService {
   public sendInfo(content: string) {
     this.sendMessage(content, MessageType.Info);
   }
+  public sendHelp(content: string) {
+    this.sendMessage(content, MessageType.Help);
+  }
   public sendSuccess(content: string) {
     this.sendMessage(content, MessageType.Success);
   }
@@ -34,6 +37,10 @@ export class MessageService {
 
   clear() {
     this.messages = [];
+  }
+
+  public delay(ms: number): Promise<{}> {
+    return new Promise(resolve => setTimeout(resolve, ms));
   }
   constructor() { }
 }

@@ -20,9 +20,9 @@ namespace Infrastructure.Identity.AuthorizationHandlers
             _storeContext = storeContext;
         }
 
-        protected override async Task<bool> CreateAsync(AuthorizationHandlerContext context, T entity) => IsAuthenticated(context) && await IsStoreAdministratorAsync(context, entity);
-        protected override async Task<bool> UpdateAsync(AuthorizationHandlerContext context, T entity) => IsAuthenticated(context) && await IsStoreAdministratorAsync(context, entity);
-        protected override async Task<bool> DeleteAsync(AuthorizationHandlerContext context, T entity) => IsAuthenticated(context) && await IsStoreAdministratorAsync(context, entity);
+        protected override async Task<bool> CreateAsync(AuthorizationHandlerContext context, T entity) => IsAuthenticated(context) && (await IsStoreAdministratorAsync(context, entity) || IsContentAdministrator(context));
+        protected override async Task<bool> UpdateAsync(AuthorizationHandlerContext context, T entity) => IsAuthenticated(context) && (await IsStoreAdministratorAsync(context, entity) || IsContentAdministrator(context));
+        protected override async Task<bool> DeleteAsync(AuthorizationHandlerContext context, T entity) => IsAuthenticated(context) && (await IsStoreAdministratorAsync(context, entity) || IsContentAdministrator(context));
 
         public async Task<bool> IsStoreAdministratorAsync(
             AuthorizationHandlerContext context,

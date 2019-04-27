@@ -44,7 +44,6 @@ export class ItemThumbnailIndexComponent implements OnInit, OnDestroy, AfterView
   //nextNavigationOperation = Operation.Initial;
   sidebarHidden: boolean = false;
   fabHidden: boolean = true;
-  tourMessages: any = {};
 
   @HostListener('window:scroll', ['$event']) // for window scroll events
   onScroll(event) {
@@ -106,9 +105,26 @@ export class ItemThumbnailIndexComponent implements OnInit, OnDestroy, AfterView
     this.itemService.delay(500).then(() => {
       this.sidebarHidden = this.parameterService.getParam(ParameterNames.sidebarHidden);
     });
-    //this.messageService.sendInfo("Please visit https://github.com/alexandr-osprey/octopusstore to learn more.");
-    //this.messageService.sendInfo("This website created for demonstrational purposes only and does not contain any real information. ");
-    this.tourMessages['categories'] = true;
+
+
+    //localStorage.removeItem('item-thumbnail-index-help-shown');
+    if (!localStorage.getItem('item-thumbnail-index-help-shown')) {
+      this.showHelpMessages();
+      localStorage.setItem('item-thumbnail-index-help-shown', 'true');
+    }
+  }
+
+  showHelpMessages() {
+    this.itemService.delay(1 * 1000).then(() =>
+      this.messageService.sendHelp("This website intended as a simple platform connecting many sellers and buyers. Any user can create a store and become a seller. "));
+    this.itemService.delay(7 * 1000).then(() => {
+      this.messageService.sendHelp("Hover on image to see slideshow, sort items by price, go to the next page or change page size in the bottom");
+    });
+    this.itemService.delay(15 * 1000).then(() => {
+      this.messageService.sendHelp("Feel free to go use Search bar, filter by categories and characteristics, go to upper right actions menu and explore pages there");
+    });
+    this.itemService.delay(23 * 1000).then(() =>
+      this.messageService.sendHelp("This website created for demonstrational purposes. Please visit my repo to learn more https://github.com/alexandr-osprey/octopusstore "));
   }
 
   getOrderByPriceQueryParams(): any {
@@ -222,10 +238,6 @@ export class ItemThumbnailIndexComponent implements OnInit, OnDestroy, AfterView
   ngOnDestroy() {
     // prevent memory leak when component destroyed
     this.parametersSubsription.unsubscribe();
-  }
-
-  hideTourMessage(name: string) {
-    this.tourMessages[name] = false;
   }
 
   //onScrollDown() {

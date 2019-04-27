@@ -86,10 +86,17 @@ export class ItemCreateUpdateComponent implements OnInit {
         this.item = new Item();
       };
     });
-    //this.brandService.index();
-    //this.storeService.index();
-    //this.measurementUnitService.index();
-    //this.categoryService.index();
+
+    //localStorage.removeItem('item-create-update-component-help-shown');
+    if (!localStorage.getItem('item-create-update-component-help-shown')) {
+      this.showHelpMessages();
+      localStorage.setItem('item-create-update-component-help-shown', 'true');
+    }
+  }
+
+  showHelpMessages() {
+    this.itemService.delay(2 * 1000).then(() =>
+      this.messageService.sendHelp("Store owner is able to edit and create item and it's variants, upload images. Also available for webiste administrators. "));
   }
 
   filterSubcategories(parentCategoryId: number) {

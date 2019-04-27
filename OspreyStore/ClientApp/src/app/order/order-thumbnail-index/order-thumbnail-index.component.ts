@@ -39,6 +39,18 @@ export class OrderThumbnailIndexComponent implements OnInit {
       this.isStoreAdministrator = this.identityService.isStoreAdministrator(this.userStoreId);
     }
     this.getOrders();
+
+    //localStorage.removeItem('order-thumbnail-index-component-help-shown');
+    if (!localStorage.getItem('order-thumbnail-index-component-help-shown')) {
+      this.showHelpMessages();
+      localStorage.setItem('order-thumbnail-index-component-help-shown', 'true');
+    }
+  }
+
+  showHelpMessages() {
+    this.messageService.delay(2 * 1000).then(() =>
+      this.messageService.sendHelp("If current user is an Store owner, incoming orders shown on the first tab. User's own orders are on the second one. "
+       + "Note that Store owner is able to finish incoming orders. "));
   }
 
   getOrders() {

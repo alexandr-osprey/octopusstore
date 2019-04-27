@@ -11,6 +11,7 @@ import { Message, MessageType } from './message'
 export class MessagesComponent implements OnInit {
   protected messages: Message[] = [];
   protected messageTimeout = 5 * 1000;
+  //protected messageHelpTimeout = this.messageTimeout * 2;
 
   constructor(protected messageService: MessageService) { }
 
@@ -20,17 +21,14 @@ export class MessagesComponent implements OnInit {
 
   initializeComponent() {
     this.messageService.message$.subscribe(message => {
-      //console.log('message ' + message.content);
-      //console.log('befor push message array length: ' + this.messages.length);
       this.delay(100).then(() => this.messages.push(message));
-      //console.log('after push message array length: ' + this.messages.length);
-      //if (message.messageType != MessageType.Info) {
-        this.delay(this.messageTimeout).then(() => {
-          //this.messages.push(message);
+      let timeout = this.messageTimeout;
+      if (message.messageType <= MessageType.Success) {
+        this.delay(timeout).then(() => {
           this.dismiss(message)
-          //console.log('after dismiss message array length: ' + this.messages.length);
         });
-      //}
+      }
+      
     });
   }
 

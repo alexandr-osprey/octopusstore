@@ -27,7 +27,7 @@ namespace OspreyStore.Controllers
         protected IAppLogger<IController<TEntity, TViewModel>> _logger { get; }
         protected string _entityName { get; } = typeof(TEntity).Name;
         protected int _maxTake { get; } = 200;
-        protected int _defaultTake { get; } = 60;
+        protected int _defaultTake { get; } = 10;
         public IScopedParameters ScopedParameters { get; }
 
         public CRUDController(

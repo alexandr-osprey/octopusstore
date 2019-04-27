@@ -21,7 +21,6 @@ import { OrderThumbnailIndexComponent } from './order/order-thumbnail-index/orde
 import { SignedInAuthorizationGuard } from './guards/signed-in-authorization-guard';
 import { AdministratingContentComponent } from './administrating/administrating-content/administrating-content.component';
 import { CartItemThumbnailIndexComponent } from './cart/cart-item/cart-item-thumbnail-index/cart-item-thumbnail-index.component';
-import { HelpComponent } from './help/help.component';
 
 
 const routes: Routes = [
@@ -176,11 +175,6 @@ const routes: Routes = [
     component: StoreCreateUpdateComponent,
     canActivate: [SignedInAuthorizationGuard],
     data: { animation: 'stores-create' }
-  },
-  {
-    path: 'help',
-    component: HelpComponent,
-    pathMatch: 'full',
   },
   {
     path: '',

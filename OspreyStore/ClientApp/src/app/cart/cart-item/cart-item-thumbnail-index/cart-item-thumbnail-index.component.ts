@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { CartItemThumbnail } from '../cart-item-thumbnail';
 import { CartItemService } from '../cart-item.service';
-import { Item } from 'src/app/item/item';
 import { ItemVariant } from 'src/app/item-variant/item-variant';
 import { CartItem } from '../cart-item';
 import { Router } from '@angular/router';
 import { ParameterService } from 'src/app/parameter/parameter.service';
-import { ItemVariantImageService } from '../../../item-variant-image/item-variant-image.service';
+import { MessageService } from '../../../message/message.service';
 
 @Component({
   selector: 'app-cart-item-thumbnail-index',
@@ -20,7 +19,7 @@ export class CartItemThumbnailIndexComponent implements OnInit {
 
   constructor(
     private cartItemService: CartItemService,
-    private itemVariantImageService: ItemVariantImageService,
+    private messageService: MessageService,
     private router: Router,
     private parameterService: ParameterService) {
   }
@@ -42,6 +41,17 @@ export class CartItemThumbnailIndexComponent implements OnInit {
       }
     );
     this.cartItemService.updateCartItemThumbnails();
+
+    //localStorage.removeItem('cart-item-thumbnail-index-help-shown');
+    if (!localStorage.getItem('cart-item-thumbnail-index-help-shown')) {
+      this.showHelpMessages();
+      localStorage.setItem('cart-item-thumbnail-index-help-shown', 'true');
+    }
+  }
+
+  showHelpMessages() {
+    this.messageService.delay(1 * 1000).then(() =>
+      this.messageService.sendHelp("All added items and available actions displayed here. Creating order will move them to orders. "));
   }
 
   public getItemUrl(cartItemThumbnail: CartItemThumbnail) {

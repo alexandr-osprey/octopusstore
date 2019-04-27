@@ -44,7 +44,7 @@ import { CartItemThumbnailIndexComponent } from './cart/cart-item/cart-item-thum
 import { ItemVariantImageGalleryComponent } from './item-variant-image/item-variant-image-gallery/item-variant-image-gallery.component';
 import { ItemVariantImageCreateUpdateComponent } from './item-variant-image/item-variant-image-create-update/item-variant-image-create-update.component';
 import { ItemVariantImageDisplayComponent } from './item-variant-image/item-variant-image-display/item-variant-image-display.component';
-import { HelpComponent } from './help/help.component';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -85,7 +85,7 @@ import { HelpComponent } from './help/help.component';
     OrderCreateComponent,
     OrderThumbnailIndexComponent,
     SidebarComponent,
-    HelpComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule,
