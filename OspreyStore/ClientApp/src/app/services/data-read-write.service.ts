@@ -85,6 +85,7 @@ export abstract class DataReadWriteService <TEntity extends Entity> {
     return this.customRequest("get", url, params, headers, {});
   }
 
+  // method for retrieving and sending requests with authentication error handling
   protected customRequest<TResult>(
     requestType: string,
     url: string,

@@ -58,19 +58,41 @@ Creating testable code following aforementioned principles is rather easy. Tests
 ### Specification pattern
 Avoing code duplication, keeping interface definitions rather simple in a clean and concise way only possible thanks to EF Core flexibility.
 Complex conditions and nested joins are parts of separate classes with strict type checks, not retrieval logic, which allows to reuse code as much as possible.
-Below displayed specification for filtering items by many conditions, depending on which are provided in constructor.
+Below displayed specification for filtering items by many conditions, depending on which were provided in constructor.
 ![SpecificationPattern1](docs/images/SpecificationPattern1.jpg)
 
 
 ### RESTful web services
 Each entity has a separate controller with methods whose URIs conform to the definition of RESTful JSON API. URI names are consistent across different controllers.
+
 | Command | URI pattern |
 | --- | --- |
 | Get single entity |  GET api/[controller]/{id:int} |
 | Get single entity with detailed information to avoid redundant requests | GET api/[controller]/{id:int}/detail |
+| Create entity | POST api/controller/ |
+| Index entities | GET api/controller/ |
+| Index entities thumbnails | GET api/controller/thumbnails |
+| Check if current user is authorized to update entity | GET {id:int}/checkUpdateAuthorization |
+| Delete single entity| DELETE api/[controller]/{id:int} |
+| Update single entity| PUT api/[controller]/{id:int} |
+| Index all images of item variant | GET /api/itemVariants/{itemVariantId:int}/images |
+| Post Item variant image | POST /api/itemVariants/{relatedId:int}/image |
+
+
+### JSON Web Tokens Authentication
+The whole authentification process build leverages JSON Web Tokens. On the client side IdentityService is responsible for seamless token update, in such a way that other services could send and receive requests withou any authentication hassle.
+For demonstrational purposes token lifetime set to 10 seconds: client application works normaly and updates tokens on it's own.
+
+
+### ASP NET Core Authorization
+Apart from providing database consistency when creating and updating entities (ValidateWithExceptionAsync overrides), access rights consistency is also provided. ASP NET Core Authorization Handlers for each entity ensure that the current user is allowed to perform the operation requested.
+Authorization handlers called by respective services when performing any CRUD operation. Generally they ensure that only the store owner is able to change entities that dependen to his store (items, item variants, images, orders and etc).
+Authorization system is designed in a testable way (althogh no such tests implemented in my project). Also for each entity IAuthorizationParameters implementation could be redefined to disable unnecessary default authentication checks, or enable even stricter ones.
+For example, Order entity requires read permission, because such information is only for a customer and a seller.
+
 
 
 ### Installing
-
+Need to specify files folder in appsettings.json, c:\files by default.
 Just clone and run server, no special actions required
 
