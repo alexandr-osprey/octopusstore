@@ -36,7 +36,7 @@ namespace Infrastructure.Services
             _rootPath = configuration["FilesFolderPath"] ?? throw new Exception("FilesFolderPath is not set in configuration");
         }
 
-        public int MaxAllowedFileSize { get; protected set; } = 10 * 1024 * 1024;
+        public int _maxAllowedFileSize { get; protected set; } = 10 * 1024 * 1024;
         protected IConfiguration _configuration { get; }
         protected string _rootPath { get; }
         protected virtual IEnumerable<string> _allowedContentTypes { get; } = new List<string>();
@@ -132,7 +132,7 @@ namespace Infrastructure.Services
         {
             if (fileInfo.InputStream == null || fileInfo.InputStream.Length == 0)
                 throw new EntityValidationException("File not provided");
-            if (fileInfo.InputStream.Length > MaxAllowedFileSize)
+            if (fileInfo.InputStream.Length > _maxAllowedFileSize)
                 throw new EntityValidationException($"The file exceeds 10 MB.");
             return true;
         }

@@ -11,11 +11,6 @@ namespace ApplicationCore.Interfaces.Services
     /// <typeparam name="TEntity"></typeparam>
     public interface IFileInfoservice<TFileInfo, TEntity>: IService<TFileInfo> where TFileInfo: FileInfo<TEntity> where TEntity: Entity
     {
-        /// <summary>
-        /// Max allowed file zise
-        /// </summary>
-        int MaxAllowedFileSize { get; }
-        /// <summary>
         /// Retrieves file stream based on Id
         /// </summary>
         /// <param name="id"></param>

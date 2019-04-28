@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 
 namespace OspreyStore.Middleware
 {
+    /// <summary>
+    /// Sets HTTP error codes accroding to the exception catched
+    /// </summary>
     public class ErrorHandlingMiddleware 
     {
         private readonly RequestDelegate next;
@@ -42,10 +45,6 @@ namespace OspreyStore.Middleware
             else if (exception is AuthenticationException) code = HttpStatusCode.Unauthorized;
             else if (exception is SecurityTokenExpiredException) code = HttpStatusCode.Unauthorized;
             else if (exception is AuthorizationException) code = HttpStatusCode.Forbidden;
-            else if (exception is CustomDbException)
-            {
-                logger.Error(exception, "CustomDbException ");
-            }
             else if (exception is Exception)
             {
                 logger.Error(exception, "Exception ");
