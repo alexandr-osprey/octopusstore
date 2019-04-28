@@ -1,6 +1,6 @@
 # Osprey Store
 
-Osprey Store is web store platform providing marketplace for the sellers and the customers.  It was created with a purpose to became familiar and implement software with some fancy frameworks and patterns. Inspired by <a href="https://github.com/dotnet-architecture/eShopOnWeb">Microsoft reference solution</a>.
+Osprey Store is web store platform providing marketplace for the sellers and the customers.  It was created with a purpose to become familiar and implement software with some fancy frameworks and patterns. Inspired by <a href="https://github.com/dotnet-architecture/eShopOnWeb">Microsoft reference solution</a>.
 Please note that it was desined to look good on any screen.
 I hope you can find some useful pieces of code there.
 
