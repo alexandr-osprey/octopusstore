@@ -10,6 +10,20 @@ Frameworks and tools used
 - Angular 7
 - Bootstrap 4
 
+
+Installing
+---
+Need to specify files folder in appsettings.json, c:\files by default.
+Just clone and run server, no special actions required.
+
+General database structure
+---
+Item (say iPhone XR) is what supposed to be sold in the Store (John's store) and it belongs to a certain Category (Smartphones). But there are also different Item Variants of this item (say 128GB white color). 
+Each Item Variant stores association (ItemProperty) of Characteristics (say Color, Storage) and Characteristic Values (White and 128GB in this case). There maybe many Item Variant Images of one Item Variant. Characteristic also belong to a certain Category. Adding Item Variant into a cart creates a Cart Item, and then Order could be created from that.
+
+![GeneralDatabaseStructure1](docs/images/GeneralDatabaseStructure1.jpg)
+
+
 Core patterns, principles and features
 ---
 - SOLID principles
@@ -17,16 +31,9 @@ Core patterns, principles and features
 - Specification pattern
 - RESTful web services
 - Database consistency checks
-- JSON Web Tokens Authentication
-- ASP NET Core Authorization
-- Bootstrap Flexbox Adaptive Layout
-
-General database structure
----
-Item (say iPhone XR) is what supposed to be sold in the Store and it belongs to a certain Category (Smartphones). But there are also different Item Variants of this item (say 128GB white color). 
-Each Item Variant stores association (ItemProperty) of Characteristics (say Color, Storage) and Characteristic Values (White and 128GB in this case). There maybe many Item Variant Images of one Item Variant. Characteristic also belong to a certain Category. Adding Item Variant into a cart creates a Cart Item, and then Order created from that.
-
-![GeneralDatabaseStructure1](docs/images/GeneralDatabaseStructure1.jpg)
+- JSON Web tokens authentication
+- ASP NET Core authorization
+- Bootstrap flexbox adaptive layout
 
 ### SOLID
 
@@ -105,12 +112,15 @@ For example, Item property ItemVariantId and CharacteristicValueId are only allo
 
 ### ASP NET Core authorization
 ASP NET Core Authorization Handlers for each entity ensure that the current user is allowed to perform the operation requested.
-Authorization handlers called by respective services when performing any CRUD operation. Generally they ensure that only the store owner is able to change entities that dependen to his store (items, item variants, images, orders and etc).
+Authorization handlers called by respective services when performing any CRUD operation. Generally they ensure that only the store owner is able to change entities that dependend on his store (items, item variants, images, orders and etc).
 Authorization system is designed in a testable way (althogh no such tests implemented in my project). Also for each entity IAuthorizationParameters implementation could be redefined to disable unnecessary default authentication checks, or enable even stricter ones.
 For example, Order entity requires read permission, because such information is only for a customer and a seller.
 
-
-### Installing
-Need to specify files folder in appsettings.json, c:\files by default.
-Just clone and run server, no special actions required.
-
+### Bootstrap flexbox adaptive layout
+Angular client application leverages Bootstrap Flexbox Grid capabilities to ensure that a website is rendered correctly on any device.
+![AdaptiveLayout1](docs/images/AdaptiveLayout1.jpg)
+![AdaptiveLayout2](docs/images/AdaptiveLayout2.jpg)
+![AdaptiveLayout3](docs/images/AdaptiveLayout3.jpg)
+![AdaptiveLayout4](docs/images/AdaptiveLayout4.jpg)
+![AdaptiveLayout5](docs/images/AdaptiveLayout5.jpg)
+![AdaptiveLayout6](docs/images/AdaptiveLayout6.jpg)
