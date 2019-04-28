@@ -11,15 +11,15 @@ Frameworks used
 - Angular 7
 - Bootstrap 4
 
-Core patterns and principles
+Core patterns, principles and features
 ---
 - SOLID principles
-- Clean Architecture
 - Testability
+- Specification pattern
 - RESTful web services
-- Microservices
-- Adaptive Layout
-- Web Application
+- JSON Web Tokens Authentication
+- ASP NET Core Authorization
+- Bootstrap Flexbox Adaptive Layout
 
 ### SOLID
 
@@ -28,7 +28,8 @@ Each component designed for one thing and has minimal knowledge of outside compo
 ![SingleResponsibility1](docs/images/SingleResponsibility1.jpg)
 
 #### O—Open/closed principle
-Generally the process of creating an entity is similar between different services 
+Services and controllers created with maximum code reusing possibily in mind. Base classes describe common processes, while child classes are free to extend and reuse it if needed. 
+For example, generally the process of creating an entity is similar between different services.
 ![OpenClosedPrinciple1](docs/images/OpenClosedPrinciple1.jpg)
 
 When we need to add file to storage while creating an entity (ItemVariantImageService), this general process could be easily extended while still keeping and reusing the original logic
@@ -45,8 +46,23 @@ As already mentioned, service may rely on other services, but only does so throu
 
 #### D-Dependency inversion principle
 Accrording to Clean Architecture principles, the most important one is the dependancy inversion principle which is the pillar of the clean architecture.
-While there are still some references from OspreyStore to Infrastructure, it's only limited to database seeding and DI setup, as it's shown on a graph below.
+While there are still some references from OspreyStore to Infrastructure, it's only limited to database seeding and DI setup, as it's shown on a graph below (because eliminating this project refrenece completely seemed rather complex and verbose by standard NET Core DI).
 ![DependencyInversionPrinciple1](docs/images/DependencyInversionPrinciple1.jpg)
+
+
+### Testability
+Creating testable code following aforementioned principles is rather easy. Tests also reuse code from base classes extensively, only overriding what exacly should be tested, and by which criteria, which in turn allows to create new tests in no time.
+![Testability1](docs/images/Testability1.jpg)
+
+
+### Specification pattern
+Avoing code duplication, keeping interface definitions rather simple in a clean and concise way only possible thanks to EF Core flexibility.
+Complex conditions and nested joins are parts of separate classes, not retrieval logic, which allows to reuse code as much as possible.
+![SpecificationPattern1](docs/images/SpecificationPattern1.jpg)
+
+
+### RESTful web services
+Each entity has a separate controller with methods whose URIs conform to the defenition of RESTful JSON API.
 
 
 ### Installing
