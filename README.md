@@ -4,10 +4,9 @@ Osprey Store is web store platform providing marketplace for the sellers and the
 Please note that it was desined to look good on any screen.
 I hope you can find some useful pieces of code there.
 
-Frameworks used
+Frameworks and tools used
 ---
 - ASP.NET Core 2.1
-- NET Standard 2.0
 - Angular 7
 - Bootstrap 4
 
@@ -46,23 +45,29 @@ As already mentioned, service may rely on other services, but only does so throu
 
 #### D-Dependency inversion principle
 Accrording to Clean Architecture principles, the most important one is the dependancy inversion principle which is the pillar of the clean architecture.
-While there are still some references from OspreyStore to Infrastructure, it's only limited to database seeding and DI setup, as it's shown on a graph below (because eliminating this project refrenece completely seemed rather complex and verbose by standard NET Core DI).
+While there are still some references from OspreyStore to Infrastructure, it's only limited to database seeding and DI setup, as it's shown on a graph below (because eliminating this project refrenece completely seemed rather complex and verbose by means of standard NET Core DI).
 ![DependencyInversionPrinciple1](docs/images/DependencyInversionPrinciple1.jpg)
 
 
 ### Testability
 Creating testable code following aforementioned principles is rather easy. Tests also reuse code from base classes extensively, only overriding what exacly should be tested, and by which criteria, which in turn allows to create new tests in no time.
+
 ![Testability1](docs/images/Testability1.jpg)
 
 
 ### Specification pattern
 Avoing code duplication, keeping interface definitions rather simple in a clean and concise way only possible thanks to EF Core flexibility.
-Complex conditions and nested joins are parts of separate classes, not retrieval logic, which allows to reuse code as much as possible.
+Complex conditions and nested joins are parts of separate classes with strict type checks, not retrieval logic, which allows to reuse code as much as possible.
+Below displayed specification for filtering items by many conditions, depending on which are provided in constructor.
 ![SpecificationPattern1](docs/images/SpecificationPattern1.jpg)
 
 
 ### RESTful web services
-Each entity has a separate controller with methods whose URIs conform to the defenition of RESTful JSON API.
+Each entity has a separate controller with methods whose URIs conform to the definition of RESTful JSON API. URI names are consistent across different controllers.
+| Command | URI pattern |
+| --- | --- |
+| Get single entity |  GET api/[controller]/{id:int} |
+| Get single entity with detailed information to avoid redundant requests | GET api/[controller]/{id:int}/detail |
 
 
 ### Installing
