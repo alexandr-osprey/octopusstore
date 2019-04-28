@@ -120,6 +120,7 @@ For example, Order entity requires read permission, because such information is 
 Angular client application leverages Bootstrap Flexbox Grid capabilities to ensure that a website is rendered correctly on any device.
 ![AdaptiveLayout1](docs/images/AdaptiveLayout1.jpg)
 ![AdaptiveLayout2](docs/images/AdaptiveLayout2.jpg)
+![AdaptiveLayout10](docs/images/AdaptiveLayout10.jpg)
 ![AdaptiveLayout3](docs/images/AdaptiveLayout3.jpg)
 ![AdaptiveLayout4](docs/images/AdaptiveLayout4.jpg)
 ![AdaptiveLayout5](docs/images/AdaptiveLayout5.jpg)
