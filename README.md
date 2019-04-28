@@ -123,6 +123,6 @@ Angular client application leverages Bootstrap Flexbox Grid capabilities to ensu
 ![AdaptiveLayout3](docs/images/AdaptiveLayout3.jpg)
 ![AdaptiveLayout4](docs/images/AdaptiveLayout4.jpg)
 ![AdaptiveLayout5](docs/images/AdaptiveLayout5.jpg)
-![AdaptiveLayout6](docs/images/AdaptiveLayout6.jpg)
+![AdaptiveLayout9](docs/images/AdaptiveLayout9.jpg)
 ![AdaptiveLayout7](docs/images/AdaptiveLayout7.jpg)
 ![AdaptiveLayout8](docs/images/AdaptiveLayout8.jpg)
