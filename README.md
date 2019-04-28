@@ -25,11 +25,21 @@ Core patterns and principles
 
 #### S—Single responsibility principle
 Each component designed for one thing and has minimal knowledge of outside components and their logic. For example, each service is responsible for lifecycle of it's entity, and supposed to be changed if and only if this lifecycle changes. Although one component may depend on the other one, implementation details are hidden behind it's abstractions.
-![SOLID1](docs/images/SOLID1.jpg)
+![SingleResponsibility1](docs/images/SingleResponsibility1.jpg)
 
 #### O—Open/closed principle
+Generally the process of creating an entity is similar between different services 
+![OpenClosedPrinciple1](docs/images/OpenClosedPrinciple1.jpg)
+
+When we need to add file to storage while creating an entity (ItemVariantImageService), this general process could be extended easily
+![OpenClosedPrinciple2](docs/images/OpenClosedPrinciple2.jpg)
+
+
 Controllers rely on services to create/read/update/delete entities. Although the internal logic may differ greatly from service to service, in the end it's just generic controller calling generic service while passing some arguments.
-![SOLID2](docs/images/SOLID2.jpg)
+![LiskovSubstitutionPrinciple1](docs/images/LiskovSubstitutionPrinciple1.jpg)
+![LiskovSubstitutionPrinciple2](docs/images/LiskovSubstitutionPrinciple2.jpg)
+
+
 
 ### Installing
 
