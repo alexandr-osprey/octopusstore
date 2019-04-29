@@ -13,7 +13,6 @@ Frameworks and tools used
 
 Installing
 ---
-Need to specify files folder in appsettings.json, c:\files by default.
 Just clone and run server, no special actions required.
 
 General database structure
