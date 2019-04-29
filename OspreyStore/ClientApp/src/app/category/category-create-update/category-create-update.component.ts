@@ -13,8 +13,8 @@ import { MessageService } from 'src/app/message/message.service';
   styleUrls: ['./category-create-update.component.css']
 })
 export class CategoryCreateUpdateComponent implements OnInit {
-  protected category: Category;
-  protected allowedCategories: Category[] = [];
+  public category: Category;
+  public allowedCategories: Category[] = [];
   public isUpdating = false;
   @Output() categorySaved = new EventEmitter<Category>();
 

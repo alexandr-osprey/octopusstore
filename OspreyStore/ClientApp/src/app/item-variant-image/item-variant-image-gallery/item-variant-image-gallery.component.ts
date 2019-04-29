@@ -13,7 +13,7 @@ export class ItemVariantImageGalleryComponent implements OnInit {
   public displayedImage: ItemVariantImage;
   public tempDisplayedImage: ItemVariantImage;
   public hoveredThumbnail: ItemVariantImage;
-  images: ItemVariantImage[] = [];
+  public images: ItemVariantImage[] = [];
 
   constructor(
     private itemVariantImageService: ItemVariantImageService,

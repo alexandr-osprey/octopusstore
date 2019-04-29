@@ -12,8 +12,8 @@ import { Store } from '../store';
   styleUrls: ['./store-create-update.component.css']
 })
 export class StoreCreateUpdateComponent implements OnInit {
-  storeSubscription: Subscription;
-  store: Store;
+  public storeSubscription: Subscription;
+  public store: Store;
 
   constructor(
     private storeService: StoreService,

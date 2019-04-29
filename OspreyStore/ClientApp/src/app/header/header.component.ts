@@ -11,13 +11,12 @@ import { ParameterNames } from '../parameter/parameter-names';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-  signedInSubscription: Subscription;
-  signedIn: boolean;
-  email: string;
-  searchValue: string;
-  isContentAdministrator: boolean;
-  storeId: number;
-  tourMessages: any = {};
+  public signedInSubscription: Subscription;
+  public signedIn: boolean;
+  public email: string;
+  public searchValue: string;
+  public isContentAdministrator: boolean;
+  public storeId: number;
 
   constructor(
     private identityService: IdentityService,
@@ -35,7 +34,7 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.tourMessages['search'] = true;
+    //this.tourMessages['search'] = true;
     this.parameterService.params$.subscribe(_ => {
       this.searchValue = this.parameterService.getParam("searchValue");
     });
@@ -87,6 +86,6 @@ export class HeaderComponent implements OnInit {
   }
 
   hideTourMessage(name: string) {
-    this.tourMessages[name] = false;
+    //this.tourMessages[name] = false;
   }
 }

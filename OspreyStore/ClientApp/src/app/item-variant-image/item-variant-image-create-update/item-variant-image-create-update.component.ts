@@ -12,11 +12,11 @@ import { ItemVariant } from 'src/app/item-variant/item-variant';
   styleUrls: ['./item-variant-image-create-update.component.css']
 })
 export class ItemVariantImageCreateUpdateComponent implements OnChanges {
-  itemVariantImageIndexIndexSubscription: Subscription;
-  itemVariantImageSubscription: Subscription;
-  itemVariantImageFormData: FormData;
-  allItemVariantImages = new Map<number, ItemVariantImage[]>();
-  displayedImages: ItemVariantImage[] = [];
+  public itemVariantImageIndexIndexSubscription: Subscription;
+  public itemVariantImageSubscription: Subscription;
+  public itemVariantImageFormData: FormData;
+  public allItemVariantImages = new Map<number, ItemVariantImage[]>();
+  public displayedImages: ItemVariantImage[] = [];
   @Input() itemVariant: ItemVariant;
 
 

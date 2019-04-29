@@ -11,8 +11,8 @@ import { MessageService } from 'src/app/message/message.service';
   styleUrls: ['./brand-create-update.component.css']
 })
 export class BrandCreateUpdateComponent implements OnInit {
-  isUpdating: boolean = false;
-  brand: Brand;
+  public isUpdating: boolean = false;
+  public brand: Brand;
   @Output() brandSaved = new EventEmitter<Brand>();
   
   constructor(

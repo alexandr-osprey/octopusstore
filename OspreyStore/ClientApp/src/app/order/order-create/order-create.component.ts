@@ -17,9 +17,9 @@ import { CartItemService } from 'src/app/cart/cart-item/cart-item.service';
   styleUrls: ['./order-create.component.css']
 })
 export class OrderCreateComponent implements OnInit {
-  order: Order;
-  isUpdating: boolean = false;
-  cartItems: CartItem[];
+  public order: Order;
+  public isUpdating: boolean = false;
+  public cartItems: CartItem[];
   @Output() orderSaved = new EventEmitter<Order>();
 
   constructor(

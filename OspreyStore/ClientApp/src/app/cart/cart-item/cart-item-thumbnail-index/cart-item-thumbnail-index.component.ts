@@ -13,9 +13,9 @@ import { MessageService } from '../../../message/message.service';
   styleUrls: ['./cart-item-thumbnail-index.component.css']
 })
 export class CartItemThumbnailIndexComponent implements OnInit {
-  protected cartItemThumbnails: CartItemThumbnail[] = [];
-  protected totalPrice: number = 0;
-  protected totalQuantity: number = 0;
+  public cartItemThumbnails: CartItemThumbnail[] = [];
+  public totalPrice: number = 0;
+  public totalQuantity: number = 0;
 
   constructor(
     private cartItemService: CartItemService,

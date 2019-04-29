@@ -61,34 +61,36 @@ import {
   //    query(':enter', animateChild()),
   //  ])
   //]);
-
+export const optional = { optional: true };
 export const slideInAnimation =
   trigger('routeAnimations', [
-    transition('* => *', slideTo('left')),
+    transition('* => *', [
+      query(':enter, :leave', [
+        style({ position: 'relative', })
+      ], optional),
+      query(':enter', [
+        style({ left: '-100%' })
+      ], optional),
+      query(':leave', animateChild(), optional),
+      group([
+        query(':leave', [
+          animate('300ms ease-out', style({ left: '100%' }))
+        ], optional),
+        query(':enter', [
+          animate('400ms ease-out', style({ left: '0%' }))
+        ], optional)
+      ]),
+      query(':enter', animateChild(), optional),
+    ]),
     //transition('* => isRight', slideTo('right')),
     //transition('isRight => *', slideTo('left')),
     //transition('isLeft => *', slideTo('right'))
   ]);
 
-function slideTo(direction) {
-  const optional = { optional: true };
+export function slideTo(direction) {
+  
   return [
-    query(':enter, :leave', [
-      style({ position: 'relative', })
-    ], optional),
-    query(':enter', [
-      style({ left: '-100%' })
-    ], optional),
-    query(':leave', animateChild(), optional),
-    group([
-      query(':leave', [
-        animate('300ms ease-out', style({ left: '100%' }))
-      ], optional),
-      query(':enter', [
-        animate('400ms ease-out', style({ left: '0%' }))
-      ], optional)
-    ]),
-    query(':enter', animateChild(), optional),
+    
     // Normalize the page style... Might not be necessary
 
     // Required only if you have child animations on the page

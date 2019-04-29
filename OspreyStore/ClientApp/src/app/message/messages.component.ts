@@ -9,7 +9,7 @@ import { Message, MessageType } from './message'
   styleUrls: ['./messages.component.css']
 })
 export class MessagesComponent implements OnInit {
-  protected messages: Message[] = [];
+  public messages: Message[] = [];
   protected messageTimeout = 5 * 1000;
   //protected messageHelpTimeout = this.messageTimeout * 2;
 

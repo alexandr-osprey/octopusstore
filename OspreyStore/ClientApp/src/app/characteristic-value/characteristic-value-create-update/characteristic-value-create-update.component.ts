@@ -15,8 +15,8 @@ import { CharacteristicValueService } from '../characteristic-value.service';
   styleUrls: ['./characteristic-value-create-update.component.css']
 })
 export class CharacteristicValueCreateUpdateComponent implements OnInit {
-  protected characteristicValue: CharacteristicValue;
-  protected characteristics: Characteristic[] = [];
+  public characteristicValue: CharacteristicValue;
+  public characteristics: Characteristic[] = [];
   public isUpdating = false;
   @Output() characteristicValueSaved = new EventEmitter<CharacteristicValue>();
 

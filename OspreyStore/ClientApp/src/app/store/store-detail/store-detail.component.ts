@@ -13,8 +13,8 @@ import { IdentityService } from 'src/app/identity/identity.service';
   styleUrls: ['./store-detail.component.css']
 })
 export class StoreDetailComponent implements OnInit {
-  storeDetail: Store;
-  authorizedToUpdate: boolean = false;
+  public storeDetail: Store;
+  public authorizedToUpdate: boolean = false;
   constructor(
     private storeService: StoreService,
     private parameterService: ParameterService,

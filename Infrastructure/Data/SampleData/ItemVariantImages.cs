@@ -1,4 +1,5 @@
 ﻿using ApplicationCore.Entities;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -11,7 +12,7 @@ namespace Infrastructure.Data.SampleData
     public class ItemVariantImages : SampleDataEntities<ItemVariantImage>
     {
         private string ItemVariantImageContentType { get; } = @"image/jpeg";
-        private string PathToFiles { get; } = @"C:\files\";
+        private string PathToFiles { get; }
 
         protected ItemVariants ItemVariants { get; }
         protected Categories Categories { get; }
@@ -21,7 +22,7 @@ namespace Infrastructure.Data.SampleData
         {
             ItemVariants = itemVariants;
             Categories = categories;
-            PathToFiles = configuration["FilesFolderPath"] ?? throw new Exception("FilesFolderPath is not set in configuration");
+            PathToFiles = Path.Combine(configuration.GetValue<string>(WebHostDefaults.ContentRootKey), "files");
             Seed();
             Init();
         }

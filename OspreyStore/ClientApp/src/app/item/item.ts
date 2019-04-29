@@ -5,7 +5,6 @@ export class Item extends Entity {
   categoryId: number;
   storeId: number;
   brandId: number;
-  measurementUnitId: number;
   description: string;
 
   public constructor(init?: Partial<Item>) {

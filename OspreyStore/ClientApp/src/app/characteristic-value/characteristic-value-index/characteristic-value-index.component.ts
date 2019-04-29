@@ -11,8 +11,8 @@ import { CharacteristicValueService } from '../characteristic-value.service';
   styleUrls: ['./characteristic-value-index.component.css']
 })
 export class CharacteristicValueIndexComponent implements OnInit {
-  protected characteristicId: number = 0;
-  protected characteristicValues: CharacteristicValue[] = [];
+  public characteristicId: number = 0;
+  public characteristicValues: CharacteristicValue[] = [];
   @Input() administrating: boolean;
 
 

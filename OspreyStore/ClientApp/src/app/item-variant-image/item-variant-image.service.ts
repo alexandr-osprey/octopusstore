@@ -21,12 +21,12 @@ export class ItemVariantImageService extends ImageService<ItemVariant, ItemVaria
     protected identityService: IdentityService,
     protected messageService: MessageService) {
     super(http, router, identityService, messageService);
-    this.remoteUrl = '/api/itemVariantImages/';
+    this.remoteUrl = '/api/itemVariantImages';
     this.serviceName = 'Item Image service';
   }
 
   public getImageUrl(id: number): string {
-    return this.getUrlWithIdWithSuffix(id, '/file/');
+    return this.getUrlWithIdWithSuffix(id, 'file');
   }
   public postFile(body: any, id: number, params: any = {}): Observable<ItemVariantImage> {
     return this.post(body, this.getUrlWithIdWithSuffix(id, this.postFileSuffix, this.postFilePrefix), params, new HttpHeaders())

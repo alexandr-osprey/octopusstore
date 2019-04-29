@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "ClientApp": {
+    "OspreyStore": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -13,22 +13,22 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/ClientApp",
+            "outputPath": "dist",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.app.json",
             "assets": [
               "src/favicon.ico",
-              "src/assets",
+              "src/assets"
             ],
             "styles": [
-              "../ClientApp/node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.css",
-              "../ClientApp/node_modules/font-awesome/css/font-awesome.css",
+              "node_modules/font-awesome/css/font-awesome.css"
             ],
             "scripts": [
-              "../ClientApp/node_modules/waypoints/lib/noframework.waypoints.min.js",
+              "node_modules/waypoints/lib/noframework.waypoints.min.js"
             ]
           },
           "configurations": {
@@ -54,18 +54,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "ClientApp:build"
+            "browserTarget": "OspreyStore:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "ClientApp:build:production"
+              "browserTarget": "OspreyStore:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "ClientApp:build"
+            "browserTarget": "OspreyStore:build"
           }
         },
         "test": {
@@ -100,5 +100,5 @@
       }
     }
   },
-  "defaultProject": "ClientApp"
+  "defaultProject": "OspreyStore"
 }

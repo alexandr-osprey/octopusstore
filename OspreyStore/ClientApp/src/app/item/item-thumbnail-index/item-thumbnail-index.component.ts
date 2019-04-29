@@ -37,16 +37,16 @@ import { MessageService } from '../../message/message.service';
 
 export class ItemThumbnailIndexComponent implements OnInit, OnDestroy, AfterViewInit {
   @HostBinding('class') classes = 'flex-grow-1';
-  index: EntityIndex<ItemThumbnail>;
-  shownItems: DisplayedItemThumbnail[] = [];
-  parametersSubsription: Subscription;
-  loadedPages: number[] = [];
+  public index: EntityIndex<ItemThumbnail>;
+  public shownItems: DisplayedItemThumbnail[] = [];
+  public parametersSubsription: Subscription;
+  public loadedPages: number[] = [];
   //nextNavigationOperation = Operation.Initial;
-  sidebarHidden: boolean = false;
-  fabHidden: boolean = true;
+  public sidebarHidden: boolean = false;
+  public fabHidden: boolean = true;
 
   @HostListener('window:scroll', ['$event']) // for window scroll events
-  onScroll(event) {
+  onScroll() {
     this.fabHidden = window.scrollY < 500;
     //console.log("ScrollY: " + window.scrollY);
   }

@@ -15,8 +15,8 @@ import { CategoryService } from 'src/app/category/category.service';
   styleUrls: ['./characteristic-create-update.component.css']
 })
 export class CharacteristicCreateUpdateComponent implements OnInit {
-  protected characteristic: Characteristic;
-  protected categories: Category[] = [];
+  public characteristic: Characteristic;
+  public categories: Category[] = [];
   public isUpdating = false;
   @Output() characteristicSaved = new EventEmitter<Characteristic>();
 

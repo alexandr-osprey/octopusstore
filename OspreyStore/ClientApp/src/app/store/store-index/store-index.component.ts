@@ -10,7 +10,7 @@ import { StoreService } from '../store.service';
   styleUrls: ['./store-index.component.css']
 })
 export class StoreIndexComponent implements OnInit {
-  storeIndex: EntityIndex<Store>;
+  public storeIndex: EntityIndex<Store>;
   //detailsLink: string = this.storeService.getUrlWithParameter(ParameterNames.detail);
 
   constructor(

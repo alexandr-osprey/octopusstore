@@ -9,7 +9,7 @@ import { Brand } from '../brand';
   styleUrls: ['./brand-index.component.css']
 })
 export class BrandIndexComponent implements OnInit {
-  brands: Brand[] = [];
+  public brands: Brand[] = [];
   @Input() administrating: boolean;
 
   constructor(

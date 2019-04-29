@@ -14,10 +14,10 @@ import { ParameterNames } from 'src/app/parameter/parameter-names';
   styleUrls: ['./order-thumbnail-index.component.css']
 })
 export class OrderThumbnailIndexComponent implements OnInit {
-  orderIndex: EntityIndex<OrderThumbnail>;
-  private isStoreView = false;
-  userStoreId: number;
-  isStoreAdministrator: boolean;
+  public orderIndex: EntityIndex<OrderThumbnail>;
+  public isStoreView = false;
+  public userStoreId: number;
+  public isStoreAdministrator: boolean;
 
   constructor(
     private orderService: OrderService,

@@ -31,7 +31,7 @@ namespace OspreyStore
         public IConfiguration Configuration { get; }
         private IServiceCollection _services;
 
-        public void ConfigureDevelopmentServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services)
         {
             DbContextOptions<StoreContext> storeContextOptions =
                 new DbContextOptionsBuilder<StoreContext>()
@@ -39,38 +39,6 @@ namespace OspreyStore
                     .UseInMemoryDatabase("Store").Options;
             services.AddSingleton(storeContextOptions);
             IdentityConfiguration.ConfigureTesting(services);
-            ConfigureCommonServices(services);
-        }
-
-        //public void ConfigureTestingServices(IServiceCollection services)
-        //{
-
-        //}
-
-        public void ConfigureProductionServices(IServiceCollection services)
-        {
-            try
-            {
-                DbContextOptions<StoreContext> storeContextOptions =
-                    new DbContextOptionsBuilder<StoreContext>()
-                        .UseSqlServer(Configuration.GetConnectionString("StoreConnection")).Options;
-                services.AddSingleton(storeContextOptions);
-                IdentityConfiguration.ConfigureProduction(services, Configuration);
-            }
-            catch (Exception ex)
-            {
-                var message = ex.Message;
-            }
-
-            //services.AddDbContext<AppIdentityDbContext>(options =>
-            //    options.UseSqlServer(Configuration.GetConnectionString("IdentityConnection")));
-
-            ConfigureCommonServices(services);
-        }
-
-        // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureCommonServices(IServiceCollection services)
-        {
 
             ConfigureDI(services);
             IdentityConfiguration.ConfigureServices(services, Configuration);

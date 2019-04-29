@@ -13,8 +13,8 @@ import { ItemVariantService } from '../item-variant.service';
   styleUrls: ['./item-variant-create-update.component.css']
 })
 export class ItemVariantCreateUpdateComponent implements OnInit {
-  itemVariantIndexSubsription: Subscription;
-  itemVariantSubscription: Subscription;
+  public itemVariantIndexSubsription: Subscription;
+  public itemVariantSubscription: Subscription;
   @Input() item: Item;
   public currentVariant: ItemVariant;
   public itemVariants: ItemVariant[];

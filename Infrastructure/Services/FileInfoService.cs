@@ -5,6 +5,7 @@ using ApplicationCore.Interfaces;
 using ApplicationCore.Interfaces.Services;
 using ApplicationCore.Specifications;
 using Infrastructure.Data;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.Extensions.Configuration;
@@ -33,7 +34,7 @@ namespace Infrastructure.Services
         {
             Name = typeof(TFileInfo).Name + "FileDetailService";
             _configuration = configuration;
-            _rootPath = configuration["FilesFolderPath"] ?? throw new Exception("FilesFolderPath is not set in configuration");
+            _rootPath = Path.Combine(configuration.GetValue<string>(WebHostDefaults.ContentRootKey), "files");
         }
 
         public int _maxAllowedFileSize { get; protected set; } = 10 * 1024 * 1024;

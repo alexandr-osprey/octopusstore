@@ -24,9 +24,9 @@ import { trigger, state, transition, style, animate } from '@angular/animations'
   ],
 })
 export class SidebarComponent implements OnInit {
-  protected currentCategory: CategoryWithCharacteristicsDisplayed;
-  protected allCategories: CategoryWithCharacteristicsDisplayed[] = [];
-  protected selectedChacarteristicValueIds: number[] = [];
+  public currentCategory: CategoryWithCharacteristicsDisplayed;
+  public allCategories: CategoryWithCharacteristicsDisplayed[] = [];
+  public selectedChacarteristicValueIds: number[] = [];
 
   constructor(private categoryService: CategoryService,
     private characteristicService: CharacteristicService,

@@ -29,7 +29,7 @@ import { ItemVariantImageService } from '../item-variant-image.service';
 export class ItemVariantImageDisplayComponent implements OnInit, OnChanges {
 
   @Input() itemVariantImage: ItemVariantImage;
-  itemVariantImageUrl: string;
+  public itemVariantImageUrl: string;
 
   constructor(private itemVariantImageService: ItemVariantImageService) {
   }

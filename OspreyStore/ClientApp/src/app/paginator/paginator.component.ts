@@ -12,12 +12,12 @@ import { PageNotFoundComponent } from '../page-not-found/page-not-found.componen
 })
 export class PaginatorComponent<T extends Entity> implements OnInit, OnChanges {
   @Input() index: EntityIndex<T>;
-  pageNumbers: number[];
-  pageSizes: number[];
-  pageSizeParamName: string = ParameterNames.pageSize;
-  pageParamName: string = ParameterNames.page;
-  showFirst = false;
-  showLast = false;
+  public pageNumbers: number[];
+  public pageSizes: number[];
+  public pageSizeParamName: string = ParameterNames.pageSize;
+  public pageParamName: string = ParameterNames.page;
+  public showFirst = false;
+  public showLast = false;
 
   constructor(
     private parameterService: ParameterService) {
